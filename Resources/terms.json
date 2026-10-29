@@ -1,0 +1,4892 @@
+[
+  {
+    "id": 1,
+    "subjectID": "subjects",
+    "subjectName": "常用数学学科名称",
+    "subjectNameEn": "Common Mathematics Subjects",
+    "chinese": "数学分析",
+    "english": "Mathematical Analysis",
+    "definition": "研究极限、连续、微分、积分及级数等分析理论。",
+    "important": true,
+    "speechText": "Mathematical Analysis",
+    "pronunciation": {
+      "americanIPA": "ˌmæθəˈmætɪkəl əˈnæləsɪs",
+      "britishIPA": "ˌmæθəˈmætɪkəl əˈnæləsɪs"
+    }
+  },
+  {
+    "id": 2,
+    "subjectID": "subjects",
+    "subjectName": "常用数学学科名称",
+    "subjectNameEn": "Common Mathematics Subjects",
+    "chinese": "高等代数",
+    "english": "Advanced Algebra",
+    "definition": "研究多项式、矩阵、线性空间和线性变换等代数内容。",
+    "important": true,
+    "speechText": "Advanced Algebra",
+    "pronunciation": {
+      "americanIPA": "ədˈvænst ˈældʒəbrə",
+      "britishIPA": "ədˈvɑːnst ˈældʒɪbrə"
+    }
+  },
+  {
+    "id": 3,
+    "subjectID": "subjects",
+    "subjectName": "常用数学学科名称",
+    "subjectNameEn": "Common Mathematics Subjects",
+    "chinese": "解析几何",
+    "english": "Analytic Geometry",
+    "definition": "用坐标、向量和方程研究几何对象。",
+    "important": true,
+    "speechText": "Analytic Geometry",
+    "pronunciation": {
+      "americanIPA": "ˌænəˈlɪtɪk dʒiˈɑːmətri",
+      "britishIPA": "ˌænəˈlɪtɪk dʒiˈɒmətri"
+    }
+  },
+  {
+    "id": 4,
+    "subjectID": "subjects",
+    "subjectName": "常用数学学科名称",
+    "subjectNameEn": "Common Mathematics Subjects",
+    "chinese": "概率论",
+    "english": "Probability Theory",
+    "definition": "研究随机现象及其概率规律。",
+    "important": true,
+    "speechText": "Probability Theory",
+    "pronunciation": {
+      "americanIPA": "ˌprɑːbəˈbɪləti ˈθɪri",
+      "britishIPA": "ˌprɒbəˈbɪləti ˈθɪəri"
+    }
+  },
+  {
+    "id": 5,
+    "subjectID": "subjects",
+    "subjectName": "常用数学学科名称",
+    "subjectNameEn": "Common Mathematics Subjects",
+    "chinese": "数理统计",
+    "english": "Mathematical Statistics",
+    "definition": "根据样本数据对总体分布或参数进行推断。",
+    "important": true,
+    "speechText": "Mathematical Statistics",
+    "pronunciation": {
+      "americanIPA": "ˌmæθəˈmætɪkəl stəˈtɪstɪks",
+      "britishIPA": "ˌmæθəˈmætɪkəl stəˈtɪstɪks"
+    }
+  },
+  {
+    "id": 6,
+    "subjectID": "subjects",
+    "subjectName": "常用数学学科名称",
+    "subjectNameEn": "Common Mathematics Subjects",
+    "chinese": "常微分方程",
+    "english": "Ordinary Differential Equations（ODEs）",
+    "definition": "研究只含一个自变量的函数及其导数所满足的方程。",
+    "important": true,
+    "speechText": "Ordinary Differential Equations",
+    "pronunciation": {
+      "americanIPA": "ˈɔːrdəneri ˌdɪfəˈrɛnʃəl ɪˈkweɪʒənz",
+      "britishIPA": "ˈɔːdɪnəri ˌdɪfəˈrɛnʃəl ɪˈkweɪʒənz"
+    }
+  },
+  {
+    "id": 7,
+    "subjectID": "subjects",
+    "subjectName": "常用数学学科名称",
+    "subjectNameEn": "Common Mathematics Subjects",
+    "chinese": "偏微分方程",
+    "english": "Partial Differential Equations（PDEs）",
+    "definition": "研究含多个自变量的函数及其偏导数所满足的方程。",
+    "important": true,
+    "speechText": "Partial Differential Equations",
+    "pronunciation": {
+      "americanIPA": "ˈpɑːrʃəl ˌdɪfəˈrɛnʃəl ɪˈkweɪʒənz",
+      "britishIPA": "ˈpɑːʃəl ˌdɪfəˈrɛnʃəl ɪˈkweɪʒənz"
+    }
+  },
+  {
+    "id": 8,
+    "subjectID": "subjects",
+    "subjectName": "常用数学学科名称",
+    "subjectNameEn": "Common Mathematics Subjects",
+    "chinese": "实变函数 / 实分析",
+    "english": "Real Analysis",
+    "definition": "研究实数域上的函数、测度、积分与收敛。",
+    "important": true,
+    "speechText": "Real Analysis",
+    "pronunciation": {
+      "americanIPA": "ˈriːəl əˈnæləsɪs",
+      "britishIPA": "ˈrɪəl əˈnæləsɪs"
+    }
+  },
+  {
+    "id": 9,
+    "subjectID": "subjects",
+    "subjectName": "常用数学学科名称",
+    "subjectNameEn": "Common Mathematics Subjects",
+    "chinese": "复变函数 / 复分析",
+    "english": "Complex Analysis",
+    "definition": "研究复变量函数，尤其是解析函数与复积分。",
+    "important": true,
+    "speechText": "Complex Analysis",
+    "pronunciation": {
+      "americanIPA": "ˈkɑːmplɛks əˈnæləsɪs",
+      "britishIPA": "ˈkɒmplɛks əˈnæləsɪs"
+    }
+  },
+  {
+    "id": 10,
+    "subjectID": "subjects",
+    "subjectName": "常用数学学科名称",
+    "subjectNameEn": "Common Mathematics Subjects",
+    "chinese": "泛函分析",
+    "english": "Functional Analysis",
+    "definition": "研究函数空间、赋范空间及其上的线性算子。",
+    "important": true,
+    "speechText": "Functional Analysis",
+    "pronunciation": {
+      "americanIPA": "ˈfʌŋkʃənəl əˈnæləsɪs",
+      "britishIPA": "ˈfʌŋkʃənəl əˈnæləsɪs"
+    }
+  },
+  {
+    "id": 11,
+    "subjectID": "subjects",
+    "subjectName": "常用数学学科名称",
+    "subjectNameEn": "Common Mathematics Subjects",
+    "chinese": "抽象代数",
+    "english": "Abstract Algebra",
+    "definition": "研究群、环、域等抽象代数结构。",
+    "important": true,
+    "speechText": "Abstract Algebra",
+    "pronunciation": {
+      "americanIPA": "ˈæbstrækt ˈældʒəbrə",
+      "britishIPA": "ˈæbstrækt ˈældʒɪbrə"
+    }
+  },
+  {
+    "id": 12,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "集合",
+    "english": "set",
+    "definition": "由确定对象组成的整体。",
+    "important": true,
+    "speechText": "set",
+    "pronunciation": {
+      "americanIPA": "ˈsɛt",
+      "britishIPA": "ˈsɛt"
+    }
+  },
+  {
+    "id": 13,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "元素",
+    "english": "element",
+    "definition": "集合中的单个对象。",
+    "important": false,
+    "speechText": "element",
+    "pronunciation": {
+      "americanIPA": "ˈɛlɪmənt",
+      "britishIPA": "ˈɛlɪmənt"
+    }
+  },
+  {
+    "id": 14,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "空集",
+    "english": "empty set",
+    "definition": "不含任何元素的集合。",
+    "important": false,
+    "speechText": "empty set",
+    "pronunciation": {
+      "americanIPA": "ˈɛmpti ˈsɛt",
+      "britishIPA": "ˈɛmpti ˈsɛt"
+    }
+  },
+  {
+    "id": 15,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "子集",
+    "english": "subset",
+    "definition": "元素全部属于另一集合的集合。",
+    "important": false,
+    "speechText": "subset",
+    "pronunciation": {
+      "americanIPA": "ˈsʌbsɛt",
+      "britishIPA": "ˈsʌbsɛt"
+    }
+  },
+  {
+    "id": 16,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "有限集",
+    "english": "finite set",
+    "definition": "元素个数有限的集合。",
+    "important": false,
+    "speechText": "finite set",
+    "pronunciation": {
+      "americanIPA": "ˈfaɪnaɪt ˈsɛt",
+      "britishIPA": "ˈfaɪnaɪt ˈsɛt"
+    }
+  },
+  {
+    "id": 17,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "无限集",
+    "english": "infinite set",
+    "definition": "元素个数无限的集合。",
+    "important": false,
+    "speechText": "infinite set",
+    "pronunciation": {
+      "americanIPA": "ˈɪnfɪnət ˈsɛt",
+      "britishIPA": "ˈɪnfɪnət ˈsɛt"
+    }
+  },
+  {
+    "id": 18,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "开区间",
+    "english": "open interval",
+    "definition": "不包含两个端点的区间。",
+    "important": false,
+    "speechText": "open interval",
+    "pronunciation": {
+      "americanIPA": "ˈoʊpən ˈɪntɚvəl",
+      "britishIPA": "ˈəʊpən ˈɪntəvəl"
+    }
+  },
+  {
+    "id": 19,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "闭区间",
+    "english": "closed interval",
+    "definition": "包含两个端点的区间。",
+    "important": false,
+    "speechText": "closed interval",
+    "pronunciation": {
+      "americanIPA": "ˈkloʊzd ˈɪntɚvəl",
+      "britishIPA": "ˈkləʊzd ˈɪntəvəl"
+    }
+  },
+  {
+    "id": 20,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "映射",
+    "english": "map",
+    "definition": "也可说 mapping，表示集合间的对应规则。",
+    "important": true,
+    "speechText": "map",
+    "pronunciation": {
+      "americanIPA": "ˈmæp",
+      "britishIPA": "ˈmap"
+    }
+  },
+  {
+    "id": 21,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "函数",
+    "english": "function",
+    "definition": "每个自变量对应唯一函数值的映射。",
+    "important": true,
+    "speechText": "function",
+    "pronunciation": {
+      "americanIPA": "ˈfʌŋkʃən",
+      "britishIPA": "ˈfʌŋkʃən"
+    }
+  },
+  {
+    "id": 22,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "初等函数",
+    "english": "elementary function",
+    "definition": "由基本初等函数经有限次运算或复合得到。",
+    "important": false,
+    "speechText": "elementary function",
+    "pronunciation": {
+      "americanIPA": "ˌɛlɪˈmɛntɚri ˈfʌŋkʃən",
+      "britishIPA": "ˌɛlɪˈmɛntəri ˈfʌŋkʃən"
+    }
+  },
+  {
+    "id": 23,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "反函数",
+    "english": "inverse function",
+    "definition": "把原函数的输入、输出关系逆转。",
+    "important": false,
+    "speechText": "inverse function",
+    "pronunciation": {
+      "americanIPA": "ɪnˈvɜːs ˈfʌŋkʃən",
+      "britishIPA": "ɪnˈvɜːs ˈfʌŋkʃən"
+    }
+  },
+  {
+    "id": 24,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "复合函数",
+    "english": "composite function",
+    "definition": "一个函数的输出作为另一函数的输入。",
+    "important": false,
+    "speechText": "composite function",
+    "pronunciation": {
+      "americanIPA": "kəmˈpɑːzɪt ˈfʌŋkʃən",
+      "britishIPA": "ˈkɒmpəˌzɪt ˈfʌŋkʃən"
+    }
+  },
+  {
+    "id": 25,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "自变量",
+    "english": "independent variable",
+    "definition": "作为函数输入的变量。",
+    "important": false,
+    "speechText": "independent variable",
+    "pronunciation": {
+      "americanIPA": "ˌɪndɪˈpɛndənt ˈvɛrɪəbəl",
+      "britishIPA": "ˌɪndɪˈpɛndənt ˈveərɪəbəl"
+    }
+  },
+  {
+    "id": 26,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "因变量",
+    "english": "dependent variable",
+    "definition": "随自变量变化的输出变量。",
+    "important": false,
+    "speechText": "dependent variable",
+    "pronunciation": {
+      "americanIPA": "dɪˈpɛndənt ˈvɛrɪəbəl",
+      "britishIPA": "dɪˈpɛndənt ˈveərɪəbəl"
+    }
+  },
+  {
+    "id": 27,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "定义域",
+    "english": "domain",
+    "definition": "允许作为函数输入的集合。",
+    "important": true,
+    "speechText": "domain",
+    "pronunciation": {
+      "americanIPA": "dəˈmeɪn",
+      "britishIPA": "dəˈmeɪn"
+    }
+  },
+  {
+    "id": 28,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "值域",
+    "english": "range",
+    "definition": "指函数实际取得的值的集合，注意与 codomain（陪域）区分。",
+    "important": true,
+    "speechText": "range",
+    "pronunciation": {
+      "americanIPA": "ˈreɪndʒ",
+      "britishIPA": "ˈreɪndʒ"
+    }
+  },
+  {
+    "id": 29,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "单射",
+    "english": "injection",
+    "definition": "也可说 injective map/function，不同输入有不同输出。",
+    "important": true,
+    "speechText": "injection",
+    "pronunciation": {
+      "americanIPA": "ɪnˈdʒɛkʃən",
+      "britishIPA": "ɪnˈdʒɛkʃən"
+    }
+  },
+  {
+    "id": 30,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "满射",
+    "english": "surjection",
+    "definition": "也可说 surjective map/function，陪域中每个元素都有原像。",
+    "important": true,
+    "speechText": "surjection",
+    "pronunciation": {
+      "americanIPA": "sɜːˈdʒɛkʃən",
+      "britishIPA": "sɜːˈdʒɛkʃən"
+    }
+  },
+  {
+    "id": 31,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "双射",
+    "english": "bijection",
+    "definition": "同时是单射和满射，可建立一一对应。",
+    "important": true,
+    "speechText": "bijection",
+    "pronunciation": {
+      "americanIPA": "baɪˈdʒɛkʃən",
+      "britishIPA": "baɪˈdʒɛkʃən"
+    }
+  },
+  {
+    "id": 32,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "上界",
+    "english": "upper bound",
+    "definition": "不小于集合中所有元素的界。",
+    "important": false,
+    "speechText": "upper bound",
+    "pronunciation": {
+      "americanIPA": "ˌʌpɚ ˈbaʊnd",
+      "britishIPA": "ˌʌpə ˈbaʊnd"
+    }
+  },
+  {
+    "id": 33,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "下界",
+    "english": "lower bound",
+    "definition": "不大于集合中所有元素的界。",
+    "important": false,
+    "speechText": "lower bound",
+    "pronunciation": {
+      "americanIPA": "ˈloʊɚ ˈbaʊnd",
+      "britishIPA": "ˈləʊə ˈbaʊnd"
+    }
+  },
+  {
+    "id": 34,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "有界性",
+    "english": "boundedness",
+    "definition": "存在有限上界、下界的性质。",
+    "important": true,
+    "speechText": "boundedness",
+    "pronunciation": {
+      "americanIPA": "ˈbaʊndɪdnəs",
+      "britishIPA": "ˈbaʊndɪdnəs"
+    }
+  },
+  {
+    "id": 35,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "单调性",
+    "english": "monotonicity",
+    "definition": "函数或数列保持单调增减的性质。",
+    "important": true,
+    "speechText": "monotonicity",
+    "pronunciation": {
+      "americanIPA": "məˌnɑːtəˈnɪsɪti",
+      "britishIPA": "məˌnɒtəˈnɪsɪti"
+    }
+  },
+  {
+    "id": 36,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "奇偶性",
+    "english": "parity",
+    "definition": "函数为奇函数或偶函数的性质，也常说 **evenness/oddness**。",
+    "important": false,
+    "speechText": "parity",
+    "pronunciation": {
+      "americanIPA": "ˈpærɪti",
+      "britishIPA": "ˈparɪti"
+    }
+  },
+  {
+    "id": 37,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "周期性",
+    "english": "periodicity",
+    "definition": "函数值按固定周期重复。",
+    "important": false,
+    "speechText": "periodicity",
+    "pronunciation": {
+      "americanIPA": "ˌpiərɪˌɑːˈdɪsɪti",
+      "britishIPA": "ˌpiərɪˌɒˈdɪsɪti"
+    }
+  },
+  {
+    "id": 38,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "必要条件",
+    "english": "necessary condition",
+    "definition": "结论成立时必须满足的条件。",
+    "important": false,
+    "speechText": "necessary condition",
+    "pronunciation": {
+      "americanIPA": "ˈnɛsɪsɚri kənˈdɪʃən",
+      "britishIPA": "ˈnɛsɪsəri kənˈdɪʃən"
+    }
+  },
+  {
+    "id": 39,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "充分条件",
+    "english": "sufficient condition",
+    "definition": "足以推出结论的条件。",
+    "important": false,
+    "speechText": "sufficient condition",
+    "pronunciation": {
+      "americanIPA": "səˈfɪʃənt kənˈdɪʃən",
+      "britishIPA": "səˈfɪʃənt kənˈdɪʃən"
+    }
+  },
+  {
+    "id": 40,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "充要条件",
+    "english": "necessary and sufficient condition",
+    "definition": "既必要又充分，常表述为 if and only if。",
+    "important": true,
+    "speechText": "necessary and sufficient condition",
+    "pronunciation": {
+      "americanIPA": "ˈnɛsɪsɚri ænd səˈfɪʃənt kənˈdɪʃən",
+      "britishIPA": "ˈnɛsɪsəri and səˈfɪʃənt kənˈdɪʃən"
+    }
+  },
+  {
+    "id": 41,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "数列",
+    "english": "sequence",
+    "definition": "按自然数指标排列的一列数；也可说 numerical sequence。",
+    "important": true,
+    "speechText": "sequence",
+    "pronunciation": {
+      "americanIPA": "ˈsiːkwəns",
+      "britishIPA": "ˈsiːkwəns"
+    }
+  },
+  {
+    "id": 42,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "极限",
+    "english": "limit",
+    "definition": "变量趋近某过程时逼近的值。",
+    "important": true,
+    "speechText": "limit",
+    "pronunciation": {
+      "americanIPA": "ˈlɪmɪt",
+      "britishIPA": "ˈlɪmɪt"
+    }
+  },
+  {
+    "id": 43,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "收敛",
+    "english": "convergence",
+    "definition": "序列、函数或级数趋近某一极限的性质；动词为 converge，形容词为 convergent。",
+    "important": true,
+    "speechText": "convergence",
+    "pronunciation": {
+      "americanIPA": "kənˈvɜːdʒəns",
+      "britishIPA": "kənˈvɜːdʒəns"
+    }
+  },
+  {
+    "id": 44,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "发散",
+    "english": "divergence",
+    "definition": "序列、函数或级数不收敛的性质；动词为 diverge，形容词为 divergent。",
+    "important": true,
+    "speechText": "divergence",
+    "pronunciation": {
+      "americanIPA": "daɪˈvɜːdʒəns",
+      "britishIPA": "daɪˈvɜːdʒəns"
+    }
+  },
+  {
+    "id": 45,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "无穷大",
+    "english": "infinity",
+    "definition": "表示无界增长的概念，并非普通实数。",
+    "important": false,
+    "speechText": "infinity",
+    "pronunciation": {
+      "americanIPA": "ɪnˈfɪnɪti",
+      "britishIPA": "ɪnˈfɪnɪti"
+    }
+  },
+  {
+    "id": 46,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "无穷小",
+    "english": "infinitesimal",
+    "definition": "趋于零的量。",
+    "important": false,
+    "speechText": "infinitesimal",
+    "pronunciation": {
+      "americanIPA": "ˈɪnfɪnəˌtɛsɪməl",
+      "britishIPA": "ˈɪnfɪnəˌtɛsɪməl"
+    }
+  },
+  {
+    "id": 47,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "单调数列",
+    "english": "monotone sequence",
+    "definition": "各项保持单调不减或不增的数列。",
+    "important": false,
+    "speechText": "monotone sequence",
+    "pronunciation": {
+      "americanIPA": "ˈmɑːnəˌtoʊn ˈsiːkwəns",
+      "britishIPA": "ˈmɒnəˌtəʊn ˈsiːkwəns"
+    }
+  },
+  {
+    "id": 48,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "单调增加",
+    "english": "monotonically increasing",
+    "definition": "变量增加时函数值或数列项保持不减，也可说 monotone increasing。",
+    "important": false,
+    "speechText": "monotonically increasing",
+    "pronunciation": {
+      "americanIPA": "mənəˈtɑːnɪkli ɪŋˈkriːsɪŋ",
+      "britishIPA": "mənəˈtɒnɪkli ɪŋˈkriːsɪŋ"
+    }
+  },
+  {
+    "id": 49,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "单调减少",
+    "english": "monotonically decreasing",
+    "definition": "变量增加时函数值或数列项保持不增，也可说 monotone decreasing。",
+    "important": false,
+    "speechText": "monotonically decreasing",
+    "pronunciation": {
+      "americanIPA": "mənəˈtɑːnɪkli ˈdiːkriːsɪŋ",
+      "britishIPA": "mənəˈtɒnɪkli ˈdiːkriːsɪŋ"
+    }
+  },
+  {
+    "id": 50,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "函数极限",
+    "english": "limit of a function",
+    "definition": "描述自变量趋近时函数值的趋向。",
+    "important": false,
+    "speechText": "limit of a function",
+    "pronunciation": {
+      "americanIPA": "ˈlɪmɪt əvə ˈfʌŋkʃən",
+      "britishIPA": "ˈlɪmɪt əvə ˈfʌŋkʃən"
+    }
+  },
+  {
+    "id": 51,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "连续",
+    "english": "continuity",
+    "definition": "函数在某点的极限等于该点函数值的性质；形容词为 **continuous**。",
+    "important": true,
+    "speechText": "continuity",
+    "pronunciation": {
+      "americanIPA": "kɑːntɪˈnjuːɪti",
+      "britishIPA": "kɒntɪˈnjuːɪti"
+    }
+  },
+  {
+    "id": 52,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "单侧连续",
+    "english": "one-sided continuity",
+    "definition": "只从某一侧考察连续性。",
+    "important": false,
+    "speechText": "one-sided continuity",
+    "pronunciation": {
+      "americanIPA": "ˈwʌn ˈsaɪdɪd kɑːntɪˈnjuːɪti",
+      "britishIPA": "ˈwɒn ˈsaɪdɪd kɒntɪˈnjuːɪti"
+    }
+  },
+  {
+    "id": 53,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "左连续",
+    "english": "left-continuous",
+    "definition": "函数在某点的左极限等于该点函数值，也可说 continuous from the left。",
+    "important": false,
+    "speechText": "left-continuous",
+    "pronunciation": {
+      "americanIPA": "ˈlɛft kənˈtɪnjuːəs",
+      "britishIPA": "ˈlɛft kənˈtɪnjuːəs"
+    }
+  },
+  {
+    "id": 54,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "右连续",
+    "english": "right-continuous",
+    "definition": "函数在某点的右极限等于该点函数值，也可说 continuous from the right。",
+    "important": false,
+    "speechText": "right-continuous",
+    "pronunciation": {
+      "americanIPA": "ˈraɪt kənˈtɪnjuːəs",
+      "britishIPA": "ˈraɪt kənˈtɪnjuːəs"
+    }
+  },
+  {
+    "id": 55,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "一致连续",
+    "english": "uniform continuity",
+    "definition": "对定义域内所有点，可统一选取同一个 \\(\\delta\\) 来控制函数值之差。",
+    "important": true,
+    "speechText": "uniform continuity",
+    "pronunciation": {
+      "americanIPA": "ˈjuːnɪˌfɔːrm kɑːntɪˈnjuːɪti",
+      "britishIPA": "ˈjuːnɪˌfɔːm kɒntɪˈnjuːɪti"
+    }
+  },
+  {
+    "id": 56,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "不连续",
+    "english": "discontinuity",
+    "definition": "函数在某点不满足连续条件的性质；形容词为 **discontinuous**。",
+    "important": false,
+    "speechText": "discontinuity",
+    "pronunciation": {
+      "americanIPA": "dɪskɑːntɪˈnjuːɪti",
+      "britishIPA": "dɪskɒntɪˈnjuːɪti"
+    }
+  },
+  {
+    "id": 57,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "间断点",
+    "english": "point of discontinuity",
+    "definition": "函数不连续的点。",
+    "important": false,
+    "speechText": "point of discontinuity",
+    "pronunciation": {
+      "americanIPA": "ˈpɔɪnt ʌv dɪskɑːntɪˈnjuːɪti",
+      "britishIPA": "ˈpɔɪnt ɒv dɪskɒntɪˈnjuːɪti"
+    }
+  },
+  {
+    "id": 58,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "可去间断点",
+    "english": "removable discontinuity",
+    "definition": "可通过重新定义该点函数值恢复连续。",
+    "important": false,
+    "speechText": "removable discontinuity",
+    "pronunciation": {
+      "americanIPA": "rɪˈmuːvəbəl dɪskɑːntɪˈnjuːɪti",
+      "britishIPA": "rɪˈmuːvəbəl dɪskɒntɪˈnjuːɪti"
+    }
+  },
+  {
+    "id": 59,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "低阶",
+    "english": "lower order",
+    "definition": "在渐近比较中阶数较低。",
+    "important": false,
+    "speechText": "lower order",
+    "pronunciation": {
+      "americanIPA": "ˈloʊɚr ˈɔːrdɚ",
+      "britishIPA": "ˈləʊər ˈɔːdə"
+    }
+  },
+  {
+    "id": 60,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "高阶",
+    "english": "higher order",
+    "definition": "在渐近比较中阶数较高。",
+    "important": false,
+    "speechText": "higher order",
+    "pronunciation": {
+      "americanIPA": "ˈhaɪɚr ˈɔːrdɚ",
+      "britishIPA": "ˈhaɪər ˈɔːdə"
+    }
+  },
+  {
+    "id": 61,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "等价无穷小",
+    "english": "equivalent infinitesimals",
+    "definition": "若两个无穷小之比趋于 1，则二者互为等价无穷小。",
+    "important": true,
+    "speechText": "equivalent infinitesimals",
+    "pronunciation": {
+      "americanIPA": "ɪˈkwɪvələnt ˈɪnfɪnəˌtɛsɪməlz",
+      "britishIPA": "ɪˈkwɪvələnt ˈɪnfɪnəˌtɛsɪməlz"
+    }
+  },
+  {
+    "id": 62,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "有界性定理",
+    "english": "the boundedness theorem",
+    "definition": "常指闭区间上的连续函数必有界。",
+    "important": false,
+    "speechText": "the boundedness theorem",
+    "pronunciation": {
+      "americanIPA": "ðə ˈbaʊndɪdnəs ˈθiərəm",
+      "britishIPA": "ðə ˈbaʊndɪdnəs ˈθiərəm"
+    }
+  },
+  {
+    "id": 63,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "最值定理",
+    "english": "extreme value theorem",
+    "definition": "连续函数在紧区间上可取到最大、最小值。",
+    "important": true,
+    "speechText": "extreme value theorem",
+    "pronunciation": {
+      "americanIPA": "ɛkˈstriːm ˈvæljuː ˈθiərəm",
+      "britishIPA": "ɛkˈstriːm ˈvaljuː ˈθiərəm"
+    }
+  },
+  {
+    "id": 64,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "零点存在定理",
+    "english": "Bolzano’s theorem",
+    "definition": "若 \\(f\\) 在 \\([a,b]\\) 上连续且 \\(f(a)f(b)<0\\)，则存在 \\(\\xi\\in(a,b)\\) 使 \\(f(\\xi)=0\\)。",
+    "important": false,
+    "speechText": "Bolzano’s theorem",
+    "pronunciation": {
+      "americanIPA": "bɔːlˈtsɑːnoʊz ˈθɪrəm",
+      "britishIPA": "bɒlˈtsɑːnəʊz ˈθɪərəm"
+    }
+  },
+  {
+    "id": 65,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "介值定理",
+    "english": "intermediate value theorem",
+    "definition": "连续函数取得端点函数值之间的每个中间值。",
+    "important": true,
+    "speechText": "intermediate value theorem",
+    "pronunciation": {
+      "americanIPA": "ˌɪntɚˈmiːdiət ˈvæljuː ˈθiərəm",
+      "britishIPA": "ˌɪntəˈmiːdiət ˈvaljuː ˈθiərəm"
+    }
+  },
+  {
+    "id": 66,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "一致连续定理",
+    "english": "uniform continuity theorem",
+    "definition": "常对应 **Heine–Cantor theorem**，即紧集上的连续函数一致连续。",
+    "important": true,
+    "speechText": "uniform continuity theorem",
+    "pronunciation": {
+      "americanIPA": "ˈjuːnɪˌfɔːrm kɑːntɪˈnjuːɪti ˈθiərəm",
+      "britishIPA": "ˈjuːnɪˌfɔːm kɒntɪˈnjuːɪti ˈθiərəm"
+    }
+  },
+  {
+    "id": 67,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "微分",
+    "english": "differential",
+    "definition": "函数增量的线性主部。",
+    "important": false,
+    "speechText": "differential",
+    "pronunciation": {
+      "americanIPA": "ˌdɪfɚˈrɛnʃəl",
+      "britishIPA": "ˌdɪfəˈrɛnʃəl"
+    }
+  },
+  {
+    "id": 68,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "导数",
+    "english": "derivative",
+    "definition": "函数的瞬时变化率。",
+    "important": true,
+    "speechText": "derivative",
+    "pronunciation": {
+      "americanIPA": "dɪˈrɪvəˌtɪv",
+      "britishIPA": "dɪˈrɪvəˌtɪv"
+    }
+  },
+  {
+    "id": 69,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "可微",
+    "english": "differentiable",
+    "definition": "函数存在满足定义的微分。",
+    "important": true,
+    "speechText": "differentiable",
+    "pronunciation": {
+      "americanIPA": "ˈdɪfɚˌrɛnʃɪəbəl",
+      "britishIPA": "ˈdɪfəˌrɛnʃɪəbəl"
+    }
+  },
+  {
+    "id": 70,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "可导",
+    "english": "differentiable (has a derivative)",
+    "definition": "一元函数语境指存在导数。",
+    "important": false,
+    "speechText": "differentiable (has a derivative)",
+    "pronunciation": {
+      "americanIPA": "ˈdɪfɚˌrɛnʃɪəbəl həz ə dɪˈrɪvəˌtɪv",
+      "britishIPA": "ˈdɪfəˌrɛnʃɪəbəl həz ə dɪˈrɪvəˌtɪv"
+    }
+  },
+  {
+    "id": 71,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "切线",
+    "english": "tangent line",
+    "definition": "曲线在一点的一阶线性近似直线。",
+    "important": false,
+    "speechText": "tangent line",
+    "pronunciation": {
+      "americanIPA": "ˈtændʒənt ˈlaɪn",
+      "britishIPA": "ˈtandʒənt ˈlaɪn"
+    }
+  },
+  {
+    "id": 72,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "单侧导数",
+    "english": "one-sided derivative",
+    "definition": "从单侧极限定义的导数。",
+    "important": false,
+    "speechText": "one-sided derivative",
+    "pronunciation": {
+      "americanIPA": "ˈwʌn ˈsaɪdɪd dɪˈrɪvəˌtɪv",
+      "britishIPA": "ˈwɒn ˈsaɪdɪd dɪˈrɪvəˌtɪv"
+    }
+  },
+  {
+    "id": 73,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "左导数",
+    "english": "left derivative",
+    "definition": "由左侧差商极限得到。",
+    "important": false,
+    "speechText": "left derivative",
+    "pronunciation": {
+      "americanIPA": "ˈlɛft dɪˈrɪvəˌtɪv",
+      "britishIPA": "ˈlɛft dɪˈrɪvəˌtɪv"
+    }
+  },
+  {
+    "id": 74,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "右导数",
+    "english": "right derivative",
+    "definition": "由右侧差商极限得到。",
+    "important": false,
+    "speechText": "right derivative",
+    "pronunciation": {
+      "americanIPA": "ˈraɪt dɪˈrɪvəˌtɪv",
+      "britishIPA": "ˈraɪt dɪˈrɪvəˌtɪv"
+    }
+  },
+  {
+    "id": 75,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "隐函数",
+    "english": "implicit function",
+    "definition": "由隐式关系确定的函数。",
+    "important": false,
+    "speechText": "implicit function",
+    "pronunciation": {
+      "americanIPA": "ɪmˈplɪsɪt ˈfʌŋkʃən",
+      "britishIPA": "ɪmˈplɪsɪt ˈfʌŋkʃən"
+    }
+  },
+  {
+    "id": 76,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "显函数",
+    "english": "explicit function",
+    "definition": "因变量被显式写成自变量的函数。",
+    "important": false,
+    "speechText": "explicit function",
+    "pronunciation": {
+      "americanIPA": "ɛkˈsplɪsɪt ˈfʌŋkʃən",
+      "britishIPA": "ɛkˈsplɪsɪt ˈfʌŋkʃən"
+    }
+  },
+  {
+    "id": 77,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "二阶导数",
+    "english": "second derivative",
+    "definition": "导数再求一次导数。",
+    "important": false,
+    "speechText": "second derivative",
+    "pronunciation": {
+      "americanIPA": "ˈsɛkənd dɪˈrɪvəˌtɪv",
+      "britishIPA": "ˈsɛkənd dɪˈrɪvəˌtɪv"
+    }
+  },
+  {
+    "id": 78,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "三阶导数",
+    "english": "third derivative",
+    "definition": "三次求导所得导数。",
+    "important": false,
+    "speechText": "third derivative",
+    "pronunciation": {
+      "americanIPA": "ˈθɜːd dɪˈrɪvəˌtɪv",
+      "britishIPA": "ˈθɜːd dɪˈrɪvəˌtɪv"
+    }
+  },
+  {
+    "id": 79,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "高阶导数",
+    "english": "higher-order derivative",
+    "definition": "指二阶及以上导数。",
+    "important": false,
+    "speechText": "higher-order derivative",
+    "pronunciation": {
+      "americanIPA": "ˈhaɪɚr ˈɔːrdɚ dɪˈrɪvəˌtɪv",
+      "britishIPA": "ˈhaɪər ˈɔːdə dɪˈrɪvəˌtɪv"
+    }
+  },
+  {
+    "id": 80,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "极大值",
+    "english": "local maximum",
+    "definition": "邻域内的局部最大值。",
+    "important": false,
+    "speechText": "local maximum",
+    "pronunciation": {
+      "americanIPA": "ˈloʊkəl ˈmæksɪməm",
+      "britishIPA": "ˈləʊkəl ˈmaksɪməm"
+    }
+  },
+  {
+    "id": 81,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "极小值",
+    "english": "local minimum",
+    "definition": "邻域内的局部最小值。",
+    "important": false,
+    "speechText": "local minimum",
+    "pronunciation": {
+      "americanIPA": "ˈloʊkəl ˈmɪnɪməm",
+      "britishIPA": "ˈləʊkəl ˈmɪnɪməm"
+    }
+  },
+  {
+    "id": 82,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "最大值",
+    "english": "absolute maximum",
+    "definition": "也说 global maximum，指定义域上的最大值。",
+    "important": false,
+    "speechText": "absolute maximum",
+    "pronunciation": {
+      "americanIPA": "ˈæbsəˌluːt ˈmæksɪməm",
+      "britishIPA": "ˈabsəˌluːt ˈmaksɪməm"
+    }
+  },
+  {
+    "id": 83,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "最小值",
+    "english": "absolute minimum",
+    "definition": "也说 global minimum，指定义域上的最小值。",
+    "important": false,
+    "speechText": "absolute minimum",
+    "pronunciation": {
+      "americanIPA": "ˈæbsəˌluːt ˈmɪnɪməm",
+      "britishIPA": "ˈabsəˌluːt ˈmɪnɪməm"
+    }
+  },
+  {
+    "id": 84,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "凸性",
+    "english": "convexity",
+    "definition": "函数图像相对弦线的凸性性质。",
+    "important": true,
+    "speechText": "convexity",
+    "pronunciation": {
+      "americanIPA": "kənˈvɛksɪti",
+      "britishIPA": "kənˈvɛksɪti"
+    }
+  },
+  {
+    "id": 85,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "拐点",
+    "english": "point of inflection",
+    "definition": "曲线凹凸性发生改变的点。",
+    "important": false,
+    "speechText": "point of inflection",
+    "pronunciation": {
+      "americanIPA": "ˈpɔɪnt ʌv ɪnˈflɛkʃən",
+      "britishIPA": "ˈpɔɪnt ɒv ɪnˈflɛkʃən"
+    }
+  },
+  {
+    "id": 86,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "驻点",
+    "english": "stationary point",
+    "definition": "通常指一阶导数为零的点。",
+    "important": true,
+    "speechText": "stationary point",
+    "pronunciation": {
+      "americanIPA": "ˈsteɪʃəˌnɛri ˈpɔɪnt",
+      "britishIPA": "ˈsteɪʃənəri ˈpɔɪnt"
+    }
+  },
+  {
+    "id": 87,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "不定积分",
+    "english": "indefinite integral",
+    "definition": "原函数族。",
+    "important": true,
+    "speechText": "indefinite integral",
+    "pronunciation": {
+      "americanIPA": "ɪnˈdɛfɪnət ˈɪntɪɡrəl",
+      "britishIPA": "ɪnˈdɛfɪnət ˈɪntɪɡrəl"
+    }
+  },
+  {
+    "id": 88,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "定积分",
+    "english": "definite integral",
+    "definition": "在给定区间上的积分值。",
+    "important": true,
+    "speechText": "definite integral",
+    "pronunciation": {
+      "americanIPA": "ˈdɛfɪnət ˈɪntɪɡrəl",
+      "britishIPA": "ˈdɛfɪnət ˈɪntɪɡrəl"
+    }
+  },
+  {
+    "id": 89,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "可积",
+    "english": "integrable",
+    "definition": "满足相应积分存在条件。",
+    "important": false,
+    "speechText": "integrable",
+    "pronunciation": {
+      "americanIPA": "ˈɪntɪɡrəbəl",
+      "britishIPA": "ˈɪntɪɡrəbəl"
+    }
+  },
+  {
+    "id": 90,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "原函数",
+    "english": "antiderivative",
+    "definition": "其导数等于给定函数的函数。",
+    "important": false,
+    "speechText": "antiderivative",
+    "pronunciation": {
+      "americanIPA": "ˌæntɪdɪˈrɪvəˌtɪv",
+      "britishIPA": "ˌantɪdɪˈrɪvəˌtɪv"
+    }
+  },
+  {
+    "id": 91,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "被积函数",
+    "english": "integrand",
+    "definition": "积分号内被积分的函数。",
+    "important": false,
+    "speechText": "integrand",
+    "pronunciation": {
+      "americanIPA": "ˈɪntɪˌɡrænd",
+      "britishIPA": "ˈɪntɪˌɡrand"
+    }
+  },
+  {
+    "id": 92,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "积分区间",
+    "english": "interval of integration",
+    "definition": "定积分所覆盖的区间。",
+    "important": false,
+    "speechText": "interval of integration",
+    "pronunciation": {
+      "americanIPA": "ˈɪntɚvəl ʌv ˌɪntɪˈɡreɪʃən",
+      "britishIPA": "ˈɪntəvəl ɒv ˌɪntɪˈɡreɪʃən"
+    }
+  },
+  {
+    "id": 93,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "换元积分法",
+    "english": "integration by substitution",
+    "definition": "通过变量替换把积分化为更易计算的形式，也可说 substitution method/rule。",
+    "important": true,
+    "speechText": "integration by substitution",
+    "pronunciation": {
+      "americanIPA": "ˌɪntɪˈɡreɪʃən baɪ ˌsʌbstɪˈtuːʃən",
+      "britishIPA": "ˌɪntɪˈɡreɪʃən baɪ ˌsʌbstɪˈtjuːʃən"
+    }
+  },
+  {
+    "id": 94,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "分部积分法",
+    "english": "integration by parts",
+    "definition": "由乘积求导公式导出的积分法。",
+    "important": true,
+    "speechText": "integration by parts",
+    "pronunciation": {
+      "americanIPA": "ˌɪntɪˈɡreɪʃən baɪ ˈpɑːrts",
+      "britishIPA": "ˌɪntɪˈɡreɪʃən baɪ ˈpɑːts"
+    }
+  },
+  {
+    "id": 95,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "积分第一中值定理",
+    "english": "the first mean value theorem for integrals",
+    "definition": "描述定积分与函数中间值的关系。",
+    "important": false,
+    "speechText": "the first mean value theorem for integrals",
+    "pronunciation": {
+      "americanIPA": "ðə ˈfɜːst ˈmiːn ˈvæljuː ˈθiərəm fɔːr ˈɪntɪɡrəlz",
+      "britishIPA": "ðə ˈfɜːst ˈmiːn ˈvaljuː ˈθiərəm fɔːr ˈɪntɪɡrəlz"
+    }
+  },
+  {
+    "id": 96,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "微积分基本定理",
+    "english": "fundamental theorem of calculus",
+    "definition": "建立微分与积分之间的联系。",
+    "important": true,
+    "speechText": "fundamental theorem of calculus",
+    "pronunciation": {
+      "americanIPA": "ˌfʌndəˈmɛntəl ˈθiərəm ʌv ˈkælkjʊləs",
+      "britishIPA": "ˌfʌndəˈmɛntəl ˈθiərəm ɒv ˈkalkjʊləs"
+    }
+  },
+  {
+    "id": 97,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "直角坐标",
+    "english": "Cartesian coordinates",
+    "definition": "用相互垂直的坐标轴表示位置。",
+    "important": false,
+    "speechText": "Cartesian coordinates",
+    "pronunciation": {
+      "americanIPA": "kɑːrˈtiːʒən koʊˈɔːrdənəts",
+      "britishIPA": "kɑːˈtiːziən kəʊˈɔːdɪnəts"
+    }
+  },
+  {
+    "id": 98,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "极坐标",
+    "english": "polar coordinates",
+    "definition": "以半径和极角表示平面位置。",
+    "important": false,
+    "speechText": "polar coordinates",
+    "pronunciation": {
+      "americanIPA": "ˈpoʊlɚ koʊˈɔːrdɪnəts",
+      "britishIPA": "ˈpəʊlə kəʊˈɔːdɪnəts"
+    }
+  },
+  {
+    "id": 99,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "反常积分",
+    "english": "improper integral",
+    "definition": "积分区间无界或被积函数无界的积分。",
+    "important": true,
+    "speechText": "improper integral",
+    "pronunciation": {
+      "americanIPA": "ɪmˈprɑːpɚr ˈɪntɪɡrəl",
+      "britishIPA": "ɪmˈprɒpər ˈɪntɪɡrəl"
+    }
+  },
+  {
+    "id": 100,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "绝对收敛",
+    "english": "absolute convergence",
+    "definition": "各项绝对值构成的级数或相应绝对值积分收敛；形容式为 absolutely convergent。",
+    "important": true,
+    "speechText": "absolute convergence",
+    "pronunciation": {
+      "americanIPA": "ˈæbsəˌluːt kənˈvɜːdʒəns",
+      "britishIPA": "ˈabsəˌluːt kənˈvɜːdʒəns"
+    }
+  },
+  {
+    "id": 101,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "绝对可积",
+    "english": "absolutely integrable",
+    "definition": "函数绝对值的积分有限。",
+    "important": false,
+    "speechText": "absolutely integrable",
+    "pronunciation": {
+      "americanIPA": "ˌæbsəˈluːtli ˈɪntɪɡrəbəl",
+      "britishIPA": "ˌabsəˈluːtli ˈɪntɪɡrəbəl"
+    }
+  },
+  {
+    "id": 102,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "条件收敛",
+    "english": "conditional convergence",
+    "definition": "积分或级数收敛但不绝对收敛。",
+    "important": false,
+    "speechText": "conditional convergence",
+    "pronunciation": {
+      "americanIPA": "kənˈdɪʃənəl kənˈvɜːdʒəns",
+      "britishIPA": "kənˈdɪʃənəl kənˈvɜːdʒəns"
+    }
+  },
+  {
+    "id": 103,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "条件可积",
+    "english": "conditionally integrable",
+    "definition": "积分存在但不绝对可积。",
+    "important": false,
+    "speechText": "conditionally integrable",
+    "pronunciation": {
+      "americanIPA": "kənˈdɪʃənəli ˈɪntɪɡrəbəl",
+      "britishIPA": "kənˈdɪʃənəli ˈɪntɪɡrəbəl"
+    }
+  },
+  {
+    "id": 104,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "无界函数",
+    "english": "unbounded function",
+    "definition": "在给定集合上不存在有限界。",
+    "important": false,
+    "speechText": "unbounded function",
+    "pronunciation": {
+      "americanIPA": "ʌnˈbaʊndɪd ˈfʌŋkʃən",
+      "britishIPA": "ʌnˈbaʊndɪd ˈfʌŋkʃən"
+    }
+  },
+  {
+    "id": 105,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "非负函数",
+    "english": "nonnegative function",
+    "definition": "函数值处处大于或等于零。",
+    "important": false,
+    "speechText": "nonnegative function",
+    "pronunciation": {
+      "americanIPA": "ˌnɑːnˈnɛɡəˌtɪv ˈfʌŋkʃən",
+      "britishIPA": "ˌnɒnˈnɛɡəˌtɪv ˈfʌŋkʃən"
+    }
+  },
+  {
+    "id": 106,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "比较判别法",
+    "english": "comparison test",
+    "definition": "通过与已知收敛性的级数或积分进行比较来判断收敛性，也可说 comparison criterion。",
+    "important": true,
+    "speechText": "comparison test",
+    "pronunciation": {
+      "americanIPA": "kəmˈpærɪsən ˈtɛst",
+      "britishIPA": "kəmˈparɪsən ˈtɛst"
+    }
+  },
+  {
+    "id": 107,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "数项级数",
+    "english": "numerical series",
+    "definition": "由数列各项相加形成的无穷级数。",
+    "important": false,
+    "speechText": "numerical series",
+    "pronunciation": {
+      "americanIPA": "nuːˈmɛrɪkəl ˈsɪriz",
+      "britishIPA": "njuːˈmɛrɪkəl ˈsiəriz"
+    }
+  },
+  {
+    "id": 108,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "级数",
+    "english": "series",
+    "definition": "一列项的形式和。",
+    "important": true,
+    "speechText": "series",
+    "pronunciation": {
+      "americanIPA": "ˈsɪriz",
+      "britishIPA": "ˈsiəriz"
+    }
+  },
+  {
+    "id": 109,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "通项",
+    "english": "general term",
+    "definition": "数列或级数的第 n 项表达式。",
+    "important": false,
+    "speechText": "general term",
+    "pronunciation": {
+      "americanIPA": "ˈdʒɛnɚrəl ˈtɜːm",
+      "britishIPA": "ˈdʒɛnərəl ˈtɜːm"
+    }
+  },
+  {
+    "id": 110,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "部分和",
+    "english": "partial sum",
+    "definition": "前有限项之和。",
+    "important": false,
+    "speechText": "partial sum",
+    "pronunciation": {
+      "americanIPA": "ˈpɑːrʃəl ˈsʌm",
+      "britishIPA": "ˈpɑːʃəl ˈsʌm"
+    }
+  },
+  {
+    "id": 111,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "几何级数",
+    "english": "geometric series",
+    "definition": "相邻项比值固定的级数。",
+    "important": false,
+    "speechText": "geometric series",
+    "pronunciation": {
+      "americanIPA": "ˌdʒiːoʊˈmɛtrɪk ˈsɪriz",
+      "britishIPA": "ˌdʒiːəʊˈmɛtrɪk ˈsiəriz"
+    }
+  },
+  {
+    "id": 112,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "调和级数与 p 级数",
+    "english": "harmonic series; p-series",
+    "definition": "p 级数形如 \\(\\sum_{n=1}^{\\infty}1/n^p\\)，其中 \\(p=1\\) 时称为调和级数。",
+    "important": true,
+    "speechText": "harmonic series, p-series",
+    "pronunciation": {
+      "americanIPA": "hɑːrˈmɑːnɪk ˈsɪriːz, ˈpiː ˌsɪriːz",
+      "britishIPA": "hɑːˈmɒnɪk ˈsɪəriːz, ˈpiː ˌsɪəriːz"
+    }
+  },
+  {
+    "id": 113,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "极限点",
+    "english": "limit point",
+    "definition": "集合中点列可逼近的聚点。",
+    "important": false,
+    "speechText": "limit point",
+    "pronunciation": {
+      "americanIPA": "ˈlɪmɪt ˈpɔɪnt",
+      "britishIPA": "ˈlɪmɪt ˈpɔɪnt"
+    }
+  },
+  {
+    "id": 114,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "上极限",
+    "english": "limit superior (lim sup)",
+    "definition": "表示尾部上界极限。",
+    "important": false,
+    "speechText": "limit superior (lim sup)",
+    "pronunciation": {
+      "americanIPA": "ˈlɪmət suːˈpɪriər, ˌlɪm ˈsʌp",
+      "britishIPA": "ˈlɪmɪt suːˈpɪəriə, ˌlɪm ˈsʌp"
+    }
+  },
+  {
+    "id": 115,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "下极限",
+    "english": "limit inferior (lim inf)",
+    "definition": "表示尾部下界极限。",
+    "important": false,
+    "speechText": "limit inferior (lim inf)",
+    "pronunciation": {
+      "americanIPA": "ˈlɪmət ɪnˈfɪriər, ˌlɪm ˈɪnf",
+      "britishIPA": "ˈlɪmɪt ɪnˈfɪəriə, ˌlɪm ˈɪnf"
+    }
+  },
+  {
+    "id": 116,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "正项级数",
+    "english": "positive-term series",
+    "definition": "各项均为正数或非负数的级数，也可说 series of positive terms。",
+    "important": false,
+    "speechText": "positive-term series",
+    "pronunciation": {
+      "americanIPA": "ˈpɑːzɪˌtɪv ˈtɜːm ˈsɪriz",
+      "britishIPA": "ˈpɒzɪˌtɪv ˈtɜːm ˈsiəriz"
+    }
+  },
+  {
+    "id": 117,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "交错级数",
+    "english": "alternating series",
+    "definition": "正负号交替的级数。",
+    "important": false,
+    "speechText": "alternating series",
+    "pronunciation": {
+      "americanIPA": "ˈɔːltɚˌneɪtɪŋ ˈsɪriz",
+      "britishIPA": "ˈɔːltəˌneɪtɪŋ ˈsiəriz"
+    }
+  },
+  {
+    "id": 118,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "任意项级数",
+    "english": "series of arbitrary terms",
+    "definition": "各项符号不受限制的级数。",
+    "important": false,
+    "speechText": "series of arbitrary terms",
+    "pronunciation": {
+      "americanIPA": "ˈsɪriz ʌv ˈɑːrbɪˌtrɛri ˈtɜːmz",
+      "britishIPA": "ˈsiəriz ɒv ˈɑːbɪtrəri ˈtɜːmz"
+    }
+  },
+  {
+    "id": 119,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "无穷乘积",
+    "english": "infinite product",
+    "definition": "无限多个因子的形式乘积。",
+    "important": false,
+    "speechText": "infinite product",
+    "pronunciation": {
+      "americanIPA": "ˈɪnfɪnət ˈprɑːdʌkt",
+      "britishIPA": "ˈɪnfɪnət ˈprɒdʌkt"
+    }
+  },
+  {
+    "id": 120,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "函数项级数",
+    "english": "series of functions",
+    "definition": "各项本身为函数的级数。",
+    "important": false,
+    "speechText": "series of functions",
+    "pronunciation": {
+      "americanIPA": "ˈsɪriz ʌv ˈfʌŋkʃənz",
+      "britishIPA": "ˈsiəriz ɒv ˈfʌŋkʃənz"
+    }
+  },
+  {
+    "id": 121,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "收敛点",
+    "english": "point of convergence",
+    "definition": "函数项级数在该点收敛。",
+    "important": false,
+    "speechText": "point of convergence",
+    "pronunciation": {
+      "americanIPA": "ˈpɔɪnt ʌv kənˈvɜːdʒəns",
+      "britishIPA": "ˈpɔɪnt ɒv kənˈvɜːdʒəns"
+    }
+  },
+  {
+    "id": 122,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "收敛域",
+    "english": "region of convergence",
+    "definition": "也可说 domain of convergence；一元幂级数常说 interval of convergence。",
+    "important": false,
+    "speechText": "region of convergence",
+    "pronunciation": {
+      "americanIPA": "ˈriːdʒən ʌv kənˈvɜːdʒəns",
+      "britishIPA": "ˈriːdʒən ɒv kənˈvɜːdʒəns"
+    }
+  },
+  {
+    "id": 123,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "和函数",
+    "english": "sum function",
+    "definition": "函数项级数在各点收敛后所定义的函数，也可说 **sum of the series** 或 **sum function of a series**。",
+    "important": false,
+    "speechText": "sum function",
+    "pronunciation": {
+      "americanIPA": "ˈsʌm ˈfʌŋkʃən",
+      "britishIPA": "ˈsʌm ˈfʌŋkʃən"
+    }
+  },
+  {
+    "id": 124,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "一致收敛",
+    "english": "uniform convergence",
+    "definition": "误差界可在整个定义域上一致控制。",
+    "important": true,
+    "speechText": "uniform convergence",
+    "pronunciation": {
+      "americanIPA": "ˈjuːnɪˌfɔːrm kənˈvɜːdʒəns",
+      "britishIPA": "ˈjuːnɪˌfɔːm kənˈvɜːdʒəns"
+    }
+  },
+  {
+    "id": 125,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "幂级数",
+    "english": "power series",
+    "definition": "由变量幂次组成的级数。",
+    "important": true,
+    "speechText": "power series",
+    "pronunciation": {
+      "americanIPA": "ˈpaʊɚ ˈsɪriz",
+      "britishIPA": "ˈpaʊə ˈsiəriz"
+    }
+  },
+  {
+    "id": 126,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "收敛半径",
+    "english": "radius of convergence",
+    "definition": "幂级数收敛区间的半径。",
+    "important": true,
+    "speechText": "radius of convergence",
+    "pronunciation": {
+      "americanIPA": "ˈreɪdɪəs ʌv kənˈvɜːdʒəns",
+      "britishIPA": "ˈreɪdɪəs ɒv kənˈvɜːdʒəns"
+    }
+  },
+  {
+    "id": 127,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "一元函数",
+    "english": "function of one variable",
+    "definition": "仅含一个自变量的函数。",
+    "important": false,
+    "speechText": "function of one variable",
+    "pronunciation": {
+      "americanIPA": "ˈfʌŋkʃən ʌv ˈwʌn ˈvɛrɪəbəl",
+      "britishIPA": "ˈfʌŋkʃən ɒv ˈwɒn ˈveərɪəbəl"
+    }
+  },
+  {
+    "id": 128,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "多元函数",
+    "english": "function of several variables",
+    "definition": "含两个或更多自变量的函数。",
+    "important": false,
+    "speechText": "function of several variables",
+    "pronunciation": {
+      "americanIPA": "ˈfʌŋkʃən ʌv ˈsɛvrəl ˈvɛrɪəbəlz",
+      "britishIPA": "ˈfʌŋkʃən ɒv ˈsɛvrəl ˈveərɪəbəlz"
+    }
+  },
+  {
+    "id": 129,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "向量空间",
+    "english": "vector space",
+    "definition": "满足线性运算公理的空间。",
+    "important": false,
+    "speechText": "vector space",
+    "pronunciation": {
+      "americanIPA": "ˈvɛktɚ ˈspeɪs",
+      "britishIPA": "ˈvɛktə ˈspeɪs"
+    }
+  },
+  {
+    "id": 130,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "内积",
+    "english": "inner product",
+    "definition": "赋予向量长度和夹角结构的二元运算。",
+    "important": false,
+    "speechText": "inner product",
+    "pronunciation": {
+      "americanIPA": "ˈɪnɚ ˈprɑːdʌkt",
+      "britishIPA": "ˈɪnə ˈprɒdʌkt"
+    }
+  },
+  {
+    "id": 131,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "开集",
+    "english": "open set",
+    "definition": "每个点都是内点的集合。",
+    "important": true,
+    "speechText": "open set",
+    "pronunciation": {
+      "americanIPA": "ˈoʊpən ˈsɛt",
+      "britishIPA": "ˈəʊpən ˈsɛt"
+    }
+  },
+  {
+    "id": 132,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "闭集",
+    "english": "closed set",
+    "definition": "包含所有极限点的集合。",
+    "important": true,
+    "speechText": "closed set",
+    "pronunciation": {
+      "americanIPA": "ˈkloʊzd ˈsɛt",
+      "britishIPA": "ˈkləʊzd ˈsɛt"
+    }
+  },
+  {
+    "id": 133,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "内点",
+    "english": "interior point",
+    "definition": "存在完全落在集合内的邻域。",
+    "important": false,
+    "speechText": "interior point",
+    "pronunciation": {
+      "americanIPA": "ɪnˈtɪriɚ ˈpɔɪnt",
+      "britishIPA": "ɪnˈtiəriə ˈpɔɪnt"
+    }
+  },
+  {
+    "id": 134,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "外点",
+    "english": "exterior point",
+    "definition": "存在完全落在集合外的邻域。",
+    "important": false,
+    "speechText": "exterior point",
+    "pronunciation": {
+      "americanIPA": "ɛkˈstɪriɚ ˈpɔɪnt",
+      "britishIPA": "ɛkˈstiəriə ˈpɔɪnt"
+    }
+  },
+  {
+    "id": 135,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "边界点",
+    "english": "boundary point",
+    "definition": "任意邻域同时与集合及其补集相交。",
+    "important": false,
+    "speechText": "boundary point",
+    "pronunciation": {
+      "americanIPA": "ˈbaʊndɚri ˈpɔɪnt",
+      "britishIPA": "ˈbaʊndəri ˈpɔɪnt"
+    }
+  },
+  {
+    "id": 136,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "聚点",
+    "english": "cluster point",
+    "definition": "也可说 accumulation point，任意邻域含集合中其他点。",
+    "important": false,
+    "speechText": "cluster point",
+    "pronunciation": {
+      "americanIPA": "ˈklʌstɚ ˈpɔɪnt",
+      "britishIPA": "ˈklʌstə ˈpɔɪnt"
+    }
+  },
+  {
+    "id": 137,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "闭包",
+    "english": "closure",
+    "definition": "集合与其全部极限点构成的最小闭集。",
+    "important": false,
+    "speechText": "closure",
+    "pronunciation": {
+      "americanIPA": "ˈkloʊʒɚ",
+      "britishIPA": "ˈkləʊʒə"
+    }
+  },
+  {
+    "id": 138,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "开覆盖",
+    "english": "open cover",
+    "definition": "并集包含目标集合的一族开集。",
+    "important": false,
+    "speechText": "open cover",
+    "pronunciation": {
+      "americanIPA": "ˈoʊpən ˈkʌvɚ",
+      "britishIPA": "ˈəʊpən ˈkʌvə"
+    }
+  },
+  {
+    "id": 139,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "紧集",
+    "english": "compact set",
+    "definition": "任意开覆盖都有有限子覆盖。",
+    "important": true,
+    "speechText": "compact set",
+    "pronunciation": {
+      "americanIPA": "kəmˈpækt ˈsɛt",
+      "britishIPA": "kəmˈpakt ˈsɛt"
+    }
+  },
+  {
+    "id": 140,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "二重极限",
+    "english": "double limit",
+    "definition": "两个变量同时趋近时的极限。",
+    "important": false,
+    "speechText": "double limit",
+    "pronunciation": {
+      "americanIPA": "ˈdʌbəl ˈlɪmɪt",
+      "britishIPA": "ˈdʌbəl ˈlɪmɪt"
+    }
+  },
+  {
+    "id": 141,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "二次极限",
+    "english": "iterated limit",
+    "definition": "先对一个变量取极限，再对另一变量取极限。",
+    "important": false,
+    "speechText": "iterated limit",
+    "pronunciation": {
+      "americanIPA": "ˈɪtɚˌreɪtɪd ˈlɪmɪt",
+      "britishIPA": "ˈɪtəˌreɪtɪd ˈlɪmɪt"
+    }
+  },
+  {
+    "id": 142,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "累次极限",
+    "english": "iterated limit",
+    "definition": "多元函数先后对不同变量依次取极限所得的极限。",
+    "important": false,
+    "speechText": "iterated limit",
+    "pronunciation": {
+      "americanIPA": "ˈɪtɚˌreɪtɪd ˈlɪmɪt",
+      "britishIPA": "ˈɪtəˌreɪtɪd ˈlɪmɪt"
+    }
+  },
+  {
+    "id": 143,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "全微分",
+    "english": "total differential",
+    "definition": "多元函数增量的线性主部。",
+    "important": true,
+    "speechText": "total differential",
+    "pronunciation": {
+      "americanIPA": "ˈtoʊtəl ˌdɪfɚˈrɛnʃəl",
+      "britishIPA": "ˈtəʊtəl ˌdɪfəˈrɛnʃəl"
+    }
+  },
+  {
+    "id": 144,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "偏导数",
+    "english": "partial derivative",
+    "definition": "仅让一个自变量变化时的导数。",
+    "important": true,
+    "speechText": "partial derivative",
+    "pronunciation": {
+      "americanIPA": "ˈpɑːrʃəl dɪˈrɪvəˌtɪv",
+      "britishIPA": "ˈpɑːʃəl dɪˈrɪvəˌtɪv"
+    }
+  },
+  {
+    "id": 145,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "方向导数",
+    "english": "directional derivative",
+    "definition": "函数沿指定方向的变化率。",
+    "important": true,
+    "speechText": "directional derivative",
+    "pronunciation": {
+      "americanIPA": "dɪˈrɛkʃənəl dɪˈrɪvəˌtɪv",
+      "britishIPA": "daɪˈrɛkʃənəl dɪˈrɪvəˌtɪv"
+    }
+  },
+  {
+    "id": 146,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "梯度",
+    "english": "gradient",
+    "definition": "由各偏导数组成并指向最速上升方向的向量。",
+    "important": true,
+    "speechText": "gradient",
+    "pronunciation": {
+      "americanIPA": "ˈɡreɪdiənt",
+      "britishIPA": "ˈɡreɪdiənt"
+    }
+  },
+  {
+    "id": 147,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "高阶微分",
+    "english": "higher-order differential",
+    "definition": "对函数连续进行两次或更多次微分所得的微分，也可说 higher differential。",
+    "important": false,
+    "speechText": "higher-order differential",
+    "pronunciation": {
+      "americanIPA": "ˈhaɪɚr ˈɔːrdɚ ˌdɪfɚˈrɛnʃəl",
+      "britishIPA": "ˈhaɪər ˈɔːdə ˌdɪfəˈrɛnʃəl"
+    }
+  },
+  {
+    "id": 148,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "中值定理",
+    "english": "mean value theorem",
+    "definition": "描述导数与函数增量关系的定理。",
+    "important": true,
+    "speechText": "mean value theorem",
+    "pronunciation": {
+      "americanIPA": "ˈmiːn ˈvæljuː ˈθiərəm",
+      "britishIPA": "ˈmiːn ˈvaljuː ˈθiərəm"
+    }
+  },
+  {
+    "id": 149,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "切平面",
+    "english": "tangent plane",
+    "definition": "曲面在一点的一阶线性近似平面。",
+    "important": false,
+    "speechText": "tangent plane",
+    "pronunciation": {
+      "americanIPA": "ˈtændʒənt ˈpleɪn",
+      "britishIPA": "ˈtandʒənt ˈpleɪn"
+    }
+  },
+  {
+    "id": 150,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "法平面",
+    "english": "normal plane",
+    "definition": "通常指包含曲线法线且垂直于切线的平面。",
+    "important": false,
+    "speechText": "normal plane",
+    "pronunciation": {
+      "americanIPA": "ˈnɔːrməl ˈpleɪn",
+      "britishIPA": "ˈnɔːməl ˈpleɪn"
+    }
+  },
+  {
+    "id": 151,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "法线",
+    "english": "normal line",
+    "definition": "与切线或切平面垂直的直线。",
+    "important": false,
+    "speechText": "normal line",
+    "pronunciation": {
+      "americanIPA": "ˈnɔːrməl ˈlaɪn",
+      "britishIPA": "ˈnɔːməl ˈlaɪn"
+    }
+  },
+  {
+    "id": 152,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "光滑曲线",
+    "english": "smooth curve",
+    "definition": "具有足够连续导数的曲线。",
+    "important": false,
+    "speechText": "smooth curve",
+    "pronunciation": {
+      "americanIPA": "ˈsmuːð ˈkɜːv",
+      "britishIPA": "ˈsmuːð ˈkɜːv"
+    }
+  },
+  {
+    "id": 153,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "参数方程",
+    "english": "parametric equation",
+    "definition": "用参数表示坐标变量的方程。",
+    "important": false,
+    "speechText": "parametric equation",
+    "pronunciation": {
+      "americanIPA": "ˌpærəˈmɛtrɪk ɪˈkweɪʒən",
+      "britishIPA": "ˌparəˈmɛtrɪk ɪˈkweɪʒən"
+    }
+  },
+  {
+    "id": 154,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "条件极值",
+    "english": "constrained extremum",
+    "definition": "满足约束条件时的极值。",
+    "important": true,
+    "speechText": "constrained extremum",
+    "pronunciation": {
+      "americanIPA": "kənˈstreɪnd ɛkˈstrɛməm",
+      "britishIPA": "kənˈstreɪnd ɛkˈstrɛməm"
+    }
+  },
+  {
+    "id": 155,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "无条件极值",
+    "english": "unconstrained extremum",
+    "definition": "不附加约束条件的极值。",
+    "important": false,
+    "speechText": "unconstrained extremum",
+    "pronunciation": {
+      "americanIPA": "ʌŋkənˈstreɪnd ɛkˈstrɛməm",
+      "britishIPA": "ʌŋkənˈstreɪnd ɛkˈstrɛməm"
+    }
+  },
+  {
+    "id": 156,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "目标函数",
+    "english": "objective function",
+    "definition": "优化问题中需要极大化或极小化的函数。",
+    "important": false,
+    "speechText": "objective function",
+    "pronunciation": {
+      "americanIPA": "ɑːbˈdʒɛktɪv ˈfʌŋkʃən",
+      "britishIPA": "ɒbˈdʒɛktɪv ˈfʌŋkʃən"
+    }
+  },
+  {
+    "id": 157,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "二重积分",
+    "english": "double integral",
+    "definition": "对二维区域进行的二重积分。",
+    "important": true,
+    "speechText": "double integral",
+    "pronunciation": {
+      "americanIPA": "ˈdʌbəl ˈɪntɪɡrəl",
+      "britishIPA": "ˈdʌbəl ˈɪntɪɡrəl"
+    }
+  },
+  {
+    "id": 158,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "三重积分",
+    "english": "triple integral",
+    "definition": "对三维区域进行的三重积分。",
+    "important": false,
+    "speechText": "triple integral",
+    "pronunciation": {
+      "americanIPA": "ˈtrɪpəl ˈɪntɪɡrəl",
+      "britishIPA": "ˈtrɪpəl ˈɪntɪɡrəl"
+    }
+  },
+  {
+    "id": 159,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "多重积分",
+    "english": "multiple integral",
+    "definition": "二重、三重及更高维积分的统称。",
+    "important": false,
+    "speechText": "multiple integral",
+    "pronunciation": {
+      "americanIPA": "ˌmʌltɪpəl ˈɪntɪɡrəl",
+      "britishIPA": "ˌmʌltɪpəl ˈɪntɪɡrəl"
+    }
+  },
+  {
+    "id": 160,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "反常重积分",
+    "english": "improper multiple integral",
+    "definition": "积分区域无界或被积函数无界。",
+    "important": false,
+    "speechText": "improper multiple integral",
+    "pronunciation": {
+      "americanIPA": "ɪmˈprɑːpɚ ˌmʌltɪpəl ˈɪntɪɡrəl",
+      "britishIPA": "ɪmˈprɒpə ˌmʌltɪpəl ˈɪntɪɡrəl"
+    }
+  },
+  {
+    "id": 161,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "坐标变换",
+    "english": "coordinate transformation",
+    "definition": "从一种坐标表示转换为另一种。",
+    "important": false,
+    "speechText": "coordinate transformation",
+    "pronunciation": {
+      "americanIPA": "koʊˈɔːrdɪnət trænsfɔːrˈmeɪʃən",
+      "britishIPA": "kəʊˈɔːdɪnət transfɔːˈmeɪʃən"
+    }
+  },
+  {
+    "id": 162,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "柱面坐标变换",
+    "english": "cylindrical coordinate transformation",
+    "definition": "把直角坐标转换为柱面坐标，也可说 transformation to cylindrical coordinates。",
+    "important": false,
+    "speechText": "cylindrical coordinate transformation",
+    "pronunciation": {
+      "americanIPA": "sɪˈlɪndrɪkəl koʊˈɔːrdɪnət trænsfɔːrˈmeɪʃən",
+      "britishIPA": "sɪˈlɪndrɪkəl kəʊˈɔːdɪnət transfɔːˈmeɪʃən"
+    }
+  },
+  {
+    "id": 163,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "球面坐标变换",
+    "english": "spherical coordinate transformation",
+    "definition": "把直角坐标转换为球面坐标，也可说 transformation to spherical coordinates。",
+    "important": false,
+    "speechText": "spherical coordinate transformation",
+    "pronunciation": {
+      "americanIPA": "ˈsfɛrɪkəl koʊˈɔːrdɪnət trænsfɔːrˈmeɪʃən",
+      "britishIPA": "ˈsfɛrɪkəl kəʊˈɔːdɪnət transfɔːˈmeɪʃən"
+    }
+  },
+  {
+    "id": 164,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "积分路径",
+    "english": "path of integration",
+    "definition": "进行曲线积分时所沿的曲线；复分析中也常说 contour of integration。",
+    "important": false,
+    "speechText": "path of integration",
+    "pronunciation": {
+      "americanIPA": "ˈpæθ ʌv ˌɪntɪˈɡreɪʃən",
+      "britishIPA": "ˈpaθ ɒv ˌɪntɪˈɡreɪʃən"
+    }
+  },
+  {
+    "id": 165,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "面积",
+    "english": "area",
+    "definition": "平面或曲面的度量。",
+    "important": false,
+    "speechText": "area",
+    "pronunciation": {
+      "americanIPA": "ˈɛriə",
+      "britishIPA": "ˈeəriə"
+    }
+  },
+  {
+    "id": 166,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "第一类曲面积分",
+    "english": "surface integral of the first kind",
+    "definition": "对曲面按面积元积分的标量曲面积分。",
+    "important": false,
+    "speechText": "surface integral of the first kind",
+    "pronunciation": {
+      "americanIPA": "ˈsɜːfɪs ˈɪntɪɡrəl ʌvðə ˈfɜːst ˈkaɪnd",
+      "britishIPA": "ˈsɜːfɪs ˈɪntɪɡrəl ɒvðə ˈfɜːst ˈkaɪnd"
+    }
+  },
+  {
+    "id": 167,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "第二类曲面积分",
+    "english": "surface integral of the second kind",
+    "definition": "通常是有向曲面的通量积分。",
+    "important": false,
+    "speechText": "surface integral of the second kind",
+    "pronunciation": {
+      "americanIPA": "ˈsɜːfɪs ˈɪntɪɡrəl ʌvðə ˈsɛkənd ˈkaɪnd",
+      "britishIPA": "ˈsɜːfɪs ˈɪntɪɡrəl ɒvðə ˈsɛkənd ˈkaɪnd"
+    }
+  },
+  {
+    "id": 168,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "公式",
+    "english": "formula",
+    "definition": "表示数学关系的等式或表达式。",
+    "important": false,
+    "speechText": "formula",
+    "pronunciation": {
+      "americanIPA": "ˈfɔːrmjʊlə",
+      "britishIPA": "ˈfɔːmjʊlə"
+    }
+  },
+  {
+    "id": 169,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "Green公式",
+    "english": "Green’s theorem / Green’s formula",
+    "definition": "联系平面区域二重积分与边界曲线积分。",
+    "important": true,
+    "speechText": "Green’s theorem, Green’s formula",
+    "pronunciation": {
+      "americanIPA": "ˈɡriːnz ˈθɪrəm, ˈɡriːnz ˈfɔːrmjələ",
+      "britishIPA": "ˈɡriːnz ˈθɪərəm, ˈɡriːnz ˈfɔːmjʊlə"
+    }
+  },
+  {
+    "id": 170,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "参变量",
+    "english": "parameter",
+    "definition": "在问题中起辅助标记或控制作用的变量。",
+    "important": false,
+    "speechText": "parameter",
+    "pronunciation": {
+      "americanIPA": "pɚˈræmɪtɚ",
+      "britishIPA": "pəˈramɪtə"
+    }
+  },
+  {
+    "id": 171,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "含参变量常义积分",
+    "english": "proper integral depending on a parameter",
+    "definition": "积分值随参数变化的常义积分，也可说 parameter-dependent proper integral。",
+    "important": false,
+    "speechText": "proper integral depending on a parameter",
+    "pronunciation": {
+      "americanIPA": "ˈprɑːpɚr ˈɪntɪɡrəl dɪˈpɛndɪŋ ˌɔn ə pɚˈræmɪtɚ",
+      "britishIPA": "ˈprɒpər ˈɪntɪɡrəl dɪˈpɛndɪŋ ˌɒn ə pəˈramɪtə"
+    }
+  },
+  {
+    "id": 172,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "积分次序交换定理",
+    "english": "theorem on interchanging the order of integration",
+    "definition": "涉及交换多重积分或累次积分次序。",
+    "important": false,
+    "speechText": "theorem on interchanging the order of integration",
+    "pronunciation": {
+      "americanIPA": "ˈθiərəm ˌɔn ˌɪntɚˈtʃeɪndʒɪŋ ðɪ ˈɔːrdɚr ʌv ˌɪntɪˈɡreɪʃən",
+      "britishIPA": "ˈθiərəm ˌɒn ˌɪntəˈtʃeɪndʒɪŋ ðɪ ˈɔːdər ɒv ˌɪntɪˈɡreɪʃən"
+    }
+  },
+  {
+    "id": 173,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "正弦级数",
+    "english": "sine series",
+    "definition": "以正弦函数为基函数展开的级数。",
+    "important": false,
+    "speechText": "sine series",
+    "pronunciation": {
+      "americanIPA": "ˈsaɪn ˈsɪriz",
+      "britishIPA": "ˈsaɪn ˈsiəriz"
+    }
+  },
+  {
+    "id": 174,
+    "subjectID": "analysis",
+    "subjectName": "数学分析",
+    "subjectNameEn": "Mathematical Analysis",
+    "chinese": "余弦级数",
+    "english": "cosine series",
+    "definition": "以余弦函数为基函数展开的级数。",
+    "important": false,
+    "speechText": "cosine series",
+    "pronunciation": {
+      "americanIPA": "ˈkoʊsaɪn ˈsɪriz",
+      "britishIPA": "ˈkəʊsaɪn ˈsiəriz"
+    }
+  },
+  {
+    "id": 175,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "多项式",
+    "english": "polynomial",
+    "definition": "由有限个单项式相加构成的代数式。",
+    "important": true,
+    "speechText": "polynomial",
+    "pronunciation": {
+      "americanIPA": "ˌpɑːlɪˈnoʊmɪəl",
+      "britishIPA": "ˌpɒlɪˈnəʊmɪəl"
+    }
+  },
+  {
+    "id": 176,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "一元多项式",
+    "english": "polynomial in one variable",
+    "definition": "只含一个不定元的多项式。",
+    "important": false,
+    "speechText": "polynomial in one variable",
+    "pronunciation": {
+      "americanIPA": "ˌpɑːlɪˈnoʊmɪəl ɪn ˈwʌn ˈvɛrɪəbəl",
+      "britishIPA": "ˌpɒlɪˈnəʊmɪəl ɪn ˈwɒn ˈveərɪəbəl"
+    }
+  },
+  {
+    "id": 177,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "零多项式",
+    "english": "zero polynomial",
+    "definition": "所有系数均为 0 的多项式。",
+    "important": false,
+    "speechText": "zero polynomial",
+    "pronunciation": {
+      "americanIPA": "ˈziəroʊ ˌpɑːlɪˈnoʊmɪəl",
+      "britishIPA": "ˈziərəʊ ˌpɒlɪˈnəʊmɪəl"
+    }
+  },
+  {
+    "id": 178,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "系数",
+    "english": "coefficient",
+    "definition": "单项式中乘在幂次项前的标量。",
+    "important": false,
+    "speechText": "coefficient",
+    "pronunciation": {
+      "americanIPA": "ˌkoʊɪˈfɪʃənt",
+      "britishIPA": "ˌkəʊɪˈfɪʃənt"
+    }
+  },
+  {
+    "id": 179,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "首项系数",
+    "english": "leading coefficient",
+    "definition": "最高次非零项的系数。",
+    "important": false,
+    "speechText": "leading coefficient",
+    "pronunciation": {
+      "americanIPA": "ˈliːdɪŋ ˌkoʊɪˈfɪʃənt",
+      "britishIPA": "ˈliːdɪŋ ˌkəʊɪˈfɪʃənt"
+    }
+  },
+  {
+    "id": 180,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "次数",
+    "english": "degree",
+    "definition": "非零多项式中变量的最高指数。",
+    "important": false,
+    "speechText": "degree",
+    "pronunciation": {
+      "americanIPA": "dɪˈɡriː",
+      "britishIPA": "dɪˈɡriː"
+    }
+  },
+  {
+    "id": 181,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "向量",
+    "english": "vector",
+    "definition": "线性空间中的元素，也常表示有序数组。",
+    "important": true,
+    "speechText": "vector",
+    "pronunciation": {
+      "americanIPA": "ˈvɛktɚ",
+      "britishIPA": "ˈvɛktə"
+    }
+  },
+  {
+    "id": 182,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "列向量",
+    "english": "column vector",
+    "definition": "以单列矩阵形式书写的向量。",
+    "important": false,
+    "speechText": "column vector",
+    "pronunciation": {
+      "americanIPA": "ˈkɑːlʌm ˈvɛktɚ",
+      "britishIPA": "ˈkɒlʌm ˈvɛktə"
+    }
+  },
+  {
+    "id": 183,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "带余除法",
+    "english": "division algorithm",
+    "definition": "将 \\(f\\) 写成 \\(f=qg+r\\)，且余式次数低于除式次数。",
+    "important": true,
+    "speechText": "division algorithm",
+    "pronunciation": {
+      "americanIPA": "dɪˈvɪʒən ˈælɡɚˌrɪθəm",
+      "britishIPA": "dɪˈvɪʒən ˈalɡəˌrɪθəm"
+    }
+  },
+  {
+    "id": 184,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "公因式",
+    "english": "common factor",
+    "definition": "能同时整除若干多项式的因式。",
+    "important": false,
+    "speechText": "common factor",
+    "pronunciation": {
+      "americanIPA": "ˈkɑːmən ˈfæktɚ",
+      "britishIPA": "ˈkɒmən ˈfaktə"
+    }
+  },
+  {
+    "id": 185,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "最大公因式",
+    "english": "greatest common divisor (GCD)",
+    "definition": "能够整除给定多项式，且能被它们的任一公因式整除的多项式；在相差非零常数因子的意义下唯一。",
+    "important": true,
+    "speechText": "greatest common divisor",
+    "pronunciation": {
+      "americanIPA": "ˈɡreɪtɪst ˈkɑːmən dɪˈvaɪzɚ",
+      "britishIPA": "ˈɡreɪtɪst ˈkɒmən dɪˈvaɪzə"
+    }
+  },
+  {
+    "id": 186,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "重因式",
+    "english": "repeated factor",
+    "definition": "在分解中出现次数大于 1 的因式。",
+    "important": false,
+    "speechText": "repeated factor",
+    "pronunciation": {
+      "americanIPA": "rɪˈpiːtɪd ˈfæktɚ",
+      "britishIPA": "rɪˈpiːtɪd ˈfaktə"
+    }
+  },
+  {
+    "id": 187,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "互素",
+    "english": "relatively prime",
+    "definition": "最大公因式为非零常数；也常写作 **coprime**。",
+    "important": false,
+    "speechText": "relatively prime",
+    "pronunciation": {
+      "americanIPA": "ˈrɛləˌtɪvli ˈpraɪm",
+      "britishIPA": "ˈrɛləˌtɪvli ˈpraɪm"
+    }
+  },
+  {
+    "id": 188,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "因式分解方法",
+    "english": "factorization method",
+    "definition": "把多项式表示为若干因式乘积的方法。",
+    "important": false,
+    "speechText": "factorization method",
+    "pronunciation": {
+      "americanIPA": "ˌfæktɚrɪˈzeɪʃən ˈmɛθəd",
+      "britishIPA": "ˌfaktəraɪˈzeɪʃən ˈmɛθəd"
+    }
+  },
+  {
+    "id": 189,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "单根",
+    "english": "simple root",
+    "definition": "重数为 1 的根。",
+    "important": false,
+    "speechText": "simple root",
+    "pronunciation": {
+      "americanIPA": "ˈsɪmpəl ˈruːt",
+      "britishIPA": "ˈsɪmpəl ˈruːt"
+    }
+  },
+  {
+    "id": 190,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "重根",
+    "english": "multiple root / repeated root",
+    "definition": "“重根”泛指重数大于 1 的根。",
+    "important": true,
+    "speechText": "multiple root, repeated root",
+    "pronunciation": {
+      "americanIPA": "ˌmʌltɪpəl ˈruːt, rɪˈpiːtɪd ˈruːt",
+      "britishIPA": "ˌmʌltɪpəl ˈruːt, rɪˈpiːtɪd ˈruːt"
+    }
+  },
+  {
+    "id": 191,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "零点",
+    "english": "zero / root",
+    "definition": "指使多项式取值为 0 的点。",
+    "important": false,
+    "speechText": "zero, root",
+    "pronunciation": {
+      "americanIPA": "ˈziəroʊ, ˈruːt",
+      "britishIPA": "ˈziərəʊ, ˈruːt"
+    }
+  },
+  {
+    "id": 192,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "余数定理",
+    "english": "remainder theorem",
+    "definition": "\\(f(x)\\) 除以 \\(x-a\\) 的余数为 \\(f(a)\\)。",
+    "important": false,
+    "speechText": "remainder theorem",
+    "pronunciation": {
+      "americanIPA": "rɪˈmeɪndɚ ˈθiərəm",
+      "britishIPA": "rɪˈmeɪndə ˈθiərəm"
+    }
+  },
+  {
+    "id": 193,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "代数基本定理",
+    "english": "fundamental theorem of algebra",
+    "definition": "每个非常数复系数多项式至少有一个复根。",
+    "important": true,
+    "speechText": "fundamental theorem of algebra",
+    "pronunciation": {
+      "americanIPA": "ˌfʌndəˈmɛntəl ˈθiərəm ʌv ˈældʒɪbrə",
+      "britishIPA": "ˌfʌndəˈmɛntəl ˈθiərəm ɒv ˈaldʒɪbrə"
+    }
+  },
+  {
+    "id": 194,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "本原多项式",
+    "english": "primitive polynomial",
+    "definition": "在整数系数语境中，所有系数的最大公因数为 1。",
+    "important": false,
+    "speechText": "primitive polynomial",
+    "pronunciation": {
+      "americanIPA": "ˈprɪmɪˌtɪv ˌpɑːlɪˈnoʊmɪəl",
+      "britishIPA": "ˈprɪmɪˌtɪv ˌpɒlɪˈnəʊmɪəl"
+    }
+  },
+  {
+    "id": 195,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "艾森斯坦判别法",
+    "english": "Eisenstein's criterion",
+    "definition": "用于给出多项式不可约的充分条件。",
+    "important": false,
+    "speechText": "Eisenstein's criterion",
+    "pronunciation": {
+      "americanIPA": "ˈaɪzənstaɪnz kraɪˈtɪriən",
+      "britishIPA": "ˈaɪzənstaɪnz kraɪˈtɪəriən"
+    }
+  },
+  {
+    "id": 196,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "行列式",
+    "english": "determinant",
+    "definition": "由方阵定义的标量，反映可逆性和体积伸缩等性质。",
+    "important": true,
+    "speechText": "determinant",
+    "pronunciation": {
+      "americanIPA": "dɪˈtɜːmɪnənt",
+      "britishIPA": "dɪˈtɜːmɪnənt"
+    }
+  },
+  {
+    "id": 197,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "矩阵",
+    "english": "matrix",
+    "definition": "按行、列排列的数或元素的矩形阵列。",
+    "important": true,
+    "speechText": "matrix",
+    "pronunciation": {
+      "americanIPA": "ˈmeɪtrɪks",
+      "britishIPA": "ˈmeɪtrɪks"
+    }
+  },
+  {
+    "id": 198,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "方阵",
+    "english": "square matrix",
+    "definition": "行数与列数相同的矩阵。",
+    "important": false,
+    "speechText": "square matrix",
+    "pronunciation": {
+      "americanIPA": "ˈskwɛr ˈmeɪtrɪks",
+      "britishIPA": "ˈskweə ˈmeɪtrɪks"
+    }
+  },
+  {
+    "id": 199,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "代数余子式",
+    "english": "cofactor",
+    "definition": "相应子式乘以符号因子 \\((-1)^{i+j}\\) 后得到的量。",
+    "important": false,
+    "speechText": "cofactor",
+    "pronunciation": {
+      "americanIPA": "ˈkɑːfæktɚ",
+      "britishIPA": "ˈkɒfaktə"
+    }
+  },
+  {
+    "id": 200,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "排列",
+    "english": "permutation",
+    "definition": "对有限个元素的一种重新排序。",
+    "important": false,
+    "speechText": "permutation",
+    "pronunciation": {
+      "americanIPA": "ˌpɜːmjuːˈteɪʃən",
+      "britishIPA": "ˌpɜːmjuːˈteɪʃən"
+    }
+  },
+  {
+    "id": 201,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "零矩阵",
+    "english": "zero matrix",
+    "definition": "指所有元素均为 0 的矩阵。",
+    "important": false,
+    "speechText": "zero matrix",
+    "pronunciation": {
+      "americanIPA": "ˈziəroʊ ˈmeɪtrɪks",
+      "britishIPA": "ˈziərəʊ ˈmeɪtrɪks"
+    }
+  },
+  {
+    "id": 202,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "单位矩阵",
+    "english": "identity matrix",
+    "definition": "主对角线为 1、其余元素为 0。",
+    "important": true,
+    "speechText": "identity matrix",
+    "pronunciation": {
+      "americanIPA": "aɪˈdɛntɪti ˈmeɪtrɪks",
+      "britishIPA": "aɪˈdɛntɪti ˈmeɪtrɪks"
+    }
+  },
+  {
+    "id": 203,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "可逆矩阵",
+    "english": "invertible matrix",
+    "definition": "存在乘法逆矩阵的方阵。",
+    "important": true,
+    "speechText": "invertible matrix",
+    "pronunciation": {
+      "americanIPA": "ɪnˈvɜːtɪbəl ˈmeɪtrɪks",
+      "britishIPA": "ɪnˈvɜːtɪbəl ˈmeɪtrɪks"
+    }
+  },
+  {
+    "id": 204,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "块矩阵",
+    "english": "block matrix",
+    "definition": "按若干子矩阵分块表示的矩阵。",
+    "important": false,
+    "speechText": "block matrix",
+    "pronunciation": {
+      "americanIPA": "ˈblɑːk ˈmeɪtrɪks",
+      "britishIPA": "ˈblɒk ˈmeɪtrɪks"
+    }
+  },
+  {
+    "id": 205,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "伴随矩阵",
+    "english": "adjugate matrix / classical adjoint",
+    "definition": "由矩阵的代数余子式矩阵转置得到，满足 \\(A\\operatorname{adj}(A)=\\det(A)I\\)。",
+    "important": false,
+    "speechText": "adjugate matrix, classical adjoint",
+    "pronunciation": {
+      "americanIPA": "əˈdʒuːɡeɪt ˈmeɪtrɪks, ˈklæsɪkəl əˈdʒɔɪnt",
+      "britishIPA": "əˈdʒuːɡeɪt ˈmeɪtrɪks, ˈklasɪkəl əˈdʒɔɪnt"
+    }
+  },
+  {
+    "id": 206,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "相似矩阵",
+    "english": "similar matrix",
+    "definition": "若存在可逆矩阵 \\(P\\) 使 \\(B=P^{-1}AP\\)，则 \\(A,B\\) 相似。",
+    "important": true,
+    "speechText": "similar matrix",
+    "pronunciation": {
+      "americanIPA": "ˈsɪmɪlɚ ˈmeɪtrɪks",
+      "britishIPA": "ˈsɪmɪlə ˈmeɪtrɪks"
+    }
+  },
+  {
+    "id": 207,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "正交矩阵",
+    "english": "orthogonal matrix",
+    "definition": "满足 \\(Q^\\mathsf{T}Q=I\\) 的实方阵。",
+    "important": true,
+    "speechText": "orthogonal matrix",
+    "pronunciation": {
+      "americanIPA": "ɔːrˈθɑːɡənəl ˈmeɪtrɪks",
+      "britishIPA": "ɔːˈθɒɡənəl ˈmeɪtrɪks"
+    }
+  },
+  {
+    "id": 208,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "正定矩阵",
+    "english": "positive definite matrix",
+    "definition": "通常指对所有非零 \\(x\\) 都有 \\(x^\\mathsf{T}Ax>0\\) 的对称矩阵。",
+    "important": true,
+    "speechText": "positive definite matrix",
+    "pronunciation": {
+      "americanIPA": "ˈpɑːzɪˌtɪv ˈdɛfɪnət ˈmeɪtrɪks",
+      "britishIPA": "ˈpɒzɪˌtɪv ˈdɛfɪnət ˈmeɪtrɪks"
+    }
+  },
+  {
+    "id": 209,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "分块矩阵",
+    "english": "partitioned matrix",
+    "definition": "与 **block matrix** 基本同义，强调把矩阵划分为若干子块。",
+    "important": false,
+    "speechText": "partitioned matrix",
+    "pronunciation": {
+      "americanIPA": "pɑːrˈtɪʃənd ˈmeɪtrɪks",
+      "britishIPA": "pɑːˈtɪʃənd ˈmeɪtrɪks"
+    }
+  },
+  {
+    "id": 210,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "对角矩阵",
+    "english": "diagonal matrix",
+    "definition": "非主对角线元素全部为 0 的方阵。",
+    "important": false,
+    "speechText": "diagonal matrix",
+    "pronunciation": {
+      "americanIPA": "daɪˈæɡənəl ˈmeɪtrɪks",
+      "britishIPA": "daɪˈaɡənəl ˈmeɪtrɪks"
+    }
+  },
+  {
+    "id": 211,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "初等矩阵",
+    "english": "elementary matrix",
+    "definition": "对单位矩阵实施一次初等行变换所得的矩阵。",
+    "important": false,
+    "speechText": "elementary matrix",
+    "pronunciation": {
+      "americanIPA": "ˌɛlɪˈmɛntɚri ˈmeɪtrɪks",
+      "britishIPA": "ˌɛlɪˈmɛntəri ˈmeɪtrɪks"
+    }
+  },
+  {
+    "id": 212,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "幂等矩阵",
+    "english": "idempotent matrix",
+    "definition": "满足 \\(A^2=A\\) 的矩阵。",
+    "important": false,
+    "speechText": "idempotent matrix",
+    "pronunciation": {
+      "americanIPA": "ˈaɪdmpoʊtənt ˈmeɪtrɪks",
+      "britishIPA": "ˈaɪdmpəʊtənt ˈmeɪtrɪks"
+    }
+  },
+  {
+    "id": 213,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "幂零矩阵",
+    "english": "nilpotent matrix",
+    "definition": "存在正整数 \\(k\\) 使 \\(A^k=0\\) 的矩阵。",
+    "important": false,
+    "speechText": "nilpotent matrix",
+    "pronunciation": {
+      "americanIPA": "ˈnɪlpoʊtənt ˈmeɪtrɪks",
+      "britishIPA": "ˈnɪlpəʊtənt ˈmeɪtrɪks"
+    }
+  },
+  {
+    "id": 214,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "过渡矩阵",
+    "english": "transition matrix",
+    "definition": "在基变换语境中也常写作 **change-of-basis matrix**，用于转换同一向量在不同基下的坐标。",
+    "important": false,
+    "speechText": "transition matrix",
+    "pronunciation": {
+      "americanIPA": "trænˈsɪʃən ˈmeɪtrɪks",
+      "britishIPA": "tranˈsɪʃən ˈmeɪtrɪks"
+    }
+  },
+  {
+    "id": 215,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "奇异矩阵",
+    "english": "singular matrix",
+    "definition": "不可逆的方阵，其行列式为 0。",
+    "important": false,
+    "speechText": "singular matrix",
+    "pronunciation": {
+      "americanIPA": "ˈsɪŋɡjʊlɚ ˈmeɪtrɪks",
+      "britishIPA": "ˈsɪŋɡjʊlə ˈmeɪtrɪks"
+    }
+  },
+  {
+    "id": 216,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "友矩阵",
+    "english": "companion matrix",
+    "definition": "由一个首一多项式的系数构造、以该多项式为特征多项式的标准矩阵。",
+    "important": false,
+    "speechText": "companion matrix",
+    "pronunciation": {
+      "americanIPA": "kəmˈpæniən ˈmeɪtrɪks",
+      "britishIPA": "kəmˈpaniən ˈmeɪtrɪks"
+    }
+  },
+  {
+    "id": 217,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "上三角矩阵",
+    "english": "upper triangular matrix",
+    "definition": "主对角线下方元素全部为 0 的方阵。",
+    "important": false,
+    "speechText": "upper triangular matrix",
+    "pronunciation": {
+      "americanIPA": "ˌʌpɚ traɪˈæŋɡjʊlɚ ˈmeɪtrɪks",
+      "britishIPA": "ˌʌpə traɪˈaŋɡjʊlə ˈmeɪtrɪks"
+    }
+  },
+  {
+    "id": 218,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "转置",
+    "english": "transpose",
+    "definition": "交换矩阵的行、列得到的运算或结果。",
+    "important": false,
+    "speechText": "transpose",
+    "pronunciation": {
+      "americanIPA": "trænˈspoʊz",
+      "britishIPA": "tranˈspəʊz"
+    }
+  },
+  {
+    "id": 219,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "秩",
+    "english": "rank",
+    "definition": "矩阵行空间或列空间的维数。",
+    "important": true,
+    "speechText": "rank",
+    "pronunciation": {
+      "americanIPA": "ˈræŋk",
+      "britishIPA": "ˈraŋk"
+    }
+  },
+  {
+    "id": 220,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "行秩",
+    "english": "row rank",
+    "definition": "矩阵行向量组张成空间的维数。",
+    "important": false,
+    "speechText": "row rank",
+    "pronunciation": {
+      "americanIPA": "ˈroʊ ˈræŋk",
+      "britishIPA": "ˈrəʊ ˈraŋk"
+    }
+  },
+  {
+    "id": 221,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "列秩",
+    "english": "column rank",
+    "definition": "矩阵列向量组张成空间的维数；与行秩相等。",
+    "important": false,
+    "speechText": "column rank",
+    "pronunciation": {
+      "americanIPA": "ˈkɑːlʌm ˈræŋk",
+      "britishIPA": "ˈkɒlʌm ˈraŋk"
+    }
+  },
+  {
+    "id": 222,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "满秩",
+    "english": "full rank",
+    "definition": "秩达到 \\(\\min(m,n)\\) 的 \\(m\\times n\\) 矩阵。",
+    "important": false,
+    "speechText": "full rank",
+    "pronunciation": {
+      "americanIPA": "ˈfʊl ˈræŋk",
+      "britishIPA": "ˈfʊl ˈraŋk"
+    }
+  },
+  {
+    "id": 223,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "线性方程组",
+    "english": "system of linear equations",
+    "definition": "由若干线性方程共同构成的方程组。",
+    "important": true,
+    "speechText": "system of linear equations",
+    "pronunciation": {
+      "americanIPA": "ˈsɪstəm ʌv ˈlɪnɪr ɪˈkweɪʒənz",
+      "britishIPA": "ˈsɪstəm ɒv ˈlɪniər ɪˈkweɪʒənz"
+    }
+  },
+  {
+    "id": 224,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "齐次线性方程组",
+    "english": "homogeneous system of linear equations",
+    "definition": "指常数项全为 0 的线性方程组。",
+    "important": true,
+    "speechText": "homogeneous system of linear equations",
+    "pronunciation": {
+      "americanIPA": "həˈmoʊdʒniəs ˈsɪstəm ʌv ˈlɪnɪr ɪˈkweɪʒənz",
+      "britishIPA": "həˈməʊdʒniəs ˈsɪstəm ɒv ˈlɪniər ɪˈkweɪʒənz"
+    }
+  },
+  {
+    "id": 225,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "初等变换",
+    "english": "elementary transformation",
+    "definition": "不改变方程组解集的基本行变换。",
+    "important": true,
+    "speechText": "elementary transformation",
+    "pronunciation": {
+      "americanIPA": "ˌɛlɪˈmɛntɚri trænsfɔːrˈmeɪʃən",
+      "britishIPA": "ˌɛlɪˈmɛntəri transfɔːˈmeɪʃən"
+    }
+  },
+  {
+    "id": 226,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "线性组合",
+    "english": "linear combination",
+    "definition": "用标量加权后对若干向量求和。",
+    "important": true,
+    "speechText": "linear combination",
+    "pronunciation": {
+      "americanIPA": "ˈlɪnɪr ˌkɑːmbɪˈneɪʃən",
+      "britishIPA": "ˈlɪniə ˌkɒmbɪˈneɪʃən"
+    }
+  },
+  {
+    "id": 227,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "线性相关",
+    "english": "linearly dependent",
+    "definition": "存在不全为 0 的系数，使相应线性组合为零。",
+    "important": true,
+    "speechText": "linearly dependent",
+    "pronunciation": {
+      "americanIPA": "ˈlɪnɪrli dɪˈpɛndənt",
+      "britishIPA": "ˈlɪniəli dɪˈpɛndənt"
+    }
+  },
+  {
+    "id": 228,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "线性无关",
+    "english": "linearly independent",
+    "definition": "只有所有系数均为 0 时，线性组合才为零。",
+    "important": true,
+    "speechText": "linearly independent",
+    "pronunciation": {
+      "americanIPA": "ˈlɪnɪrli ˌɪndɪˈpɛndənt",
+      "britishIPA": "ˈlɪniəli ˌɪndɪˈpɛndənt"
+    }
+  },
+  {
+    "id": 229,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "极大线性无关组",
+    "english": "maximal linearly independent set",
+    "definition": "从给定向量组中选出的线性无关子集，且不能再加入其他向量而保持线性无关。",
+    "important": true,
+    "speechText": "maximal linearly independent set",
+    "pronunciation": {
+      "americanIPA": "ˈmæksɪməl ˈlɪnɪrli ˌɪndɪˈpɛndənt ˈsɛt",
+      "britishIPA": "ˈmaksɪməl ˈlɪniəli ˌɪndɪˈpɛndənt ˈsɛt"
+    }
+  },
+  {
+    "id": 230,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "单位向量",
+    "english": "unit vector",
+    "definition": "范数为 1 的向量；若特指坐标轴方向，可写 **standard unit vector**。",
+    "important": false,
+    "speechText": "unit vector",
+    "pronunciation": {
+      "americanIPA": "ˈjuːnɪt ˈvɛktɚ",
+      "britishIPA": "ˈjuːnɪt ˈvɛktə"
+    }
+  },
+  {
+    "id": 231,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "基础解系",
+    "english": "fundamental set/system of solutions",
+    "definition": "指齐次方程组解空间的一组基。",
+    "important": true,
+    "speechText": "fundamental set, system of solutions",
+    "pronunciation": {
+      "americanIPA": "ˌfʌndəˈmɛntəl ˈsɛt, ˈsɪstəm ʌv səˈluːʃənz",
+      "britishIPA": "ˌfʌndəˈmɛntəl ˈsɛt, ˈsɪstəm ɒv səˈluːʃənz"
+    }
+  },
+  {
+    "id": 232,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "特解",
+    "english": "particular solution",
+    "definition": "满足非齐次方程组的某一个具体解。",
+    "important": false,
+    "speechText": "particular solution",
+    "pronunciation": {
+      "americanIPA": "pɚˈtɪkjʊlɚ səˈluːʃən",
+      "britishIPA": "pəˈtɪkjʊlə səˈluːʃən"
+    }
+  },
+  {
+    "id": 233,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "通解",
+    "english": "general solution",
+    "definition": "描述全部解的表达式，通常为“一个特解 + 齐次方程组通解”。",
+    "important": false,
+    "speechText": "general solution",
+    "pronunciation": {
+      "americanIPA": "ˈdʒɛnɚrəl səˈluːʃən",
+      "britishIPA": "ˈdʒɛnərəl səˈluːʃən"
+    }
+  },
+  {
+    "id": 234,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "二次型",
+    "english": "quadratic form",
+    "definition": "关于变量的二次齐次多项式，常写作 \\(x^\\mathsf{T}Ax\\)。",
+    "important": true,
+    "speechText": "quadratic form",
+    "pronunciation": {
+      "americanIPA": "kwɑːˈdrætɪk ˈfɔːrm",
+      "britishIPA": "kwɒˈdratɪk ˈfɔːm"
+    }
+  },
+  {
+    "id": 235,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "正定二次型",
+    "english": "positive definite quadratic form",
+    "definition": "对任意非零向量取值都大于 0。",
+    "important": true,
+    "speechText": "positive definite quadratic form",
+    "pronunciation": {
+      "americanIPA": "ˈpɑːzɪˌtɪv ˈdɛfɪnət kwɑːˈdrætɪk ˈfɔːrm",
+      "britishIPA": "ˈpɒzɪˌtɪv ˈdɛfɪnət kwɒˈdratɪk ˈfɔːm"
+    }
+  },
+  {
+    "id": 236,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "不定二次型",
+    "english": "indefinite quadratic form",
+    "definition": "对不同非零向量既可取正值，也可取负值。",
+    "important": false,
+    "speechText": "indefinite quadratic form",
+    "pronunciation": {
+      "americanIPA": "ɪnˈdɛfɪnət kwɑːˈdrætɪk ˈfɔːrm",
+      "britishIPA": "ɪnˈdɛfɪnət kwɒˈdratɪk ˈfɔːm"
+    }
+  },
+  {
+    "id": 237,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "负定二次型",
+    "english": "negative definite quadratic form",
+    "definition": "对任意非零向量取值都小于 0。",
+    "important": false,
+    "speechText": "negative definite quadratic form",
+    "pronunciation": {
+      "americanIPA": "ˈnɛɡəˌtɪv ˈdɛfɪnət kwɑːˈdrætɪk ˈfɔːrm",
+      "britishIPA": "ˈnɛɡəˌtɪv ˈdɛfɪnət kwɒˈdratɪk ˈfɔːm"
+    }
+  },
+  {
+    "id": 238,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "自反性",
+    "english": "reflexivity",
+    "definition": "关系满足每个对象都与自身相关；常用于说明等价关系。",
+    "important": false,
+    "speechText": "reflexivity",
+    "pronunciation": {
+      "americanIPA": "ˌriːflɛkˈsɪvɪti",
+      "britishIPA": "ˌriːflɛkˈsɪvɪti"
+    }
+  },
+  {
+    "id": 239,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "对称性",
+    "english": "symmetry",
+    "definition": "若 \\(a\\) 与 \\(b\\) 相关，则 \\(b\\) 与 \\(a\\) 相关。",
+    "important": false,
+    "speechText": "symmetry",
+    "pronunciation": {
+      "americanIPA": "ˈsɪmətri",
+      "britishIPA": "ˈsɪmətri"
+    }
+  },
+  {
+    "id": 240,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "传递性",
+    "english": "transitivity",
+    "definition": "若 \\(a\\) 与 \\(b\\) 相关且 \\(b\\) 与 \\(c\\) 相关，则 \\(a\\) 与 \\(c\\) 相关。",
+    "important": false,
+    "speechText": "transitivity",
+    "pronunciation": {
+      "americanIPA": "ˌtrænsɪˈtɪvɪti",
+      "britishIPA": "ˌtransɪˈtɪvɪti"
+    }
+  },
+  {
+    "id": 241,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "规范型",
+    "english": "canonical form / normal form",
+    "definition": "实二次型经非退化线性替换后化成的、只含系数 \\(1\\)、\\(-1\\) 或 \\(0\\) 的平方项之和。",
+    "important": false,
+    "speechText": "canonical form, normal form",
+    "pronunciation": {
+      "americanIPA": "kəˈnɑːnɪkəl ˈfɔːrm, ˈnɔːrməl ˈfɔːrm",
+      "britishIPA": "kəˈnɒnɪkəl ˈfɔːm, ˈnɔːməl ˈfɔːm"
+    }
+  },
+  {
+    "id": 242,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "标准型",
+    "english": "standard form",
+    "definition": "通常指经可逆线性替换得到的对角形式。",
+    "important": false,
+    "speechText": "standard form",
+    "pronunciation": {
+      "americanIPA": "ˈstændɚd ˈfɔːrm",
+      "britishIPA": "ˈstandəd ˈfɔːm"
+    }
+  },
+  {
+    "id": 243,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "惯性定理",
+    "english": "Sylvester's law of inertia",
+    "definition": "实二次型化为规范型后，正、负平方项的个数与所用非退化线性替换无关。",
+    "important": true,
+    "speechText": "Sylvester's law of inertia",
+    "pronunciation": {
+      "americanIPA": "sɪlˈvɛstərz ˈlɔː əv ɪˈnɜːrʃə",
+      "britishIPA": "sɪlˈvɛstəz ˈlɔː əv ɪˈnɜːʃə"
+    }
+  },
+  {
+    "id": 244,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "正惯性指数",
+    "english": "positive index of inertia",
+    "definition": "指标准形中正平方项的个数。",
+    "important": false,
+    "speechText": "positive index of inertia",
+    "pronunciation": {
+      "americanIPA": "ˈpɑːzɪˌtɪv ˈɪndɛks ʌv ɪˈnɜːʃə",
+      "britishIPA": "ˈpɒzɪˌtɪv ˈɪndɛks ɒv ɪˈnɜːʃə"
+    }
+  },
+  {
+    "id": 245,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "负惯性指数",
+    "english": "negative index of inertia",
+    "definition": "指标准形中负平方项的个数。",
+    "important": false,
+    "speechText": "negative index of inertia",
+    "pronunciation": {
+      "americanIPA": "ˈnɛɡəˌtɪv ˈɪndɛks ʌv ɪˈnɜːʃə",
+      "britishIPA": "ˈnɛɡəˌtɪv ˈɪndɛks ɒv ɪˈnɜːʃə"
+    }
+  },
+  {
+    "id": 246,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "主子式",
+    "english": "principal minor",
+    "definition": "选取同一组行指标和列指标得到的子式。",
+    "important": false,
+    "speechText": "principal minor",
+    "pronunciation": {
+      "americanIPA": "ˈprɪnsɪpəl ˈmaɪnɚ",
+      "britishIPA": "ˈprɪnsɪpəl ˈmaɪnə"
+    }
+  },
+  {
+    "id": 247,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "顺序主子式",
+    "english": "leading principal minor",
+    "definition": "指左上角前 \\(k\\) 阶主子式。",
+    "important": false,
+    "speechText": "leading principal minor",
+    "pronunciation": {
+      "americanIPA": "ˈliːdɪŋ ˈprɪnsɪpəl ˈmaɪnɚ",
+      "britishIPA": "ˈliːdɪŋ ˈprɪnsɪpəl ˈmaɪnə"
+    }
+  },
+  {
+    "id": 248,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "恒等映射",
+    "english": "identity map",
+    "definition": "把每个元素映到其自身的映射。",
+    "important": false,
+    "speechText": "identity map",
+    "pronunciation": {
+      "americanIPA": "aɪˈdɛntɪti ˈmæp",
+      "britishIPA": "aɪˈdɛntɪti ˈmap"
+    }
+  },
+  {
+    "id": 249,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "同构",
+    "english": "isomorphism",
+    "definition": "保持相应代数结构的双射。",
+    "important": false,
+    "speechText": "isomorphism",
+    "pronunciation": {
+      "americanIPA": "ˈaɪsəˌmɔːrfɪzəm",
+      "britishIPA": "ˈaɪsəˌmɔːfɪzəm"
+    }
+  },
+  {
+    "id": 250,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "n维",
+    "english": "\\(n\\)-dimensional",
+    "definition": "表示空间有 \\(n\\) 个基向量。",
+    "important": false,
+    "speechText": "n-dimensional",
+    "pronunciation": {
+      "americanIPA": "ˌɛn daɪˈmɛnʃənəl",
+      "britishIPA": "ˌɛn daɪˈmɛnʃənəl"
+    }
+  },
+  {
+    "id": 251,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "无限维",
+    "english": "infinite-dimensional",
+    "definition": "指不存在有限基。",
+    "important": false,
+    "speechText": "infinite-dimensional",
+    "pronunciation": {
+      "americanIPA": "ˈɪnfɪnət dɪˈmɛnʃənəl",
+      "britishIPA": "ˈɪnfɪnət daɪˈmɛnʃənəl"
+    }
+  },
+  {
+    "id": 252,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "线性空间",
+    "english": "linear space",
+    "definition": "也常写作 **vector space**，是可进行向量加法与数乘的结构。",
+    "important": true,
+    "speechText": "linear space",
+    "pronunciation": {
+      "americanIPA": "ˈlɪnɪr ˈspeɪs",
+      "britishIPA": "ˈlɪniə ˈspeɪs"
+    }
+  },
+  {
+    "id": 253,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "子空间",
+    "english": "subspace",
+    "definition": "在原空间运算下仍构成同类空间的子集。",
+    "important": true,
+    "speechText": "subspace",
+    "pronunciation": {
+      "americanIPA": "ˈsʌbspeɪs",
+      "britishIPA": "ˈsʌbspeɪs"
+    }
+  },
+  {
+    "id": 254,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "线性子空间",
+    "english": "linear subspace",
+    "definition": "与向量空间语境下的 **subspace** 同义。",
+    "important": false,
+    "speechText": "linear subspace",
+    "pronunciation": {
+      "americanIPA": "ˈlɪnɪr ˈsʌbspeɪs",
+      "britishIPA": "ˈlɪniə ˈsʌbspeɪs"
+    }
+  },
+  {
+    "id": 255,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "零子空间",
+    "english": "zero subspace",
+    "definition": "只含零向量的子空间 \\(\\{0\\}\\)。",
+    "important": false,
+    "speechText": "zero subspace",
+    "pronunciation": {
+      "americanIPA": "ˈziəroʊ ˈsʌbspeɪs",
+      "britishIPA": "ˈziərəʊ ˈsʌbspeɪs"
+    }
+  },
+  {
+    "id": 256,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "平凡子空间",
+    "english": "trivial subspace",
+    "definition": "通常指 \\(\\{0\\}\\) 和整个空间。",
+    "important": false,
+    "speechText": "trivial subspace",
+    "pronunciation": {
+      "americanIPA": "ˈtrɪvɪəl ˈsʌbspeɪs",
+      "britishIPA": "ˈtrɪvɪəl ˈsʌbspeɪs"
+    }
+  },
+  {
+    "id": 257,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "解空间",
+    "english": "solution space",
+    "definition": "某个齐次线性系统全部解构成的向量空间。",
+    "important": false,
+    "speechText": "solution space",
+    "pronunciation": {
+      "americanIPA": "səˈluːʃən ˈspeɪs",
+      "britishIPA": "səˈluːʃən ˈspeɪs"
+    }
+  },
+  {
+    "id": 258,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "直和",
+    "english": "direct sum",
+    "definition": "若各子空间分量表示唯一，则其和为直和。",
+    "important": true,
+    "speechText": "direct sum",
+    "pronunciation": {
+      "americanIPA": "dɪˈrɛkt ˈsʌm",
+      "britishIPA": "daɪˈrɛkt ˈsʌm"
+    }
+  },
+  {
+    "id": 259,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "维数",
+    "english": "dimension",
+    "definition": "一组基所含向量的个数。",
+    "important": true,
+    "speechText": "dimension",
+    "pronunciation": {
+      "americanIPA": "dɪˈmɛnʃən",
+      "britishIPA": "daɪˈmɛnʃən"
+    }
+  },
+  {
+    "id": 260,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "维数公式",
+    "english": "dimension formula",
+    "definition": "常见形式为 \\(\\dim(U+W)=\\dim U+\\dim W-\\dim(U\\cap W)\\)。",
+    "important": false,
+    "speechText": "dimension formula",
+    "pronunciation": {
+      "americanIPA": "dɪˈmɛnʃən ˈfɔːrmjʊlə",
+      "britishIPA": "daɪˈmɛnʃən ˈfɔːmjʊlə"
+    }
+  },
+  {
+    "id": 261,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "特征值",
+    "english": "eigenvalue",
+    "definition": "若存在非零向量 \\(v\\) 使 \\(Av=\\lambda v\\)，则 \\(\\lambda\\) 为特征值。",
+    "important": true,
+    "speechText": "eigenvalue",
+    "pronunciation": {
+      "americanIPA": "ˈaɪdʒənˌvæljuː",
+      "britishIPA": "ˈaɪdʒənˌvaljuː"
+    }
+  },
+  {
+    "id": 262,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "特征方程",
+    "english": "characteristic equation",
+    "definition": "通常指 \\(\\det(A-\\lambda I)=0\\)。",
+    "important": false,
+    "speechText": "characteristic equation",
+    "pronunciation": {
+      "americanIPA": "ˌkærɪktɚˈrɪstɪk ɪˈkweɪʒən",
+      "britishIPA": "ˌkarɪktəˈrɪstɪk ɪˈkweɪʒən"
+    }
+  },
+  {
+    "id": 263,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "特征多项式",
+    "english": "characteristic polynomial",
+    "definition": "通常指 \\(\\det(\\lambda I-A)\\) 或与其仅差符号的多项式。",
+    "important": true,
+    "speechText": "characteristic polynomial",
+    "pronunciation": {
+      "americanIPA": "ˌkærɪktɚˈrɪstɪk ˌpɑːlɪˈnoʊmɪəl",
+      "britishIPA": "ˌkarɪktəˈrɪstɪk ˌpɒlɪˈnəʊmɪəl"
+    }
+  },
+  {
+    "id": 264,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "特征向量",
+    "english": "eigenvector",
+    "definition": "指满足 \\(Av=\\lambda v\\) 的非零向量 \\(v\\)。",
+    "important": true,
+    "speechText": "eigenvector",
+    "pronunciation": {
+      "americanIPA": "ˈaɪdʒənˌvɛktɚ",
+      "britishIPA": "ˈaɪdʒənˌvɛktə"
+    }
+  },
+  {
+    "id": 265,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "线性变换",
+    "english": "linear transformation",
+    "definition": "保持向量加法和标量乘法的映射。",
+    "important": true,
+    "speechText": "linear transformation",
+    "pronunciation": {
+      "americanIPA": "ˈlɪnɪr trænsfɔːrˈmeɪʃən",
+      "britishIPA": "ˈlɪniə transfɔːˈmeɪʃən"
+    }
+  },
+  {
+    "id": 266,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "核",
+    "english": "kernel",
+    "definition": "被线性变换映到零向量的所有向量构成的子空间。",
+    "important": true,
+    "speechText": "kernel",
+    "pronunciation": {
+      "americanIPA": "ˈkɜːnəl",
+      "britishIPA": "ˈkɜːnəl"
+    }
+  },
+  {
+    "id": 267,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "不变子空间",
+    "english": "invariant subspace",
+    "definition": "满足 \\(T(W)\\subseteq W\\) 的子空间 \\(W\\)。",
+    "important": true,
+    "speechText": "invariant subspace",
+    "pronunciation": {
+      "americanIPA": "ɪnˈvɛriənt ˈsʌbspeɪs",
+      "britishIPA": "ɪnˈveəriənt ˈsʌbspeɪs"
+    }
+  },
+  {
+    "id": 268,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "若尔当标准型",
+    "english": "Jordan normal form / Jordan canonical form",
+    "definition": "由若尔当块组成、并与给定矩阵相似的分块对角标准形式。",
+    "important": true,
+    "speechText": "Jordan normal form, Jordan canonical form",
+    "pronunciation": {
+      "americanIPA": "ˈdʒɔːrdən ˈnɔːrməl fɔːrm, ˈdʒɔːrdən kəˈnɑːnɪkəl fɔːrm",
+      "britishIPA": "ˈdʒɔːdən ˈnɔːməl fɔːm, ˈdʒɔːdən kəˈnɒnɪkəl fɔːm"
+    }
+  },
+  {
+    "id": 269,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "若尔当块",
+    "english": "Jordan block",
+    "definition": "指具有同一特征值、超对角线为 1 的标准方块。",
+    "important": false,
+    "speechText": "Jordan block",
+    "pronunciation": {
+      "americanIPA": "ˈdʒɔːrdən blɑːk",
+      "britishIPA": "ˈdʒɔːdən blɒk"
+    }
+  },
+  {
+    "id": 270,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "最小多项式",
+    "english": "minimal polynomial",
+    "definition": "指使矩阵或线性变换取值为零的最低次首一多项式。",
+    "important": true,
+    "speechText": "minimal polynomial",
+    "pronunciation": {
+      "americanIPA": "ˈmɪnɪməl ˌpɑːlɪˈnoʊmɪəl",
+      "britishIPA": "ˈmɪnɪməl ˌpɒlɪˈnəʊmɪəl"
+    }
+  },
+  {
+    "id": 271,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "行列式因子",
+    "english": "determinantal divisor",
+    "definition": "各阶子式最大公因式构成的不变量；常记为 \\(D_k(\\lambda)\\)。",
+    "important": false,
+    "speechText": "determinantal divisor",
+    "pronunciation": {
+      "americanIPA": "dɪˈtɜːmɪˌnæntəl dɪˈvaɪzɚ",
+      "britishIPA": "dɪˈtɜːmɪˌnantəl dɪˈvaɪzə"
+    }
+  },
+  {
+    "id": 272,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "不变因子",
+    "english": "invariant factor",
+    "definition": "通常由相邻行列式因子的商 \\(D_k/D_{k-1}\\) 得到。",
+    "important": false,
+    "speechText": "invariant factor",
+    "pronunciation": {
+      "americanIPA": "ɪnˈvɛriənt ˈfæktɚ",
+      "britishIPA": "ɪnˈveəriənt ˈfaktə"
+    }
+  },
+  {
+    "id": 273,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "初等因子",
+    "english": "elementary divisor",
+    "definition": "不变因子分解所得的不可约多项式幂因子。",
+    "important": false,
+    "speechText": "elementary divisor",
+    "pronunciation": {
+      "americanIPA": "ˌɛlɪˈmɛntɚri dɪˈvaɪzɚ",
+      "britishIPA": "ˌɛlɪˈmɛntəri dɪˈvaɪzə"
+    }
+  },
+  {
+    "id": 274,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "度量矩阵",
+    "english": "metric matrix",
+    "definition": "在给定基下记录基向量两两内积的矩阵，也常称 **Gram matrix**。",
+    "important": false,
+    "speechText": "metric matrix",
+    "pronunciation": {
+      "americanIPA": "ˈmɛtrɪk ˈmeɪtrɪks",
+      "britishIPA": "ˈmɛtrɪk ˈmeɪtrɪks"
+    }
+  },
+  {
+    "id": 275,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "正交",
+    "english": "orthogonal",
+    "definition": "两个向量的内积为 0。",
+    "important": true,
+    "speechText": "orthogonal",
+    "pronunciation": {
+      "americanIPA": "ɔːrˈθɑːɡənəl",
+      "britishIPA": "ɔːˈθɒɡənəl"
+    }
+  },
+  {
+    "id": 276,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "正交基",
+    "english": "orthogonal basis",
+    "definition": "基向量两两正交的一组基。",
+    "important": false,
+    "speechText": "orthogonal basis",
+    "pronunciation": {
+      "americanIPA": "ɔːrˈθɑːɡənəl ˈbeɪsɪs",
+      "britishIPA": "ɔːˈθɒɡənəl ˈbeɪsɪs"
+    }
+  },
+  {
+    "id": 277,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "标准正交基",
+    "english": "orthonormal basis",
+    "definition": "基向量两两正交且每个向量范数为 1。",
+    "important": true,
+    "speechText": "orthonormal basis",
+    "pronunciation": {
+      "americanIPA": "ˈɔːrθəˌnɔːrməl ˈbeɪsɪs",
+      "britishIPA": "ˈɔːθəˌnɔːməl ˈbeɪsɪs"
+    }
+  },
+  {
+    "id": 278,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "正交向量组",
+    "english": "orthogonal set/system of vectors",
+    "definition": "其中任意两个不同向量的内积均为零的向量组。",
+    "important": false,
+    "speechText": "orthogonal set, system of vectors",
+    "pronunciation": {
+      "americanIPA": "ɔːrˈθɑːɡənəl ˈsɛt, ˈsɪstəm ʌv ˈvɛktɚz",
+      "britishIPA": "ɔːˈθɒɡənəl ˈsɛt, ˈsɪstəm ɒv ˈvɛktəz"
+    }
+  },
+  {
+    "id": 279,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "正交变换",
+    "english": "orthogonal transformation",
+    "definition": "保持内积（因而保持长度与夹角）的线性变换。",
+    "important": false,
+    "speechText": "orthogonal transformation",
+    "pronunciation": {
+      "americanIPA": "ɔːrˈθɑːɡənəl trænsfɔːrˈmeɪʃən",
+      "britishIPA": "ɔːˈθɒɡənəl transfɔːˈmeɪʃən"
+    }
+  },
+  {
+    "id": 280,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "正交补",
+    "english": "orthogonal complement",
+    "definition": "与给定子空间中每个向量都正交的全部向量构成的子空间。",
+    "important": true,
+    "speechText": "orthogonal complement",
+    "pronunciation": {
+      "americanIPA": "ɔːrˈθɑːɡənəl ˈkɑːmplɪmənt",
+      "britishIPA": "ɔːˈθɒɡənəl ˈkɒmplɪmənt"
+    }
+  },
+  {
+    "id": 281,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "正交分解",
+    "english": "orthogonal decomposition",
+    "definition": "把空间或向量分解为彼此正交的分量，例如 \\(V=W\\oplus W^\\perp\\)。",
+    "important": false,
+    "speechText": "orthogonal decomposition",
+    "pronunciation": {
+      "americanIPA": "ɔːrˈθɑːɡənəl ˌdiːkɑːmpəˈzɪʃən",
+      "britishIPA": "ɔːˈθɒɡənəl ˌdiːkɒmpəˈzɪʃən"
+    }
+  },
+  {
+    "id": 282,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "同构映射",
+    "english": "isomorphism",
+    "definition": "保持相应代数结构的双射；若还要求保持内积，则称为 `isometry`。",
+    "important": false,
+    "speechText": "isomorphism",
+    "pronunciation": {
+      "americanIPA": "ˈaɪsəˌmɔːrfɪzəm",
+      "britishIPA": "ˈaɪsəˌmɔːfɪzəm"
+    }
+  },
+  {
+    "id": 283,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "对称变换",
+    "english": "self-adjoint transformation/operator",
+    "definition": "欧几里得空间中通常指相对于内积自伴随的线性变换。",
+    "important": false,
+    "speechText": "self-adjoint transformation, operator",
+    "pronunciation": {
+      "americanIPA": "ˈsɛlf əˈdʒɔɪnt trænsfɔːrˈmeɪʃən, ˈɑːpɚˌreɪtɚ",
+      "britishIPA": "ˈsɛlf əˈdʒɔɪnt transfɔːˈmeɪʃən, ˈɒpəˌreɪtə"
+    }
+  },
+  {
+    "id": 284,
+    "subjectID": "algebra",
+    "subjectName": "高等代数",
+    "subjectNameEn": "Advanced Algebra",
+    "chinese": "反对称变换",
+    "english": "skew-symmetric transformation / skew-adjoint transformation",
+    "definition": "指相对于内积满足反对称（斜自伴随）条件的变换。",
+    "important": false,
+    "speechText": "skew-symmetric transformation, skew-adjoint transformation",
+    "pronunciation": {
+      "americanIPA": "ˈskjuː sɪˈmɛtrɪk trænsfɔːrˈmeɪʃən, ˈskjuː əˈdʒɔɪnt trænsfɔːrˈmeɪʃən",
+      "britishIPA": "ˈskjuː sɪˈmɛtrɪk transfɔːˈmeɪʃən, ˈskjuː əˈdʒɔɪnt transfɔːˈmeɪʃən"
+    }
+  },
+  {
+    "id": 285,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "概率",
+    "english": "Probability",
+    "definition": "衡量事件发生可能性的数值，通常介于 0 与 1 之间。",
+    "important": true,
+    "speechText": "Probability",
+    "pronunciation": {
+      "americanIPA": "ˌprɑːbəˈbɪlɪti",
+      "britishIPA": "ˌprɒbəˈbɪlɪti"
+    }
+  },
+  {
+    "id": 286,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "概率空间",
+    "english": "Probability Space",
+    "definition": "随机试验的数学框架，通常写作 \\((\\Omega,\\mathcal F,P)\\)。",
+    "important": true,
+    "speechText": "Probability Space",
+    "pronunciation": {
+      "americanIPA": "ˌprɑːbəˈbɪlɪti ˈspeɪs",
+      "britishIPA": "ˌprɒbəˈbɪlɪti ˈspeɪs"
+    }
+  },
+  {
+    "id": 287,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "样本空间",
+    "english": "Sample Space",
+    "definition": "随机试验全部可能结果组成的集合 \\(\\Omega\\)。",
+    "important": true,
+    "speechText": "Sample Space",
+    "pronunciation": {
+      "americanIPA": "ˈsæmpəl ˈspeɪs",
+      "britishIPA": "ˈsampəl ˈspeɪs"
+    }
+  },
+  {
+    "id": 288,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "事件域",
+    "english": "Field of Events / Algebra of Events",
+    "definition": "由随机事件组成，且对补集和有限并封闭的集合族；若进一步对可数并封闭，则称为 \\(\\sigma\\)-field 或 \\(\\sigma\\)-algebra。",
+    "important": false,
+    "speechText": "Field of Events, Algebra of Events",
+    "pronunciation": {
+      "americanIPA": "ˈfiːld ʌv ɪˈvɛnts, ˈældʒɪbrə ʌv ɪˈvɛnts",
+      "britishIPA": "ˈfiːld ɒv ɪˈvɛnts, ˈaldʒɪbrər ɒv ɪˈvɛnts"
+    }
+  },
+  {
+    "id": 289,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "条件概率",
+    "english": "Conditional Probability",
+    "definition": "已知事件 \\(B\\) 发生时，事件 \\(A\\) 的概率 \\(P(A\\mid B)\\)。",
+    "important": true,
+    "speechText": "Conditional Probability",
+    "pronunciation": {
+      "americanIPA": "kənˈdɪʃənəl ˌprɑːbəˈbɪlɪti",
+      "britishIPA": "kənˈdɪʃənəl ˌprɒbəˈbɪlɪti"
+    }
+  },
+  {
+    "id": 290,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "互斥事件",
+    "english": "Mutually Exclusive Events",
+    "definition": "不能同时发生的事件。",
+    "important": false,
+    "speechText": "Mutually Exclusive Events",
+    "pronunciation": {
+      "americanIPA": "ˈmjuːtʃuːəli ɛksˈkluːsɪv ɪˈvɛnts",
+      "britishIPA": "ˈmjuːtʃuːəli ɛksˈkluːsɪv ɪˈvɛnts"
+    }
+  },
+  {
+    "id": 291,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "独立事件",
+    "english": "Independent Events",
+    "definition": "一个事件是否发生不改变另一个事件的概率。",
+    "important": true,
+    "speechText": "Independent Events",
+    "pronunciation": {
+      "americanIPA": "ˌɪndɪˈpɛndənt ɪˈvɛnts",
+      "britishIPA": "ˌɪndɪˈpɛndənt ɪˈvɛnts"
+    }
+  },
+  {
+    "id": 292,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "随机变量",
+    "english": "Random Variable",
+    "definition": "指把随机结果映射为数值的函数。",
+    "important": true,
+    "speechText": "Random Variable",
+    "pronunciation": {
+      "americanIPA": "ˈrændəm ˈvɛrɪəbəl",
+      "britishIPA": "ˈrandəm ˈveərɪəbəl"
+    }
+  },
+  {
+    "id": 293,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "离散型随机变量",
+    "english": "Discrete Random Variable",
+    "definition": "取值为有限个或可数多个值的随机变量。",
+    "important": true,
+    "speechText": "Discrete Random Variable",
+    "pronunciation": {
+      "americanIPA": "dɪˈskriːt ˈrændəm ˈvɛrɪəbəl",
+      "britishIPA": "dɪˈskriːt ˈrandəm ˈveərɪəbəl"
+    }
+  },
+  {
+    "id": 294,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "连续型随机变量",
+    "english": "Continuous Random Variable",
+    "definition": "存在非负密度函数 \\(f\\)，使其分布函数可写为 \\(F(x)=\\int_{-\\infty}^{x}f(t)\\,\\mathrm{d}t\\) 的随机变量。",
+    "important": true,
+    "speechText": "Continuous Random Variable",
+    "pronunciation": {
+      "americanIPA": "kənˈtɪnjuːəs ˈrændəm ˈvɛrɪəbəl",
+      "britishIPA": "kənˈtɪnjuːəs ˈrandəm ˈveərɪəbəl"
+    }
+  },
+  {
+    "id": 295,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "分布",
+    "english": "Distribution",
+    "definition": "随机变量在各可能取值上的概率规律。",
+    "important": false,
+    "speechText": "Distribution",
+    "pronunciation": {
+      "americanIPA": "ˌdɪstrɪˈbjuːʃən",
+      "britishIPA": "ˌdɪstrɪˈbjuːʃən"
+    }
+  },
+  {
+    "id": 296,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "分布函数",
+    "english": "Cumulative Distribution Function（CDF）",
+    "definition": "定义为 \\(F(x)=P(X\\le x)\\)，描述随机变量不超过给定值的概率。",
+    "important": true,
+    "speechText": "Cumulative Distribution Function",
+    "pronunciation": {
+      "americanIPA": "ˈkjuːmjʊləˌtɪv ˌdɪstrɪˈbjuːʃən ˈfʌŋkʃən",
+      "britishIPA": "ˈkjuːmjʊləˌtɪv ˌdɪstrɪˈbjuːʃən ˈfʌŋkʃən"
+    }
+  },
+  {
+    "id": 297,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "密度函数",
+    "english": "Probability Density Function（PDF）",
+    "definition": "连续型随机变量的概率密度，其在区间上的积分等于随机变量落入该区间的概率。",
+    "important": true,
+    "speechText": "Probability Density Function",
+    "pronunciation": {
+      "americanIPA": "ˌprɑːbəˈbɪlɪti ˈdɛnsɪti ˈfʌŋkʃən",
+      "britishIPA": "ˌprɒbəˈbɪlɪti ˈdɛnsɪti ˈfʌŋkʃən"
+    }
+  },
+  {
+    "id": 298,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "二项分布",
+    "english": "Binomial Distribution",
+    "definition": "描述 \\(n\\) 次独立伯努利试验中成功次数的分布。",
+    "important": true,
+    "speechText": "Binomial Distribution",
+    "pronunciation": {
+      "americanIPA": "baɪˈnoʊmɪəl ˌdɪstrɪˈbjuːʃən",
+      "britishIPA": "baɪˈnəʊmɪəl ˌdɪstrɪˈbjuːʃən"
+    }
+  },
+  {
+    "id": 299,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "泊松分布",
+    "english": "Poisson Distribution",
+    "definition": "参数为 \\(\\lambda>0\\) 的离散分布，其概率质量函数为 \\(P(X=k)=e^{-\\lambda}\\lambda^k/k!\\)，其中 \\(k=0,1,2,\\ldots\\)。",
+    "important": true,
+    "speechText": "Poisson Distribution",
+    "pronunciation": {
+      "americanIPA": "ˈpwɑːsɑːn ˌdɪstrəˈbjuːʃən",
+      "britishIPA": "ˈpwɑːsɒn ˌdɪstrɪˈbjuːʃən"
+    }
+  },
+  {
+    "id": 300,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "均匀分布",
+    "english": "Uniform Distribution",
+    "definition": "在指定区间内具有相同概率密度的分布。",
+    "important": false,
+    "speechText": "Uniform Distribution",
+    "pronunciation": {
+      "americanIPA": "ˈjuːnɪˌfɔːrm ˌdɪstrɪˈbjuːʃən",
+      "britishIPA": "ˈjuːnɪˌfɔːm ˌdɪstrɪˈbjuːʃən"
+    }
+  },
+  {
+    "id": 301,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "正态分布",
+    "english": "Normal Distribution",
+    "definition": "典型的钟形对称分布，也称 `Gaussian Distribution`。",
+    "important": true,
+    "speechText": "Normal Distribution",
+    "pronunciation": {
+      "americanIPA": "ˈnɔːrməl ˌdɪstrɪˈbjuːʃən",
+      "britishIPA": "ˈnɔːməl ˌdɪstrɪˈbjuːʃən"
+    }
+  },
+  {
+    "id": 302,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "期望",
+    "english": "Expectation",
+    "definition": "随机变量按概率加权后的理论平均值。",
+    "important": true,
+    "speechText": "Expectation",
+    "pronunciation": {
+      "americanIPA": "ɛkspɪkˈteɪʃən",
+      "britishIPA": "ɛkspɪkˈteɪʃən"
+    }
+  },
+  {
+    "id": 303,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "方差",
+    "english": "Variance",
+    "definition": "衡量随机变量围绕期望的离散程度。",
+    "important": true,
+    "speechText": "Variance",
+    "pronunciation": {
+      "americanIPA": "ˈvɛriəns",
+      "britishIPA": "ˈveəriəns"
+    }
+  },
+  {
+    "id": 304,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "协方差",
+    "english": "Covariance",
+    "definition": "衡量两个随机变量共同变化的方向和程度。",
+    "important": true,
+    "speechText": "Covariance",
+    "pronunciation": {
+      "americanIPA": "ˈkɑːvɛˌriəns",
+      "britishIPA": "ˈkɒveəˌriəns"
+    }
+  },
+  {
+    "id": 305,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "相关",
+    "english": "Correlation",
+    "definition": "描述变量之间的关联；基础统计语境中常侧重线性关联。",
+    "important": false,
+    "speechText": "Correlation",
+    "pronunciation": {
+      "americanIPA": "ˌkɔrɪˈleɪʃən",
+      "britishIPA": "ˌkɒrɪˈleɪʃən"
+    }
+  },
+  {
+    "id": 306,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "相关系数",
+    "english": "Correlation Coefficient",
+    "definition": "标准化后的相关程度指标；常见 Pearson 相关系数取值在 \\([-1,1]\\)。",
+    "important": true,
+    "speechText": "Correlation Coefficient",
+    "pronunciation": {
+      "americanIPA": "ˌkɔrɪˈleɪʃən ˌkoʊɪˈfɪʃənt",
+      "britishIPA": "ˌkɒrɪˈleɪʃən ˌkəʊɪˈfɪʃənt"
+    }
+  },
+  {
+    "id": 307,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "大数定律",
+    "english": "Law of Large Numbers（LLN）",
+    "definition": "样本均值随样本量增大趋近总体期望的一类定理。",
+    "important": true,
+    "speechText": "Law of Large Numbers",
+    "pronunciation": {
+      "americanIPA": "ˈlɔː ʌv ˈlɑːrdʒ ˈnʌmbɚz",
+      "britishIPA": "ˈlɔː ɒv ˈlɑːdʒ ˈnʌmbəz"
+    }
+  },
+  {
+    "id": 308,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "强大数定律",
+    "english": "Strong Law of Large Numbers（SLLN）",
+    "definition": "样本均值以“几乎必然”的方式收敛到期望。",
+    "important": false,
+    "speechText": "Strong Law of Large Numbers",
+    "pronunciation": {
+      "americanIPA": "ˈstrɔŋ ˈlɔː ʌv ˈlɑːrdʒ ˈnʌmbɚz",
+      "britishIPA": "ˈstrɒŋ ˈlɔː ɒv ˈlɑːdʒ ˈnʌmbəz"
+    }
+  },
+  {
+    "id": 309,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "弱大数定律",
+    "english": "Weak Law of Large Numbers（WLLN）",
+    "definition": "样本均值依概率收敛到期望。",
+    "important": false,
+    "speechText": "Weak Law of Large Numbers",
+    "pronunciation": {
+      "americanIPA": "ˈwiːk ˈlɔː ʌv ˈlɑːrdʒ ˈnʌmbɚz",
+      "britishIPA": "ˈwiːk ˈlɔː ɒv ˈlɑːdʒ ˈnʌmbəz"
+    }
+  },
+  {
+    "id": 310,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "中心极限定理",
+    "english": "Central Limit Theorem（CLT）",
+    "definition": "在适当条件下，标准化后的随机变量之和或样本均值依分布收敛到正态分布。",
+    "important": true,
+    "speechText": "Central Limit Theorem",
+    "pronunciation": {
+      "americanIPA": "ˈsɛntrəl ˈlɪmɪt ˈθiərəm",
+      "britishIPA": "ˈsɛntrəl ˈlɪmɪt ˈθiərəm"
+    }
+  },
+  {
+    "id": 311,
+    "subjectID": "probability",
+    "subjectName": "概率论",
+    "subjectNameEn": "Probability Theory",
+    "chinese": "依概率收敛",
+    "english": "Convergence in Probability",
+    "definition": "对任意 \\(\\varepsilon>0\\)，偏差超过 \\(\\varepsilon\\) 的概率趋于 0。",
+    "important": false,
+    "speechText": "Convergence in Probability",
+    "pronunciation": {
+      "americanIPA": "kənˈvɜːdʒəns ɪn ˌprɑːbəˈbɪlɪti",
+      "britishIPA": "kənˈvɜːdʒəns ɪn ˌprɒbəˈbɪlɪti"
+    }
+  },
+  {
+    "id": 312,
+    "subjectID": "statistics",
+    "subjectName": "数理统计",
+    "subjectNameEn": "Mathematical Statistics",
+    "chinese": "统计量",
+    "english": "Statistic",
+    "definition": "只由样本计算且不含未知参数的函数。",
+    "important": true,
+    "speechText": "Statistic",
+    "pronunciation": {
+      "americanIPA": "stəˈtɪstɪk",
+      "britishIPA": "stəˈtɪstɪk"
+    }
+  },
+  {
+    "id": 313,
+    "subjectID": "statistics",
+    "subjectName": "数理统计",
+    "subjectNameEn": "Mathematical Statistics",
+    "chinese": "次序统计量",
+    "english": "Order Statistic",
+    "definition": "将样本从小到大排列后得到的各位置取值。",
+    "important": false,
+    "speechText": "Order Statistic",
+    "pronunciation": {
+      "americanIPA": "ˈɔːrdɚ stəˈtɪstɪk",
+      "britishIPA": "ˈɔːdə stəˈtɪstɪk"
+    }
+  },
+  {
+    "id": 314,
+    "subjectID": "statistics",
+    "subjectName": "数理统计",
+    "subjectNameEn": "Mathematical Statistics",
+    "chinese": "充分统计量",
+    "english": "Sufficient Statistic",
+    "definition": "在参数推断中保留样本关于该参数全部相关信息的统计量。",
+    "important": false,
+    "speechText": "Sufficient Statistic",
+    "pronunciation": {
+      "americanIPA": "səˈfɪʃənt stəˈtɪstɪk",
+      "britishIPA": "səˈfɪʃənt stəˈtɪstɪk"
+    }
+  },
+  {
+    "id": 315,
+    "subjectID": "statistics",
+    "subjectName": "数理统计",
+    "subjectNameEn": "Mathematical Statistics",
+    "chinese": "点估计",
+    "english": "Point Estimation",
+    "definition": "用单个数值估计未知参数。",
+    "important": false,
+    "speechText": "Point Estimation",
+    "pronunciation": {
+      "americanIPA": "ˈpɔɪnt ˌɛstɪˈmeɪʃən",
+      "britishIPA": "ˈpɔɪnt ˌɛstɪˈmeɪʃən"
+    }
+  },
+  {
+    "id": 316,
+    "subjectID": "statistics",
+    "subjectName": "数理统计",
+    "subjectNameEn": "Mathematical Statistics",
+    "chinese": "矩估计",
+    "english": "Method of Moments Estimation（MME）",
+    "definition": "通过用样本矩匹配总体矩来估计未知参数。",
+    "important": true,
+    "speechText": "Method of Moments Estimation",
+    "pronunciation": {
+      "americanIPA": "ˈmɛθəd ʌv ˈmoʊmənts ˌɛstɪˈmeɪʃən",
+      "britishIPA": "ˈmɛθəd ɒv ˈməʊmənts ˌɛstɪˈmeɪʃən"
+    }
+  },
+  {
+    "id": 317,
+    "subjectID": "statistics",
+    "subjectName": "数理统计",
+    "subjectNameEn": "Mathematical Statistics",
+    "chinese": "区间估计",
+    "english": "Interval Estimation",
+    "definition": "用一个区间估计未知参数可能所在的范围。",
+    "important": false,
+    "speechText": "Interval Estimation",
+    "pronunciation": {
+      "americanIPA": "ˈɪntɚvəl ˌɛstɪˈmeɪʃən",
+      "britishIPA": "ˈɪntəvəl ˌɛstɪˈmeɪʃən"
+    }
+  },
+  {
+    "id": 318,
+    "subjectID": "statistics",
+    "subjectName": "数理统计",
+    "subjectNameEn": "Mathematical Statistics",
+    "chinese": "最大似然估计",
+    "english": "Maximum Likelihood Estimation（MLE）",
+    "definition": "指选取使已观测样本的似然函数达到最大值的参数。",
+    "important": true,
+    "speechText": "Maximum Likelihood Estimation",
+    "pronunciation": {
+      "americanIPA": "ˈmæksɪməm ˈlaɪkliˌhʊd ˌɛstɪˈmeɪʃən",
+      "britishIPA": "ˈmaksɪməm ˈlaɪkliˌhʊd ˌɛstɪˈmeɪʃən"
+    }
+  },
+  {
+    "id": 319,
+    "subjectID": "statistics",
+    "subjectName": "数理统计",
+    "subjectNameEn": "Mathematical Statistics",
+    "chinese": "无偏估计",
+    "english": "Unbiased Estimation",
+    "definition": "所用估计量的期望等于被估参数的估计方法。",
+    "important": true,
+    "speechText": "Unbiased Estimation",
+    "pronunciation": {
+      "americanIPA": "ʌnˈbaɪəst ˌɛstɪˈmeɪʃən",
+      "britishIPA": "ʌnˈbaɪəst ˌɛstɪˈmeɪʃən"
+    }
+  },
+  {
+    "id": 320,
+    "subjectID": "statistics",
+    "subjectName": "数理统计",
+    "subjectNameEn": "Mathematical Statistics",
+    "chinese": "相合估计",
+    "english": "Consistent Estimation",
+    "definition": "样本量增大时，所用估计量依概率收敛到真实参数的估计方法。",
+    "important": true,
+    "speechText": "Consistent Estimation",
+    "pronunciation": {
+      "americanIPA": "kənˈsɪstənt ˌɛstɪˈmeɪʃən",
+      "britishIPA": "kənˈsɪstənt ˌɛstɪˈmeɪʃən"
+    }
+  },
+  {
+    "id": 321,
+    "subjectID": "statistics",
+    "subjectName": "数理统计",
+    "subjectNameEn": "Mathematical Statistics",
+    "chinese": "置信区间",
+    "english": "Confidence Interval（CI）",
+    "definition": "按给定置信水平构造的参数区间估计。",
+    "important": true,
+    "speechText": "Confidence Interval",
+    "pronunciation": {
+      "americanIPA": "ˈkɑːnfɪdəns ˈɪntɚvəl",
+      "britishIPA": "ˈkɒnfɪdəns ˈɪntəvəl"
+    }
+  },
+  {
+    "id": 322,
+    "subjectID": "statistics",
+    "subjectName": "数理统计",
+    "subjectNameEn": "Mathematical Statistics",
+    "chinese": "假设检验",
+    "english": "Hypothesis Testing",
+    "definition": "根据样本证据判断是否拒绝某个统计假设。",
+    "important": true,
+    "speechText": "Hypothesis Testing",
+    "pronunciation": {
+      "americanIPA": "haɪˈpɑːθəˌsɪs ˈtɛstɪŋ",
+      "britishIPA": "haɪˈpɒθəˌsɪs ˈtɛstɪŋ"
+    }
+  },
+  {
+    "id": 323,
+    "subjectID": "statistics",
+    "subjectName": "数理统计",
+    "subjectNameEn": "Mathematical Statistics",
+    "chinese": "原假设",
+    "english": "Null Hypothesis（\\(H_0\\)）",
+    "definition": "检验时默认成立、等待样本证据反驳的假设。",
+    "important": true,
+    "speechText": "Null Hypothesis (H 0)",
+    "pronunciation": {
+      "americanIPA": "nʌl haɪˈpɑːθəsɪs, ˌeɪtʃ ˈzɪroʊ",
+      "britishIPA": "nʌl haɪˈpɒθəsɪs, ˌeɪtʃ ˈzɪərəʊ"
+    }
+  },
+  {
+    "id": 324,
+    "subjectID": "statistics",
+    "subjectName": "数理统计",
+    "subjectNameEn": "Mathematical Statistics",
+    "chinese": "备择假设",
+    "english": "Alternative Hypothesis（\\(H_1\\) 或 \\(H_a\\)）",
+    "definition": "与原假设相对、研究者希望获得证据支持的假设。",
+    "important": true,
+    "speechText": "Alternative Hypothesis (H 1 or H a)",
+    "pronunciation": {
+      "americanIPA": "ɔːlˈtɜːrnətɪv haɪˈpɑːθəsɪs, ˌeɪtʃ ˈwʌn ɔːr ˌeɪtʃ ˈeɪ",
+      "britishIPA": "ɔːlˈtɜːnətɪv haɪˈpɒθəsɪs, ˌeɪtʃ ˈwʌn ɔː ˌeɪtʃ ˈeɪ"
+    }
+  },
+  {
+    "id": 325,
+    "subjectID": "statistics",
+    "subjectName": "数理统计",
+    "subjectNameEn": "Mathematical Statistics",
+    "chinese": "显著性水平",
+    "english": "Significance Level（\\(\\alpha\\)）",
+    "definition": "预先设定的第一类错误容许水平及拒绝阈值。",
+    "important": true,
+    "speechText": "Significance Level (alpha)",
+    "pronunciation": {
+      "americanIPA": "sɪɡˈnɪfɪkəns ˈlɛvəl ˈælfə",
+      "britishIPA": "sɪɡˈnɪfɪkəns ˈlɛvəl ˈalfə"
+    }
+  },
+  {
+    "id": 326,
+    "subjectID": "statistics",
+    "subjectName": "数理统计",
+    "subjectNameEn": "Mathematical Statistics",
+    "chinese": "p 值",
+    "english": "p-value",
+    "definition": "它是在 \\(H_0\\) 成立时得到当前或更极端结果的概率，不是“原假设为真的概率”。",
+    "important": true,
+    "speechText": "p-value",
+    "pronunciation": {
+      "americanIPA": "ˈpiː ˌvæljuː",
+      "britishIPA": "ˈpiː ˌvæljuː"
+    }
+  }
+]

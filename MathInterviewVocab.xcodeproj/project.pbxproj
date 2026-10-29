@@ -1,0 +1,592 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0B4EB3D8156C798EB398FF68 /* GoogleTranslatePronunciationProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B509B4F5B43277467BC297A /* GoogleTranslatePronunciationProviderTests.swift */; };
+		0ECC0A207BA7F3629222D45F /* MathNotationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B206E966EC033F8CF047F2 /* MathNotationTests.swift */; };
+		1FB072520553A833BD2E5974 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6E2822565D167C1C39C4DE /* SettingsView.swift */; };
+		2C4308D5404675E43B873870 /* ProgressStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AED4AE260D19FE16CB8D3D /* ProgressStoreTests.swift */; };
+		3505BCA981D25654C404EE10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC4F5F7C5AC2CA1E693FBE0E /* Assets.xcassets */; };
+		376D7F1C97D940D3C96130A3 /* SpeechSelectionSanitizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B3D5DF388E344803BD4EE /* SpeechSelectionSanitizerTests.swift */; };
+		393FB9B3204F1ED2538878CE /* MathInterviewVocabApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7099A076F85CA924EA43F5DB /* MathInterviewVocabApp.swift */; };
+		489A926F8DDFBEFEA03528D1 /* ProgressStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CFCA52E3677ABB40A372B1 /* ProgressStore.swift */; };
+		4954075958B3D99EB8B80E23 /* GoogleTranslatePronunciationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26494E0B5D1B39A659AB495D /* GoogleTranslatePronunciationProvider.swift */; };
+		67B7A82DF5443D177CD1385F /* QuizEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AB95EC0DAA0C52096CBA63 /* QuizEngineTests.swift */; };
+		73CFD7BAEEF7D652C698568B /* SelectablePronunciationText.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADF5BADF9434D886303E109 /* SelectablePronunciationText.swift */; };
+		76C378341AC9B1FB93A0DF85 /* QuizEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7F378C31CB91209F612936 /* QuizEngine.swift */; };
+		7B053AD1381F835EB992311F /* PronunciationPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718167D7554BF0F8285B6441 /* PronunciationPanel.swift */; };
+		8EB59BDBB51619AD37B890D8 /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1D0149050BF3022DE92A9D /* Term.swift */; };
+		A683F696A3918C3A7D6084BA /* TermLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA26416B351FBCF4544B4379 /* TermLibrary.swift */; };
+		B0630FF83E81F61866E38500 /* SpeechService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8600AF6938BC8398FC48FE9A /* SpeechService.swift */; };
+		B22722606213654DE1E478EE /* terms.json in Resources */ = {isa = PBXBuildFile; fileRef = 6E861875C1D7FC3A96AE2D03 /* terms.json */; };
+		B47E84B0DA01E8C65FD9EB1B /* PronunciationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131CD15E427036C58DC3F220 /* PronunciationTests.swift */; };
+		BDAEB0F24C8F446FC18A67AF /* AcademicTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28E26475C52759B241D3E36 /* AcademicTheme.swift */; };
+		BF23BFE49F37AAB03132172A /* GlossaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A812ED3D29B130CC6D6FB3 /* GlossaryView.swift */; };
+		C5132270C641F3DD9E7E0036 /* MathNotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3B5C4487C88A940D04CBF8 /* MathNotation.swift */; };
+		CF4C9695518DBA591899F3F1 /* Pronunciation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B63530DBE4A72C799914B29 /* Pronunciation.swift */; };
+		D74957D74AB566D140AACD32 /* SpeechSelectionSanitizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2782AED849B74D17C8FEB2 /* SpeechSelectionSanitizer.swift */; };
+		DFA44280165881D8EC7F66DE /* TermDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0925891FFDBF2B193CF53ED /* TermDetailView.swift */; };
+		F2F17CBE9A71912DD4AAC5F6 /* ProgressDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB85F59AF61D0A33178B241 /* ProgressDashboardView.swift */; };
+		F7805B44D325C6E9BE01EDBF /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC1F6C381B8C09C3A0B1F53 /* QuizView.swift */; };
+		FE6906384555403D75E45762 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948641B16CEDD694E3593EE6 /* RootView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F6851EA81A316C59400E5E1F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 15B518319AD6025D4B443DFD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0BFA217B0F8136E016A6EE12;
+			remoteInfo = MathInterviewVocab;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0093E50A6D05ECE35FB226C9 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		0B509B4F5B43277467BC297A /* GoogleTranslatePronunciationProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTranslatePronunciationProviderTests.swift; sourceTree = "<group>"; };
+		0C7F378C31CB91209F612936 /* QuizEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizEngine.swift; sourceTree = "<group>"; };
+		0FB85F59AF61D0A33178B241 /* ProgressDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressDashboardView.swift; sourceTree = "<group>"; };
+		131CD15E427036C58DC3F220 /* PronunciationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PronunciationTests.swift; sourceTree = "<group>"; };
+		21A812ED3D29B130CC6D6FB3 /* GlossaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryView.swift; sourceTree = "<group>"; };
+		23CFCA52E3677ABB40A372B1 /* ProgressStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressStore.swift; sourceTree = "<group>"; };
+		240A698FBE05A21CB40F0DC4 /* MathInterviewVocabTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MathInterviewVocabTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		26494E0B5D1B39A659AB495D /* GoogleTranslatePronunciationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTranslatePronunciationProvider.swift; sourceTree = "<group>"; };
+		2C2782AED849B74D17C8FEB2 /* SpeechSelectionSanitizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechSelectionSanitizer.swift; sourceTree = "<group>"; };
+		587FFD92AD29E1B53B62CFC4 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		69B206E966EC033F8CF047F2 /* MathNotationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathNotationTests.swift; sourceTree = "<group>"; };
+		6D2AD59B1CC7C18A1DDE77A5 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
+		6E861875C1D7FC3A96AE2D03 /* terms.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = terms.json; sourceTree = "<group>"; };
+		6E8B3D5DF388E344803BD4EE /* SpeechSelectionSanitizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechSelectionSanitizerTests.swift; sourceTree = "<group>"; };
+		7099A076F85CA924EA43F5DB /* MathInterviewVocabApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathInterviewVocabApp.swift; sourceTree = "<group>"; };
+		718167D7554BF0F8285B6441 /* PronunciationPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PronunciationPanel.swift; sourceTree = "<group>"; };
+		7D1D0149050BF3022DE92A9D /* Term.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Term.swift; sourceTree = "<group>"; };
+		8600AF6938BC8398FC48FE9A /* SpeechService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechService.swift; sourceTree = "<group>"; };
+		86AED4AE260D19FE16CB8D3D /* ProgressStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressStoreTests.swift; sourceTree = "<group>"; };
+		8E3B5C4487C88A940D04CBF8 /* MathNotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathNotation.swift; sourceTree = "<group>"; };
+		8FC1F6C381B8C09C3A0B1F53 /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
+		948641B16CEDD694E3593EE6 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		9B63530DBE4A72C799914B29 /* Pronunciation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pronunciation.swift; sourceTree = "<group>"; };
+		AA26416B351FBCF4544B4379 /* TermLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermLibrary.swift; sourceTree = "<group>"; };
+		B0925891FFDBF2B193CF53ED /* TermDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermDetailView.swift; sourceTree = "<group>"; };
+		BD6D69F34FF266B90C9D9AB1 /* MathInterviewVocab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MathInterviewVocab.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C28E26475C52759B241D3E36 /* AcademicTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcademicTheme.swift; sourceTree = "<group>"; };
+		DADF5BADF9434D886303E109 /* SelectablePronunciationText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectablePronunciationText.swift; sourceTree = "<group>"; };
+		E569BBF7468A8D95E529F1DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F5AB95EC0DAA0C52096CBA63 /* QuizEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizEngineTests.swift; sourceTree = "<group>"; };
+		FC4F5F7C5AC2CA1E693FBE0E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FC6E2822565D167C1C39C4DE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		090ABC398B88F0052E1609F2 = {
+			isa = PBXGroup;
+			children = (
+				A8316F498A5FF59C56EE5F55 /* App */,
+				605CA2E06E3DAFDA237E1525 /* Config */,
+				672B5B393CFA0158C1E2690E /* Resources */,
+				816562CB0600A6BD680EA64B /* Tests */,
+				73B5D3D69AC177A5B9D9FE8F /* Products */,
+			);
+			indentWidth = 4;
+			sourceTree = "<group>";
+			tabWidth = 4;
+			usesTabs = 0;
+		};
+		291AE6F774C99DE54681417A /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				8E3B5C4487C88A940D04CBF8 /* MathNotation.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		2D230D59D21BCB1E3A47A48F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				21A812ED3D29B130CC6D6FB3 /* GlossaryView.swift */,
+				0FB85F59AF61D0A33178B241 /* ProgressDashboardView.swift */,
+				718167D7554BF0F8285B6441 /* PronunciationPanel.swift */,
+				8FC1F6C381B8C09C3A0B1F53 /* QuizView.swift */,
+				948641B16CEDD694E3593EE6 /* RootView.swift */,
+				DADF5BADF9434D886303E109 /* SelectablePronunciationText.swift */,
+				FC6E2822565D167C1C39C4DE /* SettingsView.swift */,
+				B0925891FFDBF2B193CF53ED /* TermDetailView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		31499D5F125AEBD93E77C81D /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				23CFCA52E3677ABB40A372B1 /* ProgressStore.swift */,
+				9B63530DBE4A72C799914B29 /* Pronunciation.swift */,
+				0C7F378C31CB91209F612936 /* QuizEngine.swift */,
+				7D1D0149050BF3022DE92A9D /* Term.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		605CA2E06E3DAFDA237E1525 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				6D2AD59B1CC7C18A1DDE77A5 /* Base.xcconfig */,
+				0093E50A6D05ECE35FB226C9 /* Debug.xcconfig */,
+				E569BBF7468A8D95E529F1DA /* Info.plist */,
+				587FFD92AD29E1B53B62CFC4 /* Release.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		672B5B393CFA0158C1E2690E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6E861875C1D7FC3A96AE2D03 /* terms.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		70ACC34746F8E87FB076634D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				26494E0B5D1B39A659AB495D /* GoogleTranslatePronunciationProvider.swift */,
+				2C2782AED849B74D17C8FEB2 /* SpeechSelectionSanitizer.swift */,
+				8600AF6938BC8398FC48FE9A /* SpeechService.swift */,
+				AA26416B351FBCF4544B4379 /* TermLibrary.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		73B5D3D69AC177A5B9D9FE8F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BD6D69F34FF266B90C9D9AB1 /* MathInterviewVocab.app */,
+				240A698FBE05A21CB40F0DC4 /* MathInterviewVocabTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		816562CB0600A6BD680EA64B /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				0B509B4F5B43277467BC297A /* GoogleTranslatePronunciationProviderTests.swift */,
+				69B206E966EC033F8CF047F2 /* MathNotationTests.swift */,
+				86AED4AE260D19FE16CB8D3D /* ProgressStoreTests.swift */,
+				131CD15E427036C58DC3F220 /* PronunciationTests.swift */,
+				F5AB95EC0DAA0C52096CBA63 /* QuizEngineTests.swift */,
+				6E8B3D5DF388E344803BD4EE /* SpeechSelectionSanitizerTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		A8316F498A5FF59C56EE5F55 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				FC4F5F7C5AC2CA1E693FBE0E /* Assets.xcassets */,
+				7099A076F85CA924EA43F5DB /* MathInterviewVocabApp.swift */,
+				31499D5F125AEBD93E77C81D /* Core */,
+				F765D0ADD1B1800DE2DEA31A /* Design */,
+				70ACC34746F8E87FB076634D /* Services */,
+				291AE6F774C99DE54681417A /* Utilities */,
+				2D230D59D21BCB1E3A47A48F /* Views */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		F765D0ADD1B1800DE2DEA31A /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				C28E26475C52759B241D3E36 /* AcademicTheme.swift */,
+			);
+			path = Design;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0BFA217B0F8136E016A6EE12 /* MathInterviewVocab */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AE7476B587C987AEC14C2A03 /* Build configuration list for PBXNativeTarget "MathInterviewVocab" */;
+			buildPhases = (
+				BF59F2598C8A6ECE5E4E9E0E /* Sources */,
+				86A6C1F2FC64B82C4E89433D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MathInterviewVocab;
+			packageProductDependencies = (
+			);
+			productName = MathInterviewVocab;
+			productReference = BD6D69F34FF266B90C9D9AB1 /* MathInterviewVocab.app */;
+			productType = "com.apple.product-type.application";
+		};
+		97056CEDC604769554D616E8 /* MathInterviewVocabTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 825F3AF333AEEA31395D0F6D /* Build configuration list for PBXNativeTarget "MathInterviewVocabTests" */;
+			buildPhases = (
+				9133DBF071B6AD8C57116F7D /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6113935FDA95A391399EDB08 /* PBXTargetDependency */,
+			);
+			name = MathInterviewVocabTests;
+			packageProductDependencies = (
+			);
+			productName = MathInterviewVocabTests;
+			productReference = 240A698FBE05A21CB40F0DC4 /* MathInterviewVocabTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		15B518319AD6025D4B443DFD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					0BFA217B0F8136E016A6EE12 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 9D393D47F5AA3B182AA2636B /* Build configuration list for PBXProject "MathInterviewVocab" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = "zh-Hans";
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				"zh-Hans",
+			);
+			mainGroup = 090ABC398B88F0052E1609F2;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 54;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0BFA217B0F8136E016A6EE12 /* MathInterviewVocab */,
+				97056CEDC604769554D616E8 /* MathInterviewVocabTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		86A6C1F2FC64B82C4E89433D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3505BCA981D25654C404EE10 /* Assets.xcassets in Resources */,
+				B22722606213654DE1E478EE /* terms.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9133DBF071B6AD8C57116F7D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B4EB3D8156C798EB398FF68 /* GoogleTranslatePronunciationProviderTests.swift in Sources */,
+				0ECC0A207BA7F3629222D45F /* MathNotationTests.swift in Sources */,
+				2C4308D5404675E43B873870 /* ProgressStoreTests.swift in Sources */,
+				B47E84B0DA01E8C65FD9EB1B /* PronunciationTests.swift in Sources */,
+				67B7A82DF5443D177CD1385F /* QuizEngineTests.swift in Sources */,
+				376D7F1C97D940D3C96130A3 /* SpeechSelectionSanitizerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF59F2598C8A6ECE5E4E9E0E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BDAEB0F24C8F446FC18A67AF /* AcademicTheme.swift in Sources */,
+				BF23BFE49F37AAB03132172A /* GlossaryView.swift in Sources */,
+				4954075958B3D99EB8B80E23 /* GoogleTranslatePronunciationProvider.swift in Sources */,
+				393FB9B3204F1ED2538878CE /* MathInterviewVocabApp.swift in Sources */,
+				C5132270C641F3DD9E7E0036 /* MathNotation.swift in Sources */,
+				F2F17CBE9A71912DD4AAC5F6 /* ProgressDashboardView.swift in Sources */,
+				489A926F8DDFBEFEA03528D1 /* ProgressStore.swift in Sources */,
+				CF4C9695518DBA591899F3F1 /* Pronunciation.swift in Sources */,
+				7B053AD1381F835EB992311F /* PronunciationPanel.swift in Sources */,
+				76C378341AC9B1FB93A0DF85 /* QuizEngine.swift in Sources */,
+				F7805B44D325C6E9BE01EDBF /* QuizView.swift in Sources */,
+				FE6906384555403D75E45762 /* RootView.swift in Sources */,
+				73CFD7BAEEF7D652C698568B /* SelectablePronunciationText.swift in Sources */,
+				1FB072520553A833BD2E5974 /* SettingsView.swift in Sources */,
+				D74957D74AB566D140AACD32 /* SpeechSelectionSanitizer.swift in Sources */,
+				B0630FF83E81F61866E38500 /* SpeechService.swift in Sources */,
+				8EB59BDBB51619AD37B890D8 /* Term.swift in Sources */,
+				DFA44280165881D8EC7F66DE /* TermDetailView.swift in Sources */,
+				A683F696A3918C3A7D6084BA /* TermLibrary.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6113935FDA95A391399EDB08 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0BFA217B0F8136E016A6EE12 /* MathInterviewVocab */;
+			targetProxy = F6851EA81A316C59400E5E1F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		307516F3099A8D30130948E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 587FFD92AD29E1B53B62CFC4 /* Release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 2;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Config/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xingyiyao.MathInterviewVocab;
+				PRODUCT_NAME = MathInterviewVocab;
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		3ADCD5E20DEE79352A0DE0D2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xingyiyao.MathInterviewVocabTests;
+				PRODUCT_NAME = MathInterviewVocabTests;
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MathInterviewVocab.app/Contents/MacOS/MathInterviewVocab";
+			};
+			name = Release;
+		};
+		4CD2926E4D30015A0EB83F04 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C1426D439B980CD2CA070A21 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xingyiyao.MathInterviewVocabTests;
+				PRODUCT_NAME = MathInterviewVocabTests;
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MathInterviewVocab.app/Contents/MacOS/MathInterviewVocab";
+			};
+			name = Debug;
+		};
+		CFBBDB4ED32EBB4B81E5B651 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		F2820E74F469C04D5E9182D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0093E50A6D05ECE35FB226C9 /* Debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 2;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Config/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xingyiyao.MathInterviewVocab;
+				PRODUCT_NAME = MathInterviewVocab;
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		825F3AF333AEEA31395D0F6D /* Build configuration list for PBXNativeTarget "MathInterviewVocabTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C1426D439B980CD2CA070A21 /* Debug */,
+				3ADCD5E20DEE79352A0DE0D2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9D393D47F5AA3B182AA2636B /* Build configuration list for PBXProject "MathInterviewVocab" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4CD2926E4D30015A0EB83F04 /* Debug */,
+				CFBBDB4ED32EBB4B81E5B651 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AE7476B587C987AEC14C2A03 /* Build configuration list for PBXNativeTarget "MathInterviewVocab" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2820E74F469C04D5E9182D6 /* Debug */,
+				307516F3099A8D30130948E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 15B518319AD6025D4B443DFD /* Project object */;
+}

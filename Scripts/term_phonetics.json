@@ -1,0 +1,1632 @@
+{
+  "1": {
+    "americanIPA": "ˌmæθəˈmætɪkəl əˈnæləsɪs",
+    "britishIPA": "ˌmæθəˈmætɪkəl əˈnæləsɪs",
+    "speechText": "Mathematical Analysis"
+  },
+  "2": {
+    "americanIPA": "ədˈvænst ˈældʒəbrə",
+    "britishIPA": "ədˈvɑːnst ˈældʒɪbrə",
+    "speechText": "Advanced Algebra"
+  },
+  "3": {
+    "americanIPA": "ˌænəˈlɪtɪk dʒiˈɑːmətri",
+    "britishIPA": "ˌænəˈlɪtɪk dʒiˈɒmətri",
+    "speechText": "Analytic Geometry"
+  },
+  "4": {
+    "americanIPA": "ˌprɑːbəˈbɪləti ˈθɪri",
+    "britishIPA": "ˌprɒbəˈbɪləti ˈθɪəri",
+    "speechText": "Probability Theory"
+  },
+  "5": {
+    "americanIPA": "ˌmæθəˈmætɪkəl stəˈtɪstɪks",
+    "britishIPA": "ˌmæθəˈmætɪkəl stəˈtɪstɪks",
+    "speechText": "Mathematical Statistics"
+  },
+  "6": {
+    "americanIPA": "ˈɔːrdəneri ˌdɪfəˈrɛnʃəl ɪˈkweɪʒənz",
+    "britishIPA": "ˈɔːdɪnəri ˌdɪfəˈrɛnʃəl ɪˈkweɪʒənz",
+    "speechText": "Ordinary Differential Equations"
+  },
+  "7": {
+    "americanIPA": "ˈpɑːrʃəl ˌdɪfəˈrɛnʃəl ɪˈkweɪʒənz",
+    "britishIPA": "ˈpɑːʃəl ˌdɪfəˈrɛnʃəl ɪˈkweɪʒənz",
+    "speechText": "Partial Differential Equations"
+  },
+  "8": {
+    "americanIPA": "ˈriːəl əˈnæləsɪs",
+    "britishIPA": "ˈrɪəl əˈnæləsɪs",
+    "speechText": "Real Analysis"
+  },
+  "9": {
+    "americanIPA": "ˈkɑːmplɛks əˈnæləsɪs",
+    "britishIPA": "ˈkɒmplɛks əˈnæləsɪs",
+    "speechText": "Complex Analysis"
+  },
+  "10": {
+    "americanIPA": "ˈfʌŋkʃənəl əˈnæləsɪs",
+    "britishIPA": "ˈfʌŋkʃənəl əˈnæləsɪs",
+    "speechText": "Functional Analysis"
+  },
+  "11": {
+    "americanIPA": "ˈæbstrækt ˈældʒəbrə",
+    "britishIPA": "ˈæbstrækt ˈældʒɪbrə",
+    "speechText": "Abstract Algebra"
+  },
+  "12": {
+    "americanIPA": "ˈsɛt",
+    "britishIPA": "ˈsɛt",
+    "speechText": "set"
+  },
+  "13": {
+    "americanIPA": "ˈɛlɪmənt",
+    "britishIPA": "ˈɛlɪmənt",
+    "speechText": "element"
+  },
+  "14": {
+    "americanIPA": "ˈɛmpti ˈsɛt",
+    "britishIPA": "ˈɛmpti ˈsɛt",
+    "speechText": "empty set"
+  },
+  "15": {
+    "americanIPA": "ˈsʌbsɛt",
+    "britishIPA": "ˈsʌbsɛt",
+    "speechText": "subset"
+  },
+  "16": {
+    "americanIPA": "ˈfaɪnaɪt ˈsɛt",
+    "britishIPA": "ˈfaɪnaɪt ˈsɛt",
+    "speechText": "finite set"
+  },
+  "17": {
+    "americanIPA": "ˈɪnfɪnət ˈsɛt",
+    "britishIPA": "ˈɪnfɪnət ˈsɛt",
+    "speechText": "infinite set"
+  },
+  "18": {
+    "americanIPA": "ˈoʊpən ˈɪntɚvəl",
+    "britishIPA": "ˈəʊpən ˈɪntəvəl",
+    "speechText": "open interval"
+  },
+  "19": {
+    "americanIPA": "ˈkloʊzd ˈɪntɚvəl",
+    "britishIPA": "ˈkləʊzd ˈɪntəvəl",
+    "speechText": "closed interval"
+  },
+  "20": {
+    "americanIPA": "ˈmæp",
+    "britishIPA": "ˈmap",
+    "speechText": "map"
+  },
+  "21": {
+    "americanIPA": "ˈfʌŋkʃən",
+    "britishIPA": "ˈfʌŋkʃən",
+    "speechText": "function"
+  },
+  "22": {
+    "americanIPA": "ˌɛlɪˈmɛntɚri ˈfʌŋkʃən",
+    "britishIPA": "ˌɛlɪˈmɛntəri ˈfʌŋkʃən",
+    "speechText": "elementary function"
+  },
+  "23": {
+    "americanIPA": "ɪnˈvɜːs ˈfʌŋkʃən",
+    "britishIPA": "ɪnˈvɜːs ˈfʌŋkʃən",
+    "speechText": "inverse function"
+  },
+  "24": {
+    "americanIPA": "kəmˈpɑːzɪt ˈfʌŋkʃən",
+    "britishIPA": "ˈkɒmpəˌzɪt ˈfʌŋkʃən",
+    "speechText": "composite function"
+  },
+  "25": {
+    "americanIPA": "ˌɪndɪˈpɛndənt ˈvɛrɪəbəl",
+    "britishIPA": "ˌɪndɪˈpɛndənt ˈveərɪəbəl",
+    "speechText": "independent variable"
+  },
+  "26": {
+    "americanIPA": "dɪˈpɛndənt ˈvɛrɪəbəl",
+    "britishIPA": "dɪˈpɛndənt ˈveərɪəbəl",
+    "speechText": "dependent variable"
+  },
+  "27": {
+    "americanIPA": "dəˈmeɪn",
+    "britishIPA": "dəˈmeɪn",
+    "speechText": "domain"
+  },
+  "28": {
+    "americanIPA": "ˈreɪndʒ",
+    "britishIPA": "ˈreɪndʒ",
+    "speechText": "range"
+  },
+  "29": {
+    "americanIPA": "ɪnˈdʒɛkʃən",
+    "britishIPA": "ɪnˈdʒɛkʃən",
+    "speechText": "injection"
+  },
+  "30": {
+    "americanIPA": "sɜːˈdʒɛkʃən",
+    "britishIPA": "sɜːˈdʒɛkʃən",
+    "speechText": "surjection"
+  },
+  "31": {
+    "americanIPA": "baɪˈdʒɛkʃən",
+    "britishIPA": "baɪˈdʒɛkʃən",
+    "speechText": "bijection"
+  },
+  "32": {
+    "americanIPA": "ˌʌpɚ ˈbaʊnd",
+    "britishIPA": "ˌʌpə ˈbaʊnd",
+    "speechText": "upper bound"
+  },
+  "33": {
+    "americanIPA": "ˈloʊɚ ˈbaʊnd",
+    "britishIPA": "ˈləʊə ˈbaʊnd",
+    "speechText": "lower bound"
+  },
+  "34": {
+    "americanIPA": "ˈbaʊndɪdnəs",
+    "britishIPA": "ˈbaʊndɪdnəs",
+    "speechText": "boundedness"
+  },
+  "35": {
+    "americanIPA": "məˌnɑːtəˈnɪsɪti",
+    "britishIPA": "məˌnɒtəˈnɪsɪti",
+    "speechText": "monotonicity"
+  },
+  "36": {
+    "americanIPA": "ˈpærɪti",
+    "britishIPA": "ˈparɪti",
+    "speechText": "parity"
+  },
+  "37": {
+    "americanIPA": "ˌpiərɪˌɑːˈdɪsɪti",
+    "britishIPA": "ˌpiərɪˌɒˈdɪsɪti",
+    "speechText": "periodicity"
+  },
+  "38": {
+    "americanIPA": "ˈnɛsɪsɚri kənˈdɪʃən",
+    "britishIPA": "ˈnɛsɪsəri kənˈdɪʃən",
+    "speechText": "necessary condition"
+  },
+  "39": {
+    "americanIPA": "səˈfɪʃənt kənˈdɪʃən",
+    "britishIPA": "səˈfɪʃənt kənˈdɪʃən",
+    "speechText": "sufficient condition"
+  },
+  "40": {
+    "americanIPA": "ˈnɛsɪsɚri ænd səˈfɪʃənt kənˈdɪʃən",
+    "britishIPA": "ˈnɛsɪsəri and səˈfɪʃənt kənˈdɪʃən",
+    "speechText": "necessary and sufficient condition"
+  },
+  "41": {
+    "americanIPA": "ˈsiːkwəns",
+    "britishIPA": "ˈsiːkwəns",
+    "speechText": "sequence"
+  },
+  "42": {
+    "americanIPA": "ˈlɪmɪt",
+    "britishIPA": "ˈlɪmɪt",
+    "speechText": "limit"
+  },
+  "43": {
+    "americanIPA": "kənˈvɜːdʒəns",
+    "britishIPA": "kənˈvɜːdʒəns",
+    "speechText": "convergence"
+  },
+  "44": {
+    "americanIPA": "daɪˈvɜːdʒəns",
+    "britishIPA": "daɪˈvɜːdʒəns",
+    "speechText": "divergence"
+  },
+  "45": {
+    "americanIPA": "ɪnˈfɪnɪti",
+    "britishIPA": "ɪnˈfɪnɪti",
+    "speechText": "infinity"
+  },
+  "46": {
+    "americanIPA": "ˈɪnfɪnəˌtɛsɪməl",
+    "britishIPA": "ˈɪnfɪnəˌtɛsɪməl",
+    "speechText": "infinitesimal"
+  },
+  "47": {
+    "americanIPA": "ˈmɑːnəˌtoʊn ˈsiːkwəns",
+    "britishIPA": "ˈmɒnəˌtəʊn ˈsiːkwəns",
+    "speechText": "monotone sequence"
+  },
+  "48": {
+    "americanIPA": "mənəˈtɑːnɪkli ɪŋˈkriːsɪŋ",
+    "britishIPA": "mənəˈtɒnɪkli ɪŋˈkriːsɪŋ",
+    "speechText": "monotonically increasing"
+  },
+  "49": {
+    "americanIPA": "mənəˈtɑːnɪkli ˈdiːkriːsɪŋ",
+    "britishIPA": "mənəˈtɒnɪkli ˈdiːkriːsɪŋ",
+    "speechText": "monotonically decreasing"
+  },
+  "50": {
+    "americanIPA": "ˈlɪmɪt əvə ˈfʌŋkʃən",
+    "britishIPA": "ˈlɪmɪt əvə ˈfʌŋkʃən",
+    "speechText": "limit of a function"
+  },
+  "51": {
+    "americanIPA": "kɑːntɪˈnjuːɪti",
+    "britishIPA": "kɒntɪˈnjuːɪti",
+    "speechText": "continuity"
+  },
+  "52": {
+    "americanIPA": "ˈwʌn ˈsaɪdɪd kɑːntɪˈnjuːɪti",
+    "britishIPA": "ˈwɒn ˈsaɪdɪd kɒntɪˈnjuːɪti",
+    "speechText": "one-sided continuity"
+  },
+  "53": {
+    "americanIPA": "ˈlɛft kənˈtɪnjuːəs",
+    "britishIPA": "ˈlɛft kənˈtɪnjuːəs",
+    "speechText": "left-continuous"
+  },
+  "54": {
+    "americanIPA": "ˈraɪt kənˈtɪnjuːəs",
+    "britishIPA": "ˈraɪt kənˈtɪnjuːəs",
+    "speechText": "right-continuous"
+  },
+  "55": {
+    "americanIPA": "ˈjuːnɪˌfɔːrm kɑːntɪˈnjuːɪti",
+    "britishIPA": "ˈjuːnɪˌfɔːm kɒntɪˈnjuːɪti",
+    "speechText": "uniform continuity"
+  },
+  "56": {
+    "americanIPA": "dɪskɑːntɪˈnjuːɪti",
+    "britishIPA": "dɪskɒntɪˈnjuːɪti",
+    "speechText": "discontinuity"
+  },
+  "57": {
+    "americanIPA": "ˈpɔɪnt ʌv dɪskɑːntɪˈnjuːɪti",
+    "britishIPA": "ˈpɔɪnt ɒv dɪskɒntɪˈnjuːɪti",
+    "speechText": "point of discontinuity"
+  },
+  "58": {
+    "americanIPA": "rɪˈmuːvəbəl dɪskɑːntɪˈnjuːɪti",
+    "britishIPA": "rɪˈmuːvəbəl dɪskɒntɪˈnjuːɪti",
+    "speechText": "removable discontinuity"
+  },
+  "59": {
+    "americanIPA": "ˈloʊɚr ˈɔːrdɚ",
+    "britishIPA": "ˈləʊər ˈɔːdə",
+    "speechText": "lower order"
+  },
+  "60": {
+    "americanIPA": "ˈhaɪɚr ˈɔːrdɚ",
+    "britishIPA": "ˈhaɪər ˈɔːdə",
+    "speechText": "higher order"
+  },
+  "61": {
+    "americanIPA": "ɪˈkwɪvələnt ˈɪnfɪnəˌtɛsɪməlz",
+    "britishIPA": "ɪˈkwɪvələnt ˈɪnfɪnəˌtɛsɪməlz",
+    "speechText": "equivalent infinitesimals"
+  },
+  "62": {
+    "americanIPA": "ðə ˈbaʊndɪdnəs ˈθiərəm",
+    "britishIPA": "ðə ˈbaʊndɪdnəs ˈθiərəm",
+    "speechText": "the boundedness theorem"
+  },
+  "63": {
+    "americanIPA": "ɛkˈstriːm ˈvæljuː ˈθiərəm",
+    "britishIPA": "ɛkˈstriːm ˈvaljuː ˈθiərəm",
+    "speechText": "extreme value theorem"
+  },
+  "64": {
+    "americanIPA": "bɔːlˈtsɑːnoʊz ˈθɪrəm",
+    "britishIPA": "bɒlˈtsɑːnəʊz ˈθɪərəm",
+    "speechText": "Bolzano’s theorem"
+  },
+  "65": {
+    "americanIPA": "ˌɪntɚˈmiːdiət ˈvæljuː ˈθiərəm",
+    "britishIPA": "ˌɪntəˈmiːdiət ˈvaljuː ˈθiərəm",
+    "speechText": "intermediate value theorem"
+  },
+  "66": {
+    "americanIPA": "ˈjuːnɪˌfɔːrm kɑːntɪˈnjuːɪti ˈθiərəm",
+    "britishIPA": "ˈjuːnɪˌfɔːm kɒntɪˈnjuːɪti ˈθiərəm",
+    "speechText": "uniform continuity theorem"
+  },
+  "67": {
+    "americanIPA": "ˌdɪfɚˈrɛnʃəl",
+    "britishIPA": "ˌdɪfəˈrɛnʃəl",
+    "speechText": "differential"
+  },
+  "68": {
+    "americanIPA": "dɪˈrɪvəˌtɪv",
+    "britishIPA": "dɪˈrɪvəˌtɪv",
+    "speechText": "derivative"
+  },
+  "69": {
+    "americanIPA": "ˈdɪfɚˌrɛnʃɪəbəl",
+    "britishIPA": "ˈdɪfəˌrɛnʃɪəbəl",
+    "speechText": "differentiable"
+  },
+  "70": {
+    "americanIPA": "ˈdɪfɚˌrɛnʃɪəbəl həz ə dɪˈrɪvəˌtɪv",
+    "britishIPA": "ˈdɪfəˌrɛnʃɪəbəl həz ə dɪˈrɪvəˌtɪv",
+    "speechText": "differentiable (has a derivative)"
+  },
+  "71": {
+    "americanIPA": "ˈtændʒənt ˈlaɪn",
+    "britishIPA": "ˈtandʒənt ˈlaɪn",
+    "speechText": "tangent line"
+  },
+  "72": {
+    "americanIPA": "ˈwʌn ˈsaɪdɪd dɪˈrɪvəˌtɪv",
+    "britishIPA": "ˈwɒn ˈsaɪdɪd dɪˈrɪvəˌtɪv",
+    "speechText": "one-sided derivative"
+  },
+  "73": {
+    "americanIPA": "ˈlɛft dɪˈrɪvəˌtɪv",
+    "britishIPA": "ˈlɛft dɪˈrɪvəˌtɪv",
+    "speechText": "left derivative"
+  },
+  "74": {
+    "americanIPA": "ˈraɪt dɪˈrɪvəˌtɪv",
+    "britishIPA": "ˈraɪt dɪˈrɪvəˌtɪv",
+    "speechText": "right derivative"
+  },
+  "75": {
+    "americanIPA": "ɪmˈplɪsɪt ˈfʌŋkʃən",
+    "britishIPA": "ɪmˈplɪsɪt ˈfʌŋkʃən",
+    "speechText": "implicit function"
+  },
+  "76": {
+    "americanIPA": "ɛkˈsplɪsɪt ˈfʌŋkʃən",
+    "britishIPA": "ɛkˈsplɪsɪt ˈfʌŋkʃən",
+    "speechText": "explicit function"
+  },
+  "77": {
+    "americanIPA": "ˈsɛkənd dɪˈrɪvəˌtɪv",
+    "britishIPA": "ˈsɛkənd dɪˈrɪvəˌtɪv",
+    "speechText": "second derivative"
+  },
+  "78": {
+    "americanIPA": "ˈθɜːd dɪˈrɪvəˌtɪv",
+    "britishIPA": "ˈθɜːd dɪˈrɪvəˌtɪv",
+    "speechText": "third derivative"
+  },
+  "79": {
+    "americanIPA": "ˈhaɪɚr ˈɔːrdɚ dɪˈrɪvəˌtɪv",
+    "britishIPA": "ˈhaɪər ˈɔːdə dɪˈrɪvəˌtɪv",
+    "speechText": "higher-order derivative"
+  },
+  "80": {
+    "americanIPA": "ˈloʊkəl ˈmæksɪməm",
+    "britishIPA": "ˈləʊkəl ˈmaksɪməm",
+    "speechText": "local maximum"
+  },
+  "81": {
+    "americanIPA": "ˈloʊkəl ˈmɪnɪməm",
+    "britishIPA": "ˈləʊkəl ˈmɪnɪməm",
+    "speechText": "local minimum"
+  },
+  "82": {
+    "americanIPA": "ˈæbsəˌluːt ˈmæksɪməm",
+    "britishIPA": "ˈabsəˌluːt ˈmaksɪməm",
+    "speechText": "absolute maximum"
+  },
+  "83": {
+    "americanIPA": "ˈæbsəˌluːt ˈmɪnɪməm",
+    "britishIPA": "ˈabsəˌluːt ˈmɪnɪməm",
+    "speechText": "absolute minimum"
+  },
+  "84": {
+    "americanIPA": "kənˈvɛksɪti",
+    "britishIPA": "kənˈvɛksɪti",
+    "speechText": "convexity"
+  },
+  "85": {
+    "americanIPA": "ˈpɔɪnt ʌv ɪnˈflɛkʃən",
+    "britishIPA": "ˈpɔɪnt ɒv ɪnˈflɛkʃən",
+    "speechText": "point of inflection"
+  },
+  "86": {
+    "americanIPA": "ˈsteɪʃəˌnɛri ˈpɔɪnt",
+    "britishIPA": "ˈsteɪʃənəri ˈpɔɪnt",
+    "speechText": "stationary point"
+  },
+  "87": {
+    "americanIPA": "ɪnˈdɛfɪnət ˈɪntɪɡrəl",
+    "britishIPA": "ɪnˈdɛfɪnət ˈɪntɪɡrəl",
+    "speechText": "indefinite integral"
+  },
+  "88": {
+    "americanIPA": "ˈdɛfɪnət ˈɪntɪɡrəl",
+    "britishIPA": "ˈdɛfɪnət ˈɪntɪɡrəl",
+    "speechText": "definite integral"
+  },
+  "89": {
+    "americanIPA": "ˈɪntɪɡrəbəl",
+    "britishIPA": "ˈɪntɪɡrəbəl",
+    "speechText": "integrable"
+  },
+  "90": {
+    "americanIPA": "ˌæntɪdɪˈrɪvəˌtɪv",
+    "britishIPA": "ˌantɪdɪˈrɪvəˌtɪv",
+    "speechText": "antiderivative"
+  },
+  "91": {
+    "americanIPA": "ˈɪntɪˌɡrænd",
+    "britishIPA": "ˈɪntɪˌɡrand",
+    "speechText": "integrand"
+  },
+  "92": {
+    "americanIPA": "ˈɪntɚvəl ʌv ˌɪntɪˈɡreɪʃən",
+    "britishIPA": "ˈɪntəvəl ɒv ˌɪntɪˈɡreɪʃən",
+    "speechText": "interval of integration"
+  },
+  "93": {
+    "americanIPA": "ˌɪntɪˈɡreɪʃən baɪ ˌsʌbstɪˈtuːʃən",
+    "britishIPA": "ˌɪntɪˈɡreɪʃən baɪ ˌsʌbstɪˈtjuːʃən",
+    "speechText": "integration by substitution"
+  },
+  "94": {
+    "americanIPA": "ˌɪntɪˈɡreɪʃən baɪ ˈpɑːrts",
+    "britishIPA": "ˌɪntɪˈɡreɪʃən baɪ ˈpɑːts",
+    "speechText": "integration by parts"
+  },
+  "95": {
+    "americanIPA": "ðə ˈfɜːst ˈmiːn ˈvæljuː ˈθiərəm fɔːr ˈɪntɪɡrəlz",
+    "britishIPA": "ðə ˈfɜːst ˈmiːn ˈvaljuː ˈθiərəm fɔːr ˈɪntɪɡrəlz",
+    "speechText": "the first mean value theorem for integrals"
+  },
+  "96": {
+    "americanIPA": "ˌfʌndəˈmɛntəl ˈθiərəm ʌv ˈkælkjʊləs",
+    "britishIPA": "ˌfʌndəˈmɛntəl ˈθiərəm ɒv ˈkalkjʊləs",
+    "speechText": "fundamental theorem of calculus"
+  },
+  "97": {
+    "americanIPA": "kɑːrˈtiːʒən koʊˈɔːrdənəts",
+    "britishIPA": "kɑːˈtiːziən kəʊˈɔːdɪnəts",
+    "speechText": "Cartesian coordinates"
+  },
+  "98": {
+    "americanIPA": "ˈpoʊlɚ koʊˈɔːrdɪnəts",
+    "britishIPA": "ˈpəʊlə kəʊˈɔːdɪnəts",
+    "speechText": "polar coordinates"
+  },
+  "99": {
+    "americanIPA": "ɪmˈprɑːpɚr ˈɪntɪɡrəl",
+    "britishIPA": "ɪmˈprɒpər ˈɪntɪɡrəl",
+    "speechText": "improper integral"
+  },
+  "100": {
+    "americanIPA": "ˈæbsəˌluːt kənˈvɜːdʒəns",
+    "britishIPA": "ˈabsəˌluːt kənˈvɜːdʒəns",
+    "speechText": "absolute convergence"
+  },
+  "101": {
+    "americanIPA": "ˌæbsəˈluːtli ˈɪntɪɡrəbəl",
+    "britishIPA": "ˌabsəˈluːtli ˈɪntɪɡrəbəl",
+    "speechText": "absolutely integrable"
+  },
+  "102": {
+    "americanIPA": "kənˈdɪʃənəl kənˈvɜːdʒəns",
+    "britishIPA": "kənˈdɪʃənəl kənˈvɜːdʒəns",
+    "speechText": "conditional convergence"
+  },
+  "103": {
+    "americanIPA": "kənˈdɪʃənəli ˈɪntɪɡrəbəl",
+    "britishIPA": "kənˈdɪʃənəli ˈɪntɪɡrəbəl",
+    "speechText": "conditionally integrable"
+  },
+  "104": {
+    "americanIPA": "ʌnˈbaʊndɪd ˈfʌŋkʃən",
+    "britishIPA": "ʌnˈbaʊndɪd ˈfʌŋkʃən",
+    "speechText": "unbounded function"
+  },
+  "105": {
+    "americanIPA": "ˌnɑːnˈnɛɡəˌtɪv ˈfʌŋkʃən",
+    "britishIPA": "ˌnɒnˈnɛɡəˌtɪv ˈfʌŋkʃən",
+    "speechText": "nonnegative function"
+  },
+  "106": {
+    "americanIPA": "kəmˈpærɪsən ˈtɛst",
+    "britishIPA": "kəmˈparɪsən ˈtɛst",
+    "speechText": "comparison test"
+  },
+  "107": {
+    "americanIPA": "nuːˈmɛrɪkəl ˈsɪriz",
+    "britishIPA": "njuːˈmɛrɪkəl ˈsiəriz",
+    "speechText": "numerical series"
+  },
+  "108": {
+    "americanIPA": "ˈsɪriz",
+    "britishIPA": "ˈsiəriz",
+    "speechText": "series"
+  },
+  "109": {
+    "americanIPA": "ˈdʒɛnɚrəl ˈtɜːm",
+    "britishIPA": "ˈdʒɛnərəl ˈtɜːm",
+    "speechText": "general term"
+  },
+  "110": {
+    "americanIPA": "ˈpɑːrʃəl ˈsʌm",
+    "britishIPA": "ˈpɑːʃəl ˈsʌm",
+    "speechText": "partial sum"
+  },
+  "111": {
+    "americanIPA": "ˌdʒiːoʊˈmɛtrɪk ˈsɪriz",
+    "britishIPA": "ˌdʒiːəʊˈmɛtrɪk ˈsiəriz",
+    "speechText": "geometric series"
+  },
+  "112": {
+    "americanIPA": "hɑːrˈmɑːnɪk ˈsɪriːz, ˈpiː ˌsɪriːz",
+    "britishIPA": "hɑːˈmɒnɪk ˈsɪəriːz, ˈpiː ˌsɪəriːz",
+    "speechText": "harmonic series, p-series"
+  },
+  "113": {
+    "americanIPA": "ˈlɪmɪt ˈpɔɪnt",
+    "britishIPA": "ˈlɪmɪt ˈpɔɪnt",
+    "speechText": "limit point"
+  },
+  "114": {
+    "americanIPA": "ˈlɪmət suːˈpɪriər, ˌlɪm ˈsʌp",
+    "britishIPA": "ˈlɪmɪt suːˈpɪəriə, ˌlɪm ˈsʌp",
+    "speechText": "limit superior (lim sup)"
+  },
+  "115": {
+    "americanIPA": "ˈlɪmət ɪnˈfɪriər, ˌlɪm ˈɪnf",
+    "britishIPA": "ˈlɪmɪt ɪnˈfɪəriə, ˌlɪm ˈɪnf",
+    "speechText": "limit inferior (lim inf)"
+  },
+  "116": {
+    "americanIPA": "ˈpɑːzɪˌtɪv ˈtɜːm ˈsɪriz",
+    "britishIPA": "ˈpɒzɪˌtɪv ˈtɜːm ˈsiəriz",
+    "speechText": "positive-term series"
+  },
+  "117": {
+    "americanIPA": "ˈɔːltɚˌneɪtɪŋ ˈsɪriz",
+    "britishIPA": "ˈɔːltəˌneɪtɪŋ ˈsiəriz",
+    "speechText": "alternating series"
+  },
+  "118": {
+    "americanIPA": "ˈsɪriz ʌv ˈɑːrbɪˌtrɛri ˈtɜːmz",
+    "britishIPA": "ˈsiəriz ɒv ˈɑːbɪtrəri ˈtɜːmz",
+    "speechText": "series of arbitrary terms"
+  },
+  "119": {
+    "americanIPA": "ˈɪnfɪnət ˈprɑːdʌkt",
+    "britishIPA": "ˈɪnfɪnət ˈprɒdʌkt",
+    "speechText": "infinite product"
+  },
+  "120": {
+    "americanIPA": "ˈsɪriz ʌv ˈfʌŋkʃənz",
+    "britishIPA": "ˈsiəriz ɒv ˈfʌŋkʃənz",
+    "speechText": "series of functions"
+  },
+  "121": {
+    "americanIPA": "ˈpɔɪnt ʌv kənˈvɜːdʒəns",
+    "britishIPA": "ˈpɔɪnt ɒv kənˈvɜːdʒəns",
+    "speechText": "point of convergence"
+  },
+  "122": {
+    "americanIPA": "ˈriːdʒən ʌv kənˈvɜːdʒəns",
+    "britishIPA": "ˈriːdʒən ɒv kənˈvɜːdʒəns",
+    "speechText": "region of convergence"
+  },
+  "123": {
+    "americanIPA": "ˈsʌm ˈfʌŋkʃən",
+    "britishIPA": "ˈsʌm ˈfʌŋkʃən",
+    "speechText": "sum function"
+  },
+  "124": {
+    "americanIPA": "ˈjuːnɪˌfɔːrm kənˈvɜːdʒəns",
+    "britishIPA": "ˈjuːnɪˌfɔːm kənˈvɜːdʒəns",
+    "speechText": "uniform convergence"
+  },
+  "125": {
+    "americanIPA": "ˈpaʊɚ ˈsɪriz",
+    "britishIPA": "ˈpaʊə ˈsiəriz",
+    "speechText": "power series"
+  },
+  "126": {
+    "americanIPA": "ˈreɪdɪəs ʌv kənˈvɜːdʒəns",
+    "britishIPA": "ˈreɪdɪəs ɒv kənˈvɜːdʒəns",
+    "speechText": "radius of convergence"
+  },
+  "127": {
+    "americanIPA": "ˈfʌŋkʃən ʌv ˈwʌn ˈvɛrɪəbəl",
+    "britishIPA": "ˈfʌŋkʃən ɒv ˈwɒn ˈveərɪəbəl",
+    "speechText": "function of one variable"
+  },
+  "128": {
+    "americanIPA": "ˈfʌŋkʃən ʌv ˈsɛvrəl ˈvɛrɪəbəlz",
+    "britishIPA": "ˈfʌŋkʃən ɒv ˈsɛvrəl ˈveərɪəbəlz",
+    "speechText": "function of several variables"
+  },
+  "129": {
+    "americanIPA": "ˈvɛktɚ ˈspeɪs",
+    "britishIPA": "ˈvɛktə ˈspeɪs",
+    "speechText": "vector space"
+  },
+  "130": {
+    "americanIPA": "ˈɪnɚ ˈprɑːdʌkt",
+    "britishIPA": "ˈɪnə ˈprɒdʌkt",
+    "speechText": "inner product"
+  },
+  "131": {
+    "americanIPA": "ˈoʊpən ˈsɛt",
+    "britishIPA": "ˈəʊpən ˈsɛt",
+    "speechText": "open set"
+  },
+  "132": {
+    "americanIPA": "ˈkloʊzd ˈsɛt",
+    "britishIPA": "ˈkləʊzd ˈsɛt",
+    "speechText": "closed set"
+  },
+  "133": {
+    "americanIPA": "ɪnˈtɪriɚ ˈpɔɪnt",
+    "britishIPA": "ɪnˈtiəriə ˈpɔɪnt",
+    "speechText": "interior point"
+  },
+  "134": {
+    "americanIPA": "ɛkˈstɪriɚ ˈpɔɪnt",
+    "britishIPA": "ɛkˈstiəriə ˈpɔɪnt",
+    "speechText": "exterior point"
+  },
+  "135": {
+    "americanIPA": "ˈbaʊndɚri ˈpɔɪnt",
+    "britishIPA": "ˈbaʊndəri ˈpɔɪnt",
+    "speechText": "boundary point"
+  },
+  "136": {
+    "americanIPA": "ˈklʌstɚ ˈpɔɪnt",
+    "britishIPA": "ˈklʌstə ˈpɔɪnt",
+    "speechText": "cluster point"
+  },
+  "137": {
+    "americanIPA": "ˈkloʊʒɚ",
+    "britishIPA": "ˈkləʊʒə",
+    "speechText": "closure"
+  },
+  "138": {
+    "americanIPA": "ˈoʊpən ˈkʌvɚ",
+    "britishIPA": "ˈəʊpən ˈkʌvə",
+    "speechText": "open cover"
+  },
+  "139": {
+    "americanIPA": "kəmˈpækt ˈsɛt",
+    "britishIPA": "kəmˈpakt ˈsɛt",
+    "speechText": "compact set"
+  },
+  "140": {
+    "americanIPA": "ˈdʌbəl ˈlɪmɪt",
+    "britishIPA": "ˈdʌbəl ˈlɪmɪt",
+    "speechText": "double limit"
+  },
+  "141": {
+    "americanIPA": "ˈɪtɚˌreɪtɪd ˈlɪmɪt",
+    "britishIPA": "ˈɪtəˌreɪtɪd ˈlɪmɪt",
+    "speechText": "iterated limit"
+  },
+  "142": {
+    "americanIPA": "ˈɪtɚˌreɪtɪd ˈlɪmɪt",
+    "britishIPA": "ˈɪtəˌreɪtɪd ˈlɪmɪt",
+    "speechText": "iterated limit"
+  },
+  "143": {
+    "americanIPA": "ˈtoʊtəl ˌdɪfɚˈrɛnʃəl",
+    "britishIPA": "ˈtəʊtəl ˌdɪfəˈrɛnʃəl",
+    "speechText": "total differential"
+  },
+  "144": {
+    "americanIPA": "ˈpɑːrʃəl dɪˈrɪvəˌtɪv",
+    "britishIPA": "ˈpɑːʃəl dɪˈrɪvəˌtɪv",
+    "speechText": "partial derivative"
+  },
+  "145": {
+    "americanIPA": "dɪˈrɛkʃənəl dɪˈrɪvəˌtɪv",
+    "britishIPA": "daɪˈrɛkʃənəl dɪˈrɪvəˌtɪv",
+    "speechText": "directional derivative"
+  },
+  "146": {
+    "americanIPA": "ˈɡreɪdiənt",
+    "britishIPA": "ˈɡreɪdiənt",
+    "speechText": "gradient"
+  },
+  "147": {
+    "americanIPA": "ˈhaɪɚr ˈɔːrdɚ ˌdɪfɚˈrɛnʃəl",
+    "britishIPA": "ˈhaɪər ˈɔːdə ˌdɪfəˈrɛnʃəl",
+    "speechText": "higher-order differential"
+  },
+  "148": {
+    "americanIPA": "ˈmiːn ˈvæljuː ˈθiərəm",
+    "britishIPA": "ˈmiːn ˈvaljuː ˈθiərəm",
+    "speechText": "mean value theorem"
+  },
+  "149": {
+    "americanIPA": "ˈtændʒənt ˈpleɪn",
+    "britishIPA": "ˈtandʒənt ˈpleɪn",
+    "speechText": "tangent plane"
+  },
+  "150": {
+    "americanIPA": "ˈnɔːrməl ˈpleɪn",
+    "britishIPA": "ˈnɔːməl ˈpleɪn",
+    "speechText": "normal plane"
+  },
+  "151": {
+    "americanIPA": "ˈnɔːrməl ˈlaɪn",
+    "britishIPA": "ˈnɔːməl ˈlaɪn",
+    "speechText": "normal line"
+  },
+  "152": {
+    "americanIPA": "ˈsmuːð ˈkɜːv",
+    "britishIPA": "ˈsmuːð ˈkɜːv",
+    "speechText": "smooth curve"
+  },
+  "153": {
+    "americanIPA": "ˌpærəˈmɛtrɪk ɪˈkweɪʒən",
+    "britishIPA": "ˌparəˈmɛtrɪk ɪˈkweɪʒən",
+    "speechText": "parametric equation"
+  },
+  "154": {
+    "americanIPA": "kənˈstreɪnd ɛkˈstrɛməm",
+    "britishIPA": "kənˈstreɪnd ɛkˈstrɛməm",
+    "speechText": "constrained extremum"
+  },
+  "155": {
+    "americanIPA": "ʌŋkənˈstreɪnd ɛkˈstrɛməm",
+    "britishIPA": "ʌŋkənˈstreɪnd ɛkˈstrɛməm",
+    "speechText": "unconstrained extremum"
+  },
+  "156": {
+    "americanIPA": "ɑːbˈdʒɛktɪv ˈfʌŋkʃən",
+    "britishIPA": "ɒbˈdʒɛktɪv ˈfʌŋkʃən",
+    "speechText": "objective function"
+  },
+  "157": {
+    "americanIPA": "ˈdʌbəl ˈɪntɪɡrəl",
+    "britishIPA": "ˈdʌbəl ˈɪntɪɡrəl",
+    "speechText": "double integral"
+  },
+  "158": {
+    "americanIPA": "ˈtrɪpəl ˈɪntɪɡrəl",
+    "britishIPA": "ˈtrɪpəl ˈɪntɪɡrəl",
+    "speechText": "triple integral"
+  },
+  "159": {
+    "americanIPA": "ˌmʌltɪpəl ˈɪntɪɡrəl",
+    "britishIPA": "ˌmʌltɪpəl ˈɪntɪɡrəl",
+    "speechText": "multiple integral"
+  },
+  "160": {
+    "americanIPA": "ɪmˈprɑːpɚ ˌmʌltɪpəl ˈɪntɪɡrəl",
+    "britishIPA": "ɪmˈprɒpə ˌmʌltɪpəl ˈɪntɪɡrəl",
+    "speechText": "improper multiple integral"
+  },
+  "161": {
+    "americanIPA": "koʊˈɔːrdɪnət trænsfɔːrˈmeɪʃən",
+    "britishIPA": "kəʊˈɔːdɪnət transfɔːˈmeɪʃən",
+    "speechText": "coordinate transformation"
+  },
+  "162": {
+    "americanIPA": "sɪˈlɪndrɪkəl koʊˈɔːrdɪnət trænsfɔːrˈmeɪʃən",
+    "britishIPA": "sɪˈlɪndrɪkəl kəʊˈɔːdɪnət transfɔːˈmeɪʃən",
+    "speechText": "cylindrical coordinate transformation"
+  },
+  "163": {
+    "americanIPA": "ˈsfɛrɪkəl koʊˈɔːrdɪnət trænsfɔːrˈmeɪʃən",
+    "britishIPA": "ˈsfɛrɪkəl kəʊˈɔːdɪnət transfɔːˈmeɪʃən",
+    "speechText": "spherical coordinate transformation"
+  },
+  "164": {
+    "americanIPA": "ˈpæθ ʌv ˌɪntɪˈɡreɪʃən",
+    "britishIPA": "ˈpaθ ɒv ˌɪntɪˈɡreɪʃən",
+    "speechText": "path of integration"
+  },
+  "165": {
+    "americanIPA": "ˈɛriə",
+    "britishIPA": "ˈeəriə",
+    "speechText": "area"
+  },
+  "166": {
+    "americanIPA": "ˈsɜːfɪs ˈɪntɪɡrəl ʌvðə ˈfɜːst ˈkaɪnd",
+    "britishIPA": "ˈsɜːfɪs ˈɪntɪɡrəl ɒvðə ˈfɜːst ˈkaɪnd",
+    "speechText": "surface integral of the first kind"
+  },
+  "167": {
+    "americanIPA": "ˈsɜːfɪs ˈɪntɪɡrəl ʌvðə ˈsɛkənd ˈkaɪnd",
+    "britishIPA": "ˈsɜːfɪs ˈɪntɪɡrəl ɒvðə ˈsɛkənd ˈkaɪnd",
+    "speechText": "surface integral of the second kind"
+  },
+  "168": {
+    "americanIPA": "ˈfɔːrmjʊlə",
+    "britishIPA": "ˈfɔːmjʊlə",
+    "speechText": "formula"
+  },
+  "169": {
+    "americanIPA": "ˈɡriːnz ˈθɪrəm, ˈɡriːnz ˈfɔːrmjələ",
+    "britishIPA": "ˈɡriːnz ˈθɪərəm, ˈɡriːnz ˈfɔːmjʊlə",
+    "speechText": "Green’s theorem, Green’s formula"
+  },
+  "170": {
+    "americanIPA": "pɚˈræmɪtɚ",
+    "britishIPA": "pəˈramɪtə",
+    "speechText": "parameter"
+  },
+  "171": {
+    "americanIPA": "ˈprɑːpɚr ˈɪntɪɡrəl dɪˈpɛndɪŋ ˌɔn ə pɚˈræmɪtɚ",
+    "britishIPA": "ˈprɒpər ˈɪntɪɡrəl dɪˈpɛndɪŋ ˌɒn ə pəˈramɪtə",
+    "speechText": "proper integral depending on a parameter"
+  },
+  "172": {
+    "americanIPA": "ˈθiərəm ˌɔn ˌɪntɚˈtʃeɪndʒɪŋ ðɪ ˈɔːrdɚr ʌv ˌɪntɪˈɡreɪʃən",
+    "britishIPA": "ˈθiərəm ˌɒn ˌɪntəˈtʃeɪndʒɪŋ ðɪ ˈɔːdər ɒv ˌɪntɪˈɡreɪʃən",
+    "speechText": "theorem on interchanging the order of integration"
+  },
+  "173": {
+    "americanIPA": "ˈsaɪn ˈsɪriz",
+    "britishIPA": "ˈsaɪn ˈsiəriz",
+    "speechText": "sine series"
+  },
+  "174": {
+    "americanIPA": "ˈkoʊsaɪn ˈsɪriz",
+    "britishIPA": "ˈkəʊsaɪn ˈsiəriz",
+    "speechText": "cosine series"
+  },
+  "175": {
+    "americanIPA": "ˌpɑːlɪˈnoʊmɪəl",
+    "britishIPA": "ˌpɒlɪˈnəʊmɪəl",
+    "speechText": "polynomial"
+  },
+  "176": {
+    "americanIPA": "ˌpɑːlɪˈnoʊmɪəl ɪn ˈwʌn ˈvɛrɪəbəl",
+    "britishIPA": "ˌpɒlɪˈnəʊmɪəl ɪn ˈwɒn ˈveərɪəbəl",
+    "speechText": "polynomial in one variable"
+  },
+  "177": {
+    "americanIPA": "ˈziəroʊ ˌpɑːlɪˈnoʊmɪəl",
+    "britishIPA": "ˈziərəʊ ˌpɒlɪˈnəʊmɪəl",
+    "speechText": "zero polynomial"
+  },
+  "178": {
+    "americanIPA": "ˌkoʊɪˈfɪʃənt",
+    "britishIPA": "ˌkəʊɪˈfɪʃənt",
+    "speechText": "coefficient"
+  },
+  "179": {
+    "americanIPA": "ˈliːdɪŋ ˌkoʊɪˈfɪʃənt",
+    "britishIPA": "ˈliːdɪŋ ˌkəʊɪˈfɪʃənt",
+    "speechText": "leading coefficient"
+  },
+  "180": {
+    "americanIPA": "dɪˈɡriː",
+    "britishIPA": "dɪˈɡriː",
+    "speechText": "degree"
+  },
+  "181": {
+    "americanIPA": "ˈvɛktɚ",
+    "britishIPA": "ˈvɛktə",
+    "speechText": "vector"
+  },
+  "182": {
+    "americanIPA": "ˈkɑːlʌm ˈvɛktɚ",
+    "britishIPA": "ˈkɒlʌm ˈvɛktə",
+    "speechText": "column vector"
+  },
+  "183": {
+    "americanIPA": "dɪˈvɪʒən ˈælɡɚˌrɪθəm",
+    "britishIPA": "dɪˈvɪʒən ˈalɡəˌrɪθəm",
+    "speechText": "division algorithm"
+  },
+  "184": {
+    "americanIPA": "ˈkɑːmən ˈfæktɚ",
+    "britishIPA": "ˈkɒmən ˈfaktə",
+    "speechText": "common factor"
+  },
+  "185": {
+    "americanIPA": "ˈɡreɪtɪst ˈkɑːmən dɪˈvaɪzɚ",
+    "britishIPA": "ˈɡreɪtɪst ˈkɒmən dɪˈvaɪzə",
+    "speechText": "greatest common divisor"
+  },
+  "186": {
+    "americanIPA": "rɪˈpiːtɪd ˈfæktɚ",
+    "britishIPA": "rɪˈpiːtɪd ˈfaktə",
+    "speechText": "repeated factor"
+  },
+  "187": {
+    "americanIPA": "ˈrɛləˌtɪvli ˈpraɪm",
+    "britishIPA": "ˈrɛləˌtɪvli ˈpraɪm",
+    "speechText": "relatively prime"
+  },
+  "188": {
+    "americanIPA": "ˌfæktɚrɪˈzeɪʃən ˈmɛθəd",
+    "britishIPA": "ˌfaktəraɪˈzeɪʃən ˈmɛθəd",
+    "speechText": "factorization method"
+  },
+  "189": {
+    "americanIPA": "ˈsɪmpəl ˈruːt",
+    "britishIPA": "ˈsɪmpəl ˈruːt",
+    "speechText": "simple root"
+  },
+  "190": {
+    "americanIPA": "ˌmʌltɪpəl ˈruːt, rɪˈpiːtɪd ˈruːt",
+    "britishIPA": "ˌmʌltɪpəl ˈruːt, rɪˈpiːtɪd ˈruːt",
+    "speechText": "multiple root, repeated root"
+  },
+  "191": {
+    "americanIPA": "ˈziəroʊ, ˈruːt",
+    "britishIPA": "ˈziərəʊ, ˈruːt",
+    "speechText": "zero, root"
+  },
+  "192": {
+    "americanIPA": "rɪˈmeɪndɚ ˈθiərəm",
+    "britishIPA": "rɪˈmeɪndə ˈθiərəm",
+    "speechText": "remainder theorem"
+  },
+  "193": {
+    "americanIPA": "ˌfʌndəˈmɛntəl ˈθiərəm ʌv ˈældʒɪbrə",
+    "britishIPA": "ˌfʌndəˈmɛntəl ˈθiərəm ɒv ˈaldʒɪbrə",
+    "speechText": "fundamental theorem of algebra"
+  },
+  "194": {
+    "americanIPA": "ˈprɪmɪˌtɪv ˌpɑːlɪˈnoʊmɪəl",
+    "britishIPA": "ˈprɪmɪˌtɪv ˌpɒlɪˈnəʊmɪəl",
+    "speechText": "primitive polynomial"
+  },
+  "195": {
+    "americanIPA": "ˈaɪzənstaɪnz kraɪˈtɪriən",
+    "britishIPA": "ˈaɪzənstaɪnz kraɪˈtɪəriən",
+    "speechText": "Eisenstein's criterion"
+  },
+  "196": {
+    "americanIPA": "dɪˈtɜːmɪnənt",
+    "britishIPA": "dɪˈtɜːmɪnənt",
+    "speechText": "determinant"
+  },
+  "197": {
+    "americanIPA": "ˈmeɪtrɪks",
+    "britishIPA": "ˈmeɪtrɪks",
+    "speechText": "matrix"
+  },
+  "198": {
+    "americanIPA": "ˈskwɛr ˈmeɪtrɪks",
+    "britishIPA": "ˈskweə ˈmeɪtrɪks",
+    "speechText": "square matrix"
+  },
+  "199": {
+    "americanIPA": "ˈkɑːfæktɚ",
+    "britishIPA": "ˈkɒfaktə",
+    "speechText": "cofactor"
+  },
+  "200": {
+    "americanIPA": "ˌpɜːmjuːˈteɪʃən",
+    "britishIPA": "ˌpɜːmjuːˈteɪʃən",
+    "speechText": "permutation"
+  },
+  "201": {
+    "americanIPA": "ˈziəroʊ ˈmeɪtrɪks",
+    "britishIPA": "ˈziərəʊ ˈmeɪtrɪks",
+    "speechText": "zero matrix"
+  },
+  "202": {
+    "americanIPA": "aɪˈdɛntɪti ˈmeɪtrɪks",
+    "britishIPA": "aɪˈdɛntɪti ˈmeɪtrɪks",
+    "speechText": "identity matrix"
+  },
+  "203": {
+    "americanIPA": "ɪnˈvɜːtɪbəl ˈmeɪtrɪks",
+    "britishIPA": "ɪnˈvɜːtɪbəl ˈmeɪtrɪks",
+    "speechText": "invertible matrix"
+  },
+  "204": {
+    "americanIPA": "ˈblɑːk ˈmeɪtrɪks",
+    "britishIPA": "ˈblɒk ˈmeɪtrɪks",
+    "speechText": "block matrix"
+  },
+  "205": {
+    "americanIPA": "əˈdʒuːɡeɪt ˈmeɪtrɪks, ˈklæsɪkəl əˈdʒɔɪnt",
+    "britishIPA": "əˈdʒuːɡeɪt ˈmeɪtrɪks, ˈklasɪkəl əˈdʒɔɪnt",
+    "speechText": "adjugate matrix, classical adjoint"
+  },
+  "206": {
+    "americanIPA": "ˈsɪmɪlɚ ˈmeɪtrɪks",
+    "britishIPA": "ˈsɪmɪlə ˈmeɪtrɪks",
+    "speechText": "similar matrix"
+  },
+  "207": {
+    "americanIPA": "ɔːrˈθɑːɡənəl ˈmeɪtrɪks",
+    "britishIPA": "ɔːˈθɒɡənəl ˈmeɪtrɪks",
+    "speechText": "orthogonal matrix"
+  },
+  "208": {
+    "americanIPA": "ˈpɑːzɪˌtɪv ˈdɛfɪnət ˈmeɪtrɪks",
+    "britishIPA": "ˈpɒzɪˌtɪv ˈdɛfɪnət ˈmeɪtrɪks",
+    "speechText": "positive definite matrix"
+  },
+  "209": {
+    "americanIPA": "pɑːrˈtɪʃənd ˈmeɪtrɪks",
+    "britishIPA": "pɑːˈtɪʃənd ˈmeɪtrɪks",
+    "speechText": "partitioned matrix"
+  },
+  "210": {
+    "americanIPA": "daɪˈæɡənəl ˈmeɪtrɪks",
+    "britishIPA": "daɪˈaɡənəl ˈmeɪtrɪks",
+    "speechText": "diagonal matrix"
+  },
+  "211": {
+    "americanIPA": "ˌɛlɪˈmɛntɚri ˈmeɪtrɪks",
+    "britishIPA": "ˌɛlɪˈmɛntəri ˈmeɪtrɪks",
+    "speechText": "elementary matrix"
+  },
+  "212": {
+    "americanIPA": "ˈaɪdmpoʊtənt ˈmeɪtrɪks",
+    "britishIPA": "ˈaɪdmpəʊtənt ˈmeɪtrɪks",
+    "speechText": "idempotent matrix"
+  },
+  "213": {
+    "americanIPA": "ˈnɪlpoʊtənt ˈmeɪtrɪks",
+    "britishIPA": "ˈnɪlpəʊtənt ˈmeɪtrɪks",
+    "speechText": "nilpotent matrix"
+  },
+  "214": {
+    "americanIPA": "trænˈsɪʃən ˈmeɪtrɪks",
+    "britishIPA": "tranˈsɪʃən ˈmeɪtrɪks",
+    "speechText": "transition matrix"
+  },
+  "215": {
+    "americanIPA": "ˈsɪŋɡjʊlɚ ˈmeɪtrɪks",
+    "britishIPA": "ˈsɪŋɡjʊlə ˈmeɪtrɪks",
+    "speechText": "singular matrix"
+  },
+  "216": {
+    "americanIPA": "kəmˈpæniən ˈmeɪtrɪks",
+    "britishIPA": "kəmˈpaniən ˈmeɪtrɪks",
+    "speechText": "companion matrix"
+  },
+  "217": {
+    "americanIPA": "ˌʌpɚ traɪˈæŋɡjʊlɚ ˈmeɪtrɪks",
+    "britishIPA": "ˌʌpə traɪˈaŋɡjʊlə ˈmeɪtrɪks",
+    "speechText": "upper triangular matrix"
+  },
+  "218": {
+    "americanIPA": "trænˈspoʊz",
+    "britishIPA": "tranˈspəʊz",
+    "speechText": "transpose"
+  },
+  "219": {
+    "americanIPA": "ˈræŋk",
+    "britishIPA": "ˈraŋk",
+    "speechText": "rank"
+  },
+  "220": {
+    "americanIPA": "ˈroʊ ˈræŋk",
+    "britishIPA": "ˈrəʊ ˈraŋk",
+    "speechText": "row rank"
+  },
+  "221": {
+    "americanIPA": "ˈkɑːlʌm ˈræŋk",
+    "britishIPA": "ˈkɒlʌm ˈraŋk",
+    "speechText": "column rank"
+  },
+  "222": {
+    "americanIPA": "ˈfʊl ˈræŋk",
+    "britishIPA": "ˈfʊl ˈraŋk",
+    "speechText": "full rank"
+  },
+  "223": {
+    "americanIPA": "ˈsɪstəm ʌv ˈlɪnɪr ɪˈkweɪʒənz",
+    "britishIPA": "ˈsɪstəm ɒv ˈlɪniər ɪˈkweɪʒənz",
+    "speechText": "system of linear equations"
+  },
+  "224": {
+    "americanIPA": "həˈmoʊdʒniəs ˈsɪstəm ʌv ˈlɪnɪr ɪˈkweɪʒənz",
+    "britishIPA": "həˈməʊdʒniəs ˈsɪstəm ɒv ˈlɪniər ɪˈkweɪʒənz",
+    "speechText": "homogeneous system of linear equations"
+  },
+  "225": {
+    "americanIPA": "ˌɛlɪˈmɛntɚri trænsfɔːrˈmeɪʃən",
+    "britishIPA": "ˌɛlɪˈmɛntəri transfɔːˈmeɪʃən",
+    "speechText": "elementary transformation"
+  },
+  "226": {
+    "americanIPA": "ˈlɪnɪr ˌkɑːmbɪˈneɪʃən",
+    "britishIPA": "ˈlɪniə ˌkɒmbɪˈneɪʃən",
+    "speechText": "linear combination"
+  },
+  "227": {
+    "americanIPA": "ˈlɪnɪrli dɪˈpɛndənt",
+    "britishIPA": "ˈlɪniəli dɪˈpɛndənt",
+    "speechText": "linearly dependent"
+  },
+  "228": {
+    "americanIPA": "ˈlɪnɪrli ˌɪndɪˈpɛndənt",
+    "britishIPA": "ˈlɪniəli ˌɪndɪˈpɛndənt",
+    "speechText": "linearly independent"
+  },
+  "229": {
+    "americanIPA": "ˈmæksɪməl ˈlɪnɪrli ˌɪndɪˈpɛndənt ˈsɛt",
+    "britishIPA": "ˈmaksɪməl ˈlɪniəli ˌɪndɪˈpɛndənt ˈsɛt",
+    "speechText": "maximal linearly independent set"
+  },
+  "230": {
+    "americanIPA": "ˈjuːnɪt ˈvɛktɚ",
+    "britishIPA": "ˈjuːnɪt ˈvɛktə",
+    "speechText": "unit vector"
+  },
+  "231": {
+    "americanIPA": "ˌfʌndəˈmɛntəl ˈsɛt, ˈsɪstəm ʌv səˈluːʃənz",
+    "britishIPA": "ˌfʌndəˈmɛntəl ˈsɛt, ˈsɪstəm ɒv səˈluːʃənz",
+    "speechText": "fundamental set, system of solutions"
+  },
+  "232": {
+    "americanIPA": "pɚˈtɪkjʊlɚ səˈluːʃən",
+    "britishIPA": "pəˈtɪkjʊlə səˈluːʃən",
+    "speechText": "particular solution"
+  },
+  "233": {
+    "americanIPA": "ˈdʒɛnɚrəl səˈluːʃən",
+    "britishIPA": "ˈdʒɛnərəl səˈluːʃən",
+    "speechText": "general solution"
+  },
+  "234": {
+    "americanIPA": "kwɑːˈdrætɪk ˈfɔːrm",
+    "britishIPA": "kwɒˈdratɪk ˈfɔːm",
+    "speechText": "quadratic form"
+  },
+  "235": {
+    "americanIPA": "ˈpɑːzɪˌtɪv ˈdɛfɪnət kwɑːˈdrætɪk ˈfɔːrm",
+    "britishIPA": "ˈpɒzɪˌtɪv ˈdɛfɪnət kwɒˈdratɪk ˈfɔːm",
+    "speechText": "positive definite quadratic form"
+  },
+  "236": {
+    "americanIPA": "ɪnˈdɛfɪnət kwɑːˈdrætɪk ˈfɔːrm",
+    "britishIPA": "ɪnˈdɛfɪnət kwɒˈdratɪk ˈfɔːm",
+    "speechText": "indefinite quadratic form"
+  },
+  "237": {
+    "americanIPA": "ˈnɛɡəˌtɪv ˈdɛfɪnət kwɑːˈdrætɪk ˈfɔːrm",
+    "britishIPA": "ˈnɛɡəˌtɪv ˈdɛfɪnət kwɒˈdratɪk ˈfɔːm",
+    "speechText": "negative definite quadratic form"
+  },
+  "238": {
+    "americanIPA": "ˌriːflɛkˈsɪvɪti",
+    "britishIPA": "ˌriːflɛkˈsɪvɪti",
+    "speechText": "reflexivity"
+  },
+  "239": {
+    "americanIPA": "ˈsɪmətri",
+    "britishIPA": "ˈsɪmətri",
+    "speechText": "symmetry"
+  },
+  "240": {
+    "americanIPA": "ˌtrænsɪˈtɪvɪti",
+    "britishIPA": "ˌtransɪˈtɪvɪti",
+    "speechText": "transitivity"
+  },
+  "241": {
+    "americanIPA": "kəˈnɑːnɪkəl ˈfɔːrm, ˈnɔːrməl ˈfɔːrm",
+    "britishIPA": "kəˈnɒnɪkəl ˈfɔːm, ˈnɔːməl ˈfɔːm",
+    "speechText": "canonical form, normal form"
+  },
+  "242": {
+    "americanIPA": "ˈstændɚd ˈfɔːrm",
+    "britishIPA": "ˈstandəd ˈfɔːm",
+    "speechText": "standard form"
+  },
+  "243": {
+    "americanIPA": "sɪlˈvɛstərz ˈlɔː əv ɪˈnɜːrʃə",
+    "britishIPA": "sɪlˈvɛstəz ˈlɔː əv ɪˈnɜːʃə",
+    "speechText": "Sylvester's law of inertia"
+  },
+  "244": {
+    "americanIPA": "ˈpɑːzɪˌtɪv ˈɪndɛks ʌv ɪˈnɜːʃə",
+    "britishIPA": "ˈpɒzɪˌtɪv ˈɪndɛks ɒv ɪˈnɜːʃə",
+    "speechText": "positive index of inertia"
+  },
+  "245": {
+    "americanIPA": "ˈnɛɡəˌtɪv ˈɪndɛks ʌv ɪˈnɜːʃə",
+    "britishIPA": "ˈnɛɡəˌtɪv ˈɪndɛks ɒv ɪˈnɜːʃə",
+    "speechText": "negative index of inertia"
+  },
+  "246": {
+    "americanIPA": "ˈprɪnsɪpəl ˈmaɪnɚ",
+    "britishIPA": "ˈprɪnsɪpəl ˈmaɪnə",
+    "speechText": "principal minor"
+  },
+  "247": {
+    "americanIPA": "ˈliːdɪŋ ˈprɪnsɪpəl ˈmaɪnɚ",
+    "britishIPA": "ˈliːdɪŋ ˈprɪnsɪpəl ˈmaɪnə",
+    "speechText": "leading principal minor"
+  },
+  "248": {
+    "americanIPA": "aɪˈdɛntɪti ˈmæp",
+    "britishIPA": "aɪˈdɛntɪti ˈmap",
+    "speechText": "identity map"
+  },
+  "249": {
+    "americanIPA": "ˈaɪsəˌmɔːrfɪzəm",
+    "britishIPA": "ˈaɪsəˌmɔːfɪzəm",
+    "speechText": "isomorphism"
+  },
+  "250": {
+    "americanIPA": "ˌɛn daɪˈmɛnʃənəl",
+    "britishIPA": "ˌɛn daɪˈmɛnʃənəl",
+    "speechText": "n-dimensional"
+  },
+  "251": {
+    "americanIPA": "ˈɪnfɪnət dɪˈmɛnʃənəl",
+    "britishIPA": "ˈɪnfɪnət daɪˈmɛnʃənəl",
+    "speechText": "infinite-dimensional"
+  },
+  "252": {
+    "americanIPA": "ˈlɪnɪr ˈspeɪs",
+    "britishIPA": "ˈlɪniə ˈspeɪs",
+    "speechText": "linear space"
+  },
+  "253": {
+    "americanIPA": "ˈsʌbspeɪs",
+    "britishIPA": "ˈsʌbspeɪs",
+    "speechText": "subspace"
+  },
+  "254": {
+    "americanIPA": "ˈlɪnɪr ˈsʌbspeɪs",
+    "britishIPA": "ˈlɪniə ˈsʌbspeɪs",
+    "speechText": "linear subspace"
+  },
+  "255": {
+    "americanIPA": "ˈziəroʊ ˈsʌbspeɪs",
+    "britishIPA": "ˈziərəʊ ˈsʌbspeɪs",
+    "speechText": "zero subspace"
+  },
+  "256": {
+    "americanIPA": "ˈtrɪvɪəl ˈsʌbspeɪs",
+    "britishIPA": "ˈtrɪvɪəl ˈsʌbspeɪs",
+    "speechText": "trivial subspace"
+  },
+  "257": {
+    "americanIPA": "səˈluːʃən ˈspeɪs",
+    "britishIPA": "səˈluːʃən ˈspeɪs",
+    "speechText": "solution space"
+  },
+  "258": {
+    "americanIPA": "dɪˈrɛkt ˈsʌm",
+    "britishIPA": "daɪˈrɛkt ˈsʌm",
+    "speechText": "direct sum"
+  },
+  "259": {
+    "americanIPA": "dɪˈmɛnʃən",
+    "britishIPA": "daɪˈmɛnʃən",
+    "speechText": "dimension"
+  },
+  "260": {
+    "americanIPA": "dɪˈmɛnʃən ˈfɔːrmjʊlə",
+    "britishIPA": "daɪˈmɛnʃən ˈfɔːmjʊlə",
+    "speechText": "dimension formula"
+  },
+  "261": {
+    "americanIPA": "ˈaɪdʒənˌvæljuː",
+    "britishIPA": "ˈaɪdʒənˌvaljuː",
+    "speechText": "eigenvalue"
+  },
+  "262": {
+    "americanIPA": "ˌkærɪktɚˈrɪstɪk ɪˈkweɪʒən",
+    "britishIPA": "ˌkarɪktəˈrɪstɪk ɪˈkweɪʒən",
+    "speechText": "characteristic equation"
+  },
+  "263": {
+    "americanIPA": "ˌkærɪktɚˈrɪstɪk ˌpɑːlɪˈnoʊmɪəl",
+    "britishIPA": "ˌkarɪktəˈrɪstɪk ˌpɒlɪˈnəʊmɪəl",
+    "speechText": "characteristic polynomial"
+  },
+  "264": {
+    "americanIPA": "ˈaɪdʒənˌvɛktɚ",
+    "britishIPA": "ˈaɪdʒənˌvɛktə",
+    "speechText": "eigenvector"
+  },
+  "265": {
+    "americanIPA": "ˈlɪnɪr trænsfɔːrˈmeɪʃən",
+    "britishIPA": "ˈlɪniə transfɔːˈmeɪʃən",
+    "speechText": "linear transformation"
+  },
+  "266": {
+    "americanIPA": "ˈkɜːnəl",
+    "britishIPA": "ˈkɜːnəl",
+    "speechText": "kernel"
+  },
+  "267": {
+    "americanIPA": "ɪnˈvɛriənt ˈsʌbspeɪs",
+    "britishIPA": "ɪnˈveəriənt ˈsʌbspeɪs",
+    "speechText": "invariant subspace"
+  },
+  "268": {
+    "americanIPA": "ˈdʒɔːrdən ˈnɔːrməl fɔːrm, ˈdʒɔːrdən kəˈnɑːnɪkəl fɔːrm",
+    "britishIPA": "ˈdʒɔːdən ˈnɔːməl fɔːm, ˈdʒɔːdən kəˈnɒnɪkəl fɔːm",
+    "speechText": "Jordan normal form, Jordan canonical form"
+  },
+  "269": {
+    "americanIPA": "ˈdʒɔːrdən blɑːk",
+    "britishIPA": "ˈdʒɔːdən blɒk",
+    "speechText": "Jordan block"
+  },
+  "270": {
+    "americanIPA": "ˈmɪnɪməl ˌpɑːlɪˈnoʊmɪəl",
+    "britishIPA": "ˈmɪnɪməl ˌpɒlɪˈnəʊmɪəl",
+    "speechText": "minimal polynomial"
+  },
+  "271": {
+    "americanIPA": "dɪˈtɜːmɪˌnæntəl dɪˈvaɪzɚ",
+    "britishIPA": "dɪˈtɜːmɪˌnantəl dɪˈvaɪzə",
+    "speechText": "determinantal divisor"
+  },
+  "272": {
+    "americanIPA": "ɪnˈvɛriənt ˈfæktɚ",
+    "britishIPA": "ɪnˈveəriənt ˈfaktə",
+    "speechText": "invariant factor"
+  },
+  "273": {
+    "americanIPA": "ˌɛlɪˈmɛntɚri dɪˈvaɪzɚ",
+    "britishIPA": "ˌɛlɪˈmɛntəri dɪˈvaɪzə",
+    "speechText": "elementary divisor"
+  },
+  "274": {
+    "americanIPA": "ˈmɛtrɪk ˈmeɪtrɪks",
+    "britishIPA": "ˈmɛtrɪk ˈmeɪtrɪks",
+    "speechText": "metric matrix"
+  },
+  "275": {
+    "americanIPA": "ɔːrˈθɑːɡənəl",
+    "britishIPA": "ɔːˈθɒɡənəl",
+    "speechText": "orthogonal"
+  },
+  "276": {
+    "americanIPA": "ɔːrˈθɑːɡənəl ˈbeɪsɪs",
+    "britishIPA": "ɔːˈθɒɡənəl ˈbeɪsɪs",
+    "speechText": "orthogonal basis"
+  },
+  "277": {
+    "americanIPA": "ˈɔːrθəˌnɔːrməl ˈbeɪsɪs",
+    "britishIPA": "ˈɔːθəˌnɔːməl ˈbeɪsɪs",
+    "speechText": "orthonormal basis"
+  },
+  "278": {
+    "americanIPA": "ɔːrˈθɑːɡənəl ˈsɛt, ˈsɪstəm ʌv ˈvɛktɚz",
+    "britishIPA": "ɔːˈθɒɡənəl ˈsɛt, ˈsɪstəm ɒv ˈvɛktəz",
+    "speechText": "orthogonal set, system of vectors"
+  },
+  "279": {
+    "americanIPA": "ɔːrˈθɑːɡənəl trænsfɔːrˈmeɪʃən",
+    "britishIPA": "ɔːˈθɒɡənəl transfɔːˈmeɪʃən",
+    "speechText": "orthogonal transformation"
+  },
+  "280": {
+    "americanIPA": "ɔːrˈθɑːɡənəl ˈkɑːmplɪmənt",
+    "britishIPA": "ɔːˈθɒɡənəl ˈkɒmplɪmənt",
+    "speechText": "orthogonal complement"
+  },
+  "281": {
+    "americanIPA": "ɔːrˈθɑːɡənəl ˌdiːkɑːmpəˈzɪʃən",
+    "britishIPA": "ɔːˈθɒɡənəl ˌdiːkɒmpəˈzɪʃən",
+    "speechText": "orthogonal decomposition"
+  },
+  "282": {
+    "americanIPA": "ˈaɪsəˌmɔːrfɪzəm",
+    "britishIPA": "ˈaɪsəˌmɔːfɪzəm",
+    "speechText": "isomorphism"
+  },
+  "283": {
+    "americanIPA": "ˈsɛlf əˈdʒɔɪnt trænsfɔːrˈmeɪʃən, ˈɑːpɚˌreɪtɚ",
+    "britishIPA": "ˈsɛlf əˈdʒɔɪnt transfɔːˈmeɪʃən, ˈɒpəˌreɪtə",
+    "speechText": "self-adjoint transformation, operator"
+  },
+  "284": {
+    "americanIPA": "ˈskjuː sɪˈmɛtrɪk trænsfɔːrˈmeɪʃən, ˈskjuː əˈdʒɔɪnt trænsfɔːrˈmeɪʃən",
+    "britishIPA": "ˈskjuː sɪˈmɛtrɪk transfɔːˈmeɪʃən, ˈskjuː əˈdʒɔɪnt transfɔːˈmeɪʃən",
+    "speechText": "skew-symmetric transformation, skew-adjoint transformation"
+  },
+  "285": {
+    "americanIPA": "ˌprɑːbəˈbɪlɪti",
+    "britishIPA": "ˌprɒbəˈbɪlɪti",
+    "speechText": "Probability"
+  },
+  "286": {
+    "americanIPA": "ˌprɑːbəˈbɪlɪti ˈspeɪs",
+    "britishIPA": "ˌprɒbəˈbɪlɪti ˈspeɪs",
+    "speechText": "Probability Space"
+  },
+  "287": {
+    "americanIPA": "ˈsæmpəl ˈspeɪs",
+    "britishIPA": "ˈsampəl ˈspeɪs",
+    "speechText": "Sample Space"
+  },
+  "288": {
+    "americanIPA": "ˈfiːld ʌv ɪˈvɛnts, ˈældʒɪbrə ʌv ɪˈvɛnts",
+    "britishIPA": "ˈfiːld ɒv ɪˈvɛnts, ˈaldʒɪbrər ɒv ɪˈvɛnts",
+    "speechText": "Field of Events, Algebra of Events"
+  },
+  "289": {
+    "americanIPA": "kənˈdɪʃənəl ˌprɑːbəˈbɪlɪti",
+    "britishIPA": "kənˈdɪʃənəl ˌprɒbəˈbɪlɪti",
+    "speechText": "Conditional Probability"
+  },
+  "290": {
+    "americanIPA": "ˈmjuːtʃuːəli ɛksˈkluːsɪv ɪˈvɛnts",
+    "britishIPA": "ˈmjuːtʃuːəli ɛksˈkluːsɪv ɪˈvɛnts",
+    "speechText": "Mutually Exclusive Events"
+  },
+  "291": {
+    "americanIPA": "ˌɪndɪˈpɛndənt ɪˈvɛnts",
+    "britishIPA": "ˌɪndɪˈpɛndənt ɪˈvɛnts",
+    "speechText": "Independent Events"
+  },
+  "292": {
+    "americanIPA": "ˈrændəm ˈvɛrɪəbəl",
+    "britishIPA": "ˈrandəm ˈveərɪəbəl",
+    "speechText": "Random Variable"
+  },
+  "293": {
+    "americanIPA": "dɪˈskriːt ˈrændəm ˈvɛrɪəbəl",
+    "britishIPA": "dɪˈskriːt ˈrandəm ˈveərɪəbəl",
+    "speechText": "Discrete Random Variable"
+  },
+  "294": {
+    "americanIPA": "kənˈtɪnjuːəs ˈrændəm ˈvɛrɪəbəl",
+    "britishIPA": "kənˈtɪnjuːəs ˈrandəm ˈveərɪəbəl",
+    "speechText": "Continuous Random Variable"
+  },
+  "295": {
+    "americanIPA": "ˌdɪstrɪˈbjuːʃən",
+    "britishIPA": "ˌdɪstrɪˈbjuːʃən",
+    "speechText": "Distribution"
+  },
+  "296": {
+    "americanIPA": "ˈkjuːmjʊləˌtɪv ˌdɪstrɪˈbjuːʃən ˈfʌŋkʃən",
+    "britishIPA": "ˈkjuːmjʊləˌtɪv ˌdɪstrɪˈbjuːʃən ˈfʌŋkʃən",
+    "speechText": "Cumulative Distribution Function"
+  },
+  "297": {
+    "americanIPA": "ˌprɑːbəˈbɪlɪti ˈdɛnsɪti ˈfʌŋkʃən",
+    "britishIPA": "ˌprɒbəˈbɪlɪti ˈdɛnsɪti ˈfʌŋkʃən",
+    "speechText": "Probability Density Function"
+  },
+  "298": {
+    "americanIPA": "baɪˈnoʊmɪəl ˌdɪstrɪˈbjuːʃən",
+    "britishIPA": "baɪˈnəʊmɪəl ˌdɪstrɪˈbjuːʃən",
+    "speechText": "Binomial Distribution"
+  },
+  "299": {
+    "americanIPA": "ˈpwɑːsɑːn ˌdɪstrəˈbjuːʃən",
+    "britishIPA": "ˈpwɑːsɒn ˌdɪstrɪˈbjuːʃən",
+    "speechText": "Poisson Distribution"
+  },
+  "300": {
+    "americanIPA": "ˈjuːnɪˌfɔːrm ˌdɪstrɪˈbjuːʃən",
+    "britishIPA": "ˈjuːnɪˌfɔːm ˌdɪstrɪˈbjuːʃən",
+    "speechText": "Uniform Distribution"
+  },
+  "301": {
+    "americanIPA": "ˈnɔːrməl ˌdɪstrɪˈbjuːʃən",
+    "britishIPA": "ˈnɔːməl ˌdɪstrɪˈbjuːʃən",
+    "speechText": "Normal Distribution"
+  },
+  "302": {
+    "americanIPA": "ɛkspɪkˈteɪʃən",
+    "britishIPA": "ɛkspɪkˈteɪʃən",
+    "speechText": "Expectation"
+  },
+  "303": {
+    "americanIPA": "ˈvɛriəns",
+    "britishIPA": "ˈveəriəns",
+    "speechText": "Variance"
+  },
+  "304": {
+    "americanIPA": "ˈkɑːvɛˌriəns",
+    "britishIPA": "ˈkɒveəˌriəns",
+    "speechText": "Covariance"
+  },
+  "305": {
+    "americanIPA": "ˌkɔrɪˈleɪʃən",
+    "britishIPA": "ˌkɒrɪˈleɪʃən",
+    "speechText": "Correlation"
+  },
+  "306": {
+    "americanIPA": "ˌkɔrɪˈleɪʃən ˌkoʊɪˈfɪʃənt",
+    "britishIPA": "ˌkɒrɪˈleɪʃən ˌkəʊɪˈfɪʃənt",
+    "speechText": "Correlation Coefficient"
+  },
+  "307": {
+    "americanIPA": "ˈlɔː ʌv ˈlɑːrdʒ ˈnʌmbɚz",
+    "britishIPA": "ˈlɔː ɒv ˈlɑːdʒ ˈnʌmbəz",
+    "speechText": "Law of Large Numbers"
+  },
+  "308": {
+    "americanIPA": "ˈstrɔŋ ˈlɔː ʌv ˈlɑːrdʒ ˈnʌmbɚz",
+    "britishIPA": "ˈstrɒŋ ˈlɔː ɒv ˈlɑːdʒ ˈnʌmbəz",
+    "speechText": "Strong Law of Large Numbers"
+  },
+  "309": {
+    "americanIPA": "ˈwiːk ˈlɔː ʌv ˈlɑːrdʒ ˈnʌmbɚz",
+    "britishIPA": "ˈwiːk ˈlɔː ɒv ˈlɑːdʒ ˈnʌmbəz",
+    "speechText": "Weak Law of Large Numbers"
+  },
+  "310": {
+    "americanIPA": "ˈsɛntrəl ˈlɪmɪt ˈθiərəm",
+    "britishIPA": "ˈsɛntrəl ˈlɪmɪt ˈθiərəm",
+    "speechText": "Central Limit Theorem"
+  },
+  "311": {
+    "americanIPA": "kənˈvɜːdʒəns ɪn ˌprɑːbəˈbɪlɪti",
+    "britishIPA": "kənˈvɜːdʒəns ɪn ˌprɒbəˈbɪlɪti",
+    "speechText": "Convergence in Probability"
+  },
+  "312": {
+    "americanIPA": "stəˈtɪstɪk",
+    "britishIPA": "stəˈtɪstɪk",
+    "speechText": "Statistic"
+  },
+  "313": {
+    "americanIPA": "ˈɔːrdɚ stəˈtɪstɪk",
+    "britishIPA": "ˈɔːdə stəˈtɪstɪk",
+    "speechText": "Order Statistic"
+  },
+  "314": {
+    "americanIPA": "səˈfɪʃənt stəˈtɪstɪk",
+    "britishIPA": "səˈfɪʃənt stəˈtɪstɪk",
+    "speechText": "Sufficient Statistic"
+  },
+  "315": {
+    "americanIPA": "ˈpɔɪnt ˌɛstɪˈmeɪʃən",
+    "britishIPA": "ˈpɔɪnt ˌɛstɪˈmeɪʃən",
+    "speechText": "Point Estimation"
+  },
+  "316": {
+    "americanIPA": "ˈmɛθəd ʌv ˈmoʊmənts ˌɛstɪˈmeɪʃən",
+    "britishIPA": "ˈmɛθəd ɒv ˈməʊmənts ˌɛstɪˈmeɪʃən",
+    "speechText": "Method of Moments Estimation"
+  },
+  "317": {
+    "americanIPA": "ˈɪntɚvəl ˌɛstɪˈmeɪʃən",
+    "britishIPA": "ˈɪntəvəl ˌɛstɪˈmeɪʃən",
+    "speechText": "Interval Estimation"
+  },
+  "318": {
+    "americanIPA": "ˈmæksɪməm ˈlaɪkliˌhʊd ˌɛstɪˈmeɪʃən",
+    "britishIPA": "ˈmaksɪməm ˈlaɪkliˌhʊd ˌɛstɪˈmeɪʃən",
+    "speechText": "Maximum Likelihood Estimation"
+  },
+  "319": {
+    "americanIPA": "ʌnˈbaɪəst ˌɛstɪˈmeɪʃən",
+    "britishIPA": "ʌnˈbaɪəst ˌɛstɪˈmeɪʃən",
+    "speechText": "Unbiased Estimation"
+  },
+  "320": {
+    "americanIPA": "kənˈsɪstənt ˌɛstɪˈmeɪʃən",
+    "britishIPA": "kənˈsɪstənt ˌɛstɪˈmeɪʃən",
+    "speechText": "Consistent Estimation"
+  },
+  "321": {
+    "americanIPA": "ˈkɑːnfɪdəns ˈɪntɚvəl",
+    "britishIPA": "ˈkɒnfɪdəns ˈɪntəvəl",
+    "speechText": "Confidence Interval"
+  },
+  "322": {
+    "americanIPA": "haɪˈpɑːθəˌsɪs ˈtɛstɪŋ",
+    "britishIPA": "haɪˈpɒθəˌsɪs ˈtɛstɪŋ",
+    "speechText": "Hypothesis Testing"
+  },
+  "323": {
+    "americanIPA": "nʌl haɪˈpɑːθəsɪs, ˌeɪtʃ ˈzɪroʊ",
+    "britishIPA": "nʌl haɪˈpɒθəsɪs, ˌeɪtʃ ˈzɪərəʊ",
+    "speechText": "Null Hypothesis (H 0)"
+  },
+  "324": {
+    "americanIPA": "ɔːlˈtɜːrnətɪv haɪˈpɑːθəsɪs, ˌeɪtʃ ˈwʌn ɔːr ˌeɪtʃ ˈeɪ",
+    "britishIPA": "ɔːlˈtɜːnətɪv haɪˈpɒθəsɪs, ˌeɪtʃ ˈwʌn ɔː ˌeɪtʃ ˈeɪ",
+    "speechText": "Alternative Hypothesis (H 1 or H a)"
+  },
+  "325": {
+    "americanIPA": "sɪɡˈnɪfɪkəns ˈlɛvəl ˈælfə",
+    "britishIPA": "sɪɡˈnɪfɪkəns ˈlɛvəl ˈalfə",
+    "speechText": "Significance Level (alpha)"
+  },
+  "326": {
+    "americanIPA": "ˈpiː ˌvæljuː",
+    "britishIPA": "ˈpiː ˌvæljuː",
+    "speechText": "p-value"
+  }
+}

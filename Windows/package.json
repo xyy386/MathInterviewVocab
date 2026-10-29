@@ -1,0 +1,40 @@
+{
+  "name": "math-interview-vocab-windows",
+  "productName": "数学面试词汇",
+  "version": "1.1.1",
+  "private": true,
+  "overrides": {
+    "archiver-utils": {
+      "glob": "10.5.0"
+    }
+  },
+  "description": "数学面试词汇 · Windows 离线版",
+  "type": "module",
+  "main": ".out/app/main.cjs",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "build": "npm run typecheck && vite build && node scripts/build-main.mjs",
+    "start": "electron .",
+    "audio:prepare": "node scripts/prepare-audio.mjs",
+    "package:win": "npm test && npm run build && node scripts/package-windows.mjs"
+  },
+  "dependencies": {
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@electron/packager": "20.3.0",
+    "@types/node": "24.19.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "archiver": "7.0.1",
+    "electron": "45.1.0",
+    "esbuild": "0.28.2",
+    "png-to-ico": "3.0.2",
+    "sharp": "0.35.5",
+    "tsx": "4.23.15",
+    "typescript": "7.0.2",
+    "vite": "8.3.5"
+  }
+}

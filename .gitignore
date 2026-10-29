@@ -1,0 +1,56 @@
+# macOS
+.DS_Store
+
+# Xcode per-user state
+xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.moved-aside
+
+# Build products and derived data
+dist/
+release-artifacts/
+build/
+DerivedData/
+*.dSYM
+*.dSYM.zip
+*.ipa
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Packages/
+
+# Local Xcode environment overrides
+.xcode.env.local
+
+# Temporary files
+*.tmp
+*.swp
+*~
+
+# Dependencies, generated output and private verification data
+node_modules/
+.out/
+output/
+.playwright-cli/
+Windows/verification/
+__pycache__/
+*.pyc
+progress.json
+settings.json
+.env
+.env.*
+*.p12
+*.pfx
+*.key
+*.mobileprovision
+.venv/
+venv/
+.cache/
+*.pth
+*.pt
+*.onnx
+*.safetensors
+*.pem
+*.baiduyun.uploading.cfg

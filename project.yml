@@ -1,0 +1,87 @@
+name: MathInterviewVocab
+
+options:
+  createIntermediateGroups: true
+  defaultConfig: Debug
+  deploymentTarget:
+    macOS: "14.0"
+  developmentLanguage: zh-Hans
+  indentWidth: 4
+  tabWidth: 4
+  usesTabs: false
+  xcodeVersion: "1600"
+  projectFormat: xcode16_0
+
+configs:
+  Debug: debug
+  Release: release
+
+fileGroups:
+  - Config
+
+targets:
+  MathInterviewVocab:
+    type: application
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: App
+        excludes:
+          - Assets.xcassets
+      - path: App/Assets.xcassets
+      - path: Resources/terms.json
+        buildPhase: resources
+    configFiles:
+      Debug: Config/Debug.xcconfig
+      Release: Config/Release.xcconfig
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.xingyiyao.MathInterviewVocab
+        PRODUCT_NAME: MathInterviewVocab
+        MARKETING_VERSION: "1.1"
+        CURRENT_PROJECT_VERSION: "2"
+        SWIFT_VERSION: "6.0"
+        SWIFT_STRICT_CONCURRENCY: complete
+        SUPPORTED_PLATFORMS: macosx
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: Config/Info.plist
+        CODE_SIGN_STYLE: Automatic
+        ENABLE_USER_SCRIPT_SANDBOXING: YES
+        ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: YES
+
+  MathInterviewVocabTests:
+    type: bundle.unit-test
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: Tests
+    dependencies:
+      - target: MathInterviewVocab
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.xingyiyao.MathInterviewVocabTests
+        PRODUCT_NAME: MathInterviewVocabTests
+        SWIFT_VERSION: "6.0"
+        SWIFT_STRICT_CONCURRENCY: complete
+        SUPPORTED_PLATFORMS: macosx
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/MathInterviewVocab.app/Contents/MacOS/MathInterviewVocab"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+
+schemes:
+  MathInterviewVocab:
+    build:
+      targets:
+        MathInterviewVocab: all
+    run:
+      config: Debug
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
+    test:
+      config: Debug
+      targets:
+        - MathInterviewVocabTests

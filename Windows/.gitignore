@@ -1,0 +1,9 @@
+node_modules/
+.out/
+output/
+.playwright-cli/
+verification/
+resources/audio-failures.json
+__pycache__/
+*.pyc
+*.baiduyun.uploading.cfg
