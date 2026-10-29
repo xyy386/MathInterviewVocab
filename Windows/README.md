@@ -4,11 +4,11 @@ Windows 1.1.1 面向 Windows 10/11 的 64 位 Intel/AMD（x64）电脑。它沿�
 
 ## 下载与使用
 
-从 [正式发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.1.1) 下载 [Windows 免安装 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.1.1/MathInterviewVocab-Windows-x64-v1.1.1.zip)，完整解压后运行 `数学面试词汇.exe`。不要在 ZIP 内运行，不要单独移动 EXE；旁边的 DLL、`resources` 和其他配套文件必须保留。
+从 [正式发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.1.2) 下载 [Windows 免安装 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.1.2/MathInterviewVocab-Windows-x64-v1.1.1.zip)，完整解压后运行 `数学面试词汇.exe`。不要在 ZIP 内运行，不要单独移动 EXE；旁边的 DLL、`resources` 和其他配套文件必须保留。`v1.1.2` 发布只更新 Mac，Windows 下载包与 `v1.1.1` 发布中的成品相同。
 
 不需要管理员权限，也不需要安装 Node.js、Python、浏览器、模型或运行时。GitHub 自动生成的 Source code 是开发源码，不是可直接运行的软件。
 
-成品未使用商业代码签名证书，Windows 可能提示未知发布者。请核对官方发布页和 [SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.1.1/SHA256SUMS.txt)，不要关闭系统安全防护。本版不提供 Windows 7/8、32 位或 ARM 原生构建。
+成品未使用商业代码签名证书，Windows 可能提示未知发布者。请核对官方发布页和 [SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.1.2/SHA256SUMS.txt)，不要关闭系统安全防护。本版不提供 Windows 7/8、32 位或 ARM 原生构建。
 
 ## 功能与布局
 
@@ -26,7 +26,7 @@ Windows 1.1.1 面向 Windows 10/11 的 64 位 Intel/AMD（x64）电脑。它沿�
 
 本版包含 2328 个预生成 MP3 音频片段，覆盖 1164 份文本的美式和英式发音。音源为 Kokoro-82M v1.0，美式 `af_heart`、英式 `bf_emma`；两套音频不是同一个声线改名。
 
-音频、音标和索引随包提供；运行时不需要模型、首次下载或网络。不会使用 Google 在线服务、Google 音频或所谓“离线 Google 模型”。Mac 当前成品采用 Google 在线增强和系统语音回退，不能把两平台的音源混为一谈。
+音频、音标和索引随包提供；运行时不需要模型、首次下载或网络。不会使用 Google 在线服务、Google 音频或所谓“离线 Google 模型”。Mac 自 1.1.2 起也内置同一套 Kokoro 音频，不再使用旧版 Google 在线增强和系统语音回退。
 
 完整词组使用独立 `speechText`；资源还覆盖词条英文中的完整单词和内置连续词组选区。任意字母片段、跨数学符号或不在索引中的选区会提示缺少音频，不会自动联网或冒充另一口音。详细来源、固定 revision、哈希与许可证见 [AUDIO-SOURCES](resources/AUDIO-SOURCES.md)。
 

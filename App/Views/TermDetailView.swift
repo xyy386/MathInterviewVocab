@@ -51,10 +51,12 @@ struct TermDetailView: View {
                 }
 
                 VStack(alignment: .leading, spacing: 12) {
+                    // 独立提供可访问文本，保留复制并避免可选 Text 的标签解析递归。
                     Text(term.chinese)
                         .font(.system(.largeTitle, design: .serif, weight: .bold))
                         .foregroundStyle(AcademicTheme.inkNavy)
                         .textSelection(.enabled)
+                        .accessibilityRepresentation { Text(term.chinese) }
 
                     SelectablePronunciationText(
                         text: MathNotation.display(term.english),
@@ -119,6 +121,7 @@ struct TermDetailView: View {
                         .foregroundStyle(AcademicTheme.inkNavy.opacity(0.90))
                         .lineSpacing(6)
                         .textSelection(.enabled)
+                        .accessibilityRepresentation { Text(MathNotation.display(term.definition)) }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .academicCard()

@@ -6,12 +6,12 @@
 
 | 平台 | 当前应用版本 | 系统要求 | 下载 |
 | --- | --- | --- | --- |
-| Windows | 1.1.1 | Windows 10/11，64 位 Intel/AMD（x64） | [Windows 免安装 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.1.1/MathInterviewVocab-Windows-x64-v1.1.1.zip) |
-| macOS | 1.1 build 2 | macOS 14+，Apple Silicon / Intel Universal | [macOS ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.1.1/MathInterviewVocab-macOS-universal-v1.1.zip) |
+| Windows | 1.1.1 | Windows 10/11，64 位 Intel/AMD（x64） | [Windows 免安装 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.1.2/MathInterviewVocab-Windows-x64-v1.1.1.zip) |
+| macOS | 1.1.2 build 3 | macOS 14+，Apple Silicon / Intel Universal | [macOS ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.1.2/MathInterviewVocab-macOS-universal-v1.1.2.zip) |
 
-[正式发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.1.1) · [SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.1.1/SHA256SUMS.txt) · [更新说明](docs/RELEASE-NOTES-v1.1.1.md)
+[正式发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.1.2) · [SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.1.2/SHA256SUMS.txt) · [更新说明](docs/RELEASE-NOTES-v1.1.2.md)
 
-请下载上述平台 ZIP，**不要把 GitHub 自动生成的 Source code 当作可运行软件**。仓库标签 `v1.1.1` 汇集两平台的当前成品，不代表 Mac 应用版本已改为 1.1.1。
+请下载上述平台 ZIP，**不要把 GitHub 自动生成的 Source code 当作可运行软件**。`v1.1.2` 更新 Mac 的离线发音，Windows 仍为原有 1.1.1 成品；[上一版发布](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.1.1) 保持不变。
 
 ### 安装与首次打开
 
@@ -36,11 +36,13 @@
 | 项目 | macOS | Windows |
 | --- | --- | --- |
 | 词库、IPA、检测、学习记录 | 离线 | 离线 |
-| 发音来源 | Google 在线增强；失败后使用同口音 Mac 系统语音 | 内置 Kokoro 预生成自然语音，2328 个音频片段 |
-| 发音联网 | 主动朗读时会向 Google 发送对应英文 | 不联网，不首次下载，不使用 Google 音频或模型 |
+| 发音来源 | 内置 Kokoro 预生成自然语音，2328 个音频片段 | 同一套 Kokoro 离线音频 |
+| 发音联网 | 不联网，不首次下载，不使用 Google 音频或模型 | 不联网，不首次下载，不使用 Google 音频或模型 |
 | 本地记录 | 仅保存于当前 Mac | 仅保存于当前 Windows 设备 |
 
-Google 翻译网页朗读不是稳定的公开第三方 TTS API，可能受网络、限流或服务调整影响；Mac 版保留系统语音回退。Windows 的离线资源覆盖完整词条、完整单词及内置连续词组选区；不在索引中的任意字母片段会提示音频缺失，不会自动联网。
+两平台均使用 Kokoro-82M v1.0 预生成音频，美式为 `af_heart`，英式为 `bf_emma`。音频随软件提供，运行时不需要模型或网络，也不向 Google 或其他服务发送朗读文本。Mac 1.1.2 已移除旧版的 Google 在线请求及系统语音回退。
+
+离线资源覆盖完整词条、完整单词及内置连续词组选区；不在索引中的任意字母片段会提示音频缺失，不会自动联网、切换系统声音或冒充另一口音。英美 IPA 和 0.75× / 1× / 1.25× 语速保持不变。
 
 本项目没有账号、分析 SDK、远程学习数据库或自动同步。更多说明见 [Windows README](Windows/README.md) 和 [离线音源声明](Windows/resources/AUDIO-SOURCES.md)。
 
@@ -74,6 +76,8 @@ Google 翻译网页朗读不是稳定的公开第三方 TTS API，可能受网�
 open MathInterviewVocab.xcodeproj
 ```
 
+工程构建时将仓库内 `Windows/resources` 的同一套音频、索引和许可复制到 Mac 应用资源中，不重复保存另一份音频源文件。Mac 日常构建不需要 Node.js、Python、模型权重或重新生成语音。
+
 仅在修改 `project.yml` 或增加工程文件后需要 XcodeGen：
 
 ```sh
@@ -86,6 +90,14 @@ xcodegen generate
 xcodebuild -project MathInterviewVocab.xcodeproj \
   -scheme MathInterviewVocab -destination 'platform=macOS' test
 ```
+
+构建并封装 Universal Release：
+
+```sh
+bash Scripts/package_macos.sh release-artifacts/macOS-1.1.2
+```
+
+脚本输出 `.app`、macOS ZIP 及单平台校验文件，拒绝覆盖已有输出；应用使用 ad-hoc 签名，不因此获得 Apple 公证。GitHub Release 的 `SHA256SUMS.txt` 另包含两平台附件校验和。
 
 ### Windows
 
@@ -113,11 +125,11 @@ python3 Scripts/generate_terms.py
 
 脚本校验科目顺序、连续编号、326 条总量及 130 条重点后生成 `Resources/terms.json`。IPA 复核数据位于 `Scripts/term_phonetics.json`。只有修改朗读文本、需要刷新 IPA 草稿时才需安装 eSpeak NG 并运行 `Scripts/generate_phonetics.py`；应用运行和日常构建不依赖它。
 
-修改词表后还需更新和核验 Windows 离线音频，不能仅修改文本就宣称音频覆盖完整。
+修改词表后还需更新和核验两平台共用的离线音频，不能仅修改文本就宣称音频覆盖完整。
 
 ## 验证与反馈
 
-Windows 实机运行已由用户验证。项目包含 Mac 25 项、Windows 68 项自动化测试；用户实机反馈与自动化检查属于不同证据，不代表所有 Windows 版本、硬件、系统缩放或音频设备组合均已验证。验收范围与复核命令见 [发布检查说明](docs/RELEASE-CHECKS.md)。
+Windows 实机运行已由用户验证。当前 Mac 的 20 项 XCTest 与 10 项 Swift Testing 测试（含参数化用例）全部通过，Windows 的 68 项自动化测试也通过；用户实机反馈与自动化检查属于不同证据，不代表所有系统版本、硬件、系统缩放或音频设备组合均已验证。具体版本的验收范围与复核命令见 [发布检查说明](docs/RELEASE-CHECKS.md)。
 
 问题反馈请使用 [GitHub Issues](https://github.com/xyy386/MathInterviewVocab/issues)，附上平台、应用版本、重现步骤及必要截图。不要公开上传自己的 `progress.json`、账号信息或包含个人内容的完整日志。
 

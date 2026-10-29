@@ -23,13 +23,6 @@ enum EnglishAccent: String, Codable, CaseIterable, Identifiable, Sendable {
     var fullName: String {
         "\(chineseName)英语"
     }
-
-    var googleHost: String {
-        switch self {
-        case .american: "translate.google.com"
-        case .british: "translate.google.co.uk"
-        }
-    }
 }
 
 struct TermPronunciation: Codable, Hashable, Sendable {
@@ -48,14 +41,14 @@ struct TermPronunciation: Codable, Hashable, Sendable {
 
 enum SpeechPlaybackSource: Equatable, Sendable {
     case idle
-    case loading(EnglishAccent)
-    case google(EnglishAccent)
-    case systemFallback(EnglishAccent)
+    case kokoro(EnglishAccent)
+    case missing(EnglishAccent, text: String)
+    case failed(EnglishAccent)
 
     var accent: EnglishAccent? {
         switch self {
         case .idle: nil
-        case let .loading(accent), let .google(accent), let .systemFallback(accent):
+        case let .kokoro(accent), let .missing(accent, _), let .failed(accent):
             accent
         }
     }

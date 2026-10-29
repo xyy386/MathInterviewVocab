@@ -31,6 +31,31 @@ targets:
       - path: App/Assets.xcassets
       - path: Resources/terms.json
         buildPhase: resources
+      - path: Windows/resources/audio
+        type: group
+        includes:
+          - '**/*.mp3'
+        excludes:
+          - '**/.??*'
+        buildPhase:
+          copyFiles:
+            destination: resources
+            subpath: KokoroAudio/audio
+      - path: Windows/resources/audio-manifest.json
+        buildPhase:
+          copyFiles:
+            destination: resources
+            subpath: KokoroAudio
+      - path: Windows/resources/AUDIO-SOURCES.md
+        buildPhase:
+          copyFiles:
+            destination: resources
+            subpath: KokoroAudio
+      - path: Windows/resources/KOKORO-APACHE-2.0.txt
+        buildPhase:
+          copyFiles:
+            destination: resources
+            subpath: KokoroAudio
     configFiles:
       Debug: Config/Debug.xcconfig
       Release: Config/Release.xcconfig
@@ -38,8 +63,8 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.xingyiyao.MathInterviewVocab
         PRODUCT_NAME: MathInterviewVocab
-        MARKETING_VERSION: "1.1"
-        CURRENT_PROJECT_VERSION: "2"
+        MARKETING_VERSION: "1.1.2"
+        CURRENT_PROJECT_VERSION: "3"
         SWIFT_VERSION: "6.0"
         SWIFT_STRICT_CONCURRENCY: complete
         SUPPORTED_PLATFORMS: macosx

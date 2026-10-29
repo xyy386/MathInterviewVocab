@@ -13,7 +13,7 @@ struct PronunciationPanel: View {
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(AcademicTheme.inkNavy)
                 Spacer()
-                Label("Google 在线发音", systemImage: "waveform")
+                Label("Kokoro 离线发音", systemImage: "waveform")
                     .font(.caption2.weight(.medium))
                     .foregroundStyle(AcademicTheme.formulaBlue)
             }
@@ -76,7 +76,7 @@ struct PronunciationPanel: View {
                     )
                     .fixedSize(horizontal: false, vertical: true)
                     .textSelection(.enabled)
-                    .accessibilityLabel("\(accent.fullName)音标，\(ipa)")
+                    .accessibilityRepresentation { Text("\(accent.fullName)音标，\(ipa)") }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .layoutPriority(1)
@@ -88,39 +88,38 @@ struct PronunciationPanel: View {
             }
             .buttonStyle(.bordered)
             .controlSize(compact ? .small : .regular)
-            .help("使用 Google 翻译的\(accent.fullName)朗读完整词组")
+            .help("使用内置 Kokoro \(accent.fullName)朗读完整词组，无需联网")
         }
     }
 
     @ViewBuilder
     private var statusLine: some View {
         switch speech.playbackSource {
-        case let .loading(accent):
-            HStack(spacing: 7) {
-                ProgressView()
-                    .controlSize(.small)
-                Text("正在获取 Google \(accent.chineseName)发音…")
-            }
-            .font(.caption)
-            .foregroundStyle(.secondary)
-        case let .systemFallback(accent):
+        case let .missing(_, text):
             Label(
-                "Google 发音暂不可用，已切换为 Mac \(accent.chineseName)系统语音。",
-                systemImage: "wifi.exclamationmark"
+                "内置语音中暂未找到“\(text)”。请选择完整单词或词组。",
+                systemImage: "exclamationmark.circle"
             )
             .font(.caption)
             .foregroundStyle(AcademicTheme.errorRed)
-        case let .google(accent):
+        case .failed:
             Label(
-                "本次使用 Google \(accent.chineseName)发音",
+                "音频文件无法播放，请检查离线语音资源或重新下载完整应用。",
+                systemImage: "exclamationmark.circle"
+            )
+            .font(.caption)
+            .foregroundStyle(AcademicTheme.errorRed)
+        case let .kokoro(accent):
+            Label(
+                "本次使用内置 Kokoro \(accent.chineseName)发音",
                 systemImage: "checkmark.circle.fill"
             )
             .font(.caption)
             .foregroundStyle(AcademicTheme.successGreen)
         case .idle:
             Label(
-                "需要联网；不可用时自动回退到同口音的 Mac 系统语音。",
-                systemImage: "network"
+                "内置英美自然语音，无需联网或首次下载。",
+                systemImage: "internaldrive"
             )
             .font(.caption)
             .foregroundStyle(.secondary)

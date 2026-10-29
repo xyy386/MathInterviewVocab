@@ -45,16 +45,22 @@ struct SettingsView: View {
                     }
                 }
 
-                LabeledContent("在线语音", value: "Google 翻译")
-                Text("发音时会将所选英文发送给 Google；网络不可用时自动使用相同口音的 Mac 系统语音。")
+                LabeledContent("内置语音", value: "Kokoro 自然语音")
+                Text("美式与英式音频随应用内置，无需联网或首次下载。支持完整词条与内置完整单词、词组选区；未收录的字母片段会提示缺少音频。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
+
+                if case .failed = speech.playbackSource {
+                    Label("离线音频无法播放，请重新下载完整应用。", systemImage: "exclamationmark.circle")
+                        .font(.caption)
+                        .foregroundStyle(AcademicTheme.errorRed)
+                }
             }
 
             Section("数据") {
                 LabeledContent("学习记录", value: "仅保存在当前设备")
                 LabeledContent("账号", value: "不需要")
-                LabeledContent("网络", value: "仅在线发音时使用")
+                LabeledContent("网络", value: "不需要")
 
                 if showsResetButton {
                     Button("清空本机学习记录", role: .destructive) {

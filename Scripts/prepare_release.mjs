@@ -1,3 +1,4 @@
+// 仅重现历史 v1.1.1 的原件封装；当前 Mac 版本请使用 package_macos.sh。
 // 从已验证成品封装公开附件，不重新编译或修改可执行程序。
 import { createHash } from 'node:crypto';
 import { createWriteStream } from 'node:fs';
