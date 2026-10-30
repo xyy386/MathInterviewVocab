@@ -6,6 +6,7 @@ import type {
   SpeechSettings,
   Term,
 } from './core';
+import type { UpdateState } from './update';
 
 export interface AudioInfo {
   clips: number;
@@ -49,6 +50,13 @@ export interface VocabAPI {
   openSettings(): Promise<void>;
   confirmReset(): Promise<boolean>;
   windowAction(action: 'close' | 'minimize' | 'maximize'): Promise<void>;
+  getUpdateState(): Promise<UpdateState>;
+  checkForUpdates(): Promise<UpdateState>;
+  downloadUpdate(): Promise<UpdateState>;
+  cancelUpdate(): Promise<UpdateState>;
+  showUpdateDownload(): Promise<void>;
+  showUpdateRelease(): Promise<void>;
+  onUpdateChanged(callback: (state: UpdateState) => void): () => void;
 }
 
 declare global {

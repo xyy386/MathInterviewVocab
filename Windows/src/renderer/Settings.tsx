@@ -4,6 +4,7 @@ import type { AudioInfo } from '../shared/api';
 import type { Accent, ProgressData, SpeechSettings } from '../shared/core';
 import { Icon } from './ui';
 import type { AudioController } from './useAudio';
+import { SoftwareUpdate } from './SoftwareUpdate';
 
 interface SettingsViewProps {
   settings: SpeechSettings;
@@ -139,6 +140,8 @@ export function SettingsView({ settings, audio, audioInfo, onSave, onReset, erro
         </div>
       </section>
 
+      <SoftwareUpdate />
+
       <section className="settings-section" aria-labelledby="data-section-title">
         <h2 id="data-section-title">数据</h2>
         <div className="settings-group">
@@ -151,7 +154,7 @@ export function SettingsView({ settings, audio, audioInfo, onSave, onReset, erro
             <span className="settings-value">不需要</span>
           </div>
           <div className="settings-row">
-            <span>网络</span>
+            <span>学习与发音联网</span>
             <span className="settings-value">不需要</span>
           </div>
           <div className="settings-row settings-reset-row">

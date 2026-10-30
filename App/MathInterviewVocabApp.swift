@@ -5,6 +5,7 @@ struct MathInterviewVocabApp: App {
     @State private var library = TermLibrary()
     @State private var progress = ProgressStore()
     @State private var speech = SpeechService()
+    @State private var updates = UpdateService()
 
     var body: some Scene {
         WindowGroup {
@@ -12,12 +13,18 @@ struct MathInterviewVocabApp: App {
         }
         .defaultSize(width: 1220, height: 780)
         .windowResizability(.contentMinSize)
+        .commands {
+            CommandGroup(after: .appInfo) {
+                CheckForUpdatesCommand(updates: updates)
+            }
+        }
 
         Settings {
             SettingsView()
                 .environment(progress)
                 .environment(speech)
-                .frame(width: 480)
+                .environment(updates)
+                .frame(width: 480, height: 680)
         }
     }
 

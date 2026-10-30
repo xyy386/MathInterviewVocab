@@ -197,7 +197,7 @@ test('progress persistence failure is visible in a dedicated error card', () => 
 });
 
 test('settings matches Mac immediate-save fields without Save/Cancel footer', () => {
-    assertOrder(settingsHTML, ['英语发音', '默认口音', '美式英语', '英式英语', '语速', '试听美式', '试听英式', '离线语音', '数据', '学习记录', '仅保存在当前设备', '账号', '不需要', '网络', '清空本机学习记录']);
+    assertOrder(settingsHTML, ['英语发音', '默认口音', '美式英语', '英式英语', '语速', '试听美式', '试听英式', '离线语音', '软件更新', '数据', '学习记录', '仅保存在当前设备', '账号', '不需要', '学习与发音联网', '清空本机学习记录']);
     assert.equal(count(settingsHTML, /<option\b/g), 3);
     assertOrder(settingsHTML, ['value="0.75"', '0.75×', 'value="1"', '1×', 'value="1.25"', '1.25×']);
     assert.doesNotMatch(settingsHTML, /<footer|保存设置|取消|Google|需要联网|在线语音/);
@@ -236,7 +236,7 @@ test('knowledge axis has all three Mac nodes and rounds the displayed percentage
 
 test('settings-window source contract is independent, reusable and synchronizes saved data', () => {
     assert.match(mainSource, /settingsWindow = new BrowserWindow/);
-    assert.match(mainSource, /width: 480, height: 450, resizable: false/);
+    assert.match(mainSource, /width: 480, height: 680, resizable: false/);
     assert.match(mainSource, /index\.html\?window=settings/);
     assert.match(mainSource, /settingsWindow\.show\(\); settingsWindow\.focus\(\); return/);
     assert.match(mainSource, /vocab:data-changed/);
@@ -262,7 +262,7 @@ test('IPC source contract trusts only registered top-level app windows', () => {
     assert.match(mainSource, /sandbox: true, webSecurity: true/);
 });
 
-test('runtime remains offline and does not bundle Apple font-dependent icon art', () => {
+test('learning and pronunciation remain offline and do not bundle Apple font-dependent icon art', () => {
     assert.match(mainSource, /urls: \['http:\/\/\*\/\*', 'https:\/\/\*\/\*'\]/);
     assert.match(mainSource, /callback\(\{ cancel: true \}\)/);
     assert.doesNotMatch(source('useAudio.ts'), /fetch\(|https?:\/\/|google/i);
@@ -271,4 +271,13 @@ test('runtime remains offline and does not bundle Apple font-dependent icon art'
     const css = source('styles.css');
     for (const color of ['#14213d', '#2e5aac', '#f7f9fc', '#d9e4f2', '#1c7c54', '#b54343']) assert.ok(css.toLowerCase().includes(color));
     assert.doesNotMatch(css, /min-width:\s*1000px|min-height:\s*680px/);
+});
+
+test('software update settings keep networking opt-in, actual app version and main-process-only downloads', () => {
+    assert.match(settingsHTML, /data-testid="software-update"/);
+    assertOrder(settingsHTML, ['软件更新', '当前版本', '检查更新', '词库与发音始终离线']);
+    assert.match(settingsHTML, /仅检查和下载更新时联网/);
+    assert.match(mainSource, /new SoftwareUpdater\(app\.getVersion\(\), app\.getPath\('downloads'\)/);
+    assert.match(mainSource, /handle\('vocab:update-download', \(\) => updater\.download\(\)\)/);
+    assert.doesNotMatch(source('SoftwareUpdate.tsx'), /fetch\(|https?:\/\//);
 });

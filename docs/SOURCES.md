@@ -18,7 +18,7 @@ IPA 为学习辅助资料，包含构建辅助工具生成的草稿与数学专�
 
 ## 两平台共用的离线音频
 
-Windows 1.1.1 与 Mac 1.1.2 内置同一套 Kokoro-82M v1.0 预生成音频，共 2328 个片段；美式使用 `af_heart`，英式使用 `bf_emma`。音频与索引的规范源文件统一保存在仓库的 `Windows/resources`，构建 Mac 应用时直接复制，不重复生成或使用另一套音源。模型与推理代码的来源、固定 revision、模型／声线哈希及生成参数见 [AUDIO-SOURCES](../Windows/resources/AUDIO-SOURCES.md)。
+Windows 与 Mac 1.2.0 内置同一套 Kokoro-82M v1.0 预生成音频，共 2328 个片段；美式使用 `af_heart`，英式使用 `bf_emma`。音频与索引的规范源文件统一保存在仓库的 `Windows/resources`，构建 Mac 应用时直接复制，不重复生成或使用另一套音源。模型与推理代码的来源、固定 revision、模型／声线哈希及生成参数见 [AUDIO-SOURCES](../Windows/resources/AUDIO-SOURCES.md)。
 
 保留随仓库及两平台成品分发的 [Apache License 2.0 全文](../Windows/resources/KOKORO-APACHE-2.0.txt) 和音源声明。不捆绑模型权重、Python 环境或 Google 语音模型，不暗示 Google 或 Kokoro 作者为本应用提供背书。Mac 1.1.2 不再发送 Google 在线朗读请求；历史版 1.1 的在线行为见相应旧版说明。
 

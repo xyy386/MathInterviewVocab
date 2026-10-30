@@ -295,5 +295,15 @@ progress::-webkit-progress-value { background: var(--blue); border-radius: 4px; 
 .danger-text-button { background: transparent; color: var(--red); padding: 6px 0; font-size: 13px; }
 .settings-error { color: var(--red); font-size: 10px; }
 .settings-save-error { margin: 0 10px; }
+.update-actions { justify-content: flex-start; flex-wrap: wrap; gap: 8px; padding: 8px 0; }
+.update-actions .secondary-button, .update-actions .primary-button { padding: 4px 10px; border-radius: 6px; font-size: 12px; }
+.update-release-link { color: var(--blue); font-size: 11px; margin-left: auto; padding: 5px 0; }
+.update-version { font-variant-numeric: tabular-nums; }
+.update-status { min-height: 0; padding-bottom: 4px; }
+.update-progress { display: flex; gap: 10px; align-items: center; font-size: 11px; color: #66666e; font-variant-numeric: tabular-nums; }
+.update-progress progress { flex: 1; min-width: 0; accent-color: var(--blue); }
+.update-notes { font-size: 11px; line-height: 1.5; padding: 6px 0; color: #555560; }
+.update-notes summary { cursor: pointer; }
+.update-notes p { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 150px; overflow: auto; margin-top: 8px; }
 @media (max-width: 1100px) { .window-title.with-sidebar { display: none; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; } }

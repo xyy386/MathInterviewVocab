@@ -12,6 +12,17 @@ contextBridge.exposeInMainWorld('vocab', {
     openSettings: () => ipcRenderer.invoke('vocab:open-settings'),
     confirmReset: () => ipcRenderer.invoke('vocab:confirm-reset'),
     windowAction: (action: string) => ipcRenderer.invoke('vocab:window-action', action),
+    getUpdateState: () => ipcRenderer.invoke('vocab:update-state'),
+    checkForUpdates: () => ipcRenderer.invoke('vocab:update-check'),
+    downloadUpdate: () => ipcRenderer.invoke('vocab:update-download'),
+    cancelUpdate: () => ipcRenderer.invoke('vocab:update-cancel'),
+    showUpdateDownload: () => ipcRenderer.invoke('vocab:update-reveal'),
+    showUpdateRelease: () => ipcRenderer.invoke('vocab:update-release'),
+    onUpdateChanged: (callback: (state: unknown) => void) => {
+        const listener = (_event: Electron.IpcRendererEvent, state: unknown) => callback(state);
+        ipcRenderer.on('vocab:update-changed', listener);
+        return () => ipcRenderer.removeListener('vocab:update-changed', listener);
+    },
     onStopAudio: (callback: () => void) => {
         const listener = () => callback();
         ipcRenderer.on('vocab:stop-audio', listener);

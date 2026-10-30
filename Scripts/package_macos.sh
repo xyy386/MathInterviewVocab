@@ -4,8 +4,8 @@ set -euo pipefail
 # 在独立临时构建目录中生成 Universal 成品，不覆盖任何已有交付物。
 script_directory="$(cd "$(dirname "$0")" && pwd)"
 project_root="$(cd "$script_directory/.." && pwd)"
-destination="${1:-$project_root/release-artifacts/macos-v1.1.2}"
-version=1.1.2
+destination="${1:-$project_root/release-artifacts/macos-v1.2.0}"
+version=1.2.0
 archive_name="MathInterviewVocab-macOS-universal-v$version.zip"
 app_name='数学面试词汇.app'
 
@@ -38,7 +38,7 @@ application="$task_workspace/DerivedData/Build/Products/Release/MathInterviewVoc
 executable="$application/Contents/MacOS/MathInterviewVocab"
 plist="$application/Contents/Info.plist"
 if [[ "$(/usr/bin/plutil -extract CFBundleShortVersionString raw -o - "$plist")" != "$version" || \
-      "$(/usr/bin/plutil -extract CFBundleVersion raw -o - "$plist")" != 3 ]]; then
+      "$(/usr/bin/plutil -extract CFBundleVersion raw -o - "$plist")" != 4 ]]; then
     printf '%s\n' 'Unexpected application version.' >&2
     exit 1
 fi
@@ -88,4 +88,4 @@ stage="$task_workspace/package"
     cd "$destination"
     /usr/bin/shasum -a 256 "$archive_name" > SHA256SUMS-macOS.txt
 )
-printf 'Created Universal macOS %s (build 3): %s\n' "$version" "$destination"
+printf 'Created Universal macOS %s (build 4): %s\n' "$version" "$destination"

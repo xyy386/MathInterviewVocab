@@ -1,7 +1,7 @@
 import { packager } from '@electron/packager';
 import archiver from 'archiver';
 import { createWriteStream } from 'node:fs';
-import { readFile, writeFile, mkdir, rename } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, rename, access } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
@@ -9,6 +9,10 @@ import { createHash } from 'node:crypto';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const stage = path.join(root, '.out/app');
 const metadata = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
+const destination = path.resolve(root, '../dist');
+const zipFile = path.join(destination, `MathInterviewVocab-Windows-x64-v${metadata.version}.zip`);
+try { await access(zipFile); throw new Error(`拒绝覆盖已有成品：${path.basename(zipFile)}`); }
+catch (error) { if (error.code !== 'ENOENT') throw error; }
 const manifest = JSON.parse(await readFile(path.join(stage, 'resources/audio-manifest.json'), 'utf8'));
 const entries = Object.entries(manifest.entries);
 if (entries.length < 648 || !manifest.source || !manifest.coverage?.complete || manifest.coverage.expectedEntries !== entries.length) {
@@ -33,7 +37,7 @@ for (const term of terms) {
 
 const paths = await packager({
     dir: stage, out: path.join(root, '.out/win'), platform: 'win32', arch: 'x64',
-    name: '数学面试词汇', executableName: '数学面试词汇', appVersion: metadata.version, buildVersion: '1.1.1.3',
+    name: '数学面试词汇', executableName: '数学面试词汇', appVersion: metadata.version, buildVersion: `${metadata.version}.4`,
     electronVersion: metadata.devDependencies.electron, overwrite: true, asar: true, prune: true,
     icon: path.join(root, '.out/icon.ico'),
     win32metadata: { CompanyName: 'MathInterviewVocab', FileDescription: '数学面试词汇 · 全离线学习版', ProductName: '数学面试词汇',
@@ -49,9 +53,7 @@ await writeFile(path.join(bundle, 'PROJECT-LICENSE.txt'), await readFile(path.jo
 await writeFile(path.join(bundle, '第三方许可.txt'), await readFile(path.join(root, 'THIRD-PARTY-NOTICES.txt')));
 await writeFile(path.join(bundle, '语音来源.md'), await readFile(path.join(root, 'resources/AUDIO-SOURCES.md')));
 await writeFile(path.join(bundle, 'KOKORO-APACHE-2.0.txt'), await readFile(path.join(root, 'resources/KOKORO-APACHE-2.0.txt')));
-const destination = path.resolve(root, '../dist');
 await mkdir(destination, { recursive: true });
-const zipFile = path.join(destination, '数学面试词汇-Windows-x64.zip');
 const archive = archiver('zip', { zlib: { level: 7 } });
 const output = createWriteStream(zipFile + '.tmp');
 const complete = new Promise((resolve, reject) => { output.on('close', resolve); output.on('error', reject); archive.on('error', reject); });

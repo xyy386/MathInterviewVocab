@@ -57,10 +57,12 @@ struct SettingsView: View {
                 }
             }
 
+            SoftwareUpdateSection()
+
             Section("数据") {
                 LabeledContent("学习记录", value: "仅保存在当前设备")
                 LabeledContent("账号", value: "不需要")
-                LabeledContent("网络", value: "不需要")
+                LabeledContent("学习与发音联网", value: "不需要")
 
                 if showsResetButton {
                     Button("清空本机学习记录", role: .destructive) {

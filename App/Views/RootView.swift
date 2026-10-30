@@ -51,7 +51,7 @@ struct RootView: View {
                         Label("设置", systemImage: "gearshape")
                     }
                     .labelStyle(.iconOnly)
-                    .help("设置发音与本地数据")
+                    .help("设置发音、软件更新与本地数据")
                 }
             }
             .tint(AcademicTheme.formulaBlue)

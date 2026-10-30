@@ -1,10 +1,11 @@
-import { app, BrowserWindow, clipboard, dialog, ipcMain, Menu, net, protocol, session, type IpcMainInvokeEvent } from 'electron';
+import { app, BrowserWindow, clipboard, dialog, ipcMain, Menu, net, protocol, session, shell, type IpcMainInvokeEvent } from 'electron';
 import path from 'node:path';
 import { mkdirSync, readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { LocalRepository } from './persistence';
 import { BundledAudio } from './audio';
 import { sanitizeSelection, type Term } from '../shared/core';
+import { SoftwareUpdater } from './updates';
 
 app.setName('MathInterviewVocab');
 app.setAppUserModelId('com.xingyiyao.MathInterviewVocab');
@@ -47,7 +48,7 @@ async function initialize(): Promise<void> {
     const repository = new LocalRepository(directory, new Set(terms.map(t => t.id)));
     const audio = new BundledAudio(resources);
 
-    // 运行期禁止 HTTP(S)，离线能力不依赖缓存、首次下载或隐式回退。
+    // 学习与发音页面仍禁止 HTTP(S)；手动更新仅由独立主进程请求。
     session.defaultSession.webRequest.onBeforeRequest({ urls: ['http://*/*', 'https://*/*'] }, (_details, callback) => callback({ cancel: true }));
     session.defaultSession.setPermissionRequestHandler((_contents, _permission, callback) => callback(false));
     protocol.handle('vocab', async request => {
@@ -63,6 +64,10 @@ async function initialize(): Promise<void> {
 
     const windows = () => [mainWindow, settingsWindow].filter((window): window is BrowserWindow => Boolean(window && !window.isDestroyed()));
     const broadcast = (change: unknown) => windows().forEach(window => window.webContents.send('vocab:data-changed', change));
+    const updater = new SoftwareUpdater(app.getVersion(), app.getPath('downloads'),
+        state => windows().forEach(window => window.webContents.send('vocab:update-changed', state)),
+        file => shell.showItemInFolder(file), url => shell.openExternal(url));
+    app.on('before-quit', () => updater.cancel());
     const protectWindow = (window: BrowserWindow) => {
         window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
         window.webContents.on('will-navigate', (event, url) => {
@@ -81,7 +86,7 @@ async function initialize(): Promise<void> {
             settingsWindow.show(); settingsWindow.focus(); return;
         }
         settingsWindow = new BrowserWindow({ ...windowOptions, title: '“数学面试词汇”设置',
-            width: 480, height: 450, resizable: false, maximizable: false, fullscreenable: false });
+            width: 480, height: 680, resizable: false, maximizable: false, fullscreenable: false });
         const window = settingsWindow;
         protectWindow(window);
         window.once('ready-to-show', () => { window.show(); window.focus(); });
@@ -124,6 +129,12 @@ async function initialize(): Promise<void> {
         return audio.find(text, accent);
     });
     handle('vocab:open-settings', () => openSettings());
+    handle('vocab:update-state', () => updater.state);
+    handle('vocab:update-check', () => updater.check());
+    handle('vocab:update-download', () => updater.download());
+    handle('vocab:update-cancel', () => updater.cancel());
+    handle('vocab:update-reveal', () => updater.showDownload());
+    handle('vocab:update-release', () => updater.showRelease());
     handle('vocab:window-action', (event, action) => {
         const window = BrowserWindow.fromWebContents(event.sender);
         if (action === 'close') window?.close();
