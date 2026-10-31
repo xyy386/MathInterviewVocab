@@ -4,6 +4,8 @@
 
 ## 下载
 
+[历史版本与归档索引](docs/VERSION-ARCHIVE.md)提供源码标签、历史下载链接、文件大小与 SHA-256；可重建缓存不纳入版本历史。
+
 | 平台 | 当前应用版本 | 系统要求 | 下载 |
 | --- | --- | --- | --- |
 | Windows | 1.2.0 | Windows 10/11，64 位 Intel/AMD（x64） | [Windows 免安装 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.2.0/MathInterviewVocab-Windows-x64-v1.2.0.zip) |
