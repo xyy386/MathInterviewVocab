@@ -1,0 +1,10 @@
+{
+  "release": "v1.2.0",
+  "tagCommit": "4895429c20d5cdd2906ab0cd4b542bf68dc15662",
+  "checkedOn": "2026-10-30",
+  "assets": [
+    {"name": "MathInterviewVocab-macOS-universal-v1.2.0.zip", "id": 690416848, "bytes": 48156232, "sha256": "32a8e00562bb036a02e3ebfe247fe2db6597515358e1de6dddc6e5fdfab353cb"},
+    {"name": "MathInterviewVocab-Windows-x64-v1.2.0.zip", "id": 690501370, "bytes": 206522960, "sha256": "c2e09a958ddf20151730687d96feffdd17a79f05f01cb242d9daa00aeb8a6332"},
+    {"name": "SHA256SUMS.txt", "id": 690408973, "bytes": 220, "sha256": "a0f3821a66553e8764e82abd235037b758298ff7363acdceb1e43b296043f582"}
+  ]
+}

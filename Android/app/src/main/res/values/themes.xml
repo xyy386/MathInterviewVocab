@@ -1,0 +1,11 @@
+<resources>
+    <style name="Theme.MathVocabulary" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowBackground">#F7F9FC</item>
+        <item name="android:colorAccent">#2E5AAC</item>
+        <item name="android:forceDarkAllowed">false</item>
+    </style>
+</resources>
