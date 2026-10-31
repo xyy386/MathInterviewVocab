@@ -8,15 +8,15 @@
 
 | 平台 | 当前应用版本 | 系统要求 | 下载 |
 | --- | --- | --- | --- |
-| Windows | 1.2.0 | Windows 10/11，64 位 Intel/AMD（x64） | [Windows 免安装 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.2.0/MathInterviewVocab-Windows-x64-v1.2.0.zip) |
-| macOS | 1.2.0 build 4 | macOS 14+，Apple Silicon / Intel Universal | [macOS ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.2.0/MathInterviewVocab-macOS-universal-v1.2.0.zip) |
+| Windows | 1.3.0 | Windows 10/11，64 位 Intel/AMD（x64） | [Windows 免安装 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/MathInterviewVocab-Windows-x64-v1.3.0.zip) |
+| macOS | 1.3.0 build 5 | macOS 14+，Apple Silicon / Intel Universal | [macOS ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/MathInterviewVocab-macOS-universal-v1.3.0.zip) |
 | Android | 1.2.0 / code 1 | Android 10+，手机／平板，Universal APK | [Android APK](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.2.0/MathInterviewVocab-Android-universal-v1.2.0.apk) |
 
-[正式发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.2.0) · [SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.2.0/SHA256SUMS.txt) · [更新说明](docs/RELEASE-NOTES-v1.2.0.md)
+[桌面版发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.0) · [桌面版 SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/SHA256SUMS.txt) · [1.3.0 更新说明](docs/RELEASE-NOTES-v1.3.0.md)
 
-Android 使用同一套词库与 Kokoro 离线音源，按窗口宽度适配手机、平板和分屏。[Android 独立校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.2.0/SHA256SUMS-Android.txt) · [Android 工程／安装说明](Android/README.md) · [详细需求与设计](Android/docs/REQUIREMENTS-AND-DESIGN.md) · [审查与已知问题](Android/docs/REVIEW-v1.2.0.md)。原 v1.2.0 标签与三个桌面附件不变；Android 源码使用独立标签 [android-v1.2.0](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.2.0)，原 v1.2.0 自动源码归档不包含后来新增的 Android 工程。
+Android 保持 **1.2.0／code 1**，本次桌面版 1.3.0 不重建或替换 APK。它使用同一套词库与 Kokoro 离线音源，按窗口宽度适配手机、平板和分屏。[Android 1.2.0 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.2.0) · [Android 独立校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.2.0/SHA256SUMS-Android.txt) · [Android 工程／安装说明](Android/README.md) · [详细需求与设计](Android/docs/REQUIREMENTS-AND-DESIGN.md) · [审查与已知问题](Android/docs/REVIEW-v1.2.0.md)。历史标签与附件保留不变；Android 首发源码使用独立标签 [android-v1.2.0](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.2.0)，原 v1.2.0 自动源码归档不包含后来新增的 Android 工程。
 
-请下载对应平台 ZIP／APK，**不要把 GitHub 自动生成的 Source code 当作可运行软件**。三个平台应用与最新 Release 统一为 **1.2.0**；历史 Release 保持不变。没有检查更新入口的旧版桌面程序需要先手动下载 1.2.0。
+请下载对应平台 ZIP／APK，**不要把 GitHub 自动生成的 Source code 当作可运行软件**。桌面版为 **1.3.0**，Android 为 **1.2.0**；版本号不要求跨平台同步。没有检查更新入口的旧版桌面程序请直接手动下载当前桌面版。
 
 ### 安装与首次打开
 
@@ -39,6 +39,10 @@ Android 使用同一套词库与 Kokoro 离线音源，按窗口宽度适配手�
 
 三平台沿用相同的内容和交互层级，但使用各自系统字体、原生菜单及确认对话框，不承诺跨系统逐像素相同。
 
+### 桌面快捷键（macOS／Windows 1.3.0）
+
+macOS／Windows 1.3.0 支持 `←`／`↑` 上一个词条、`→`／`↓` 下一个词条；按当前筛选结果移动，首尾不循环，侧栏收起也可使用。检测可用 `A–D` 或 `1–4` 提交答案，答题后用 `Enter`／`→`／`↓` 继续。输入、选词、菜单和侧栏调宽优先，长按不会连续切换。详细规则及验证边界见 [桌面快捷键](docs/KEYBOARD-SHORTCUTS.md)。
+
 ## 发音与隐私
 
 | 项目 | macOS | Windows | Android |
@@ -60,7 +64,7 @@ Android 使用同一套词库与 Kokoro 离线音源，按窗口宽度适配手�
 
 下载完成后点击“在文件夹中显示”，退出旧版，完整解压后用新版替换原程序。Windows 必须替换整套程序目录，不能只替换 EXE；macOS 替换 `.app`。学习记录和发音设置在用户目录中，正常替换程序不会清空它们。
 
-Android 使用 `SHA256SUMS-Android.txt`，另核对 APK 包名、实际签名证书、较高 versionCode 与 Release 版本；用户点击安装后通过系统来源授权与 PackageInstaller 确认。没有 Android 附件的新版本会提示暂无对应安装包，不下载桌面文件。当前保留的更新／安装边界风险见 [Android 审查记录](Android/docs/REVIEW-v1.2.0.md)。
+Android 使用 `SHA256SUMS-Android.txt`，另核对 APK 包名、实际签名证书、较高 versionCode 与 Release 版本；用户点击安装后通过系统来源授权与 PackageInstaller 确认。1.3.0 仅提供桌面附件，Android 检查该 Release 时会提示暂无对应安装包，不下载桌面文件；Android 用户仍从上面的 1.2.0 入口获取 APK。当前保留的更新／安装边界风险见 [Android 审查记录](Android/docs/REVIEW-v1.2.0.md)。
 
 **不自动安装或静默覆盖程序。** 没有启动时后台检查、账号、令牌或学习数据上传。仅在你主动检查／下载时连接 GitHub 及其官方资源主机；无法联网不影响离线学习。桌面 ZIP 添加系统互联网来源标记（macOS quarantine／Windows Internet Zone），失败时提示浏览器下载；Android 由系统安装器确认。SHA-256 检查完整性，不是独立发布签名，仍须核对来源与安全提示。
 
@@ -113,7 +117,7 @@ xcodebuild -project MathInterviewVocab.xcodeproj \
 构建并封装 Universal Release：
 
 ```sh
-bash Scripts/package_macos.sh release-artifacts/macOS-1.2.0
+bash Scripts/package_macos.sh release-artifacts/macOS-1.3.0
 ```
 
 脚本输出 `.app`、macOS ZIP 及单平台校验文件，拒绝覆盖已有输出；应用使用 ad-hoc 签名，不因此获得 Apple 公证。GitHub Release 的 `SHA256SUMS.txt` 另包含两平台附件校验和。
@@ -128,6 +132,7 @@ npm ci
 npx install-electron
 npm test
 npm run build
+npm run test:keyboard-ui
 npm start
 npm run package:win
 ```
@@ -152,7 +157,7 @@ python3 Scripts/generate_terms.py
 
 ## 验证与反馈
 
-此前 Windows 实机运行已由用户验证；该反馈不冒充 1.2.0 新增功能的 Windows 实机测试。项目包含两平台逻辑、离线资源和更新协议测试；自动化测试、macOS 上的运行检查与用户实机反馈分别说明，不代表所有系统版本、硬件、系统缩放或音频设备组合均已验证。具体版本的验收范围与复核命令见 [发布检查说明](docs/RELEASE-CHECKS.md)。
+快捷键实现阶段：macOS 63 项逻辑测试／133 次含参数化执行、Windows 112 项测试及 9 组 Electron 页面事件验收通过。Electron 事件验收在 macOS 隔离窗口运行，不是 Windows 真机测试；此前用户报告的 Windows 实机通过也不冒充 1.3.0 新功能的实机验收。本次不使用 PD、虚拟机或模拟器，不宣称所有系统版本、硬件、缩放或音频设备均已验证。macOS 初载的 `NSTableView` 警告及详细边界见 [快捷键验收](docs/KEYBOARD-SHORTCUTS.md)；基础发布检查见 [发布检查说明](docs/RELEASE-CHECKS.md)。
 
 Android 1.2.0：Debug／Release 各 107 项自动化测试通过，Release Lint 为 0 错误；APK、签名、326／130 词库及 2328 段音频完成独立检查。实体手机／平板测试由用户报告全部通过并授权公开，未提供型号／系统版本，不冒充审查者真机实测；3 项 P2 已知问题与测试边界见 [完整审查记录](Android/docs/REVIEW-v1.2.0.md)。
 

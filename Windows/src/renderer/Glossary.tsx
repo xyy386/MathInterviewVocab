@@ -1,12 +1,13 @@
 import {
     useEffect, useMemo, useRef, useState,
-    type CSSProperties, type KeyboardEvent, type PointerEvent,
+    type CSSProperties, type PointerEvent,
 } from 'react';
 import {
     filterTerms, mathDisplay, sanitizeSelection, subjectsFromTerms,
     type ProgressData, type SpeechSettings, type Term,
 } from '../shared/core';
 import { AcademicCard, Icon, KnowledgeAxis, Metric, PronunciationPanel, SelectableEnglish } from './ui';
+import { adjacentTermIndex, glossaryDirection, useKeyboardShortcuts } from './keyboard';
 import type { AudioController } from './useAudio';
 
 export interface GlossaryViewProps {
@@ -33,11 +34,14 @@ export function GlossaryView({
     const [filterOpen, setFilterOpen] = useState(false);
     const menuRef = useRef<HTMLDetailsElement>(null);
     const listRef = useRef<HTMLDivElement>(null);
+    const detailRef = useRef<HTMLElement>(null);
+    const selectionRef = useRef<number | null>(null);
     const resizeCleanup = useRef<(() => void) | null>(null);
     const subjects = useMemo(() => subjectsFromTerms(terms), [terms]);
     const filtered = useMemo(() => filterTerms(terms, {
         query, subjectID: subjectID || null, importantOnly, favoritesOnly, mistakesOnly,
     }, progress), [terms, query, subjectID, importantOnly, favoritesOnly, mistakesOnly, progress]);
+    const visibleTerms = useMemo(() => subjects.flatMap(subject => filtered.filter(term => term.subjectID === subject.id)), [subjects, filtered]);
     const selectedTerm = selectedID === null ? undefined : terms.find(term => term.id === selectedID);
     const toggleFilterCount = [importantOnly, favoritesOnly, mistakesOnly].filter(Boolean).length;
     const activeFilterCount = toggleFilterCount + (subjectID ? 1 : 0);
@@ -47,9 +51,16 @@ export function GlossaryView({
     useEffect(() => {
         if (selectedID !== null && !filtered.some(term => term.id === selectedID)) {
             audio.stop();
+            selectionRef.current = null;
             setSelectedID(null);
         }
     }, [audio.stop, filtered, selectedID]);
+    useEffect(() => {
+        if (detailRef.current) detailRef.current.scrollTop = 0;
+    }, [selectedID]);
+    useEffect(() => {
+        listRef.current?.querySelector(`[data-term-id="${selectedID}"]`)?.scrollIntoView({ block: 'nearest' });
+    }, [selectedID, sidebarOpen]);
     useEffect(() => () => {
         audio.stop();
         resizeCleanup.current?.();
@@ -85,25 +96,29 @@ export function GlossaryView({
         menuRef.current?.querySelector('summary')?.focus();
     };
     const selectTerm = (id: number) => {
-        if (id !== selectedID) audio.stop();
+        if (id === selectionRef.current) return;
+        audio.stop();
+        window.getSelection()?.removeAllRanges();
+        selectionRef.current = id;
         setSelectedID(id);
     };
-    const navigateList = (event: KeyboardEvent<HTMLDivElement>) => {
-        if (event.altKey || event.ctrlKey || event.metaKey || !filtered.length) return;
-        const index = filtered.findIndex(term => term.id === selectedID);
-        let nextIndex: number;
-        if (event.key === 'ArrowDown') nextIndex = Math.min(index + 1, filtered.length - 1);
-        else if (event.key === 'ArrowUp') nextIndex = index < 0 ? filtered.length - 1 : Math.max(index - 1, 0);
-        else if (event.key === 'Home') nextIndex = 0;
-        else if (event.key === 'End') nextIndex = filtered.length - 1;
-        else return;
-        event.preventDefault();
-        const term = filtered[nextIndex];
+    useKeyboardShortcuts(key => {
+        const listFocused = listRef.current?.contains(document.activeElement);
+        const direction = glossaryDirection(key);
+        if (direction === null && (!listFocused || (key !== 'Home' && key !== 'End'))) return false;
+        const index = visibleTerms.findIndex(term => term.id === selectionRef.current);
+        const nextIndex = direction === null
+            ? visibleTerms.length ? key === 'Home' ? 0 : visibleTerms.length - 1 : null
+            : adjacentTermIndex(visibleTerms.length, index, direction);
+        if (nextIndex === null) return false;
+        const term = visibleTerms[nextIndex];
         selectTerm(term.id);
-        const row = listRef.current?.querySelector<HTMLButtonElement>(`[data-term-id="${term.id}"]`);
-        row?.focus({ preventScroll: true });
-        row?.scrollIntoView({ block: 'nearest' });
-    };
+        if (listFocused) {
+            listRef.current?.querySelector<HTMLButtonElement>(`[data-term-id="${term.id}"]`)?.focus({ preventScroll: true });
+        }
+        return true;
+    }, key => visibleTerms.length > 0 && (glossaryDirection(key) !== null
+        || ((key === 'Home' || key === 'End') && Boolean(listRef.current?.contains(document.activeElement)))));
     const startResize = (event: PointerEvent<HTMLDivElement>) => {
         if (event.button !== 0) return;
         event.preventDefault();
@@ -181,7 +196,7 @@ export function GlossaryView({
                         <p className="result-count">显示 {filtered.length} / {terms.length} 个词汇</p>
                     </div>
 
-                    <div ref={listRef} className="term-list" role="listbox" aria-label="词汇列表" tabIndex={selectedID === null ? 0 : -1} onKeyDown={navigateList} data-testid="term-list">
+                    <div ref={listRef} className="term-list" role="listbox" aria-label="词汇列表" tabIndex={selectedID === null ? 0 : -1} data-testid="term-list">
                         <AcademicCard className="sidebar-knowledge">
                             <div className="sidebar-knowledge-heading">
                                 <div><h2>知识坐标</h2><p className="caption muted">已掌握 {progress.masteredIDs.length} 个词汇</p></div>
@@ -237,7 +252,7 @@ export function GlossaryView({
                         onSidebarResize(Math.max(320, Math.min(460, sidebarWidth + (event.key === 'ArrowRight' ? 10 : -10))));
                     }} />
             )}
-            <main className="detail-pane">
+            <main ref={detailRef} className="detail-pane">
                 {selectedTerm
                     ? <TermDetail key={selectedTerm.id} term={selectedTerm} progress={progress} settings={settings} audio={audio} onFavorite={onFavorite} />
                     : <GlossaryWelcome terms={terms} progress={progress} />}
@@ -313,6 +328,7 @@ function TermDetail({ term, progress, settings, audio, onFavorite }: {
                 <h1 className="term-title">{term.chinese}</h1>
                 <SelectableEnglish term={term} onSelection={setSelectedText} className="detail-english" />
                 <p className="term-hint caption muted">双击选择单词，或拖动选择词组；下方可分别试听英美发音并对照音标。</p>
+                <p className="shortcut-hint caption muted">←／↑ 上一个 · →／↓ 下一个</p>
                 <PronunciationPanel term={term} settings={settings} audio={audio} />
                 <div className="speech-actions">
                     <button type="button" className="primary-button button-large" data-testid="speak-full"

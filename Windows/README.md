@@ -1,14 +1,14 @@
 # 数学面试词汇 · Windows 离线版
 
-Windows 1.2.0 面向 Windows 10/11 的 64 位 Intel/AMD（x64）电脑。它沿用 Mac 版的词汇、检测、学习记录、布局和设置层级，并使用独立的本地数据目录。
+Windows 1.3.0 面向 Windows 10/11 的 64 位 Intel/AMD（x64）电脑。它沿用 Mac 版的词汇、检测、学习记录、布局和设置层级，并使用独立的本地数据目录。
 
 ## 下载与使用
 
-从 [正式发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.2.0) 下载 [Windows 免安装 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.2.0/MathInterviewVocab-Windows-x64-v1.2.0.zip)，完整解压后运行 `数学面试词汇.exe`。不要在 ZIP 内运行，不要单独移动 EXE；旁边的 DLL、`resources` 和其他配套文件必须保留。两平台版本现统一为 1.2.0，历史 Release 不改名。
+从 [发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.0) 下载 [Windows 免安装 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/MathInterviewVocab-Windows-x64-v1.3.0.zip)，完整解压后运行 `数学面试词汇.exe`。不要在 ZIP 内运行，不要单独移动 EXE；旁边的 DLL、`resources` 和其他配套文件必须保留。Windows 与 macOS 桌面版为 1.3.0，Android 保持 1.2.0，历史 Release 不改名或替换。
 
 不需要管理员权限，也不需要安装 Node.js、Python、浏览器、模型或运行时。GitHub 自动生成的 Source code 是开发源码，不是可直接运行的软件。
 
-成品未使用商业代码签名证书，Windows 可能提示未知发布者。请核对官方发布页和 [SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.2.0/SHA256SUMS.txt)，不要关闭系统安全防护。本版不提供 Windows 7/8、32 位或 ARM 原生构建。
+成品未使用商业代码签名证书，Windows 可能提示未知发布者。请核对官方发布页和 [SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/SHA256SUMS.txt)，不要关闭系统安全防护。本版不提供 Windows 7/8、32 位或 ARM 原生构建。
 
 ## 功能与布局
 
@@ -18,10 +18,12 @@ Windows 1.2.0 面向 Windows 10/11 的 64 位 Intel/AMD（x64）电脑。它沿�
 - 中译英、英译中、混合检测，五种练习范围，10 / 20 / 50 / 全部题量，可排除已掌握词汇。
 - 四个不同编号的选项与即时反馈；连续答对两次移出错题、三次标记已掌握，收藏状态独立。
 - 默认美式／英式口音及 0.75× / 1× / 1.25× 语速；独立设置窗口即时保存并同步主窗。
-- `Ctrl+1/2/3` 切换模块，`Ctrl+,` 打开设置；检测时 `1/2/3/4` 作答，反馈后 `Enter` 下一题。
+- `Ctrl+1/2/3` 切换模块，`Ctrl+,` 打开设置；四方向键前后切词；检测时 `A–D`／`1–4` 作答，反馈后 `Enter`／`→`／`↓` 下一题。
 - 设置中的“软件更新”可手动检查正式版本，下载并校验完整 ZIP，打开下载位置后由你退出旧版并替换整套程序目录。
 
 1.1.1 统一了顶部三段导航、单词汇侧栏、欢迎页、详情首卡、纵向四选项、反馈与学习记录。默认窗口 1220×780，最小 1000×680，词汇索引可折叠并在 320–460px 之间拖动；阅读列最大 820px。界面使用本机字体和自绘图标，不捆绑 Apple 字体或 SF Symbols，系统菜单、字形与确认对话框不承诺跨平台逐像素相同。
+
+1.3.0 新增的快捷键按当前筛选及实际列表顺序移动，首尾不循环；侧栏折叠仍可切词，重新展开显示当前词条。输入、选词、菜单与侧栏调宽优先，长按不连续操作。检测不跳过未答题，也不能回退改答案。完整规则见 [桌面快捷键](../docs/KEYBOARD-SHORTCUTS.md)。
 
 ## 内置离线发音
 
@@ -45,7 +47,7 @@ Windows 数据位于 `%LOCALAPPDATA%\MathInterviewVocab`：学习记录为 `prog
 
 学习、发音及渲染进程继续离线。更新请求不使用账号、令牌或本机 GitHub 登录凭据，不上传学习记录，也不在启动时后台检查。网络失败不影响学习。校验完成后请退出旧版，将新版完整解压到新目录或替换旧程序目录，勿删除 `%LOCALAPPDATA%\MathInterviewVocab`。
 
-不静默安装、解压或执行下载文件；SHA-256 只验证完整性，不代替商业代码签名或系统安全判断。旧版需先手动下载 1.2.0，此后才能使用软件内的检查更新入口。
+不静默安装、解压或执行下载文件；SHA-256 只验证完整性，不代替商业代码签名或系统安全判断。没有检查更新入口的 1.2.0 之前版本，请直接手动下载当前版本；1.2.0 可在设置中检查桌面更新。
 
 ## 开发与打包
 
@@ -56,11 +58,14 @@ npm ci
 npx install-electron
 npm test
 npm run build
+npm run test:keyboard-ui
 npm start
 npm run package:win
 ```
 
 依赖固定于 `package-lock.json`。`install-electron` 是当前 Electron 依赖提供的开发运行时安装命令。首次安装开发依赖和运行时需要网络；离线音频已经纳入源码，日常构建不需要重新制作语音。`package:win` 运行测试与构建后生成 Windows x64 EXE 和 ZIP；本地构建输出位于 `.out/`，不会提交到源码历史。开发主机为 macOS 时可交叉打包，不需要 Windows SDK 或额外虚拟化环境。
+
+`test:keyboard-ui` 使用隔离 Electron 渲染窗口派发实际 DOM 键盘事件，学习数据只在测试内存中保存。隐藏窗口显式设置焦点／可见性测试条件，同时验证条件不满足时不触发快捷键；它不是 Windows 实机、原生系统菜单或物理键盘验收。
 
 主进程通过受限 IPC 处理持久化及手动更新，渲染进程启用隔离和沙箱，不直接访问文件系统，HTTP/HTTPS 仍被阻止。仅主进程的更新专用通道可访问经过验证的 GitHub 地址；不包含分析、云同步或后台更新服务。离线音频不完整时，发布打包会失败。
 
@@ -79,6 +84,6 @@ node scripts/prepare-audio.mjs --verify --require-complete
 
 ## 验证与许可
 
-此前 Windows 实机运行已由用户验证，该反馈不是 1.2.0 更新功能的新实机测试。自动化测试覆盖词汇／检测逻辑、持久化、选区清理、音频完整性、界面结构及更新协议。macOS 上运行同一 Electron 代码的检查也不冒充 Windows 实机验证，不宣称所有 Windows 系统、硬件、缩放和扬声器组合均已验证。详见 [发布检查说明](../docs/RELEASE-CHECKS.md)。
+快捷键实现阶段的 112 项自动化测试、类型检查、生产构建及 9 组 Electron 页面事件验收通过；页面事件在 macOS 隔离隐藏窗口执行，不是 Windows 真机验收。此前 Windows 实机运行已由用户报告通过，该反馈不覆盖 1.3.0 新增功能。本次未使用 PD、虚拟机或模拟器，不宣称所有 Windows 系统、硬件、缩放和扬声器组合均已验证。详见 [快捷键验收与边界](../docs/KEYBOARD-SHORTCUTS.md) 和 [发布检查说明](../docs/RELEASE-CHECKS.md)。
 
 项目原创代码使用 [MIT](../LICENSE)；第三方组件和语音资源保留原许可。见 [第三方说明](THIRD-PARTY-NOTICES.txt)、[音源声明](resources/AUDIO-SOURCES.md) 和 [来源说明](../docs/SOURCES.md)。

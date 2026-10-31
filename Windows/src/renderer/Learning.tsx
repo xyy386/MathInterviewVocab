@@ -6,6 +6,7 @@ import {
     type QuizPreferences, type QuizQuestion, type QuizScope, type SpeechSettings, type Term,
 } from '../shared/core';
 import { AcademicCard, Icon, KnowledgeAxis, Metric, PronunciationPanel, SelectableEnglish } from './ui';
+import { isQuizAdvanceKey, quizOptionIndex, useKeyboardShortcuts } from './keyboard';
 import type { AudioController } from './useAudio';
 
 interface LearningProps {
@@ -45,11 +46,6 @@ function emptyScopeMessage(scope: QuizScope): string {
     return '请开启“包含已经掌握的词汇”或选择其他范围。';
 }
 
-function editableTarget(target: EventTarget | null): boolean {
-    return target instanceof HTMLElement
-        && (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName));
-}
-
 function messageFrom(error: unknown, fallback: string): string {
     return error instanceof Error ? error.message : fallback;
 }
@@ -83,6 +79,8 @@ export function QuizView({ terms, progress, settings, audio, onPreferences, onAn
     const [error, setError] = useState('');
     const answerLock = useRef(false);
     const startLock = useRef(false);
+    const advancedQuestionIndex = useRef<number | null>(null);
+    const scrollRef = useRef<HTMLElement>(null);
 
     const pool = useMemo(() => makePool(terms, preferences, progress), [terms, preferences, progress]);
     const requestedCount = resolveQuestionCount(preferences.questionLength, pool.length);
@@ -114,6 +112,7 @@ export function QuizView({ terms, progress, settings, audio, onPreferences, onAn
             setAnsweredCount(0);
             setCorrectCount(0);
             answerLock.current = false;
+            advancedQuestionIndex.current = null;
             setStage('active');
         } catch (failure) {
             setError(messageFrom(failure, '本地记录保存失败。'));
@@ -147,7 +146,9 @@ export function QuizView({ terms, progress, settings, audio, onPreferences, onAn
     }, [onAnswer, questionIndex, questions, saving, selectedOptionID, stage]);
 
     const advance = useCallback(() => {
-        if (selectedOptionID === null || saving) return;
+        if (stage !== 'active' || selectedOptionID === null || saving
+            || advancedQuestionIndex.current === questionIndex) return;
+        advancedQuestionIndex.current = questionIndex;
         audio.stop();
         setFeedbackSelection('');
         window.getSelection()?.removeAllRanges();
@@ -158,26 +159,27 @@ export function QuizView({ terms, progress, settings, audio, onPreferences, onAn
         answerLock.current = false;
         setQuestionIndex(index => index + 1);
         setSelectedOptionID(null);
-    }, [audio.stop, questionIndex, questions.length, saving, selectedOptionID]);
+    }, [audio.stop, questionIndex, questions.length, saving, selectedOptionID, stage]);
+
+    useKeyboardShortcuts(key => {
+        if (stage !== 'active' || saving) return false;
+        const optionIndex = quizOptionIndex(key);
+        if (selectedOptionID === null && optionIndex !== null) {
+            const option = currentQuestion?.options[optionIndex];
+            if (!option) return false;
+            void selectAnswer(option.id);
+            return true;
+        }
+        if (selectedOptionID !== null && isQuizAdvanceKey(key)) {
+            advance();
+            return true;
+        }
+        return false;
+    }, key => stage === 'active' && (quizOptionIndex(key) !== null || isQuizAdvanceKey(key)));
 
     useEffect(() => {
-        const onKeyDown = (event: KeyboardEvent) => {
-            if (stage !== 'active' || event.repeat || event.ctrlKey || event.metaKey || event.altKey || event.shiftKey
-                || editableTarget(event.target) || document.querySelector('[role="dialog"]')) return;
-            if (selectedOptionID === null && /^[1-4]$/.test(event.key)) {
-                const option = currentQuestion?.options[Number(event.key) - 1];
-                if (option) {
-                    event.preventDefault();
-                    void selectAnswer(option.id);
-                }
-            } else if (selectedOptionID !== null && event.key === 'Enter') {
-                event.preventDefault();
-                advance();
-            }
-        };
-        window.addEventListener('keydown', onKeyDown);
-        return () => window.removeEventListener('keydown', onKeyDown);
-    }, [advance, currentQuestion, selectAnswer, selectedOptionID, stage]);
+        if (scrollRef.current) scrollRef.current.scrollTop = 0;
+    }, [questionIndex, stage]);
 
     useEffect(() => () => audio.stop(), [audio.stop]);
 
@@ -318,7 +320,7 @@ export function QuizView({ terms, progress, settings, audio, onPreferences, onAn
 
     const correct = selectedOptionID === currentQuestion.correctOptionID;
     return (
-        <main className="scroll-surface learning-view" data-testid="quiz-active">
+        <main ref={scrollRef} className="scroll-surface learning-view" data-testid="quiz-active">
             <div className="reading-column quiz-active">
                 <div className="quiz-status-line">
                     <span className="quiz-counter">第 {questionIndex + 1} / {questions.length} 题</span>
@@ -326,6 +328,7 @@ export function QuizView({ terms, progress, settings, audio, onPreferences, onAn
                     <button type="button" className="secondary-button small-button" onClick={() => { audio.stop(); setStage('summary'); }}>结束本轮</button>
                 </div>
                 <progress className="quiz-progress" value={answeredCount} max={Math.max(questions.length, 1)} aria-label="检测进度" />
+                <p className="shortcut-hint caption muted">A–D／1–4 选择 · Enter／→／↓ 继续</p>
 
                 <AcademicCard emphasized className="quiz-question-card">
                     <span className="section-badge"><Icon name="questionmark" size={10} />{currentQuestion.direction === 'zhToEn' ? '选择对应英文' : '选择对应中文'}</span>

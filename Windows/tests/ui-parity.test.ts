@@ -148,14 +148,17 @@ test('empty favorite scope shows the same Mac guidance instead of a start button
     assert.doesNotMatch(html, /data-testid="start-quiz"/);
 });
 
-test('quiz active-source contract preserves A-D labels and guarded 1-4/Enter shortcuts', () => {
+test('quiz active-source contract preserves labels and routes guarded keyboard actions through shared helpers', () => {
     const learning = source('Learning.tsx');
+    const keyboard = source('keyboard.ts');
     assert.match(learning, /String\.fromCharCode\(65 \+ index\)/);
-    assert.match(learning, /\^\[1-4\]\$/);
-    assert.match(learning, /event\.key === 'Enter'/);
-    assert.match(learning, /event\.ctrlKey \|\| event\.metaKey \|\| event\.altKey \|\| event\.shiftKey/);
+    assert.match(learning, /quizOptionIndex\(key\)/);
+    assert.match(learning, /isQuizAdvanceKey\(key\)/);
+    assert.match(learning, /A–D／1–4 选择 · Enter／→／↓ 继续/);
     assert.match(learning, /answerLock\.current = true/);
-    assert.match(learning, /document\.querySelector\('\[role="dialog"\]'\)/);
+    assert.match(learning, /advancedQuestionIndex\.current = questionIndex/);
+    assert.match(keyboard, /event\.ctrlKey \|\| event\.metaKey \|\| event\.altKey/);
+    assert.match(keyboard, /\[role="dialog"\]/);
     assert.match(learning, /<AcademicCard emphasized className="answer-feedback"/);
 });
 

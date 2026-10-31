@@ -620,6 +620,7 @@
 		41D743AFACE663E5016E3E91 /* ebaa5dcd73763f6e4b407767e9b0fc31dd6140c87d5316c363cc3f4c1ab7cff4.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = F506CFEAB3278404FF7CBAAA /* ebaa5dcd73763f6e4b407767e9b0fc31dd6140c87d5316c363cc3f4c1ab7cff4.mp3 */; };
 		423FDDF41D74516C003B4E7D /* f6394d16b7e1bd25cd23ea28a15abcd30f86725f3c10928231c21de2d4c01288.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 08424DF73F07D11C5DC197F6 /* f6394d16b7e1bd25cd23ea28a15abcd30f86725f3c10928231c21de2d4c01288.mp3 */; };
 		426EBE85EC860788DECCAB27 /* b98997b2ad32b0aef713a5d46fe000efaf9ab879466ce104dc8fae5c4b8492aa.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A220136699448FF17D08B09 /* b98997b2ad32b0aef713a5d46fe000efaf9ab879466ce104dc8fae5c4b8492aa.mp3 */; };
+		427549F0D5EEE0FEFC2BCFF9 /* StudyKeyboardIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72725AF3A9C7B3E1A230D4B3 /* StudyKeyboardIntegrationTests.swift */; };
 		428E32C86374A1960397BCF1 /* 50846d50b0318e94f33b3e3a985a0a66a71a1008df57a741d16703de2c79b2a9.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8AB0F770A163EA1EDD2ADF6D /* 50846d50b0318e94f33b3e3a985a0a66a71a1008df57a741d16703de2c79b2a9.mp3 */; };
 		429F9DDFBE66848B78FB7119 /* 7d6f12689305da5e1512b452ecd20a14435849551a071aa38cd3a949775245c6.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = FAAB21632DAF5A06AB716C5B /* 7d6f12689305da5e1512b452ecd20a14435849551a071aa38cd3a949775245c6.mp3 */; };
 		42ACBE5B848AFD01E5354728 /* 4c560955f84fa1723fe5ef41919ae036a38a1e2db768ebb9628d75477925a8b4.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = FB202B48FEA8783B7670FA36 /* 4c560955f84fa1723fe5ef41919ae036a38a1e2db768ebb9628d75477925a8b4.mp3 */; };
@@ -1323,6 +1324,7 @@
 		8C46E558F777F691A72B12D2 /* 699f634a09d1f4117be4a59eeeb6da1dfb9e272dfce2dd3e0611398de570db13.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16F13D97DEC7911BA4317CA8 /* 699f634a09d1f4117be4a59eeeb6da1dfb9e272dfce2dd3e0611398de570db13.mp3 */; };
 		8C5253619E7114643DBDCEA5 /* 6d435c5bdf80645360046c8d7329727748390a62e6044501e6eba0a4379777f1.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95561386ED6BE5D12D748F89 /* 6d435c5bdf80645360046c8d7329727748390a62e6044501e6eba0a4379777f1.mp3 */; };
 		8C63F4F6C8C9149A62B56A5F /* 16bc43fe233e72ff98dea73576419618b64d569a3bb6c846eb845103ba0461ad.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 49019B1F990D77AAE7299BA2 /* 16bc43fe233e72ff98dea73576419618b64d569a3bb6c846eb845103ba0461ad.mp3 */; };
+		8C65A48C694B6F67A10216B8 /* StudyShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D04D184DA6337E6B65FF18 /* StudyShortcuts.swift */; };
 		8C78E17ECFB727ECE9755172 /* b929141c80346efa85adfe11fb640469972bc9d692209439765728d43a7de305.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D88609F44F26C6CC8E925DB8 /* b929141c80346efa85adfe11fb640469972bc9d692209439765728d43a7de305.mp3 */; };
 		8C80269EBFBCC2E400EBA01E /* b623dc50c4ae64015932294d826e68d309c093077d2d04eeba545f59a6804439.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3A9AC0A7E64B0A021E70A63F /* b623dc50c4ae64015932294d826e68d309c093077d2d04eeba545f59a6804439.mp3 */; };
 		8C83A66268203FB0756C66D7 /* 83bbf203caf1c09ddf8ef997739bb31b4a3f8edc0e4738e04dec57c9444513bb.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5683D6CC4791CAFA7FBBF99B /* 83bbf203caf1c09ddf8ef997739bb31b4a3f8edc0e4738e04dec57c9444513bb.mp3 */; };
@@ -1564,6 +1566,7 @@
 		A76BE13A7BB50F31A4F5130E /* 022ad90f53320d85e2129f4c73e76cb5bfa94683460e11d6fd47eb6cb67f3ea4.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 406D71F3DA81F8359369AD9C /* 022ad90f53320d85e2129f4c73e76cb5bfa94683460e11d6fd47eb6cb67f3ea4.mp3 */; };
 		A7905F811AA74CBE8F0E2627 /* caf756e7c05871c7b9807ab5c1b63fbc02b02c86f3937996b979c88ecff4a0a7.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = A51B0AABFC45E8159081D7C9 /* caf756e7c05871c7b9807ab5c1b63fbc02b02c86f3937996b979c88ecff4a0a7.mp3 */; };
 		A7A6AE426363F060FC5FFB6B /* 79d4ca5f39fc916cc775bb9a709974a3fd00910de9071c623e7c538db4a7ee3d.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3830CECD251F88E86F08E4C2 /* 79d4ca5f39fc916cc775bb9a709974a3fd00910de9071c623e7c538db4a7ee3d.mp3 */; };
+		A7EC66A07C2543D7C96EEFDD /* StudyShortcutsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60DC690278BA94CC2DABC3E /* StudyShortcutsTests.swift */; };
 		A7F43C9B8D0EFD25C191D069 /* 615ac78f385f2a0b0c65d1aafc096915137f2912bdbf7bb5e174c0bfce1547f1.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 44F7CE75F46589045FCC0C04 /* 615ac78f385f2a0b0c65d1aafc096915137f2912bdbf7bb5e174c0bfce1547f1.mp3 */; };
 		A808FFAAB6896C2E5CBFBEC6 /* 5f8942de8a682e1bd342cf20e26b5b5b62a68a80c36b2e375c25afb56243f808.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3F364F66400AEAEF6E5FB6C3 /* 5f8942de8a682e1bd342cf20e26b5b5b62a68a80c36b2e375c25afb56243f808.mp3 */; };
 		A809F81DB0FD35C995133B93 /* 5f1ecc7c43070cbad8e9e79dfa2c3dbc5c40b4f5952dec5e88cacc59db5793eb.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = B4942FE262F4DBEA77EBC6B0 /* 5f1ecc7c43070cbad8e9e79dfa2c3dbc5c40b4f5952dec5e88cacc59db5793eb.mp3 */; };
@@ -1733,6 +1736,7 @@
 		B838984BC9C46CDDB53FE528 /* 3b0136eafecf0285005492a298e2472490e8f4b3225bca76556816f5e20edc75.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45CA09BB175FD900E90CA242 /* 3b0136eafecf0285005492a298e2472490e8f4b3225bca76556816f5e20edc75.mp3 */; };
 		B8449AA4B79CCFE889AF0BEE /* 5fd93f580010d59bec8bb6879dd08a927076e5fccaadefa6c292373d4b9f0bd4.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2C331136FFAC36FC6E1848FE /* 5fd93f580010d59bec8bb6879dd08a927076e5fccaadefa6c292373d4b9f0bd4.mp3 */; };
 		B87EF0BA8D0B494F6351DF1E /* d1b3d05bfcb3b6484760ce3ae6bca409b571a6c36a3eec54b3e5b09cbf25469c.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0BD50F4A506F2AC7689ADDB5 /* d1b3d05bfcb3b6484760ce3ae6bca409b571a6c36a3eec54b3e5b09cbf25469c.mp3 */; };
+		B88FCC1C61688A32AEDCF7A3 /* WindowStudyShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8AB08E3EE94D737CCC935A /* WindowStudyShortcuts.swift */; };
 		B8AC38A5C8EE3D6C3DDCFA47 /* 59607da706233796d07aa284b967aa73eb199f978cf8414488f44ebee2173325.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = AFF596712E6C0521CCB80F30 /* 59607da706233796d07aa284b967aa73eb199f978cf8414488f44ebee2173325.mp3 */; };
 		B8AD9EE6FC362A65731F53A7 /* a70a9cd883879c165c4d070253ad8109a760343aabf8d03207cd6fe2dc3a3433.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C1CE28FA0DAE3911329D5605 /* a70a9cd883879c165c4d070253ad8109a760343aabf8d03207cd6fe2dc3a3433.mp3 */; };
 		B8B0EB73B5BCACF74BF2F806 /* 5fe07b5d0f66f338d18db9519f7c1390338ebabdaed6b625d42af47bbde5a2c8.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9E895CC7E7B71341786B1F06 /* 5fe07b5d0f66f338d18db9519f7c1390338ebabdaed6b625d42af47bbde5a2c8.mp3 */; };
@@ -2383,6 +2387,18 @@
 
 /* Begin PBXCopyFilesBuildPhase section */
 		23B4A9CA31324CE3468D1418 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = KokoroAudio;
+			dstSubfolderSpec = 7;
+			files = (
+				EA8B3B38CFA22FA8347ED127 /* AUDIO-SOURCES.md in CopyFiles */,
+				77AD786172F2C22A40352379 /* KOKORO-APACHE-2.0.txt in CopyFiles */,
+				79AA6B0937429C61A6A0B77C /* audio-manifest.json in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B0D7E8D60F309E2225E25262 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = KokoroAudio/audio;
@@ -4719,18 +4735,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B0D7E8D60F309E2225E25262 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = KokoroAudio;
-			dstSubfolderSpec = 7;
-			files = (
-				EA8B3B38CFA22FA8347ED127 /* AUDIO-SOURCES.md in CopyFiles */,
-				77AD786172F2C22A40352379 /* KOKORO-APACHE-2.0.txt in CopyFiles */,
-				79AA6B0937429C61A6A0B77C /* audio-manifest.json in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -5778,6 +5782,7 @@
 		7251D88EF3AE81BF1AED136D /* fcaeceef5e380c728af4f1c9375f02b60045dcc7bfa6b14b2225bfcc867d18b9.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fcaeceef5e380c728af4f1c9375f02b60045dcc7bfa6b14b2225bfcc867d18b9.mp3; sourceTree = "<group>"; };
 		726195D62EAD0A2F02CA57DC /* ff0868d93347e73f1b7576fc8fb7fcdfa23d602cf17abe7143cc5640133b69e4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ff0868d93347e73f1b7576fc8fb7fcdfa23d602cf17abe7143cc5640133b69e4.mp3; sourceTree = "<group>"; };
 		726E576A83CC3286459A55BB /* e3880b6a344bec0f33146cc5ed88d95990b907de3a12b40d596ac446eb5e3a15.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = e3880b6a344bec0f33146cc5ed88d95990b907de3a12b40d596ac446eb5e3a15.mp3; sourceTree = "<group>"; };
+		72725AF3A9C7B3E1A230D4B3 /* StudyKeyboardIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyKeyboardIntegrationTests.swift; sourceTree = "<group>"; };
 		7296A43DD03AB56BC35E81E1 /* ba7f0ce03ed7c15b5d1e43925d33e8aabb7203d4fd5182928eb58f4424a58898.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ba7f0ce03ed7c15b5d1e43925d33e8aabb7203d4fd5182928eb58f4424a58898.mp3; sourceTree = "<group>"; };
 		72FBA94317FBE862208C7BBF /* dd6347c6335ac94998ea16e2dcc06c73fb1caa7c203fdc9881da140526056b11.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = dd6347c6335ac94998ea16e2dcc06c73fb1caa7c203fdc9881da140526056b11.mp3; sourceTree = "<group>"; };
 		730AE673EC4E624DCFB52926 /* 7776795946ab9f53bd3e97caa303d1977da6b2c2395abc76b60bf672ff1602b4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 7776795946ab9f53bd3e97caa303d1977da6b2c2395abc76b60bf672ff1602b4.mp3; sourceTree = "<group>"; };
@@ -6243,6 +6248,7 @@
 		A5C6BB1B767552E0EB5E6EDB /* 74341eb562fd603ce4251be3601104c0a0438b2134d4e264ae886a30c9fe20ea.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 74341eb562fd603ce4251be3601104c0a0438b2134d4e264ae886a30c9fe20ea.mp3; sourceTree = "<group>"; };
 		A5D9C8ADFB885FC5DEB1D414 /* 86437f37cb35901583876f3c252f58267bde7a77be393165f8576cd179f17a29.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 86437f37cb35901583876f3c252f58267bde7a77be393165f8576cd179f17a29.mp3; sourceTree = "<group>"; };
 		A600B79B76BC295B78710CC2 /* cf137bef6dd56f43c03f1d0299ff9d5782994836d65df9d238b60626e561c65b.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cf137bef6dd56f43c03f1d0299ff9d5782994836d65df9d238b60626e561c65b.mp3; sourceTree = "<group>"; };
+		A60DC690278BA94CC2DABC3E /* StudyShortcutsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyShortcutsTests.swift; sourceTree = "<group>"; };
 		A621F85EC627EC2324700356 /* 8b35e3b4b46677729be8dac610fcca5c8d02f7cecfa76ea842d9fc9ef9bc272b.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 8b35e3b4b46677729be8dac610fcca5c8d02f7cecfa76ea842d9fc9ef9bc272b.mp3; sourceTree = "<group>"; };
 		A6620EC308959DDD7C494927 /* 9db1fa0a3bbcd6409f1b17e25536ca2b8bde9cf64254c4c0745beea469579329.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 9db1fa0a3bbcd6409f1b17e25536ca2b8bde9cf64254c4c0745beea469579329.mp3; sourceTree = "<group>"; };
 		A6810C283BC206B9EDBE1936 /* 8615d9fafd913a79b286f4eb60cd95aed6d4e9504374a7dfb44b87e3fb06d8ec.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 8615d9fafd913a79b286f4eb60cd95aed6d4e9504374a7dfb44b87e3fb06d8ec.mp3; sourceTree = "<group>"; };
@@ -6773,6 +6779,7 @@
 		DB22CE5BAF6B9A75534AD89E /* b8935c14ee3a7f37aaaee93af3cda191a8db55e3c33e3370aa14e6a49bc20607.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = b8935c14ee3a7f37aaaee93af3cda191a8db55e3c33e3370aa14e6a49bc20607.mp3; sourceTree = "<group>"; };
 		DB244B8615BE46B8CBF81259 /* 33752eabcbc6e60aed93c03dd7c317e137b9a11f820d1bca0aad88320c6acc5a.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 33752eabcbc6e60aed93c03dd7c317e137b9a11f820d1bca0aad88320c6acc5a.mp3; sourceTree = "<group>"; };
 		DB6AB49CA6486D08C95E099A /* 181c95a58ef8d321f3536b0e7a3768e22a67d1577fb15053686829b76b2c6440.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 181c95a58ef8d321f3536b0e7a3768e22a67d1577fb15053686829b76b2c6440.mp3; sourceTree = "<group>"; };
+		DB8AB08E3EE94D737CCC935A /* WindowStudyShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowStudyShortcuts.swift; sourceTree = "<group>"; };
 		DB9E062EC91C3DC9FCFB1ABA /* d77c2e7914f4b4bd5956500bc43f056ef0e1c4290b847f6e80dcfd439ce9ecba.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = d77c2e7914f4b4bd5956500bc43f056ef0e1c4290b847f6e80dcfd439ce9ecba.mp3; sourceTree = "<group>"; };
 		DBC429A76246E61726B77B70 /* a78b7ef9d0c8195bb4cfb47fb549c77c6b2d045dc90a00a9893a8ef9bd346a89.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = a78b7ef9d0c8195bb4cfb47fb549c77c6b2d045dc90a00a9893a8ef9bd346a89.mp3; sourceTree = "<group>"; };
 		DBFB76B762A62BCC2F53F0A4 /* efcfcf08758ea2b6e6fe16525d658689f300238840fff092dca30bdb95ba8354.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = efcfcf08758ea2b6e6fe16525d658689f300238840fff092dca30bdb95ba8354.mp3; sourceTree = "<group>"; };
@@ -6990,6 +6997,7 @@
 		F29FB7F5F591C7DC2E5E6313 /* 4fcce979e4919f660b4501dd0f66052729929df47bb83936e0158986ba994eb7.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 4fcce979e4919f660b4501dd0f66052729929df47bb83936e0158986ba994eb7.mp3; sourceTree = "<group>"; };
 		F2B96D0514DFA7ABF3FC88B5 /* 6db66a15b06e6c48c24f062cc6dabf7fd723300ed236521c8b5029d05ef97983.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 6db66a15b06e6c48c24f062cc6dabf7fd723300ed236521c8b5029d05ef97983.mp3; sourceTree = "<group>"; };
 		F2C4DDFFF283FA157E142B33 /* 0a988d56efef8b62849eea04c53a3eb4731c72f1a25543b89db8e6b64eb59cf0.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 0a988d56efef8b62849eea04c53a3eb4731c72f1a25543b89db8e6b64eb59cf0.mp3; sourceTree = "<group>"; };
+		F2D04D184DA6337E6B65FF18 /* StudyShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyShortcuts.swift; sourceTree = "<group>"; };
 		F3192AFC586CEEFF5159CDD2 /* 9b7b364570e16176eab5855ebeca87b0b7dd3af06c1f5b634d02fd7f734e9462.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 9b7b364570e16176eab5855ebeca87b0b7dd3af06c1f5b634d02fd7f734e9462.mp3; sourceTree = "<group>"; };
 		F34BB18927DA63F9BB80708E /* 8461f4716d3e9d8ee0dd21db3d23253594530a592ebd68844cef73a26a54aec6.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 8461f4716d3e9d8ee0dd21db3d23253594530a592ebd68844cef73a26a54aec6.mp3; sourceTree = "<group>"; };
 		F3783ABBE7BAAC805ADF5150 /* 2f3854504935c61528d1978e7f58d9d35cd9a279ea17ecbbd10fd1c3a423c3c7.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 2f3854504935c61528d1978e7f58d9d35cd9a279ea17ecbbd10fd1c3a423c3c7.mp3; sourceTree = "<group>"; };
@@ -7140,6 +7148,7 @@
 				FC6E2822565D167C1C39C4DE /* SettingsView.swift */,
 				6BFBDCBDBFAA334FFACB29D2 /* SoftwareUpdateSection.swift */,
 				B0925891FFDBF2B193CF53ED /* TermDetailView.swift */,
+				DB8AB08E3EE94D737CCC935A /* WindowStudyShortcuts.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -7151,6 +7160,7 @@
 				23CFCA52E3677ABB40A372B1 /* ProgressStore.swift */,
 				9B63530DBE4A72C799914B29 /* Pronunciation.swift */,
 				0C7F378C31CB91209F612936 /* QuizEngine.swift */,
+				F2D04D184DA6337E6B65FF18 /* StudyShortcuts.swift */,
 				7D1D0149050BF3022DE92A9D /* Term.swift */,
 			);
 			path = Core;
@@ -7214,6 +7224,8 @@
 				131CD15E427036C58DC3F220 /* PronunciationTests.swift */,
 				F5AB95EC0DAA0C52096CBA63 /* QuizEngineTests.swift */,
 				6E8B3D5DF388E344803BD4EE /* SpeechSelectionSanitizerTests.swift */,
+				72725AF3A9C7B3E1A230D4B3 /* StudyKeyboardIntegrationTests.swift */,
+				A60DC690278BA94CC2DABC3E /* StudyShortcutsTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -9685,6 +9697,8 @@
 				B47E84B0DA01E8C65FD9EB1B /* PronunciationTests.swift in Sources */,
 				67B7A82DF5443D177CD1385F /* QuizEngineTests.swift in Sources */,
 				376D7F1C97D940D3C96130A3 /* SpeechSelectionSanitizerTests.swift in Sources */,
+				427549F0D5EEE0FEFC2BCFF9 /* StudyKeyboardIntegrationTests.swift in Sources */,
+				A7EC66A07C2543D7C96EEFDD /* StudyShortcutsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9710,10 +9724,12 @@
 				331542422E0ACD6735A457A5 /* SoftwareUpdateSection.swift in Sources */,
 				D74957D74AB566D140AACD32 /* SpeechSelectionSanitizer.swift in Sources */,
 				B0630FF83E81F61866E38500 /* SpeechService.swift in Sources */,
+				8C65A48C694B6F67A10216B8 /* StudyShortcuts.swift in Sources */,
 				8EB59BDBB51619AD37B890D8 /* Term.swift in Sources */,
 				DFA44280165881D8EC7F66DE /* TermDetailView.swift in Sources */,
 				A683F696A3918C3A7D6084BA /* TermLibrary.swift in Sources */,
 				1C986A4AE5A85DEDE07C2F5E /* UpdateService.swift in Sources */,
+				B88FCC1C61688A32AEDCF7A3 /* WindowStudyShortcuts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9735,7 +9751,7 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Config/Info.plist;
@@ -9744,7 +9760,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xingyiyao.MathInterviewVocab;
 				PRODUCT_NAME = MathInterviewVocab;
 				SDKROOT = macosx;
@@ -9924,7 +9940,7 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Config/Info.plist;
@@ -9933,7 +9949,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xingyiyao.MathInterviewVocab;
 				PRODUCT_NAME = MathInterviewVocab;
 				SDKROOT = macosx;

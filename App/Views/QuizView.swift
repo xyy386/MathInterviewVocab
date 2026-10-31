@@ -71,6 +71,10 @@ struct QuizView: View {
             }
         }
         .background(AcademicTheme.gridBlue.opacity(0.14))
+        .background {
+            WindowStudyShortcuts(isEnabled: stage == .active, scope: .quiz, handle: handleShortcut)
+                .frame(width: 0, height: 0)
+        }
         .onAppear(perform: loadPreferencesOnce)
         .onDisappear {
             feedbackSelectedText = ""
@@ -195,6 +199,10 @@ struct QuizView: View {
                     ProgressView(value: Double(answeredCount), total: Double(max(questions.count, 1)))
                         .tint(AcademicTheme.formulaBlue)
 
+                    Text("A–D／1–4 选择 · Enter／→／↓ 继续")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+
                     VStack(alignment: .leading, spacing: 10) {
                         SectionBadge(
                             question.direction == .zhToEn ? "选择对应英文" : "选择对应中文",
@@ -228,6 +236,7 @@ struct QuizView: View {
                 }
                 .academicContentColumn()
             }
+            .id(question.id)
         } else {
             ContentUnavailableView(
                 "无法生成题目",
@@ -279,7 +288,6 @@ struct QuizView: View {
         }
         .buttonStyle(.plain)
         .disabled(selectedOptionID != nil)
-        .keyboardShortcut(KeyEquivalent(Character("\(index + 1)")), modifiers: [])
         .accessibilityLabel("选项 \(index + 1)，\(answer(for: option, direction: question.direction))")
     }
 
@@ -356,7 +364,6 @@ struct QuizView: View {
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.large)
-            .keyboardShortcut(.return, modifiers: [])
         }
         .academicCard(emphasized: true)
     }
@@ -507,7 +514,10 @@ struct QuizView: View {
     }
 
     private func select(_ optionID: Int, for question: QuizQuestion) {
-        guard selectedOptionID == nil else { return }
+        guard stage == .active, selectedOptionID == nil,
+              questions.indices.contains(questionIndex),
+              questions[questionIndex] == question,
+              question.options.contains(where: { $0.id == optionID }) else { return }
         selectedOptionID = optionID
         answeredCount += 1
         if progress.recordAnswer(for: question, selectedOptionID: optionID) {
@@ -516,13 +526,32 @@ struct QuizView: View {
     }
 
     private func advanceQuestion() {
+        guard stage == .active, selectedOptionID != nil,
+              questions.indices.contains(questionIndex) else { return }
         speech.stop()
         feedbackSelectedText = ""
         if questionIndex + 1 < questions.count {
-            questionIndex += 1
             selectedOptionID = nil
+            questionIndex += 1
         } else {
             stage = .summary
+        }
+    }
+
+    private func handleShortcut(_ shortcut: StudyShortcut) -> Bool {
+        guard stage == .active, questions.indices.contains(questionIndex) else { return false }
+        switch shortcut {
+        case .answer(let index):
+            let question = questions[questionIndex]
+            if question.options.indices.contains(index) {
+                select(question.options[index].id, for: question)
+            }
+            return true
+        case .next, .advance:
+            advanceQuestion()
+            return true
+        case .previous:
+            return false
         }
     }
 

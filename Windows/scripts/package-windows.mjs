@@ -9,7 +9,8 @@ import { createHash } from 'node:crypto';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const stage = path.join(root, '.out/app');
 const metadata = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
-const destination = path.resolve(root, '../dist');
+if (process.argv.length > 3) throw new Error('Usage: node scripts/package-windows.mjs [OUTPUT_DIRECTORY]');
+const destination = process.argv[2] ? path.resolve(process.argv[2]) : path.resolve(root, '../dist');
 const zipFile = path.join(destination, `MathInterviewVocab-Windows-x64-v${metadata.version}.zip`);
 try { await access(zipFile); throw new Error(`拒绝覆盖已有成品：${path.basename(zipFile)}`); }
 catch (error) { if (error.code !== 'ENOENT') throw error; }
@@ -37,7 +38,7 @@ for (const term of terms) {
 
 const paths = await packager({
     dir: stage, out: path.join(root, '.out/win'), platform: 'win32', arch: 'x64',
-    name: '数学面试词汇', executableName: '数学面试词汇', appVersion: metadata.version, buildVersion: `${metadata.version}.4`,
+    name: '数学面试词汇', executableName: '数学面试词汇', appVersion: metadata.version, buildVersion: `${metadata.version}.5`,
     electronVersion: metadata.devDependencies.electron, overwrite: true, asar: true, prune: true,
     icon: path.join(root, '.out/icon.ico'),
     win32metadata: { CompanyName: 'MathInterviewVocab', FileDescription: '数学面试词汇 · 全离线学习版', ProductName: '数学面试词汇',

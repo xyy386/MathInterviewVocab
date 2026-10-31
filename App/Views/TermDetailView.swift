@@ -50,6 +50,10 @@ struct TermDetailView: View {
                         .foregroundStyle(.secondary)
                 }
 
+                Text("←／↑ 上一个 · →／↓ 下一个")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
                 VStack(alignment: .leading, spacing: 12) {
                     // 独立提供可访问文本，保留复制并避免可选 Text 的标签解析递归。
                     Text(term.chinese)

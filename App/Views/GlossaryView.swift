@@ -3,6 +3,7 @@ import SwiftUI
 struct GlossaryView: View {
     @Environment(TermLibrary.self) private var library
     @Environment(ProgressStore.self) private var progress
+    @Environment(SpeechService.self) private var speech
 
     @State private var searchText = ""
     @State private var selectedSubjectID: String?
@@ -29,6 +30,12 @@ struct GlossaryView: View {
                 && matchesFavorite
                 && matchesMistake
                 && matchesSearch
+        }
+    }
+
+    private var visibleTermIDs: [Int] {
+        library.subjects.flatMap { subject in
+            filteredTerms.filter { $0.subjectID == subject.id }.map(\.id)
         }
     }
 
@@ -60,9 +67,23 @@ struct GlossaryView: View {
             if let selectedTermID,
                let term = library.term(id: selectedTermID) {
                 TermDetailView(term: term)
+                    .id(term.id)
             } else {
                 GlossaryWelcomeView()
             }
+        }
+        .background {
+            WindowStudyShortcuts { shortcut in
+                guard shortcut == .previous || shortcut == .next else { return false }
+                if let nextID = StudyShortcut.adjacentID(
+                    in: visibleTermIDs, selectedID: selectedTermID, direction: shortcut
+                ), nextID != selectedTermID {
+                    speech.stop()
+                    selectedTermID = nextID
+                }
+                return true
+            }
+            .frame(width: 0, height: 0)
         }
         .onChange(of: filteredTerms.map(\.id)) { _, visibleIDs in
             if let selectedTermID, !visibleIDs.contains(selectedTermID) {
@@ -159,33 +180,48 @@ struct GlossaryView: View {
     }
 
     private func termList(selection: Binding<Int?>) -> some View {
-        List(selection: selection) {
-            learningHeader
+        ScrollViewReader { proxy in
+            List(selection: selection) {
+                learningHeader
 
-            if filteredTerms.isEmpty {
-                ContentUnavailableView(
-                    "没有符合条件的词汇",
-                    systemImage: "text.magnifyingglass",
-                    description: Text("请更换搜索内容、科目或筛选条件。")
-                )
-            } else {
-                ForEach(library.subjects) { subject in
-                    let subjectTerms = filteredTerms.filter { $0.subjectID == subject.id }
-                    if !subjectTerms.isEmpty {
-                        Section(subject.name) {
-                            ForEach(subjectTerms) { term in
-                                TermRow(
-                                    term: term,
-                                    isSelected: selectedTermID == term.id
-                                )
+                if filteredTerms.isEmpty {
+                    ContentUnavailableView(
+                        "没有符合条件的词汇",
+                        systemImage: "text.magnifyingglass",
+                        description: Text("请更换搜索内容、科目或筛选条件。")
+                    )
+                } else {
+                    ForEach(library.subjects) { subject in
+                        let subjectTerms = filteredTerms.filter { $0.subjectID == subject.id }
+                        if !subjectTerms.isEmpty {
+                            Section(subject.name) {
+                                ForEach(subjectTerms) { term in
+                                    TermRow(
+                                        term: term,
+                                        isSelected: selectedTermID == term.id
+                                    )
                                     .tag(term.id)
+                                    .id(term.id)
+                                }
                             }
                         }
                     }
                 }
             }
+            .listStyle(.sidebar)
+            .task(id: selectedTermID) {
+                // 等列表完成本轮选中更新，避免重入 NSTableView 的 delegate。
+                await Task.yield()
+                guard !Task.isCancelled, let selectedTermID else { return }
+                proxy.scrollTo(selectedTermID)
+            }
+            .task(id: columnVisibility) {
+                await Task.yield()
+                guard !Task.isCancelled, columnVisibility != .detailOnly,
+                      let selectedTermID else { return }
+                proxy.scrollTo(selectedTermID)
+            }
         }
-        .listStyle(.sidebar)
     }
 
     private var learningHeader: some View {

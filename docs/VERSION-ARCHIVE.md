@@ -1,16 +1,27 @@
 # 历史版本与归档索引
 
-归档核验日期：2026-10-31。历史成品使用 GitHub Releases 保存，源码由固定标签保存；本次只补充索引，不修改原 Release、附件或标签，不重复上传构建缓存。
+归档核验日期：2026-10-31。成品使用 GitHub Releases 保存，源码由固定标签保存；新增桌面 v1.3.0，原 Release、附件和标签保持不变，不重复上传构建缓存。
 
 ## 版本与源码
 
 | Release | 成品版本 | 对应源码 |
 | --- | --- | --- |
+| [v1.3.0](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.0) | Windows 1.3.0（file build 1.3.0.5）、macOS 1.3.0 build 5；Android 仍使用 v1.2.0 | [桌面 v1.3.0](https://github.com/xyy386/MathInterviewVocab/tree/v1.3.0) |
 | [v1.2.0](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.2.0) | Windows 1.2.0、macOS 1.2.0 build 4、Android 1.2.0 code 1 | [桌面 v1.2.0](https://github.com/xyy386/MathInterviewVocab/tree/v1.2.0) · [Android android-v1.2.0](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.2.0) |
 | [v1.1.2](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.1.2) | macOS 1.1.2、Windows 1.1.1 | [v1.1.2](https://github.com/xyy386/MathInterviewVocab/tree/v1.1.2) |
 | [v1.1.1](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.1.1) | macOS 1.1、Windows 1.1.1 | [v1.1.1](https://github.com/xyy386/MathInterviewVocab/tree/v1.1.1) |
 
 原 `v1.2.0` 标签早于 Android 工程，其自动生成的 Source code 归档不包含 Android。需要 Android 源码请使用独立 `android-v1.2.0` 标签；不要把 Source code 当作可运行安装包。
+
+## v1.3.0 附件
+
+本次仅发布桌面版，不重建 Android APK；Android 下载仍使用下方 v1.2.0 的原附件。
+
+| 文件（直接下载） | 字节数 | SHA-256 |
+| --- | ---: | --- |
+| [MathInterviewVocab-macOS-universal-v1.3.0.zip](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/MathInterviewVocab-macOS-universal-v1.3.0.zip) | 48213002 | `5e395d37fd379e7103eb87b42da43d495ff73947e293fd3a38a2241526535d95` |
+| [MathInterviewVocab-Windows-x64-v1.3.0.zip](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/MathInterviewVocab-Windows-x64-v1.3.0.zip) | 206524113 | `b2365e8d25d864f11c7654393b3d26c13c5d77d90b6f87701eaebdbee4ac7897` |
+| [SHA256SUMS.txt](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/SHA256SUMS.txt) | 220 | `7c7d1333224241ed2fb9f7253c9fe9569ad881937fdc4a0b8727fd16c2cd38f4` |
 
 ## v1.2.0 附件
 
@@ -42,6 +53,7 @@
 
 | 标签 | 对应提交 |
 | --- | --- |
+| [v1.3.0](https://github.com/xyy386/MathInterviewVocab/tree/v1.3.0) | 同名注释标签固定本次桌面构建提交；不移动或覆盖旧标签 |
 | [android-v1.2.0](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.2.0) | [`4a026ff65fd57fc4b5a1feffd972d33b8b814384`](https://github.com/xyy386/MathInterviewVocab/commit/4a026ff65fd57fc4b5a1feffd972d33b8b814384) |
 | [v1.2.0](https://github.com/xyy386/MathInterviewVocab/tree/v1.2.0) | [`4895429c20d5cdd2906ab0cd4b542bf68dc15662`](https://github.com/xyy386/MathInterviewVocab/commit/4895429c20d5cdd2906ab0cd4b542bf68dc15662) |
 | [v1.1.2](https://github.com/xyy386/MathInterviewVocab/tree/v1.1.2) | [`7d0c2c465099355ca03de1d95ca2aae006c08bff`](https://github.com/xyy386/MathInterviewVocab/commit/7d0c2c465099355ca03de1d95ca2aae006c08bff) |
@@ -49,7 +61,8 @@
 
 ## 恢复与安全说明
 
-- 最新三平台安装包及两份校验文件已匿名流式回读，字节数和 SHA-256 与本地最终成品、GitHub 附件摘要一致，没有额外保留下载副本。历史 v1.1.1／v1.1.2 的六个下载入口另通过匿名 HEAD／重定向检查，文件大小一致；旧版本摘要来自现有 Release 元数据，不冒充本次完整下载校验。
+- v1.3.0 两个桌面 ZIP 及校验文件在发布流程中先核对草稿附件，再通过公开链接匿名流式回读；字节数和 SHA-256 必须与本地成品及 GitHub 附件摘要一致才视为发布验收完成，不额外保留下载副本。
+- v1.2.0 三平台安装包及两份校验文件此前已匿名流式回读，字节数和 SHA-256 与当时本地成品、GitHub 附件摘要一致。历史 v1.1.1／v1.1.2 的六个下载入口另通过匿名 HEAD／重定向检查，文件大小一致；旧版本摘要来自现有 Release 元数据，不冒充本次完整下载校验。
 - `SHA256SUMS.txt` 对应桌面 ZIP；`SHA256SUMS-Android.txt` 只对应 Android APK。哈希用于检查完整性，仍应核对项目来源、系统提示和 Android 实际签名。
 - 恢复桌面成品时完整解压；Android 同包名、同签名覆盖安装，勿先卸载或清空数据。历史版本仅供回溯，功能和系统要求以对应 Release 为准，不建议无必要降级。
 - `node_modules`、Gradle 依赖缓存、编译输出、下载暂存和重复安装包不是独立历史版本，不纳入 Git 历史。清理后首次开发构建可能需要重新下载依赖；已安装软件的离线学习与发音不依赖这些缓存。

@@ -161,6 +161,7 @@ select { background: white; border: 1px solid #c9cbd1; border-radius: 5px; min-h
 .selectable-english { font: 600 22px/1.2 var(--rounded); color: var(--blue); user-select: text; cursor: text; overflow-wrap: anywhere; }
 ::selection { background: #2e5aac33; }
 .term-hint { line-height: 1.25; }
+.shortcut-hint { line-height: 1.5; }
 .pronunciation-panel { background: #2e5aac0b; border: 1px solid var(--grid); border-radius: 14px; padding: 14px; }
 .pronunciation-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 11px; margin-bottom: 10px; }
 .pronunciation-heading > span { display: flex; align-items: center; gap: 4px; color: var(--blue); font-size: 10px; }
