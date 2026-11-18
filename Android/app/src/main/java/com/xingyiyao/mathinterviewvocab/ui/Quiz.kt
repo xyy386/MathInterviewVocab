@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -281,67 +282,23 @@ private fun ActiveQuiz(state: AppUiState, viewModel: AppViewModel) {
                 onSelfGrade = { knewIt -> viewModel.answerFlashcard(knewIt) },
             )
         } else {
-            AcademicCard {
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(6.dp),
-                ) {
-                    TermBadge(question.term.subjectName, Academic.Blue)
-                    if (isFlashcard) TermBadge("面试闪卡", Academic.Blue)
-                }
-                Text(
-                    VocabularyCore.displayMathNotation(
-                        if (question.direction == "zhToEn") question.term.chinese else question.term.english,
-                    ),
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontFamily = if (question.direction == "zhToEn") FontFamily.Serif else FontFamily.SansSerif,
-                    color = if (question.direction == "zhToEn") Academic.Ink else Academic.Blue,
-                    fontWeight = if (question.term.important) FontWeight.Bold else FontWeight.Medium,
-                )
-            }
+            QuizQuestionPromptCard(question = question, isFlashcard = isFlashcard)
             if (!isFlashcard) {
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     question.options.forEachIndexed { index, term ->
                         val chosen = term.id == quiz.selectedOptionID
                         val right = term.id == question.correctOptionID
-                        val color = when {
-                            answered && right -> Academic.Success
-                            answered && chosen -> Academic.Error
-                            else -> Academic.Grid
-                        }
-                        val bgColor = if (answered && (right || chosen)) color.copy(alpha = 0.08f) else Academic.Surface
-                        Card(
-                            onClick = { viewModel.answer(term.id) },
-                            enabled = !answered && !state.busy,
-                            modifier = Modifier.fillMaxWidth().heightIn(min = 64.dp).bounceClick(!answered && !state.busy),
-                            shape = Academic.Shape,
-                            border = BorderStroke(if (answered && (right || chosen)) 1.5.dp else 1.dp, color),
-                            colors = CardDefaults.cardColors(
-                                containerColor = bgColor,
-                                disabledContainerColor = bgColor,
-                                disabledContentColor = Academic.Ink,
+                        QuizOptionCard(
+                            index = index,
+                            label = VocabularyCore.displayMathNotation(
+                                if (question.direction == "zhToEn") term.english else term.chinese,
                             ),
-                        ) {
-                            Row(Modifier.padding(18.dp), horizontalArrangement = Arrangement.spacedBy(14.dp)) {
-                                Text(
-                                    ('A' + index).toString(),
-                                    color = Academic.Blue,
-                                    fontFamily = FontFamily.Monospace,
-                                    fontWeight = FontWeight.Bold,
-                                )
-                                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                                    Text(
-                                        VocabularyCore.displayMathNotation(
-                                            if (question.direction == "zhToEn") term.english else term.chinese,
-                                        ),
-                                        fontWeight = if (term.important) FontWeight.Bold else FontWeight.Normal,
-                                        color = Academic.Ink,
-                                    )
-                                    if (answered && right) Text("正确答案", color = Academic.Success, style = MaterialTheme.typography.labelMedium)
-                                    else if (answered && chosen) Text("你的选择", color = Academic.Error, style = MaterialTheme.typography.labelMedium)
-                                }
-                            }
-                        }
+                            chosen = chosen,
+                            right = right,
+                            answered = answered,
+                            enabled = !answered && !state.busy,
+                            onSelect = { viewModel.answer(term.id) },
+                        )
                     }
                 }
             }
@@ -368,6 +325,7 @@ private fun ActiveQuiz(state: AppUiState, viewModel: AppViewModel) {
                         if (accent == null) viewModel.speak(text) else viewModel.speak(text, accent)
                     },
                     onStop = viewModel::stopSpeech,
+                    emphasizeImportant = false,
                 )
                 Text(VocabularyCore.displayMathNotation(question.term.definition), color = Academic.Muted)
                 OutlinedButton(
@@ -418,9 +376,13 @@ private fun ActiveQuiz(state: AppUiState, viewModel: AppViewModel) {
 /**
  * 7. 面试闪卡（Flashcard）3D 翻转自测卡片
  */
+internal fun flashcardTargetRotation(flipped: Boolean): Float = if (flipped) -180f else 0f
+
+internal fun isFlashcardBackVisible(rotation: Float): Boolean = rotation < -90f
+
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun FlashcardQuestionCard(
+internal fun FlashcardQuestionCard(
     question: QuizQuestion,
     busy: Boolean,
     onSpeak: (String) -> Unit,
@@ -428,11 +390,11 @@ private fun FlashcardQuestionCard(
 ) {
     var flipped by rememberSaveable(question.id) { mutableStateOf(false) }
     val rotation by animateFloatAsState(
-        targetValue = if (flipped) 180f else 0f,
+        targetValue = flashcardTargetRotation(flipped),
         animationSpec = spring(dampingRatio = 0.78f, stiffness = 300f),
         label = "flashcardFlipRotation",
     )
-    val showBack = rotation > 90f
+    val showBack = isFlashcardBackVisible(rotation)
 
     Card(
         onClick = { flipped = !flipped },
@@ -451,19 +413,13 @@ private fun FlashcardQuestionCard(
             Modifier
                 .fillMaxWidth()
                 .graphicsLayer {
-                    if (showBack) rotationY = 180f
+                    if (showBack) rotationY = -180f
                 }
                 .padding(22.dp),
         ) {
             if (!showBack) {
                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                    FlowRow(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalArrangement = Arrangement.spacedBy(6.dp),
-                    ) {
-                        TermBadge(question.term.subjectName, Academic.Blue)
-                        TermBadge("面试闪卡 · 正面", Academic.Blue)
-                    }
+                    TermBadge(question.term.subjectName, Academic.Blue)
                     Text(
                         VocabularyCore.displayMathNotation(
                             if (question.direction == "zhToEn") question.term.chinese else question.term.english,
@@ -495,13 +451,7 @@ private fun FlashcardQuestionCard(
                 }
             } else {
                 Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
-                    FlowRow(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalArrangement = Arrangement.spacedBy(6.dp),
-                    ) {
-                        TermBadge(question.term.subjectName, Academic.Blue)
-                        TermBadge("面试闪卡 · 答案背面", Academic.Success)
-                    }
+                    TermBadge(question.term.subjectName, Academic.Blue)
                     Text(
                         VocabularyCore.displayMathNotation(question.term.chinese),
                         style = MaterialTheme.typography.titleLarge,
@@ -514,12 +464,20 @@ private fun FlashcardQuestionCard(
                         fontWeight = FontWeight.Bold,
                         color = Academic.Blue,
                     )
-                    Text(
-                        "US ${question.term.pronunciation.americanIPA}   ·   UK ${question.term.pronunciation.britishIPA}",
-                        fontFamily = FontFamily.Monospace,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Academic.Muted,
-                    )
+                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        Text(
+                            "US ${VocabularyCore.displayIpa(question.term.pronunciation.americanIPA, withSlashes = true)}",
+                            style = MaterialTheme.typography.bodySmall,
+                            fontFamily = FontFamily.SansSerif,
+                            color = Academic.Muted,
+                        )
+                        Text(
+                            "UK ${VocabularyCore.displayIpa(question.term.pronunciation.britishIPA, withSlashes = true)}",
+                            style = MaterialTheme.typography.bodySmall,
+                            fontFamily = FontFamily.SansSerif,
+                            color = Academic.Muted,
+                        )
+                    }
                     FlowRow(
                         horizontalArrangement = Arrangement.spacedBy(10.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -552,6 +510,7 @@ private fun FlashcardQuestionCard(
                         OutlinedButton(
                             onClick = { onSelfGrade(false) },
                             enabled = !busy,
+                            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 10.dp),
                             modifier = Modifier.weight(1f).heightIn(min = 50.dp).bounceClick(!busy),
                         ) {
                             Icon(Icons.Outlined.Close, contentDescription = null, tint = Academic.Error)
@@ -560,6 +519,7 @@ private fun FlashcardQuestionCard(
                         Button(
                             onClick = { onSelfGrade(true) },
                             enabled = !busy,
+                            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 10.dp),
                             modifier = Modifier.weight(1f).heightIn(min = 50.dp).bounceClick(!busy),
                         ) {
                             Icon(Icons.Outlined.Check, contentDescription = null)
@@ -611,7 +571,7 @@ private fun QuizSummary(state: AppUiState, viewModel: AppViewModel) {
                         Text(
                             VocabularyCore.displayMathNotation(term.english),
                             color = Academic.Blue,
-                            fontWeight = if (term.important) FontWeight.Bold else FontWeight.Normal,
+                            fontWeight = FontWeight.Normal,
                         )
                     }
                 }
@@ -620,6 +580,80 @@ private fun QuizSummary(state: AppUiState, viewModel: AppViewModel) {
             AcademicCard {
                 Text("本次全部答对", style = MaterialTheme.typography.titleMedium, color = Academic.Success)
                 Text("可以尝试其他科目，或切换检测方向继续练习。", color = Academic.Muted)
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+internal fun QuizQuestionPromptCard(
+    question: QuizQuestion,
+    isFlashcard: Boolean = false,
+) {
+    AcademicCard {
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp),
+        ) {
+            TermBadge(question.term.subjectName, Academic.Blue)
+            if (isFlashcard) TermBadge("面试闪卡", Academic.Blue)
+        }
+        Text(
+            VocabularyCore.displayMathNotation(
+                if (question.direction == "zhToEn") question.term.chinese else question.term.english,
+            ),
+            style = MaterialTheme.typography.headlineMedium,
+            fontFamily = if (question.direction == "zhToEn") FontFamily.Serif else FontFamily.SansSerif,
+            color = if (question.direction == "zhToEn") Academic.Ink else Academic.Blue,
+            fontWeight = FontWeight.Medium,
+        )
+    }
+}
+
+@Composable
+internal fun QuizOptionCard(
+    index: Int,
+    label: String,
+    chosen: Boolean,
+    right: Boolean,
+    answered: Boolean,
+    enabled: Boolean,
+    onSelect: () -> Unit,
+) {
+    val color = when {
+        answered && right -> Academic.Success
+        answered && chosen -> Academic.Error
+        else -> Academic.Grid
+    }
+    val bgColor = if (answered && (right || chosen)) color.copy(alpha = 0.08f) else Academic.Surface
+    Card(
+        onClick = onSelect,
+        enabled = enabled,
+        modifier = Modifier.fillMaxWidth().heightIn(min = 64.dp).bounceClick(enabled),
+        shape = Academic.Shape,
+        border = BorderStroke(if (answered && (right || chosen)) 1.5.dp else 1.dp, color),
+        colors = CardDefaults.cardColors(
+            containerColor = bgColor,
+            disabledContainerColor = bgColor,
+            disabledContentColor = Academic.Ink,
+        ),
+    ) {
+        Row(Modifier.padding(18.dp), horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+            Text(
+                ('A' + index).toString(),
+                color = Academic.Blue,
+                fontFamily = FontFamily.Monospace,
+                fontWeight = FontWeight.Bold,
+            )
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Text(
+                    label,
+                    fontWeight = FontWeight.Normal,
+                    color = Academic.Ink,
+                )
+                if (answered && right) Text("正确答案", color = Academic.Success, style = MaterialTheme.typography.labelMedium)
+                else if (answered && chosen) Text("你的选择", color = Academic.Error, style = MaterialTheme.typography.labelMedium)
             }
         }
     }

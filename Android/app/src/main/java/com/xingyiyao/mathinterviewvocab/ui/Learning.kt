@@ -350,7 +350,7 @@ fun LearningScreen(state: AppUiState, viewModel: AppViewModel) {
                                         color = Academic.Ink,
                                     )
                                     Text(
-                                        "${VocabularyCore.displayMathNotation(term.english)} · US ${term.pronunciation.americanIPA}",
+                                        "${VocabularyCore.displayMathNotation(term.english)} · US ${VocabularyCore.displayIpa(term.pronunciation.americanIPA, withSlashes = true)}",
                                         color = Academic.Blue,
                                         fontWeight = if (term.important) FontWeight.Bold else FontWeight.Normal,
                                     )
@@ -390,7 +390,7 @@ fun LearningScreen(state: AppUiState, viewModel: AppViewModel) {
                                         color = Academic.Ink,
                                     )
                                     Text(
-                                        "${VocabularyCore.displayMathNotation(term.english)} · US ${term.pronunciation.americanIPA}",
+                                        "${VocabularyCore.displayMathNotation(term.english)} · US ${VocabularyCore.displayIpa(term.pronunciation.americanIPA, withSlashes = true)}",
                                         color = Academic.Blue,
                                         fontWeight = if (term.important) FontWeight.Bold else FontWeight.Normal,
                                     )

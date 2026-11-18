@@ -280,6 +280,16 @@ object VocabularyCore {
         return text
     }
 
+    private val midWordStressPattern = Regex("(?<=\\S)([ˈˌ])")
+
+    /** 为 IPA 重音符插入非换行零宽连接符，防止单词在重音记号处被拆成两半，同时保留空格处正常换行。 */
+    fun displayIpa(ipa: String, withSlashes: Boolean = false): String {
+        val clean = trimWhitespace(ipa).trim('/')
+        if (clean.isEmpty()) return ""
+        val formatted = if (withSlashes) "/$clean/" else clean
+        return midWordStressPattern.replace(formatted, "\u2060$1")
+    }
+
     private fun uniqueTerms(terms: List<Term>): List<Term> = linkedMapOf<Int, Term>().apply {
         terms.forEach { put(it.id, it) }
     }.values.toList()

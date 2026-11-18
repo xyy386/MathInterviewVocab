@@ -120,6 +120,7 @@ fun PronunciationPanel(
     onSpeak: (String, String?) -> Unit,
     onStop: () -> Unit,
     modifier: Modifier = Modifier,
+    emphasizeImportant: Boolean = true,
 ) {
     key(term.id) {
         var selected by remember { mutableStateOf<String?>(null) }
@@ -129,7 +130,7 @@ fun PronunciationPanel(
         Column(modifier, verticalArrangement = Arrangement.spacedBy(12.dp)) {
             SelectablePronunciationText(
                 text = VocabularyCore.displayMathNotation(term.english),
-                important = term.important,
+                important = emphasizeImportant && term.important,
                 onSelection = { selected = it },
                 onSpeakSelection = { onSpeak(it, null) },
             )
@@ -188,13 +189,13 @@ fun PronunciationPanel(
                     onClick = { onSpeak(term.speechText, "en-US") },
                     modifier = Modifier.heightIn(min = 48.dp).bounceClick(),
                 ) {
-                    Text("美式  " + term.pronunciation.americanIPA)
+                    Text("美式  ${VocabularyCore.displayIpa(term.pronunciation.americanIPA, withSlashes = true)}")
                 }
                 OutlinedButton(
                     onClick = { onSpeak(term.speechText, "en-GB") },
                     modifier = Modifier.heightIn(min = 48.dp).bounceClick(),
                 ) {
-                    Text("英式  " + term.pronunciation.britishIPA)
+                    Text("英式  ${VocabularyCore.displayIpa(term.pronunciation.britishIPA, withSlashes = true)}")
                 }
             }
         }

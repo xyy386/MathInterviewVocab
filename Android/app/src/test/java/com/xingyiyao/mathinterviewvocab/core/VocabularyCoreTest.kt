@@ -208,4 +208,16 @@ class VocabularyCoreTest {
         assertTrue(related.none { it.id == target.id })
         assertTrue(related.all { it.subjectID == target.subjectID })
     }
+
+    @Test fun displayIpaKeepsMidWordStressJoinedWithoutBlockingWordBreaks() {
+        assertEquals(
+            "/sɪɡ\u2060ˈnɪfɪkəns ˈlɛvəl ˈælfə/",
+            VocabularyCore.displayIpa("sɪɡˈnɪfɪkəns ˈlɛvəl ˈælfə", withSlashes = true),
+        )
+        assertEquals(
+            "/\u2060ˈaɪdʒən\u2060ˌvaljuː/",
+            VocabularyCore.displayIpa("/ˈaɪdʒənˌvaljuː/", withSlashes = true),
+        )
+        assertEquals("", VocabularyCore.displayIpa("   ", withSlashes = true))
+    }
 }

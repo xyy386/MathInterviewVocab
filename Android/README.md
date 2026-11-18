@@ -1,10 +1,10 @@
-# 数学面试词汇 · Android 1.3.3
+# 数学面试词汇 · Android 1.3.4
 
-Kotlin + Jetpack Compose 原生工程，最低 Android 10（API 29），compile/target 36。包名 `com.xingyiyao.mathinterviewvocab`，当前版本 `1.3.3` / code `5`（首发 `1.2.0` / code `1`）。本工程不使用 WebView、账号或跨端同步。
+Kotlin + Jetpack Compose 原生工程，最低 Android 10（API 29），compile/target 36。包名 `com.xingyiyao.mathinterviewvocab`，当前版本 `1.3.4` / code `6`（首发 `1.2.0` / code `1`）。本工程不使用 WebView、账号或跨端同步。
 
-**Android 1.3.3 正式签名版**：[下载 Universal APK](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.3/MathInterviewVocab-Android-universal-v1.3.3.apk) · [SHA-256](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.3/SHA256SUMS-Android.txt) · [Android 源码标签](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.3)。桌面 v1.3.0 与历史附件不变。
+**Android 1.3.4 正式签名版**：[下载 Universal APK](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.4/MathInterviewVocab-Android-universal-v1.3.4.apk) · [SHA-256](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.4/SHA256SUMS-Android.txt) · [Android 源码标签](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.4)。桌面 v1.3.0 与历史附件不变。
 
-Debug／Release 各 113 项自动化测试通过，Release Lint 0 错误，APK 签名及全部词库／音频复核通过。1.3.3 全面升级了列表项一键朗读/收藏、遮挡自测（遮英文/遮中文）、紧凑顶部搜索栏与学习概览看板、详情页个人掌握轨迹与手动标记、同科关联概念对比、面试闪卡 3D 翻转自测、四态环形分布图与学科三态堆叠进度条，以及待复习错题/我的收藏/最近答题流水三合一面板，并保持统一清爽的学院蓝视觉配色。历史 1.2.0 审查记录见 [发布审查](docs/REVIEW-v1.2.0.md)；开发交接见 [详细需求与设计](docs/REQUIREMENTS-AND-DESIGN.md)。
+Debug／Release 各 119 项自动化测试通过，Release Lint 0 错误，APK 签名及全部词库／音频复核通过。1.3.4 修复了列表上滑残影挤压、紧凑化顶部搜索栏与常驻底部导航栏、优化回到顶部小圆钮（仅上滑显示）、取消检测界面重点词加粗、对调闪卡 3D 翻转方向并精简标签、修复音标重音符跨行截断及移除同科关联词条冗余音标。历史 1.2.0 审查记录见 [发布审查](docs/REVIEW-v1.2.0.md)；开发交接见 [详细需求与设计](docs/REQUIREMENTS-AND-DESIGN.md)。
 
 安装：核对下载地址与校验和，打开 APK，按系统正常提示为当前下载来源授权并确认；无需 Android Studio 或语音模型，不关闭系统安全防护。后续同包名、同签名覆盖升级保留学习记录，勿先卸载旧版。
 

@@ -6,11 +6,12 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -20,6 +21,7 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -31,10 +33,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -44,10 +47,13 @@ import androidx.compose.material.icons.automirrored.outlined.ArrowForward
 import androidx.compose.material.icons.automirrored.outlined.VolumeUp
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Clear
+import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.DragIndicator
 import androidx.compose.material.icons.outlined.FilterList
 import androidx.compose.material.icons.outlined.KeyboardArrowUp
+import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material.icons.outlined.Visibility
@@ -57,13 +63,11 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -79,15 +83,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.xingyiyao.mathinterviewvocab.AppUiState
 import com.xingyiyao.mathinterviewvocab.AppViewModel
@@ -159,10 +171,23 @@ fun GlossaryScreen(
     viewModel: AppViewModel,
     expanded: Boolean,
     listState: LazyListState = rememberGlossaryListState(state.screen, state.filteredTerms, state.orderedSubjects),
+    showInlineHeaderActions: Boolean = false,
+    darkTheme: Boolean = state.screen.darkTheme,
+    onToggleThemeWithOrigin: ((Offset, Boolean) -> Unit)? = null,
+    onOpenSettings: (() -> Unit)? = null,
 ) {
     if (expanded) {
         Row(Modifier.fillMaxSize()) {
-            TermIndex(state, viewModel, Modifier.width(340.dp).fillMaxHeight(), listState)
+            TermIndex(
+                state = state,
+                viewModel = viewModel,
+                modifier = Modifier.width(340.dp).fillMaxHeight(),
+                listState = listState,
+                showInlineHeaderActions = false,
+                darkTheme = darkTheme,
+                onToggleThemeWithOrigin = onToggleThemeWithOrigin,
+                onOpenSettings = onOpenSettings,
+            )
             Box(Modifier.width(1.dp).fillMaxHeight().background(Academic.Grid))
             Box(Modifier.weight(1f)) { GlossaryReading(state, viewModel) }
         }
@@ -175,7 +200,16 @@ fun GlossaryScreen(
             if (selected != null) {
                 TermDetail(selected, state, viewModel)
             } else {
-                TermIndex(state, viewModel, Modifier.fillMaxSize(), listState)
+                TermIndex(
+                    state = state,
+                    viewModel = viewModel,
+                    modifier = Modifier.fillMaxSize(),
+                    listState = listState,
+                    showInlineHeaderActions = showInlineHeaderActions,
+                    darkTheme = darkTheme,
+                    onToggleThemeWithOrigin = onToggleThemeWithOrigin,
+                    onOpenSettings = onOpenSettings,
+                )
             }
         }
     }
@@ -217,174 +251,374 @@ fun SubjectDropdown(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+internal class GlossaryScrollChrome(
+    private val listState: LazyListState,
+) {
+    var toolbarVisible by mutableStateOf(true)
+        private set
+    var scrollingUp by mutableStateOf(false)
+        private set
+    var pinToolbar: Boolean = false
+    private var downScrollAccumPx = 0f
+    private var upScrollAccumPx = 0f
+
+    val nestedScrollConnection = object : NestedScrollConnection {
+        override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+            val dy = available.y
+            if (dy < -1f) {
+                downScrollAccumPx += -dy
+                upScrollAccumPx = 0f
+                if (downScrollAccumPx > 48f && listState.canScrollForward) {
+                    scrollingUp = false
+                    if (!pinToolbar) {
+                        toolbarVisible = false
+                    }
+                }
+            } else if (dy > 1f) {
+                upScrollAccumPx += dy
+                downScrollAccumPx = 0f
+                if (upScrollAccumPx > 28f) {
+                    toolbarVisible = true
+                    scrollingUp = true
+                }
+            }
+            return Offset.Zero
+        }
+    }
+
+    fun syncBoundary(pin: Boolean, atTop: Boolean, showScrollToTop: Boolean) {
+        pinToolbar = pin
+        if (pin || atTop) {
+            toolbarVisible = true
+            downScrollAccumPx = 0f
+        }
+        if (atTop || !showScrollToTop) {
+            scrollingUp = false
+        }
+    }
+
+    fun resetToTop() {
+        scrollingUp = false
+        toolbarVisible = true
+        downScrollAccumPx = 0f
+        upScrollAccumPx = 0f
+    }
+}
+
+@Composable
+internal fun rememberGlossaryScrollChrome(
+    listState: LazyListState,
+    pinToolbar: Boolean,
+    atTop: Boolean,
+    showScrollToTop: Boolean,
+): GlossaryScrollChrome {
+    val chrome = remember(listState) { GlossaryScrollChrome(listState) }
+    chrome.pinToolbar = pinToolbar
+    LaunchedEffect(pinToolbar, atTop, showScrollToTop) {
+        chrome.syncBoundary(pinToolbar, atTop, showScrollToTop)
+    }
+    return chrome
+}
+
+@Composable
+internal fun GlossaryScrollToTopButton(
+    visible: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn(tween(180)) + scaleIn(initialScale = 0.8f, animationSpec = tween(180)),
+        exit = fadeOut(tween(150)) + scaleOut(targetScale = 0.8f, animationSpec = tween(150)),
+        modifier = modifier,
+    ) {
+        Surface(
+            onClick = onClick,
+            shape = CircleShape,
+            color = Academic.Surface,
+            border = BorderStroke(1.dp, Academic.Blue.copy(alpha = 0.35f)),
+            shadowElevation = 4.dp,
+            modifier = Modifier.size(42.dp).bounceClick(),
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                Icon(
+                    Icons.Outlined.KeyboardArrowUp,
+                    contentDescription = "回到顶部",
+                    tint = Academic.Blue,
+                    modifier = Modifier.size(22.dp),
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun TermIndex(
     state: AppUiState,
     viewModel: AppViewModel,
     modifier: Modifier,
     listState: LazyListState,
+    showInlineHeaderActions: Boolean,
+    darkTheme: Boolean,
+    onToggleThemeWithOrigin: ((Offset, Boolean) -> Unit)?,
+    onOpenSettings: (() -> Unit)?,
 ) {
     val terms = state.filteredTerms
     val subjects = state.orderedSubjects
     var filtersExpanded by rememberSaveable { mutableStateOf(false) }
+    var searchFocused by remember { mutableStateOf(false) }
+    var themeButtonCenter by remember { mutableStateOf(Offset(960f, 96f)) }
     val filterCount = listOf(state.screen.importantOnly, state.screen.favoritesOnly, state.screen.mistakesOnly).count { it }
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val coroutineScope = rememberCoroutineScope()
     val showScrollToTop by remember(listState) { derivedStateOf { listState.firstVisibleItemIndex > 2 } }
+    val atTop by remember(listState) {
+        derivedStateOf { listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset < 24 }
+    }
     val browsedCount by remember(listState, terms.size) {
         derivedStateOf {
             if (terms.isEmpty()) 0
             else (listState.firstVisibleItemIndex + 1).coerceIn(1, terms.size)
         }
     }
+    val pinToolbar = state.screen.query.isNotEmpty() || filtersExpanded || searchFocused || terms.isEmpty()
+    val chrome = rememberGlossaryScrollChrome(listState, pinToolbar, atTop, showScrollToTop)
 
     fun dismissKeyboard() {
         focusManager.clearFocus()
         keyboardController?.hide()
     }
 
-    BoxWithConstraints(modifier.background(Academic.Paper)) {
+    BoxWithConstraints(modifier.background(Academic.Paper).nestedScroll(chrome.nestedScrollConnection)) {
         val headerMaxHeight = maxHeight * 0.54f
         Column(Modifier.fillMaxSize()) {
-            Surface(color = Academic.Surface, shadowElevation = 1.dp) {
-                Column(
-                    Modifier.heightIn(max = headerMaxHeight)
-                        .verticalScroll(rememberScrollState())
-                        .padding(horizontal = 14.dp, vertical = 10.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    // 3. 紧凑顶部搜索栏：搜索框 + 筛选开关按钮
-                    Row(
-                        Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        OutlinedTextField(
-                            value = state.screen.query,
-                            onValueChange = viewModel::setQuery,
-                            modifier = Modifier.weight(1f),
-                            placeholder = { Text("搜索中英文或释义") },
-                            leadingIcon = { Icon(Icons.Outlined.Search, null) },
-                            trailingIcon = {
-                                if (state.screen.query.isNotEmpty()) IconButton(onClick = { viewModel.setQuery("") }) {
-                                    Icon(Icons.Outlined.Clear, "清空搜索")
-                                }
-                            },
-                            singleLine = true,
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                            keyboardActions = KeyboardActions(onSearch = { dismissKeyboard() }),
-                            shape = RoundedCornerShape(14.dp),
-                        )
-                        Surface(
-                            onClick = { dismissKeyboard(); filtersExpanded = !filtersExpanded },
-                            shape = RoundedCornerShape(12.dp),
-                            color = if (filterCount > 0 || filtersExpanded) Academic.BlueSoft else Academic.SecondarySurface,
-                            border = BorderStroke(
-                                1.dp,
-                                if (filterCount > 0 || filtersExpanded) Academic.Blue else Academic.Grid,
-                            ),
-                            modifier = Modifier.heightIn(min = 48.dp).bounceClick(),
+            AnimatedVisibility(
+                visible = chrome.toolbarVisible,
+                enter = expandVertically(tween(200), expandFrom = Alignment.Top) + fadeIn(tween(150)),
+                exit = shrinkVertically(tween(180), shrinkTowards = Alignment.Top) + fadeOut(tween(130)),
+            ) {
+                Column(Modifier.fillMaxWidth()) {
+                    Surface(color = Academic.Surface, shadowElevation = 1.dp) {
+                        Column(
+                            Modifier.heightIn(max = headerMaxHeight)
+                                .verticalScroll(rememberScrollState())
+                                .padding(horizontal = 12.dp, vertical = 6.dp),
+                            verticalArrangement = Arrangement.spacedBy(6.dp),
                         ) {
+                            // 紧凑顶部搜索栏：搜索框 + 筛选 + 可选的主题/设置快捷按钮
                             Row(
-                                Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
+                                Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(6.dp),
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(4.dp),
                             ) {
-                                Icon(
-                                    Icons.Outlined.FilterList,
-                                    contentDescription = "筛选条件",
-                                    tint = if (filterCount > 0 || filtersExpanded) Academic.Blue else Academic.Ink,
-                                    modifier = Modifier.size(18.dp),
-                                )
-                                Text(
-                                    if (filterCount > 0) "筛选($filterCount)" else "筛选",
-                                    style = MaterialTheme.typography.labelMedium,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = if (filterCount > 0 || filtersExpanded) Academic.Blue else Academic.Ink,
-                                )
+                                Surface(
+                                    shape = RoundedCornerShape(12.dp),
+                                    color = Academic.Paper,
+                                    border = BorderStroke(1.dp, if (searchFocused) Academic.Blue else Academic.Grid),
+                                    modifier = Modifier.weight(1f).heightIn(min = 40.dp),
+                                ) {
+                                    Row(
+                                        Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 8.dp),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                    ) {
+                                        Icon(
+                                            Icons.Outlined.Search,
+                                            contentDescription = null,
+                                            tint = Academic.Muted,
+                                            modifier = Modifier.size(18.dp),
+                                        )
+                                        Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
+                                            if (state.screen.query.isEmpty()) {
+                                                Text(
+                                                    "搜索中英文或释义",
+                                                    style = MaterialTheme.typography.bodyMedium,
+                                                    color = Academic.Muted,
+                                                    maxLines = 1,
+                                                    overflow = TextOverflow.Ellipsis,
+                                                )
+                                            }
+                                            BasicTextField(
+                                                value = state.screen.query,
+                                                onValueChange = viewModel::setQuery,
+                                                singleLine = true,
+                                                textStyle = MaterialTheme.typography.bodyMedium.copy(color = Academic.Ink),
+                                                cursorBrush = SolidColor(Academic.Blue),
+                                                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                                                keyboardActions = KeyboardActions(onSearch = { dismissKeyboard() }),
+                                                modifier = Modifier.fillMaxWidth().onFocusChanged { searchFocused = it.isFocused },
+                                            )
+                                        }
+                                        if (state.screen.query.isNotEmpty()) {
+                                            IconButton(
+                                                onClick = { viewModel.setQuery("") },
+                                                modifier = Modifier.size(24.dp),
+                                            ) {
+                                                Icon(
+                                                    Icons.Outlined.Clear,
+                                                    contentDescription = "清空搜索",
+                                                    tint = Academic.Muted,
+                                                    modifier = Modifier.size(16.dp),
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                                Surface(
+                                    onClick = { dismissKeyboard(); filtersExpanded = !filtersExpanded },
+                                    shape = RoundedCornerShape(10.dp),
+                                    color = if (filterCount > 0 || filtersExpanded) Academic.BlueSoft else Academic.SecondarySurface,
+                                    border = BorderStroke(
+                                        1.dp,
+                                        if (filterCount > 0 || filtersExpanded) Academic.Blue else Academic.Grid,
+                                    ),
+                                    modifier = Modifier.heightIn(min = 40.dp).bounceClick(),
+                                ) {
+                                    Row(
+                                        Modifier.padding(horizontal = 10.dp, vertical = 8.dp),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                    ) {
+                                        Icon(
+                                            Icons.Outlined.FilterList,
+                                            contentDescription = "筛选条件",
+                                            tint = if (filterCount > 0 || filtersExpanded) Academic.Blue else Academic.Ink,
+                                            modifier = Modifier.size(16.dp),
+                                        )
+                                        Text(
+                                            if (filterCount > 0) "筛选($filterCount)" else "筛选",
+                                            style = MaterialTheme.typography.labelMedium,
+                                            fontWeight = FontWeight.SemiBold,
+                                            color = if (filterCount > 0 || filtersExpanded) Academic.Blue else Academic.Ink,
+                                        )
+                                    }
+                                }
+                                if (showInlineHeaderActions) {
+                                    IconButton(
+                                        onClick = {
+                                            dismissKeyboard()
+                                            if (onToggleThemeWithOrigin != null) {
+                                                onToggleThemeWithOrigin(themeButtonCenter, !darkTheme)
+                                            } else {
+                                                viewModel.toggleTheme(!darkTheme)
+                                            }
+                                        },
+                                        modifier = Modifier
+                                            .size(36.dp)
+                                            .onGloballyPositioned { coords ->
+                                                val pos = coords.positionInRoot()
+                                                themeButtonCenter = Offset(
+                                                    pos.x + coords.size.width / 2f,
+                                                    pos.y + coords.size.height / 2f,
+                                                )
+                                            },
+                                    ) {
+                                        Icon(
+                                            if (darkTheme) Icons.Outlined.LightMode else Icons.Outlined.DarkMode,
+                                            contentDescription = if (darkTheme) "切换浅色主题" else "切换深色主题",
+                                            tint = Academic.Blue,
+                                            modifier = Modifier.size(20.dp),
+                                        )
+                                    }
+                                    if (onOpenSettings != null) {
+                                        IconButton(
+                                            onClick = { dismissKeyboard(); onOpenSettings() },
+                                            modifier = Modifier.size(36.dp),
+                                        ) {
+                                            Icon(
+                                                Icons.Outlined.Settings,
+                                                contentDescription = "设置",
+                                                tint = Academic.Ink,
+                                                modifier = Modifier.size(20.dp),
+                                            )
+                                        }
+                                    }
+                                }
                             }
-                        }
-                    }
 
-                    // 10. 标签选择：点标签时选中项轻微放大，周边标签自动向两侧平移让位
-                    Row(
-                        Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        ElasticTagChip(
-                            label = "全部科目",
-                            selected = state.screen.subjectID == null,
-                            onClick = { dismissKeyboard(); viewModel.setSubject(null) },
-                        )
-                        subjects.forEach { subject ->
-                            ElasticTagChip(
-                                label = subject.name,
-                                selected = state.screen.subjectID == subject.id,
-                                accentColor = Academic.Blue,
-                                onClick = { dismissKeyboard(); viewModel.setSubject(subject.id) },
-                            )
-                        }
-                    }
-
-                    // 2. 遮挡自测模式栏（完整显示 / 遮英文自测 / 遮中文自测）+ 进度计数
-                    Row(
-                        Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
-                        horizontalArrangement = Arrangement.spacedBy(6.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        listOf(
-                            "none" to "👁 完整显示",
-                            "hideEn" to "🙈 遮英文自测",
-                            "hideZh" to "🙈 遮中文自测",
-                        ).forEach { (mode, label) ->
-                            val active = state.screen.maskMode == mode
-                            Surface(
-                                onClick = { dismissKeyboard(); viewModel.setMaskMode(mode) },
-                                shape = RoundedCornerShape(999.dp),
-                                color = if (active) Academic.BlueSoft else Color.Transparent,
-                                border = BorderStroke(1.dp, if (active) Academic.Blue else Academic.Grid),
-                                modifier = Modifier.bounceClick(),
+                            // 10. 标签选择：紧凑芯片，点标签时选中项轻微放大，周边标签向两侧让位
+                            Row(
+                                Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+                                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                verticalAlignment = Alignment.CenterVertically,
                             ) {
+                                ElasticTagChip(
+                                    label = "全部科目",
+                                    selected = state.screen.subjectID == null,
+                                    compact = true,
+                                    onClick = { dismissKeyboard(); viewModel.setSubject(null) },
+                                )
+                                subjects.forEach { subject ->
+                                    ElasticTagChip(
+                                        label = subject.name,
+                                        selected = state.screen.subjectID == subject.id,
+                                        accentColor = Academic.Blue,
+                                        compact = true,
+                                        onClick = { dismissKeyboard(); viewModel.setSubject(subject.id) },
+                                    )
+                                }
+                            }
+
+                            // 2. 紧凑遮挡自测模式栏 + 进度计数
+                            FlowRow(
+                                Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                verticalArrangement = Arrangement.spacedBy(4.dp),
+                                itemVerticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                listOf(
+                                    "none" to "👁 完整",
+                                    "hideEn" to "🙈 遮英文",
+                                    "hideZh" to "🙈 遮中文",
+                                ).forEach { (mode, label) ->
+                                    val active = state.screen.maskMode == mode
+                                    Surface(
+                                        onClick = { dismissKeyboard(); viewModel.setMaskMode(mode) },
+                                        shape = RoundedCornerShape(999.dp),
+                                        color = if (active) Academic.BlueSoft else Color.Transparent,
+                                        border = BorderStroke(1.dp, if (active) Academic.Blue else Academic.Grid),
+                                        modifier = Modifier.bounceClick(),
+                                    ) {
+                                        Text(
+                                            label,
+                                            modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
+                                            style = MaterialTheme.typography.labelSmall,
+                                            fontWeight = if (active) FontWeight.Bold else FontWeight.Medium,
+                                            color = if (active) Academic.Blue else Academic.Muted,
+                                        )
+                                    }
+                                }
                                 Text(
-                                    label,
-                                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                                    "${terms.size}/${state.terms.size} 词 · 浏览 $browsedCount",
                                     style = MaterialTheme.typography.labelSmall,
-                                    fontWeight = if (active) FontWeight.Bold else FontWeight.Medium,
-                                    color = if (active) Academic.Blue else Academic.Muted,
+                                    color = Academic.Muted,
                                 )
                             }
-                        }
-                        Spacer(Modifier.width(4.dp))
-                        Text(
-                            "${terms.size}/${state.terms.size} 词 · 浏览 $browsedCount/${terms.size.coerceAtLeast(1)}",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = Academic.Muted,
-                        )
-                    }
 
-                    // 3. 批量错峰弹性勾选面板（仅在点击“筛选”按钮后平滑展开）
-                    AnimatedVisibility(
-                        visible = filtersExpanded,
-                        enter = expandVertically(tween(220)) + fadeIn(tween(180)),
-                        exit = shrinkVertically(tween(200)) + fadeOut(tween(140)),
-                    ) {
-                        Column(Modifier.padding(top = 4.dp)) {
-                            StaggeredBatchFilterPanel(
-                                items = listOf(
-                                    BatchFilterItem("important", "仅重点词汇", state.screen.importantOnly, viewModel::setImportantOnly),
-                                    BatchFilterItem("favorites", "仅我的收藏（支持右滑飞出取消收藏）", state.screen.favoritesOnly, viewModel::setFavoritesOnly),
-                                    BatchFilterItem("mistakes", "仅待复习错题", state.screen.mistakesOnly, viewModel::setMistakesOnly),
-                                ),
-                                onClearAll = viewModel::clearFilters,
-                            )
+                            // 3. 批量错峰弹性勾选面板（仅在点击“筛选”按钮后平滑展开）
+                            AnimatedVisibility(
+                                visible = filtersExpanded,
+                                enter = expandVertically(tween(220)) + fadeIn(tween(180)),
+                                exit = shrinkVertically(tween(200)) + fadeOut(tween(140)),
+                            ) {
+                                Column(Modifier.padding(top = 4.dp)) {
+                                    StaggeredBatchFilterPanel(
+                                        items = listOf(
+                                            BatchFilterItem("important", "仅重点词汇", state.screen.importantOnly, viewModel::setImportantOnly),
+                                            BatchFilterItem("favorites", "仅我的收藏（支持右滑飞出取消收藏）", state.screen.favoritesOnly, viewModel::setFavoritesOnly),
+                                            BatchFilterItem("mistakes", "仅待复习错题", state.screen.mistakesOnly, viewModel::setMistakesOnly),
+                                        ),
+                                        onClearAll = viewModel::clearFilters,
+                                    )
+                                }
+                            }
                         }
                     }
+                    HorizontalDivider(color = Academic.Grid)
                 }
             }
-            HorizontalDivider(color = Academic.Grid)
             if (terms.isEmpty()) {
                 Column(
                     Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(24.dp),
@@ -399,10 +633,10 @@ private fun TermIndex(
             } else {
                 Box(Modifier.weight(1f).fillMaxWidth()) {
                     val showDashboard = state.screen.query.isEmpty()
-                    var flatIndex = if (showDashboard) 1 else 0
                     LazyColumn(
                         Modifier.fillMaxSize(),
                         state = listState,
+                        contentPadding = PaddingValues(bottom = 24.dp),
                     ) {
                         if (showDashboard) {
                             item(key = "mini-study-dashboard") {
@@ -414,14 +648,12 @@ private fun TermIndex(
                         subjects.forEach { subject ->
                             val matching = terms.filter { it.subjectID == subject.id }
                             if (matching.isNotEmpty()) {
-                                val headerListIndex = flatIndex
-                                flatIndex += matching.size + 1
-                                stickyHeader(key = "subject-" + subject.id) {
+                                item(key = "subject-" + subject.id) {
                                     Surface(color = Academic.Surface, modifier = Modifier.fillMaxWidth()) {
                                         Column {
                                             Text(
                                                 subject.name + " · " + matching.size,
-                                                modifier = Modifier.padding(horizontal = 18.dp, vertical = 10.dp),
+                                                modifier = Modifier.padding(horizontal = 18.dp, vertical = 9.dp),
                                                 fontFamily = FontFamily.Serif,
                                                 fontWeight = FontWeight.Bold,
                                                 style = MaterialTheme.typography.titleSmall,
@@ -431,37 +663,18 @@ private fun TermIndex(
                                         }
                                     }
                                 }
-                                itemsIndexed(matching, key = { _, term -> term.id }) { idxInSubject, term ->
-                                    val absoluteItemIndex = headerListIndex + 1 + idxInSubject
-                                    // 9. 卡片堆叠：上滑列表时顶部条目先停留，被后续条目逐步压缩堆叠
-                                    val stackProgress by remember(listState, absoluteItemIndex) {
-                                        derivedStateOf {
-                                            val firstIndex = listState.firstVisibleItemIndex
-                                            val offset = listState.firstVisibleItemScrollOffset
-                                            if (absoluteItemIndex == firstIndex && offset > 0) {
-                                                (offset / 220f).coerceIn(0f, 1f)
-                                            } else 0f
-                                        }
-                                    }
-                                    val stackedModifier = Modifier.graphicsLayer {
-                                        if (stackProgress > 0f) {
-                                            scaleX = 1f - stackProgress * 0.055f
-                                            scaleY = 1f - stackProgress * 0.085f
-                                            translationY = stackProgress * 26f
-                                            alpha = 1f - stackProgress * 0.32f
-                                        }
-                                    }
+                                items(matching, key = { it.id }) { term ->
                                     if (state.screen.favoritesOnly) {
                                         SwipeToFlyCornerCard(
                                             itemKey = term.id,
                                             dismissLabel = "取消收藏",
                                             onDismissed = { viewModel.toggleFavorite(term.id) },
-                                            modifier = stackedModifier,
                                         ) {
                                             TermRow(
                                                 term = term,
                                                 state = state,
-                                                viewModel = viewModel,
+                                                onSpeak = { viewModel.speak(term.speechText) },
+                                                onToggleFavorite = { viewModel.toggleFavorite(term.id) },
                                                 onClick = {
                                                     dismissKeyboard()
                                                     viewModel.selectTerm(term.id)
@@ -469,34 +682,30 @@ private fun TermIndex(
                                             )
                                         }
                                     } else {
-                                        Box(stackedModifier) {
-                                            TermRow(
-                                                term = term,
-                                                state = state,
-                                                viewModel = viewModel,
-                                                onClick = {
-                                                    dismissKeyboard()
-                                                    viewModel.selectTerm(term.id)
-                                                },
-                                            )
-                                        }
+                                        TermRow(
+                                            term = term,
+                                            state = state,
+                                            onSpeak = { viewModel.speak(term.speechText) },
+                                            onToggleFavorite = { viewModel.toggleFavorite(term.id) },
+                                            onClick = {
+                                                dismissKeyboard()
+                                                viewModel.selectTerm(term.id)
+                                            },
+                                        )
                                     }
                                 }
                             }
                         }
                     }
-                    if (showScrollToTop) {
-                        FilledTonalButton(
-                            onClick = {
-                                dismissKeyboard()
-                                coroutineScope.launch { listState.scrollToItem(0) }
-                            },
-                            modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp).heightIn(min = 48.dp),
-                        ) {
-                            Icon(Icons.Outlined.KeyboardArrowUp, contentDescription = null)
-                            Text(" 回到顶部")
-                        }
-                    }
+                    GlossaryScrollToTopButton(
+                        visible = showScrollToTop && chrome.scrollingUp,
+                        onClick = {
+                            dismissKeyboard()
+                            chrome.resetToTop()
+                            coroutineScope.launch { listState.scrollToItem(0) }
+                        },
+                        modifier = Modifier.align(Alignment.BottomEnd).padding(14.dp),
+                    )
                 }
             }
         }
@@ -569,10 +778,11 @@ private fun MiniStudyDashboardCard(state: AppUiState) {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun TermRow(
+internal fun TermRow(
     term: Term,
     state: AppUiState,
-    viewModel: AppViewModel,
+    onSpeak: () -> Unit,
+    onToggleFavorite: () -> Unit,
     onClick: () -> Unit,
 ) {
     val selected = state.screen.selectedTermID == term.id
@@ -697,7 +907,7 @@ private fun TermRow(
             // 1. 列表行右侧直接提供「🔊 一键朗读」+「⭐ 一键收藏」快捷按钮
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(
-                    onClick = { viewModel.speak(term.speechText) },
+                    onClick = onSpeak,
                     modifier = Modifier.size(40.dp),
                 ) {
                     Icon(
@@ -708,7 +918,7 @@ private fun TermRow(
                     )
                 }
                 IconButton(
-                    onClick = { viewModel.toggleFavorite(term.id) },
+                    onClick = onToggleFavorite,
                     enabled = !state.busy,
                     modifier = Modifier.size(40.dp),
                 ) {
@@ -881,44 +1091,11 @@ fun TermDetail(term: Term, state: AppUiState, viewModel: AppViewModel) {
             if (relatedTerms.isNotEmpty()) {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     relatedTerms.forEach { rel ->
-                        Surface(
-                            onClick = { viewModel.selectTerm(rel.id) },
-                            shape = RoundedCornerShape(12.dp),
-                            color = Academic.SecondarySurface,
-                            border = BorderStroke(1.dp, Academic.Grid),
-                            modifier = Modifier.fillMaxWidth().bounceClick(),
-                        ) {
-                            Row(
-                                Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                            ) {
-                                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                                    Text(
-                                        VocabularyCore.displayMathNotation(rel.chinese),
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        fontWeight = FontWeight.SemiBold,
-                                        color = Academic.Ink,
-                                    )
-                                    Text(
-                                        "${VocabularyCore.displayMathNotation(rel.english)} · US ${rel.pronunciation.americanIPA}",
-                                        style = MaterialTheme.typography.bodySmall,
-                                        color = Academic.Blue,
-                                    )
-                                }
-                                IconButton(
-                                    onClick = { viewModel.speak(rel.speechText) },
-                                    modifier = Modifier.size(36.dp),
-                                ) {
-                                    Icon(
-                                        Icons.AutoMirrored.Outlined.VolumeUp,
-                                        contentDescription = "朗读 ${rel.english}",
-                                        tint = Academic.Blue,
-                                        modifier = Modifier.size(18.dp),
-                                    )
-                                }
-                            }
-                        }
+                        RelatedTermCard(
+                            rel = rel,
+                            onSelect = { viewModel.selectTerm(rel.id) },
+                            onSpeak = { viewModel.speak(rel.speechText) },
+                        )
                     }
                 }
             }
@@ -984,6 +1161,52 @@ private fun WelcomePage(state: AppUiState, viewModel: AppViewModel) {
                     }
                     Icon(Icons.Outlined.DragIndicator, contentDescription = "长按拖动排序", tint = Academic.Muted)
                 }
+            }
+        }
+    }
+}
+
+@Composable
+internal fun RelatedTermCard(
+    rel: Term,
+    onSelect: () -> Unit,
+    onSpeak: () -> Unit,
+) {
+    Surface(
+        onClick = onSelect,
+        shape = RoundedCornerShape(12.dp),
+        color = Academic.SecondarySurface,
+        border = BorderStroke(1.dp, Academic.Grid),
+        modifier = Modifier.fillMaxWidth().bounceClick(),
+    ) {
+        Row(
+            Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                Text(
+                    VocabularyCore.displayMathNotation(rel.chinese),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Academic.Ink,
+                )
+                Text(
+                    VocabularyCore.displayMathNotation(rel.english),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Academic.Blue,
+                )
+            }
+            IconButton(
+                onClick = onSpeak,
+                modifier = Modifier.size(36.dp),
+            ) {
+                Icon(
+                    Icons.AutoMirrored.Outlined.VolumeUp,
+                    contentDescription = "朗读 ${rel.english}",
+                    tint = Academic.Blue,
+                    modifier = Modifier.size(18.dp),
+                )
             }
         }
     }

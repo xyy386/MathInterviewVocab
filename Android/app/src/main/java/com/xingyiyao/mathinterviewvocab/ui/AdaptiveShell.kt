@@ -22,9 +22,13 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
@@ -41,8 +45,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.OutlinedButton
@@ -61,12 +63,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.xingyiyao.mathinterviewvocab.AppViewModel
@@ -99,6 +105,15 @@ fun VocabularyApp(viewModel: AppViewModel) {
     val extraScale = (fontScale - 1).coerceAtLeast(0f)
     val detail = state.screen.tab == "glossary" && state.selectedTerm != null
     val showBack = state.screen.showSettings || (detail && layout != AppWindowLayout.Expanded)
+    val pageKey = when {
+        state.loading -> "loading"
+        state.loadError != null -> "error"
+        state.screen.showSettings -> "settings"
+        state.screen.tab == "quiz" -> "quiz"
+        state.screen.tab == "progress" -> "progress"
+        else -> "glossary"
+    }
+    val hideGlossaryTopBar = pageKey == "glossary" && !detail && layout != AppWindowLayout.Expanded
     val title = if (state.screen.showSettings) "设置"
         else if (detail && layout != AppWindowLayout.Expanded) "词汇详情"
         else destinations.find { it.id == state.screen.tab }?.title ?: "词汇"
@@ -116,57 +131,51 @@ fun VocabularyApp(viewModel: AppViewModel) {
             containerColor = Academic.Paper,
             contentWindowInsets = WindowInsets(0, 0, 0, 0),
             topBar = {
-                TopAppBar(
-                    title = { Text(title, fontFamily = FontFamily.Serif, color = Academic.Ink) },
-                    navigationIcon = {
-                        if (showBack) IconButton(onClick = {
-                            if (state.screen.showSettings) viewModel.showSettings(false) else viewModel.selectTerm(null)
-                        }) { Icon(Icons.AutoMirrored.Outlined.ArrowBack, "返回", tint = Academic.Ink) }
-                    },
-                    actions = {
-                        IconButton(
-                            onClick = {
-                                themeRevealOrigin = themeButtonCenter
-                                viewModel.toggleTheme(!activeDark)
-                            },
-                            modifier = Modifier.onGloballyPositioned { coords ->
-                                val pos = coords.positionInRoot()
-                                themeButtonCenter = Offset(
-                                    pos.x + coords.size.width / 2f,
-                                    pos.y + coords.size.height / 2f,
+                if (!hideGlossaryTopBar) {
+                    TopAppBar(
+                        title = { Text(title, fontFamily = FontFamily.Serif, color = Academic.Ink) },
+                        navigationIcon = {
+                            if (showBack) IconButton(onClick = {
+                                if (state.screen.showSettings) viewModel.showSettings(false) else viewModel.selectTerm(null)
+                            }) { Icon(Icons.AutoMirrored.Outlined.ArrowBack, "返回", tint = Academic.Ink) }
+                        },
+                        actions = {
+                            IconButton(
+                                onClick = {
+                                    themeRevealOrigin = themeButtonCenter
+                                    viewModel.toggleTheme(!activeDark)
+                                },
+                                modifier = Modifier.onGloballyPositioned { coords ->
+                                    val pos = coords.positionInRoot()
+                                    themeButtonCenter = Offset(
+                                        pos.x + coords.size.width / 2f,
+                                        pos.y + coords.size.height / 2f,
+                                    )
+                                },
+                            ) {
+                                Icon(
+                                    if (activeDark) Icons.Outlined.LightMode else Icons.Outlined.DarkMode,
+                                    contentDescription = if (activeDark) "切换浅色主题" else "切换深色主题",
+                                    tint = Academic.Blue,
                                 )
-                            },
-                        ) {
-                            Icon(
-                                if (activeDark) Icons.Outlined.LightMode else Icons.Outlined.DarkMode,
-                                contentDescription = if (activeDark) "切换浅色主题" else "切换深色主题",
-                                tint = Academic.Blue,
-                            )
-                        }
-                        if (!state.screen.showSettings) IconButton(onClick = { viewModel.showSettings(true) }) {
-                            Icon(Icons.Outlined.Settings, "设置", tint = Academic.Ink)
-                        }
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(containerColor = Academic.Surface),
-                    windowInsets = WindowInsets(0, 0, 0, 0),
-                )
+                            }
+                            if (!state.screen.showSettings) IconButton(onClick = { viewModel.showSettings(true) }) {
+                                Icon(Icons.Outlined.Settings, "设置", tint = Academic.Ink)
+                            }
+                        },
+                        colors = TopAppBarDefaults.topAppBarColors(containerColor = Academic.Surface),
+                        windowInsets = WindowInsets(0, 0, 0, 0),
+                    )
+                }
             },
             bottomBar = {
                 if (compact) {
-                    NavigationBar(
-                        containerColor = Academic.Surface,
-                        windowInsets = WindowInsets(0, 0, 0, 0),
-                        modifier = Modifier.height((80 + extraScale * 32).dp),
-                    ) {
-                        destinations.forEach { destination ->
-                            NavigationBarItem(
-                                selected = state.screen.tab == destination.id && !state.screen.showSettings,
-                                onClick = { viewModel.selectTab(destination.id) },
-                                icon = { Icon(destination.icon, null) },
-                                label = { Text(destination.title) },
-                            )
-                        }
-                    }
+                    CompactBottomBar(
+                        selectedTab = state.screen.tab,
+                        showSettings = state.screen.showSettings,
+                        extraScale = extraScale,
+                        onSelectTab = viewModel::selectTab,
+                    )
                 }
             },
         ) { padding ->
@@ -192,7 +201,9 @@ fun VocabularyApp(viewModel: AppViewModel) {
                     Box(Modifier.width(1.dp).fillMaxHeight().background(Academic.Grid))
                 }
                 Column(Modifier.weight(1f).fillMaxHeight()) {
-                    HorizontalDivider(color = Academic.Grid)
+                    if (!hideGlossaryTopBar) {
+                        HorizontalDivider(color = Academic.Grid)
+                    }
                     if (state.operationError != null && state.loadError == null) {
                         StatusMessage(state.operationError!!, error = true, onDismiss = viewModel::dismissError)
                     }
@@ -203,14 +214,6 @@ fun VocabularyApp(viewModel: AppViewModel) {
                             onDismiss = viewModel::stopSpeech,
                             action = if (speech.status == "playing") "停止" else "知道了",
                         )
-                    }
-                    val pageKey = when {
-                        state.loading -> "loading"
-                        state.loadError != null -> "error"
-                        state.screen.showSettings -> "settings"
-                        state.screen.tab == "quiz" -> "quiz"
-                        state.screen.tab == "progress" -> "progress"
-                        else -> "glossary"
                     }
                     AnimatedContent(
                         targetState = pageKey,
@@ -240,7 +243,19 @@ fun VocabularyApp(viewModel: AppViewModel) {
                                 )
                                 "quiz" -> QuizScreen(state, viewModel)
                                 "progress" -> LearningScreen(state, viewModel)
-                                else -> GlossaryScreen(state, viewModel, layout == AppWindowLayout.Expanded, glossaryListState)
+                                else -> GlossaryScreen(
+                                    state = state,
+                                    viewModel = viewModel,
+                                    expanded = layout == AppWindowLayout.Expanded,
+                                    listState = glossaryListState,
+                                    showInlineHeaderActions = hideGlossaryTopBar,
+                                    darkTheme = activeDark,
+                                    onToggleThemeWithOrigin = { origin, nextDark ->
+                                        themeRevealOrigin = origin
+                                        viewModel.toggleTheme(nextDark)
+                                    },
+                                    onOpenSettings = { viewModel.showSettings(true) },
+                                )
                             }
                         }
                     }
@@ -316,4 +331,66 @@ private fun DataErrorPage(message: String, viewModel: AppViewModel) {
         },
         dismissButton = { TextButton(onClick = { recovery = null }) { Text("取消") } },
     )
+}
+
+@Composable
+internal fun CompactBottomBar(
+    selectedTab: String,
+    showSettings: Boolean,
+    extraScale: Float,
+    onSelectTab: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Surface(color = Academic.Surface, modifier = modifier.fillMaxWidth()) {
+        Column(Modifier.fillMaxWidth()) {
+            HorizontalDivider(color = Academic.Grid)
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .height((56 + extraScale * 18).dp)
+                    .selectableGroup(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                destinations.forEach { destination ->
+                    val selected = selectedTab == destination.id && !showSettings
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                            .selectable(
+                                selected = selected,
+                                onClick = { onSelectTab(destination.id) },
+                                role = Role.Tab,
+                            ),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                    ) {
+                        Box(
+                            Modifier
+                                .width(48.dp)
+                                .height(24.dp)
+                                .clip(RoundedCornerShape(999.dp))
+                                .background(if (selected) Academic.BlueSoft else Color.Transparent),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Icon(
+                                destination.icon,
+                                contentDescription = null,
+                                tint = if (selected) Academic.Blue else Academic.Muted,
+                                modifier = Modifier.size(20.dp),
+                            )
+                        }
+                        Spacer(Modifier.height(2.dp))
+                        Text(
+                            destination.title,
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
+                            color = if (selected) Academic.Blue else Academic.Muted,
+                            maxLines = 1,
+                        )
+                    }
+                }
+            }
+        }
+    }
 }

@@ -244,14 +244,15 @@ fun ElasticTagChip(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     accentColor: Color = Academic.Blue,
+    compact: Boolean = false,
 ) {
     val scale by animateFloatAsState(
-        targetValue = if (selected) 1.08f else 1f,
+        targetValue = if (selected) (if (compact) 1.04f else 1.08f) else 1f,
         animationSpec = spring(dampingRatio = 0.56f, stiffness = 420f),
         label = "chipScale",
     )
     val sideSpacer by animateDpAsState(
-        targetValue = if (selected) 6.dp else 0.dp,
+        targetValue = if (selected) (if (compact) 4.dp else 6.dp) else 0.dp,
         animationSpec = spring(dampingRatio = 0.62f, stiffness = 380f),
         label = "chipShiftAside",
     )
@@ -262,20 +263,23 @@ fun ElasticTagChip(
             shape = RoundedCornerShape(999.dp),
             color = if (selected) accentColor else Academic.Surface,
             border = BorderStroke(1.dp, if (selected) accentColor else Academic.Grid),
-            shadowElevation = if (selected) 3.dp else 0.dp,
-            modifier = modifier.heightIn(min = 40.dp).graphicsLayer {
+            shadowElevation = if (selected) (if (compact) 2.dp else 3.dp) else 0.dp,
+            modifier = modifier.heightIn(min = if (compact) 32.dp else 40.dp).graphicsLayer {
                 scaleX = scale
                 scaleY = scale
             },
         ) {
             Box(
-                Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
+                Modifier.padding(
+                    horizontal = if (compact) 11.dp else 14.dp,
+                    vertical = if (compact) 5.dp else 8.dp,
+                ),
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
                     text = label,
                     color = if (selected) Color.White else Academic.Ink,
-                    style = MaterialTheme.typography.labelLarge,
+                    style = if (compact) MaterialTheme.typography.labelMedium else MaterialTheme.typography.labelLarge,
                     fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
                 )
             }

@@ -6,6 +6,7 @@
 
 | Release | 成品版本 | 对应源码 |
 | --- | --- | --- |
+| [v1.3.4](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.4) | Android 1.3.4 code 6；Windows／macOS 继续使用 v1.3.0 | [Android android-v1.3.4](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.4) |
 | [v1.3.3](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.3) | Android 1.3.3 code 5；Windows／macOS 继续使用 v1.3.0 | [Android android-v1.3.3](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.3) |
 | [v1.3.2](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.2) | Android 1.3.2 code 4；Windows／macOS 继续使用 v1.3.0 | [Android android-v1.3.2](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.2) |
 | [v1.3.1](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.1) | Android 1.3.1 code 3；Windows／macOS 继续使用 v1.3.0 | [Android android-v1.3.1](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.1) |
@@ -15,6 +16,13 @@
 | [v1.1.1](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.1.1) | macOS 1.1、Windows 1.1.1 | [v1.1.1](https://github.com/xyy386/MathInterviewVocab/tree/v1.1.1) |
 
 原 `v1.2.0` 标签早于 Android 工程，其自动生成的 Source code 归档不包含 Android。需要 Android 源码请使用独立 `android-v1.2.0` 标签；不要把 Source code 当作可运行安装包。
+
+## v1.3.4 附件
+
+| 文件（直接下载） | 字节数 | SHA-256 |
+| --- | ---: | --- |
+| [MathInterviewVocab-Android-universal-v1.3.4.apk](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.4/MathInterviewVocab-Android-universal-v1.3.4.apk) | 100567808 | `710be27f9cbadb7fa609536c731ee6971ad4eac75e1b7ce4416734460989ba94` |
+| [SHA256SUMS-Android.txt](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.4/SHA256SUMS-Android.txt) | 114 | `0d219dddf984f195c452af76b8d9ef70e7d7d4c2e4a20393a61893d740ddd3cb` |
 
 ## v1.3.3 附件
 
