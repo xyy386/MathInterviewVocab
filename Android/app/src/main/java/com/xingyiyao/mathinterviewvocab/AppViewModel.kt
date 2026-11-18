@@ -20,15 +20,11 @@ import java.util.UUID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -46,7 +42,6 @@ data class SavedQuestion(
 data class SavedQuiz(
     val stage: String = "active",
     val mode: String = "choice",
-    val listeningMode: Boolean = false,
     val questions: List<SavedQuestion> = emptyList(),
     val index: Int = 0,
     val selectedOptionID: Int? = null,
@@ -62,7 +57,6 @@ data class SavedScreen(
     val darkTheme: Boolean = false,
     val maskMode: String = "none",
     val quizPracticeMode: String = "choice",
-    val quizListeningMode: Boolean = false,
     val subjectOrder: List<String> = emptyList(),
     val query: String = "",
     val subjectID: String? = null,
@@ -80,7 +74,6 @@ data class AppUiState(
     val loadError: String? = null,
     val operationError: String? = null,
     val busy: Boolean = false,
-    val autoPlayActive: Boolean = false,
     val terms: List<Term> = emptyList(),
     val progress: ProgressData = ProgressData(),
     val settings: SpeechSettings = SpeechSettings(),
@@ -140,7 +133,6 @@ class AppViewModel(
     private var progressCollector: Job? = null
     private var settingsCollector: Job? = null
     private var errorCollector: Job? = null
-    private var autoPlayJob: Job? = null
     private var loading = false
     private val mutableState = MutableStateFlow(
         AppUiState(screen = restoreScreen(savedStateHandle.get<String>("screen"))),
@@ -261,10 +253,6 @@ class AppViewModel(
         updateScreen { it.copy(quizPracticeMode = mode) }
     }
 
-    fun setQuizListeningMode(listening: Boolean) {
-        updateScreen { it.copy(quizListeningMode = listening) }
-    }
-
     fun moveSubject(fromIndex: Int, toIndex: Int) {
         val current = state.value.orderedSubjects.map { it.id }.toMutableList()
         if (fromIndex !in current.indices || toIndex !in current.indices || fromIndex == toIndex) return
@@ -356,11 +344,9 @@ class AppViewModel(
         }
         val pool = VocabularyCore.makePool(current.terms, preferences, current.progress)
         val count = VocabularyCore.resolveQuestionCount(preferences.questionLength, pool.size)
-        val effectiveDirection = if (current.screen.quizListeningMode) "enToZh" else preferences.direction
-        val questions = VocabularyCore.makeQuestions(pool, current.terms, count, effectiveDirection)
+        val questions = VocabularyCore.makeQuestions(pool, current.terms, count, preferences.direction)
         if (questions.isEmpty()) return
         val practiceMode = current.screen.quizPracticeMode
-        val listening = current.screen.quizListeningMode
         mutate { store ->
             store.updatePreferences(preferences)
             stopSpeech()
@@ -370,7 +356,6 @@ class AppViewModel(
                     pendingQuizPreferences = null,
                     quiz = SavedQuiz(
                         mode = practiceMode,
-                        listeningMode = listening,
                         questions = questions.map {
                             SavedQuestion(it.id, it.term.id, it.direction, it.options.map(Term::id), it.correctOptionID)
                         },
@@ -451,66 +436,11 @@ class AppViewModel(
         startQuiz(preferences)
     }
 
-    fun toggleAutoPlay() {
-        if (state.value.autoPlayActive) {
-            stopSpeech()
-            return
-        }
-        val list = state.value.filteredTerms
-        if (list.isEmpty()) return
-        val startId = state.value.screen.selectedTermID ?: state.value.screen.lastViewedTermID ?: list.first().id
-        val startIndex = list.indexOfFirst { it.id == startId }.coerceAtLeast(0)
-        val inDetail = state.value.screen.selectedTermID != null
-        autoPlayJob?.cancel()
-        mutableState.value = mutableState.value.copy(autoPlayActive = true)
-        autoPlayJob = viewModelScope.launch {
-            try {
-                for (i in startIndex until list.size) {
-                    if (!isActive) break
-                    val term = list[i]
-                    updateScreen {
-                        it.copy(
-                            selectedTermID = if (inDetail) term.id else it.selectedTermID,
-                            lastViewedTermID = term.id,
-                        )
-                    }
-                    services.speech.speak(term.speechText, "en-US", state.value.settings.speed)
-                    delay(280L)
-                    withTimeoutOrNull(5000L) {
-                        speechState.first { it.status != "playing" }
-                    }
-                    delay(550L)
-                    if (!isActive) break
-                    services.speech.speak(term.speechText, "en-GB", state.value.settings.speed)
-                    delay(280L)
-                    withTimeoutOrNull(5000L) {
-                        speechState.first { it.status != "playing" }
-                    }
-                    delay(850L)
-                }
-            } finally {
-                mutableState.value = mutableState.value.copy(autoPlayActive = false)
-            }
-        }
-    }
-
     fun speak(text: String, accent: String = state.value.settings.accent) {
-        autoPlayJob?.cancel()
-        autoPlayJob = null
-        if (state.value.autoPlayActive) {
-            mutableState.value = mutableState.value.copy(autoPlayActive = false)
-        }
         services.speech.speak(text, accent, state.value.settings.speed)
     }
 
-    fun stopSpeech() {
-        autoPlayJob?.cancel()
-        autoPlayJob = null
-        if (state.value.autoPlayActive) {
-            mutableState.value = mutableState.value.copy(autoPlayActive = false)
-        }
-        services.speech.stop()
-    }
+    fun stopSpeech() { services.speech.stop() }
 
     fun dismissError() {
         mutableState.value = mutableState.value.copy(operationError = null)

@@ -12,6 +12,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,14 +20,11 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -49,11 +47,9 @@ import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.DragIndicator
 import androidx.compose.material.icons.outlined.FilterList
 import androidx.compose.material.icons.outlined.KeyboardArrowUp
-import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.outlined.StarBorder
-import androidx.compose.material.icons.outlined.Stop
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Button
@@ -166,7 +162,7 @@ fun GlossaryScreen(
 ) {
     if (expanded) {
         Row(Modifier.fillMaxSize()) {
-            TermIndex(state, viewModel, Modifier.width(360.dp).fillMaxHeight(), listState)
+            TermIndex(state, viewModel, Modifier.width(340.dp).fillMaxHeight(), listState)
             Box(Modifier.width(1.dp).fillMaxHeight().background(Academic.Grid))
             Box(Modifier.weight(1f)) { GlossaryReading(state, viewModel) }
         }
@@ -259,7 +255,7 @@ private fun TermIndex(
                         .padding(horizontal = 14.dp, vertical = 10.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    // 3. 紧凑顶部搜索栏：搜索框 + 筛选开关按钮 + 随身连播按钮
+                    // 3. 紧凑顶部搜索栏：搜索框 + 筛选开关按钮
                     Row(
                         Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -269,7 +265,7 @@ private fun TermIndex(
                             value = state.screen.query,
                             onValueChange = viewModel::setQuery,
                             modifier = Modifier.weight(1f),
-                            placeholder = { Text("搜索中英文、音标或释义") },
+                            placeholder = { Text("搜索中英文或释义") },
                             leadingIcon = { Icon(Icons.Outlined.Search, null) },
                             trailingIcon = {
                                 if (state.screen.query.isNotEmpty()) IconButton(onClick = { viewModel.setQuery("") }) {
@@ -292,7 +288,7 @@ private fun TermIndex(
                             modifier = Modifier.heightIn(min = 48.dp).bounceClick(),
                         ) {
                             Row(
-                                Modifier.padding(horizontal = 10.dp, vertical = 10.dp),
+                                Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                             ) {
@@ -307,32 +303,6 @@ private fun TermIndex(
                                     style = MaterialTheme.typography.labelMedium,
                                     fontWeight = FontWeight.SemiBold,
                                     color = if (filterCount > 0 || filtersExpanded) Academic.Blue else Academic.Ink,
-                                )
-                            }
-                        }
-                        Surface(
-                            onClick = { dismissKeyboard(); viewModel.toggleAutoPlay() },
-                            shape = RoundedCornerShape(12.dp),
-                            color = if (state.autoPlayActive) Academic.Blue else Academic.SecondarySurface,
-                            border = BorderStroke(1.dp, if (state.autoPlayActive) Academic.Blue else Academic.Grid),
-                            modifier = Modifier.heightIn(min = 48.dp).bounceClick(),
-                        ) {
-                            Row(
-                                Modifier.padding(horizontal = 10.dp, vertical = 10.dp),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                            ) {
-                                Icon(
-                                    if (state.autoPlayActive) Icons.Outlined.Stop else Icons.Outlined.PlayArrow,
-                                    contentDescription = if (state.autoPlayActive) "停止连播" else "随身听连播",
-                                    tint = if (state.autoPlayActive) Color.White else Academic.Blue,
-                                    modifier = Modifier.size(18.dp),
-                                )
-                                Text(
-                                    if (state.autoPlayActive) "停止" else "连播",
-                                    style = MaterialTheme.typography.labelMedium,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = if (state.autoPlayActive) Color.White else Academic.Blue,
                                 )
                             }
                         }
@@ -353,7 +323,7 @@ private fun TermIndex(
                             ElasticTagChip(
                                 label = subject.name,
                                 selected = state.screen.subjectID == subject.id,
-                                accentColor = Academic.subjectAccent(subject.id),
+                                accentColor = Academic.Blue,
                                 onClick = { dismissKeyboard(); viewModel.setSubject(subject.id) },
                             )
                         }
@@ -412,31 +382,6 @@ private fun TermIndex(
                             )
                         }
                     }
-
-                    if (state.autoPlayActive) {
-                        Surface(
-                            color = Academic.BlueSoft,
-                            shape = RoundedCornerShape(10.dp),
-                            border = BorderStroke(1.dp, Academic.Blue.copy(alpha = 0.45f)),
-                            modifier = Modifier.fillMaxWidth(),
-                        ) {
-                            Row(
-                                Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-                                Text(
-                                    "🎧 随身听连播中：按美式 → 英式顺序自动朗读词表",
-                                    style = MaterialTheme.typography.labelMedium,
-                                    color = Academic.Blue,
-                                    modifier = Modifier.weight(1f),
-                                )
-                                TextButton(onClick = viewModel::stopSpeech) {
-                                    Text("停止", fontWeight = FontWeight.Bold)
-                                }
-                            }
-                        }
-                    }
                 }
             }
             HorizontalDivider(color = Academic.Grid)
@@ -458,16 +403,12 @@ private fun TermIndex(
                     LazyColumn(
                         Modifier.fillMaxSize(),
                         state = listState,
-                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 10.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         if (showDashboard) {
                             item(key = "mini-study-dashboard") {
-                                MiniStudyDashboardCard(
-                                    state = state,
-                                    viewModel = viewModel,
-                                    onDismissKeyboard = ::dismissKeyboard,
-                                )
+                                Box(Modifier.padding(horizontal = 14.dp, vertical = 10.dp)) {
+                                    MiniStudyDashboardCard(state = state)
+                                }
                             }
                         }
                         subjects.forEach { subject ->
@@ -476,33 +417,23 @@ private fun TermIndex(
                                 val headerListIndex = flatIndex
                                 flatIndex += matching.size + 1
                                 stickyHeader(key = "subject-" + subject.id) {
-                                    Surface(
-                                        color = Academic.Paper.copy(alpha = 0.96f),
-                                        modifier = Modifier.fillMaxWidth(),
-                                    ) {
-                                        Row(
-                                            Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp),
-                                            horizontalArrangement = Arrangement.SpaceBetween,
-                                            verticalAlignment = Alignment.CenterVertically,
-                                        ) {
+                                    Surface(color = Academic.Surface, modifier = Modifier.fillMaxWidth()) {
+                                        Column {
                                             Text(
                                                 subject.name + " · " + matching.size,
+                                                modifier = Modifier.padding(horizontal = 18.dp, vertical = 10.dp),
                                                 fontFamily = FontFamily.Serif,
                                                 fontWeight = FontWeight.Bold,
                                                 style = MaterialTheme.typography.titleSmall,
-                                                color = Academic.subjectAccent(subject.id),
+                                                color = Academic.Ink,
                                             )
-                                            Text(
-                                                subject.englishName,
-                                                style = MaterialTheme.typography.labelSmall,
-                                                color = Academic.Muted,
-                                            )
+                                            HorizontalDivider(color = Academic.Grid)
                                         }
                                     }
                                 }
                                 itemsIndexed(matching, key = { _, term -> term.id }) { idxInSubject, term ->
                                     val absoluteItemIndex = headerListIndex + 1 + idxInSubject
-                                    // 9. 卡片堆叠：上滑列表时顶部卡片先停留，被后续卡片逐步压缩堆叠
+                                    // 9. 卡片堆叠：上滑列表时顶部条目先停留，被后续条目逐步压缩堆叠
                                     val stackProgress by remember(listState, absoluteItemIndex) {
                                         derivedStateOf {
                                             val firstIndex = listState.firstVisibleItemIndex
@@ -572,19 +503,13 @@ private fun TermIndex(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun MiniStudyDashboardCard(
-    state: AppUiState,
-    viewModel: AppViewModel,
-    onDismissKeyboard: () -> Unit,
-) {
+private fun MiniStudyDashboardCard(state: AppUiState) {
     val totalCount = state.terms.size.coerceAtLeast(1)
     val masteredCount = state.progress.masteredIDs.size
     val importantTerms = state.terms.filter { it.important }
     val masteredImportant = importantTerms.count { it.id in state.progress.masteredIDs }
     val wrongCount = state.progress.wrongIDs.size
-    val lastTerm = state.screen.lastViewedTermID?.let { id -> state.terms.find { it.id == id } }
     val masteryFraction = (masteredCount.toFloat() / totalCount.toFloat()).coerceIn(0f, 1f)
 
     Card(
@@ -593,124 +518,50 @@ private fun MiniStudyDashboardCard(
         border = BorderStroke(1.dp, Academic.Grid),
         modifier = Modifier.fillMaxWidth(),
     ) {
-        Column(
-            Modifier.padding(14.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp),
+        Row(
+            Modifier.fillMaxWidth().padding(14.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(14.dp),
         ) {
-            Row(
-                Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(14.dp),
-            ) {
-                Box(Modifier.size(54.dp), contentAlignment = Alignment.Center) {
-                    val trackColor = Academic.Grid
-                    val ringColor = Academic.Success
-                    Canvas(Modifier.fillMaxSize()) {
-                        val stroke = 6.dp.toPx()
-                        drawArc(
-                            color = trackColor,
-                            startAngle = -90f,
-                            sweepAngle = 360f,
-                            useCenter = false,
-                            style = Stroke(width = stroke, cap = StrokeCap.Round),
-                        )
-                        drawArc(
-                            color = ringColor,
-                            startAngle = -90f,
-                            sweepAngle = 360f * masteryFraction,
-                            useCenter = false,
-                            style = Stroke(width = stroke, cap = StrokeCap.Round),
-                        )
-                    }
-                    Text(
-                        "${(masteryFraction * 100).toInt()}%",
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = Academic.Ink,
+            Box(Modifier.size(52.dp), contentAlignment = Alignment.Center) {
+                val trackColor = Academic.Grid
+                val ringColor = Academic.Blue
+                Canvas(Modifier.fillMaxSize()) {
+                    val stroke = 6.dp.toPx()
+                    drawArc(
+                        color = trackColor,
+                        startAngle = -90f,
+                        sweepAngle = 360f,
+                        useCenter = false,
+                        style = Stroke(width = stroke, cap = StrokeCap.Round),
+                    )
+                    drawArc(
+                        color = ringColor,
+                        startAngle = -90f,
+                        sweepAngle = 360f * masteryFraction,
+                        useCenter = false,
+                        style = Stroke(width = stroke, cap = StrokeCap.Round),
                     )
                 }
-                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-                    Text(
-                        "今日学习概览 · 已掌握 $masteredCount / ${state.terms.size}",
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = Academic.Ink,
-                    )
-                    Text(
-                        "重点掌握 $masteredImportant / ${importantTerms.size} · 待复习错题 $wrongCount · 收藏 ${state.progress.favoriteIDs.size}",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = Academic.Muted,
-                    )
-                }
+                Text(
+                    "${(masteryFraction * 100).toInt()}%",
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = Academic.Ink,
+                )
             }
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(6.dp),
-            ) {
-                if (lastTerm != null) {
-                    Surface(
-                        onClick = {
-                            onDismissKeyboard()
-                            viewModel.selectTerm(lastTerm.id)
-                        },
-                        shape = RoundedCornerShape(999.dp),
-                        color = Academic.BlueSoft,
-                        border = BorderStroke(1.dp, Academic.Blue.copy(alpha = 0.4f)),
-                        modifier = Modifier.bounceClick(),
-                    ) {
-                        Text(
-                            "继续：${VocabularyCore.displayMathNotation(lastTerm.chinese)}",
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
-                            style = MaterialTheme.typography.labelSmall,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Academic.Blue,
-                        )
-                    }
-                }
-                Surface(
-                    onClick = {
-                        onDismissKeyboard()
-                        val subjectId = state.screen.subjectID
-                        val prefs = state.progress.quizPreferences.copy(
-                            scope = if (subjectId != null) "subject" else "all",
-                            selectedSubjectID = subjectId ?: state.progress.quizPreferences.selectedSubjectID,
-                            questionLength = "ten",
-                        )
-                        viewModel.startQuiz(prefs)
-                    },
-                    shape = RoundedCornerShape(999.dp),
-                    color = Academic.SecondarySurface,
-                    border = BorderStroke(1.dp, Academic.Grid),
-                    modifier = Modifier.bounceClick(),
-                ) {
-                    Text(
-                        "⚡ 快测 10 题",
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Academic.Ink,
-                    )
-                }
-                if (wrongCount > 0) {
-                    Surface(
-                        onClick = {
-                            onDismissKeyboard()
-                            viewModel.reviewMistakes()
-                        },
-                        shape = RoundedCornerShape(999.dp),
-                        color = Academic.Error.copy(alpha = 0.1f),
-                        border = BorderStroke(1.dp, Academic.Error.copy(alpha = 0.4f)),
-                        modifier = Modifier.bounceClick(),
-                    ) {
-                        Text(
-                            "🔥 专练错题 ($wrongCount)",
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
-                            style = MaterialTheme.typography.labelSmall,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Academic.Error,
-                        )
-                    }
-                }
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Text(
+                    "学习概览 · 已掌握 $masteredCount / ${state.terms.size}",
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = Academic.Ink,
+                )
+                Text(
+                    "重点掌握 $masteredImportant / ${importantTerms.size} · 待复习错题 $wrongCount · 收藏 ${state.progress.favoriteIDs.size}",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Academic.Muted,
+                )
             }
         }
     }
@@ -726,41 +577,33 @@ private fun TermRow(
 ) {
     val selected = state.screen.selectedTermID == term.id
     val recentlyViewed = !selected && state.screen.selectedTermID == null && state.screen.lastViewedTermID == term.id
-    val accent = Academic.subjectAccent(term.subjectID)
     val isFavorite = term.id in state.progress.favoriteIDs
     val maskMode = state.screen.maskMode
     var revealed by rememberSaveable(term.id, maskMode) { mutableStateOf(false) }
     val hideChinese = maskMode == "hideZh" && !revealed
     val hideEnglish = maskMode == "hideEn" && !revealed
-    val ipaText = if (state.settings.accent == "en-GB") "UK ${term.pronunciation.britishIPA}" else "US ${term.pronunciation.americanIPA}"
     val streak = state.progress.correctStreak[term.id.toString()] ?: 0
 
     val rowBackground = when {
-        selected -> Academic.Blue.copy(alpha = if (Academic.IsDark) 0.22f else 0.09f)
-        recentlyViewed -> Academic.Blue.copy(alpha = if (Academic.IsDark) 0.14f else 0.05f)
+        selected -> Academic.Blue.copy(alpha = if (Academic.IsDark) 0.20f else 0.08f)
+        recentlyViewed -> Academic.Blue.copy(alpha = if (Academic.IsDark) 0.12f else 0.05f)
         else -> Academic.Surface
     }
-    Card(
-        onClick = onClick,
-        shape = RoundedCornerShape(14.dp),
-        colors = CardDefaults.cardColors(containerColor = rowBackground),
-        border = BorderStroke(
-            width = if (selected || recentlyViewed) 1.5.dp else 1.dp,
-            color = if (selected) Academic.Blue else if (recentlyViewed) accent.copy(alpha = 0.6f) else Academic.Grid,
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = if (Academic.IsDark) 0.dp else 1.dp),
-        modifier = Modifier.fillMaxWidth().bounceClick(),
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .background(rowBackground)
+            .clickable(onClick = onClick),
     ) {
         Row(
-            Modifier.fillMaxWidth().height(IntrinsicSize.Min),
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 18.dp, top = 14.dp, bottom = 14.dp, end = 6.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Box(
-                Modifier.width(5.dp).fillMaxHeight().background(accent),
-            )
             Column(
-                Modifier.weight(1f).padding(start = 14.dp, top = 12.dp, bottom = 12.dp, end = 4.dp),
-                verticalArrangement = Arrangement.spacedBy(5.dp),
+                Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 if (hideChinese) {
                     Surface(
@@ -785,7 +628,7 @@ private fun TermRow(
                 } else {
                     Text(
                         VocabularyCore.displayMathNotation(term.chinese),
-                        fontWeight = if (term.important) FontWeight.Bold else FontWeight.SemiBold,
+                        fontWeight = if (term.important) FontWeight.Bold else FontWeight.Medium,
                         color = Academic.Ink,
                     )
                 }
@@ -811,32 +654,21 @@ private fun TermRow(
                         }
                     }
                 } else {
-                    FlowRow(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalArrangement = Arrangement.spacedBy(2.dp),
-                    ) {
-                        Text(
-                            VocabularyCore.displayMathNotation(term.english),
-                            color = Academic.Blue,
-                            fontFamily = FontFamily.SansSerif,
-                            fontWeight = if (term.important) FontWeight.Bold else FontWeight.Medium,
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
-                        Text(
-                            ipaText,
-                            color = Academic.Muted,
-                            fontFamily = FontFamily.Monospace,
-                            style = MaterialTheme.typography.bodySmall,
-                        )
-                    }
+                    Text(
+                        VocabularyCore.displayMathNotation(term.english),
+                        color = Academic.Blue,
+                        fontFamily = FontFamily.SansSerif,
+                        fontWeight = if (term.important) FontWeight.Bold else FontWeight.Normal,
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
                 }
 
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
-                    if (recentlyViewed) TermBadge("刚刚浏览", accent)
-                    if (term.important) TermBadge("重点", accent)
+                    if (recentlyViewed) TermBadge("刚刚浏览")
+                    if (term.important) TermBadge("重点")
                     if (isFavorite) TermBadge("已收藏")
                     if (term.id in state.progress.masteredIDs) {
                         TermBadge("已掌握", Academic.Success)
@@ -863,10 +695,7 @@ private fun TermRow(
                 }
             }
             // 1. 列表行右侧直接提供「🔊 一键朗读」+「⭐ 一键收藏」快捷按钮
-            Row(
-                Modifier.padding(end = 6.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(
                     onClick = { viewModel.speak(term.speechText) },
                     modifier = Modifier.size(40.dp),
@@ -886,12 +715,13 @@ private fun TermRow(
                     Icon(
                         if (isFavorite) Icons.Outlined.Star else Icons.Outlined.StarBorder,
                         contentDescription = if (isFavorite) "取消收藏" else "收藏词汇",
-                        tint = if (isFavorite) Academic.Amber else Academic.Muted,
+                        tint = if (isFavorite) Academic.Blue else Academic.Muted,
                         modifier = Modifier.size(20.dp),
                     )
                 }
             }
         }
+        HorizontalDivider(color = Academic.Grid.copy(alpha = 0.6f))
     }
 }
 
@@ -903,7 +733,6 @@ fun TermDetail(term: Term, state: AppUiState, viewModel: AppViewModel) {
     val index = state.selectedTermIndex
     val total = state.filteredTerms.size
     var relatedExpanded by rememberSaveable { mutableStateOf(true) }
-    val accent = Academic.subjectAccent(term.subjectID)
     val streak = (state.progress.correctStreak[term.id.toString()] ?: 0).coerceIn(0, 3)
     val isMastered = term.id in state.progress.masteredIDs
     val isWrong = term.id in state.progress.wrongIDs
@@ -951,7 +780,6 @@ fun TermDetail(term: Term, state: AppUiState, viewModel: AppViewModel) {
         }
         AcademicCard {
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                TermBadge(term.subjectName, accent)
                 if (term.important) TermBadge("重点词汇")
                 if (isMastered) TermBadge("已掌握", Academic.Success)
                 if (isWrong) TermBadge("待复习", Academic.Error)
@@ -971,28 +799,13 @@ fun TermDetail(term: Term, state: AppUiState, viewModel: AppViewModel) {
                 style = MaterialTheme.typography.bodyLarge,
                 color = Academic.Ink,
             )
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+            OutlinedButton(
+                onClick = { viewModel.toggleFavorite(term.id) },
+                enabled = !state.busy,
+                modifier = Modifier.heightIn(min = 48.dp).bounceClick(!state.busy),
             ) {
-                OutlinedButton(
-                    onClick = { viewModel.toggleFavorite(term.id) },
-                    enabled = !state.busy,
-                    modifier = Modifier.heightIn(min = 48.dp).bounceClick(!state.busy),
-                ) {
-                    Icon(if (isFavorite) Icons.Outlined.Star else Icons.Outlined.StarBorder, null)
-                    Text(if (isFavorite) " 取消收藏" else " 收藏词汇")
-                }
-                FilledTonalButton(
-                    onClick = viewModel::toggleAutoPlay,
-                    modifier = Modifier.heightIn(min = 48.dp).bounceClick(),
-                ) {
-                    Icon(
-                        if (state.autoPlayActive) Icons.Outlined.Stop else Icons.Outlined.PlayArrow,
-                        contentDescription = null,
-                    )
-                    Text(if (state.autoPlayActive) " 停止连续播读" else " 连续播读词表")
-                }
+                Icon(if (isFavorite) Icons.Outlined.Star else Icons.Outlined.StarBorder, null)
+                Text(if (isFavorite) " 取消收藏" else " 收藏词汇")
             }
         }
 
@@ -1152,12 +965,11 @@ private fun WelcomePage(state: AppUiState, viewModel: AppViewModel) {
             keySelector = { it.id },
             onMove = viewModel::moveSubject,
         ) { subject, isDragging ->
-            val accent = Academic.subjectAccent(subject.id)
             Card(
                 onClick = { viewModel.setSubject(subject.id) },
                 shape = Academic.Shape,
                 colors = CardDefaults.cardColors(containerColor = Academic.Surface),
-                border = BorderStroke(if (isDragging) 2.dp else 1.dp, if (isDragging) accent else Academic.Grid),
+                border = BorderStroke(if (isDragging) 2.dp else 1.dp, if (isDragging) Academic.Blue else Academic.Grid),
                 modifier = Modifier.fillMaxWidth().bounceClick(),
             ) {
                 Row(
@@ -1167,7 +979,7 @@ private fun WelcomePage(state: AppUiState, viewModel: AppViewModel) {
                 ) {
                     Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         Text(subject.name, fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, color = Academic.Ink)
-                        Text(subject.englishName, color = accent)
+                        Text(subject.englishName, color = Academic.Blue)
                         Text(subject.count.toString() + " 个词汇", color = Academic.Muted, style = MaterialTheme.typography.bodySmall)
                     }
                     Icon(Icons.Outlined.DragIndicator, contentDescription = "长按拖动排序", tint = Academic.Muted)

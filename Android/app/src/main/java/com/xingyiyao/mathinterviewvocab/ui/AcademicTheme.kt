@@ -129,17 +129,7 @@ object Academic {
 
     @Composable
     @ReadOnlyComposable
-    fun subjectAccent(subjectID: String?): Color {
-        val dark = IsDark
-        return when (subjectID) {
-            "subjects" -> if (dark) Color(0xFF818CF8) else Color(0xFF4F46E5)
-            "analysis" -> if (dark) Color(0xFF60A5FA) else Color(0xFF2563EB)
-            "algebra" -> if (dark) Color(0xFF2DD4BF) else Color(0xFF0D9488)
-            "probability" -> if (dark) Color(0xFFFBBF24) else Color(0xFFD97706)
-            "statistics" -> if (dark) Color(0xFFA78BFA) else Color(0xFF7C3AED)
-            else -> Blue
-        }
-    }
+    fun subjectAccent(@Suppress("UNUSED_PARAMETER") subjectID: String?): Color = Blue
 }
 
 @Composable

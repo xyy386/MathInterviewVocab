@@ -252,7 +252,7 @@ fun LearningScreen(state: AppUiState, viewModel: AppViewModel) {
                 ElasticTagChip(
                     label = "我的收藏 (${favoriteTerms.size})",
                     selected = bottomTab == "favorites",
-                    accentColor = Academic.Amber,
+                    accentColor = Academic.Blue,
                     onClick = { bottomTab = "favorites" },
                 )
                 ElasticTagChip(

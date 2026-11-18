@@ -14,7 +14,7 @@
 
 [Android 1.3.3 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.3) · [Android 独立校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.3/SHA256SUMS-Android.txt) · [1.3.3 更新说明](docs/RELEASE-NOTES-v1.3.3.md) · [桌面 1.3.0 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.0) · [桌面版 SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/SHA256SUMS.txt)
 
-Android 当前版本为 **1.3.3／code 5**（新增列表项音标直显与一键朗读/收藏、遮英文/遮中文自测模式、紧凑搜索栏与今日学习看板、随身听双语连播、详情页个人掌握轨迹与手动标记、同科关联概念对比、面试闪卡 3D 翻转自测、听音辨义听力检测、四态环形分布图与学科三态堆叠进度条，以及待复习错题/我的收藏/最近答题流水三合一面板），采用同一套词库与 Kokoro 离线音源，按窗口宽度适配手机、平板和分屏。[Android 工程／安装说明](Android/README.md) · [详细需求与设计](Android/docs/REQUIREMENTS-AND-DESIGN.md) · [审查与已知问题](Android/docs/REVIEW-v1.2.0.md)。历史标签与附件保留不变；Android 源码使用独立标签 [android-v1.3.3](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.3)。
+Android 当前版本为 **1.3.3／code 5**（新增列表项一键朗读/收藏、遮英文/遮中文自测模式、紧凑搜索栏与学习概览看板、详情页个人掌握轨迹与手动标记、同科关联概念对比、面试闪卡 3D 翻转自测、四态环形分布图与学科三态堆叠进度条，以及待复习错题/我的收藏/最近答题流水三合一面板，并保持统一清爽的学院蓝视觉风格），采用同一套词库与 Kokoro 离线音源，按窗口宽度适配手机、平板和分屏。[Android 工程／安装说明](Android/README.md) · [详细需求与设计](Android/docs/REQUIREMENTS-AND-DESIGN.md) · [审查与已知问题](Android/docs/REVIEW-v1.2.0.md)。历史标签与附件保留不变；Android 源码使用独立标签 [android-v1.3.3](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.3)。
 
 请下载对应平台 ZIP／APK，**不要把 GitHub 自动生成的 Source code 当作可运行软件**。桌面版为 **1.3.0**，Android 为 **1.3.3**。没有检查更新入口的旧版桌面程序请直接手动下载当前桌面版。
 
