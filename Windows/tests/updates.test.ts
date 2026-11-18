@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash, generateKeyPairSync, sign } from 'node:crypto';
-import { mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readdir, readFile, realpath, rm, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { checksumFor, githubTransport, latestReleaseURL, markInternetDownload, maximumArchiveBytes, newerVersion, parseRelease,
@@ -330,6 +330,23 @@ test('tampering after download blocks execution and leaves recovery enabled', as
     assert.equal((await updater.install()).status, 'error');
     assert.match(updater.state.message, /完整性/);
     assert.equal(updater.state.canDownload, true);
+}));
+
+test('installer handoff records the canonical verified file under an aliased download directory', async () => fixture(async directory => {
+    const realDirectory = path.join(directory, 'actual-downloads');
+    const aliasDirectory = path.join(directory, 'download-alias');
+    await mkdir(realDirectory);
+    // junction 不要求 Windows 开启开发者模式；macOS 对同一目录创建原生符号链接。
+    await symlink(realDirectory, aliasDirectory, process.platform === 'win32' ? 'junction' : 'dir');
+    const launched: string[] = [];
+    const updater = new SoftwareUpdater('1.2.0', aliasDirectory, () => {}, () => {}, async () => {}, fixtureTransport, undefined,
+        { launch: async file => { launched.push(file); } });
+    await updater.check();
+    assert.equal((await updater.download()).status, 'ready');
+    assert.equal((await updater.install()).status, 'installing');
+    assert.equal(launched.length, 1);
+    assert.equal(launched[0], await realpath(launched[0]));
+    assert.ok(launched[0].startsWith(await realpath(realDirectory) + path.sep));
 }));
 
 test('installer launch error leaves app alive with retry and never reports success', async () => fixture(async directory => {

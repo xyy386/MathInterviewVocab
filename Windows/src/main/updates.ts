@@ -313,7 +313,11 @@ export class SoftwareUpdater {
                 throw new Error('无法添加 Windows 下载来源标记，本次更新包已撤回。请点击“查看发布说明”，改用浏览器下载。');
             }
             signal.throwIfAborted();
-            this.downloadedPath = destination;
+            // Windows 临时目录可能使用 8.3／大小写别名；记录经验证文件的真实路径，
+            // 后续仍严格拒绝文件或父目录被重定向，而不是放宽安装时的路径校验。
+            const canonicalDestination = await realpath(destination);
+            signal.throwIfAborted();
+            this.downloadedPath = canonicalDestination;
             this.signedInstaller = signedInstaller;
             this.publish({ status: 'ready', message: '下载完成，数字签名与 SHA-256 校验通过。点击“安装并重启”即可更新，学习记录会保留。', downloadedBytes: bytes,
                 canDownload: false, fileName: release.archive.name });
