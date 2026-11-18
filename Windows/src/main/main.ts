@@ -6,6 +6,7 @@ import { LocalRepository } from './persistence';
 import { BundledAudio } from './audio';
 import { sanitizeSelection, type Term } from '../shared/core';
 import { SoftwareUpdater } from './updates';
+import { launchInstaller } from './installer';
 
 app.setName('MathInterviewVocab');
 app.setAppUserModelId('com.xingyiyao.MathInterviewVocab');
@@ -64,9 +65,20 @@ async function initialize(): Promise<void> {
 
     const windows = () => [mainWindow, settingsWindow].filter((window): window is BrowserWindow => Boolean(window && !window.isDestroyed()));
     const broadcast = (change: unknown) => windows().forEach(window => window.webContents.send('vocab:data-changed', change));
+    let installing = false;
+    let confirmingInstall = false;
     const updater = new SoftwareUpdater(app.getVersion(), app.getPath('downloads'),
         state => windows().forEach(window => window.webContents.send('vocab:update-changed', state)),
-        file => shell.showItemInFolder(file), url => shell.openExternal(url));
+        file => shell.showItemInFolder(file), url => shell.openExternal(url), undefined, undefined, {
+            launch: async file => {
+                if (repository.error) throw new Error('学习记录或设置存在保存／读取错误，请先处理后再安装更新。原文件会保留。');
+                if (!app.isPackaged || process.platform !== 'win32') throw new Error('安装更新仅支持 Windows 正式应用。');
+                installing = true;
+                windows().forEach(window => window.webContents.send('vocab:stop-audio'));
+                try { await launchInstaller(file, { directory, quit: () => app.quit() }); }
+                catch (error) { installing = false; throw error; }
+            },
+        });
     app.on('before-quit', () => updater.cancel());
     const protectWindow = (window: BrowserWindow) => {
         window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
@@ -103,6 +115,9 @@ async function initialize(): Promise<void> {
                 || !event.senderFrame?.url.startsWith('vocab://bundle/index.html')) {
                 throw new Error('不允许的窗口请求。');
             }
+            if (installing && ['vocab:favorite', 'vocab:preferences', 'vocab:answer', 'vocab:reset', 'vocab:settings'].includes(channel)) {
+                throw new Error('正在安装更新，请等待应用重新启动。');
+            }
             return callback(event, ...args);
         });
     };
@@ -132,6 +147,19 @@ async function initialize(): Promise<void> {
     handle('vocab:update-state', () => updater.state);
     handle('vocab:update-check', () => updater.check());
     handle('vocab:update-download', () => updater.download());
+    handle('vocab:update-install', async event => {
+        if (confirmingInstall || installing || updater.state.status !== 'ready') return updater.state;
+        const window = BrowserWindow.fromWebContents(event.sender);
+        if (!window) throw new Error('无法找到更新窗口。');
+        confirmingInstall = true;
+        try {
+            const result = await dialog.showMessageBox(window, { type: 'question', title: '安装更新并重启？',
+                message: `安装版本 ${updater.state.version ?? ''} 并重新启动？`,
+                detail: '应用将正常退出，由安装器替换程序文件后重新启动。答题记录、收藏和发音设置会保留。系统安全提示仍可能出现。',
+                buttons: ['取消', '安装并重启'], defaultId: 0, cancelId: 0, noLink: true });
+            return result.response === 1 ? await updater.install() : updater.state;
+        } finally { confirmingInstall = false; }
+    });
     handle('vocab:update-cancel', () => updater.cancel());
     handle('vocab:update-reveal', () => updater.showDownload());
     handle('vocab:update-release', () => updater.showRelease());

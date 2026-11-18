@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, existsSync, writeFileSync, renameSync, copyFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, existsSync, writeFileSync, renameSync, copyFileSync, unlinkSync } from 'node:fs';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import {
@@ -9,8 +9,13 @@ import {
 
 function atomicWrite(file: string, value: unknown): void {
     const temporary = `${file}.${randomUUID()}.tmp`;
-    writeFileSync(temporary, JSON.stringify(value, null, 2) + '\n', { encoding: 'utf8', mode: 0o600 });
-    renameSync(temporary, file);
+    try {
+        writeFileSync(temporary, JSON.stringify(value, null, 2) + '\n', { encoding: 'utf8', mode: 0o600, flag: 'wx' });
+        renameSync(temporary, file);
+    } catch (error) {
+        try { unlinkSync(temporary); } catch { /* 仅清理本次未完成的原子写入。 */ }
+        throw error;
+    }
 }
 
 /** 在用户目录保存，绝不写回解压目录或 Mac 现有进度。 */
@@ -61,7 +66,11 @@ export class LocalRepository {
     private save(next: ProgressData): ProgressData {
         if (this.progressBlocked) throw new Error(this.error ?? '学习记录无法读取，尚未覆盖原文件。');
         this.validateTermIDs(next);
-        atomicWrite(this.progressFile, next);
+        try { atomicWrite(this.progressFile, next); }
+        catch (error) {
+            this.progressError = '学习记录保存失败，尚未写入的更改未生效。请检查磁盘权限并重试后再安装更新。';
+            throw error;
+        }
         this.progress = next;
         this.progressError = null;
         return next;
@@ -90,7 +99,11 @@ export class LocalRepository {
         }
         const next = { ...defaultProgress(), quizPreferences: this.progress.quizPreferences };
         // 原子写入成功前不解除损坏记录保护。
-        atomicWrite(this.progressFile, next);
+        try { atomicWrite(this.progressFile, next); }
+        catch (error) {
+            this.progressError = '学习记录保存失败，原记录已保留。请重试后再安装更新。';
+            throw error;
+        }
         this.progressBlocked = false;
         this.progress = next;
         this.progressError = null;
@@ -102,7 +115,11 @@ export class LocalRepository {
         if (this.settingsBlocked && existsSync(this.settingsFile)) {
             copyFileSync(this.settingsFile, `${this.settingsFile}.backup-${Date.now()}`);
         }
-        atomicWrite(this.settingsFile, next);
+        try { atomicWrite(this.settingsFile, next); }
+        catch (error) {
+            this.settingsError = '发音设置保存失败，原设置已保留。请重试后再安装更新。';
+            throw error;
+        }
         this.settingsBlocked = false;
         this.settings = next;
         this.settingsError = null;

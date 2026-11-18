@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, writeFileSync, readFileSync, readdirSync, rmSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, writeFileSync, readFileSync, readdirSync, renameSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
@@ -56,4 +56,22 @@ test('recovering voice settings cannot hide corrupt progress protection', () => 
     assert.doesNotMatch(repository.error!, /发音设置无法读取/);
     assert.throws(() => repository.favorite(104));
     repository.reset(); assert.equal(repository.error, null);
+}));
+
+test('failed atomic writes preserve memory and expose update veto until a successful retry', () => withRepository(directory => {
+    const repository = new LocalRepository(directory, ids);
+    repository.favorite(104);
+    const progress = path.join(directory, 'progress.json');
+    const backup = path.join(directory, 'fixture-progress-backup.json');
+    renameSync(progress, backup);
+    mkdirSync(progress);
+    assert.throws(() => repository.favorite(1));
+    assert.deepEqual(repository.progress.favoriteIDs, [104]);
+    assert.match(repository.error!, /保存失败/);
+    assert.equal(readdirSync(directory).filter(name => name.endsWith('.tmp')).length, 0);
+    rmSync(progress, { recursive: true });
+    renameSync(backup, progress);
+    repository.favorite(1);
+    assert.equal(repository.error, null);
+    assert.deepEqual(new LocalRepository(directory, ids).progress.favoriteIDs.sort((a, b) => a - b), [1, 104]);
 }));

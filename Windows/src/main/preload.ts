@@ -15,6 +15,7 @@ contextBridge.exposeInMainWorld('vocab', {
     getUpdateState: () => ipcRenderer.invoke('vocab:update-state'),
     checkForUpdates: () => ipcRenderer.invoke('vocab:update-check'),
     downloadUpdate: () => ipcRenderer.invoke('vocab:update-download'),
+    installUpdate: () => ipcRenderer.invoke('vocab:update-install'),
     cancelUpdate: () => ipcRenderer.invoke('vocab:update-cancel'),
     showUpdateDownload: () => ipcRenderer.invoke('vocab:update-reveal'),
     showUpdateRelease: () => ipcRenderer.invoke('vocab:update-release'),

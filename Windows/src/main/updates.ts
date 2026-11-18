@@ -1,8 +1,10 @@
 import { createHash } from 'node:crypto';
+import { createReadStream } from 'node:fs';
 import { get } from 'node:https';
-import { mkdir, mkdtemp, open, rename, unlink, writeFile } from 'node:fs/promises';
+import { lstat, mkdir, mkdtemp, open, realpath, rename, unlink, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import type { UpdateState } from '../shared/update';
+import { verifyInstallerManifest, type SignedInstaller } from './update-signature';
 
 export const latestReleaseURL = 'https://api.github.com/repos/xyy386/MathInterviewVocab/releases/latest';
 const repositoryURL = 'https://github.com/xyy386/MathInterviewVocab';
@@ -16,6 +18,8 @@ export interface UpdateRelease {
     pageURL: string;
     archive: ReleaseAsset;
     checksums: ReleaseAsset;
+    manifest: ReleaseAsset;
+    signature: ReleaseAsset;
 }
 export interface UpdateResponse {
     body: AsyncIterable<Uint8Array>;
@@ -108,8 +112,10 @@ export function parseRelease(input: unknown): UpdateRelease {
     };
     return {
         ...metadata,
-        archive: asset(`MathInterviewVocab-Windows-x64-v${version}.zip`, maximumArchiveBytes),
+        archive: asset(`MathInterviewVocab-Windows-x64-Setup-v${version}.exe`, maximumArchiveBytes),
         checksums: asset('SHA256SUMS.txt', 64 * 1024),
+        manifest: asset('Windows-update.json', 4096),
+        signature: asset('Windows-update.json.sig', 1024),
     };
 }
 
@@ -190,6 +196,8 @@ export class SoftwareUpdater {
     private release: UpdateRelease | null = null;
     private controller: AbortController | null = null;
     private downloadedPath: string | null = null;
+    private signedInstaller: Readonly<SignedInstaller> | null = null;
+    private installing = false;
 
     constructor(
         currentVersion: string,
@@ -199,6 +207,7 @@ export class SoftwareUpdater {
         private readonly openPage: (url: string) => Promise<unknown>,
         private readonly transport: UpdateTransport = githubTransport,
         private readonly markDownload: DownloadMarker = markInternetDownload,
+        private readonly installer: { publicKey?: string; launch?: (file: string) => Promise<void> } = {},
     ) {
         versionParts(currentVersion);
         this.state = { currentVersion, status: 'idle', message: '手动检查 GitHub 正式版，不会在后台自动联网。', canDownload: false };
@@ -218,9 +227,10 @@ export class SoftwareUpdater {
     }
 
     async check(): Promise<UpdateState> {
-        if (this.controller) return this.state;
+        if (this.controller || this.installing) return this.state;
         this.release = null;
         this.downloadedPath = null;
+        this.signedInstaller = null;
         const controller = new AbortController();
         this.controller = controller;
         const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(45_000)]);
@@ -242,7 +252,7 @@ export class SoftwareUpdater {
     }
 
     async download(): Promise<UpdateState> {
-        if (this.controller || !this.release || !this.state.canDownload) return this.state;
+        if (this.controller || this.installing || !this.release || !this.state.canDownload) return this.state;
         const release = this.release;
         const controller = new AbortController();
         this.controller = controller;
@@ -258,6 +268,11 @@ export class SoftwareUpdater {
             }
             const expectedHash = checksumFor(checksumText.toString('utf8'), release.archive.name);
             if (release.archive.sha256 && release.archive.sha256 !== expectedHash) throw new Error('更新包校验和与 GitHub 附件摘要不一致。');
+            const manifest = await readBounded(await this.transport(release.manifest.url, signal), 4096, signal, release.manifest.bytes);
+            const signature = await readBounded(await this.transport(release.signature.url, signal), 1024, signal, release.signature.bytes);
+            const signedInstaller = verifyInstallerManifest(manifest, signature, {
+                version: release.version, fileName: release.archive.name, bytes: release.archive.bytes, sha256: expectedHash,
+            }, this.installer.publicKey);
             const response = await this.transport(release.archive.url, signal);
             activeResponse = response;
             if (response.contentLength !== undefined && response.contentLength !== release.archive.bytes) {
@@ -299,7 +314,8 @@ export class SoftwareUpdater {
             }
             signal.throwIfAborted();
             this.downloadedPath = destination;
-            this.publish({ status: 'ready', message: '下载完成，SHA-256 校验通过。请退出旧版，解压后用新版替换。', downloadedBytes: bytes,
+            this.signedInstaller = signedInstaller;
+            this.publish({ status: 'ready', message: '下载完成，数字签名与 SHA-256 校验通过。点击“安装并重启”即可更新，学习记录会保留。', downloadedBytes: bytes,
                 canDownload: false, fileName: release.archive.name });
             unpublishedArchive = null;
             return this.state;
@@ -312,7 +328,37 @@ export class SoftwareUpdater {
         }
     }
 
-    cancel(): UpdateState { this.controller?.abort(); return this.state; }
+    async install(): Promise<UpdateState> {
+        if (this.controller || this.installing || this.state.status !== 'ready' || !this.downloadedPath || !this.signedInstaller) return this.state;
+        const file = this.downloadedPath;
+        const manifest = this.signedInstaller;
+        this.installing = true;
+        this.publish({ status: 'installing', message: '正在重新校验并启动安装器，随后将退出并重启…', canDownload: false });
+        try {
+            if (!newerVersion(manifest.version, this.state.currentVersion) || !this.installer.launch) throw new Error('此版本或运行环境不支持安装更新。');
+            const stat = await lstat(file);
+            if (!stat.isFile() || stat.isSymbolicLink() || stat.size !== manifest.bytes || await realpath(file) !== path.resolve(file)) {
+                throw new Error('已下载的安装包发生变化，请重新下载。');
+            }
+            const hash = createHash('sha256');
+            let bytes = 0;
+            for await (const chunk of createReadStream(file)) {
+                bytes += chunk.length;
+                if (bytes > manifest.bytes) throw new Error('安装包大小发生变化，请重新下载。');
+                hash.update(chunk);
+            }
+            if (bytes !== manifest.bytes || hash.digest('hex') !== manifest.sha256) throw new Error('安装包完整性校验失败，已阻止执行。请重新下载。');
+            await this.installer.launch(file);
+            // 安装器接管后不在仍存活的旧进程内宣称“安装成功”。
+            return this.state;
+        } catch (error) {
+            this.downloadedPath = null;
+            this.signedInstaller = null;
+            return this.publish({ status: 'error', message: error instanceof Error ? error.message : '安装器启动失败，应用尚未退出。', canDownload: Boolean(this.release) });
+        } finally { this.installing = false; }
+    }
+
+    cancel(): UpdateState { if (!this.installing) this.controller?.abort(); return this.state; }
     showDownload(): void { if (this.downloadedPath && this.state.status === 'ready') this.reveal(this.downloadedPath); }
     async showRelease(): Promise<void> { if (this.release) await this.openPage(this.release.pageURL); }
 }

@@ -7,6 +7,11 @@ React / React DOM — MIT
 Copyright (c) Meta Platforms, Inc. and affiliates.
 https://github.com/facebook/react
 
+NSIS 安装器 — zlib/libpng 许可；其压缩、解压及插件保留各自许可。
+electron-builder — MIT，仅用于生成安装包；不在应用中加入第三方更新运行时。
+https://nsis.sourceforge.io/License
+https://github.com/electron-userland/electron-builder/blob/v26.0.0/LICENSE
+
 语音模型、声线、音频生成工具的来源及许可证见 resources/app.asar 内 resources/AUDIO-SOURCES.md。
 语音源会如实标注，不使用 Google 商标暗示 Google 提供离线语音模型。
 

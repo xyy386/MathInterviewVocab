@@ -1,24 +1,39 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createHash } from 'node:crypto';
+import { createHash, generateKeyPairSync, sign } from 'node:crypto';
 import { mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { checksumFor, githubTransport, latestReleaseURL, markInternetDownload, maximumArchiveBytes, newerVersion, parseRelease,
-    readBounded, redirectedURL, SoftwareUpdater, trustedURL, versionParts,
+    readBounded, redirectedURL, SoftwareUpdater as ProductionUpdater, trustedURL, versionParts,
     type UpdateResponse, type UpdateTransport } from '../src/main/updates';
 import type { UpdateState } from '../src/shared/update';
+import { verifyInstallerManifest } from '../src/main/update-signature';
+import { installerArguments, launchInstaller } from '../src/main/installer';
+
+const keyPair = generateKeyPairSync('ed25519');
+const publicKey = keyPair.publicKey.export({ type: 'spki', format: 'pem' }).toString();
+class SoftwareUpdater extends ProductionUpdater {
+    constructor(...args: ConstructorParameters<typeof ProductionUpdater>) {
+        super(args[0], args[1], args[2], args[3], args[4], args[5], args[6], { ...args[7], publicKey });
+    }
+}
 
 const base = 'https://github.com/xyy386/MathInterviewVocab';
 const version = '1.3.0';
-const archiveName = `MathInterviewVocab-Windows-x64-v${version}.zip`;
+const archiveName = `MathInterviewVocab-Windows-x64-Setup-v${version}.exe`;
 const archive = Buffer.from('PK\x03\x04 deterministic update fixture');
 const digest = createHash('sha256').update(archive).digest('hex');
 const checksums = Buffer.from(`${digest}  ${archiveName}\n`);
+const signedManifest = Buffer.from(JSON.stringify({ schema: 1, platform: 'windows-x64', version,
+    fileName: archiveName, bytes: archive.length, sha256: digest }) + '\n');
+const signature = Buffer.from(sign(null, signedManifest, keyPair.privateKey).toString('base64') + '\n');
 function metadata() {
     return { tag_name: `v${version}`, html_url: `${base}/releases/tag/v${version}`, draft: false, prerelease: false, body: '<script>Not HTML</script>\nRelease notes',
         assets: [{ name: archiveName, state: 'uploaded', digest: `sha256:${digest}`, size: archive.length, browser_download_url: `${base}/releases/download/v${version}/${archiveName}` },
-            { name: 'SHA256SUMS.txt', state: 'uploaded', digest: `sha256:${createHash('sha256').update(checksums).digest('hex')}`, size: checksums.length, browser_download_url: `${base}/releases/download/v${version}/SHA256SUMS.txt` }] };
+            { name: 'SHA256SUMS.txt', state: 'uploaded', digest: `sha256:${createHash('sha256').update(checksums).digest('hex')}`, size: checksums.length, browser_download_url: `${base}/releases/download/v${version}/SHA256SUMS.txt` },
+            { name: 'Windows-update.json', state: 'uploaded', digest: `sha256:${createHash('sha256').update(signedManifest).digest('hex')}`, size: signedManifest.length, browser_download_url: `${base}/releases/download/v${version}/Windows-update.json` },
+            { name: 'Windows-update.json.sig', state: 'uploaded', digest: `sha256:${createHash('sha256').update(signature).digest('hex')}`, size: signature.length, browser_download_url: `${base}/releases/download/v${version}/Windows-update.json.sig` }] };
 }
 function response(value: Buffer, declared = value.length): UpdateResponse {
     return { contentLength: declared, body: (async function* () { yield value.subarray(0, 5); yield value.subarray(5); })() };
@@ -26,11 +41,13 @@ function response(value: Buffer, declared = value.length): UpdateResponse {
 const fixtureTransport: UpdateTransport = async url => {
     if (url === latestReleaseURL) return response(Buffer.from(JSON.stringify(metadata())));
     if (url.endsWith('/SHA256SUMS.txt')) return response(checksums);
+    if (url.endsWith('/Windows-update.json')) return response(signedManifest);
+    if (url.endsWith('/Windows-update.json.sig')) return response(signature);
     if (url.endsWith(`/${archiveName}`)) return response(archive);
     throw new Error('Unexpected fixture URL');
 };
 async function fixture(run: (directory: string) => Promise<void>) {
-    const directory = await mkdtemp(path.join(tmpdir(), 'vocab-update-test-'));
+    const directory = await mkdtemp(path.join(process.env.MATH_VOCAB_VALIDATION_DIRECTORY ?? tmpdir(), 'vocab-update-test-'));
     try { await run(directory); }
     finally { await rm(directory, { recursive: true, force: true }); }
 }
@@ -63,7 +80,7 @@ test('redirects allow only HTTPS exact GitHub hosts and at most five hops', () =
     assert.throws(() => redirectedURL('//evil.test/file', base, 0));
     assert.throws(() => redirectedURL('http://github.com/file', base, 0));
 });
-test('release requires stable official tag and exactly one matching x64 ZIP and checksum attachment', () => {
+test('release requires stable official tag, x64 installer, checksum and signed manifest attachments', () => {
     assert.equal(parseRelease(metadata()).archive.name, archiveName);
     const mutations = [
         (value: ReturnType<typeof metadata>) => { value.draft = true; },
@@ -102,7 +119,7 @@ test('bounded metadata reader enforces header, streamed byte and complete-size l
 test('transport rejects untrusted URL before a socket can open', async () => {
     await assert.rejects(githubTransport('http://evil.test/archive.zip', new AbortController().signal));
 });
-test('updater downloads only on request and reveals verified ZIP only on an additional user action', async () => fixture(async directory => {
+test('updater downloads only on request and reveals verified installer only on an additional user action', async () => fixture(async directory => {
     const states: UpdateState[] = [];
     const revealed: string[] = [];
     const pages: string[] = [];
@@ -259,3 +276,77 @@ test('corrupt archive never reaches the download marker', async () => fixture(as
     assert.equal((await updater.download()).status, 'error');
     assert.deepEqual(await files(directory), []);
 }));
+
+test('Ed25519 signature binds exact bytes, platform, version, file name, size and digest', () => {
+    const expected = { version, fileName: archiveName, bytes: archive.length, sha256: digest };
+    assert.equal(verifyInstallerManifest(signedManifest, signature, expected, publicKey).sha256, digest);
+    assert.throws(() => verifyInstallerManifest(Buffer.from(`${signedManifest.toString()} `), signature, expected, publicKey));
+    assert.throws(() => verifyInstallerManifest(signedManifest, Buffer.alloc(88, 65), expected, publicKey));
+    const otherKey = generateKeyPairSync('ed25519').publicKey.export({ type: 'spki', format: 'pem' }).toString();
+    assert.throws(() => verifyInstallerManifest(signedManifest, signature, expected, otherKey));
+    for (const patch of [{ version: '9.0.0' }, { fileName: '../evil.exe' }, { bytes: archive.length + 1 }, { sha256: '0'.repeat(64) }]) {
+        assert.throws(() => verifyInstallerManifest(signedManifest, signature, { ...expected, ...patch }, publicKey));
+    }
+    for (const patch of [{ platform: 'macos' }, { schema: 2 }, { extra: true }, { sha256: 'f'.repeat(63) }, { bytes: -1 }]) {
+        const bytes = Buffer.from(JSON.stringify({ ...JSON.parse(signedManifest.toString()), ...patch }));
+        const signatureBytes = Buffer.from(sign(null, bytes, keyPair.privateKey).toString('base64'));
+        assert.throws(() => verifyInstallerManifest(bytes, signatureBytes, expected, publicKey));
+    }
+});
+
+test('invalid update signature prevents archive download and preserves existing user files', async () => fixture(async directory => {
+    const original = path.join(directory, 'existing.txt');
+    await writeFile(original, 'preserved');
+    let downloads = 0;
+    const updater = new SoftwareUpdater('1.2.0', directory, () => {}, () => {}, async () => {}, async (url, signal) => {
+        if (url.endsWith('/Windows-update.json.sig')) return response(Buffer.alloc(signature.length, 65));
+        if (url.endsWith(`/${archiveName}`)) downloads += 1;
+        return fixtureTransport(url, signal);
+    });
+    await updater.check();
+    assert.equal((await updater.download()).status, 'error');
+    assert.match(updater.state.message, /签名/);
+    assert.equal(downloads, 0);
+    assert.deepEqual(await files(directory), [original]);
+}));
+
+test('install requires additional explicit action and re-verifies saved executable before handoff', async () => fixture(async directory => {
+    const launched: string[] = [];
+    const updater = new SoftwareUpdater('1.2.0', directory, () => {}, () => {}, async () => {}, fixtureTransport, undefined,
+        { launch: async file => { launched.push(file); } });
+    await updater.install(); assert.deepEqual(launched, []);
+    await updater.check(); await updater.download(); assert.deepEqual(launched, []);
+    assert.equal((await updater.install()).status, 'installing');
+    assert.equal(launched.length, 1);
+    await updater.install(); assert.equal(launched.length, 1);
+}));
+
+test('tampering after download blocks execution and leaves recovery enabled', async () => fixture(async directory => {
+    const updater = new SoftwareUpdater('1.2.0', directory, () => {}, () => {}, async () => {}, fixtureTransport, undefined,
+        { launch: async () => assert.fail('must not execute altered file') });
+    await updater.check(); await updater.download();
+    const file = (await files(directory))[0];
+    await writeFile(file, Buffer.alloc(archive.length));
+    assert.equal((await updater.install()).status, 'error');
+    assert.match(updater.state.message, /完整性/);
+    assert.equal(updater.state.canDownload, true);
+}));
+
+test('installer launch error leaves app alive with retry and never reports success', async () => fixture(async directory => {
+    const updater = new SoftwareUpdater('1.2.0', directory, () => {}, () => {}, async () => {}, fixtureTransport, undefined,
+        { launch: async () => { throw new Error('permission denied fixture; old app stays open'); } });
+    await updater.check(); await updater.download();
+    assert.equal((await updater.install()).status, 'error');
+    assert.match(updater.state.message, /permission denied/);
+    assert.equal(updater.state.canDownload, true);
+}));
+
+test('installer arguments do not invoke a shell and invalid platforms cannot execute packages', async () => {
+    const ready = 'C:\\Users\\Example Name\\AppData\\Local\\MathInterviewVocab\\updates\\handoff-test.ready';
+    assert.deepEqual(installerArguments(123, ready), ['/S', '--updated', '--force-run', '/currentuser', '--vocab-update-pid=123', `--vocab-update-ready=${ready}`]);
+    assert.throws(() => installerArguments(0, ready));
+    assert.throws(() => installerArguments(Number.NaN, ready));
+    let quit = false;
+    await assert.rejects(launchInstaller('/nonexistent.exe', { platform: 'darwin', directory: '', quit: () => { quit = true; } }));
+    assert.equal(quit, false);
+});

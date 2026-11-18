@@ -19,7 +19,7 @@ export function SoftwareUpdate() {
     catch { setError('更新操作失败，请检查网络或下载目录权限后重试。'); }
   }
 
-  const busy = update?.status === 'checking' || update?.status === 'downloading';
+  const busy = update?.status === 'checking' || update?.status === 'downloading' || update?.status === 'installing';
   const downloading = update?.status === 'downloading';
   const percent = update?.totalBytes ? Math.min(100, Math.floor((update.downloadedBytes ?? 0) / update.totalBytes * 100)) : 0;
 
@@ -31,13 +31,16 @@ export function SoftwareUpdate() {
         <button type="button" className="secondary-button" disabled={!update || busy} onClick={() => void perform(() => window.vocab.checkForUpdates())}>检查更新</button>
         {update?.canDownload && <button type="button" className="primary-button" onClick={() => void perform(() => window.vocab.downloadUpdate())}>下载更新</button>}
         {downloading && <button type="button" className="secondary-button" onClick={() => void perform(() => window.vocab.cancelUpdate())}>取消下载</button>}
-        {update?.status === 'ready' && <button type="button" className="secondary-button" onClick={() => void perform(() => window.vocab.showUpdateDownload())}>在文件夹中显示</button>}
+        {update?.status === 'ready' && <>
+          <button type="button" className="primary-button" onClick={() => void perform(() => window.vocab.installUpdate())}>安装并重启</button>
+          <button type="button" className="secondary-button" onClick={() => void perform(() => window.vocab.showUpdateDownload())}>在文件夹中显示</button>
+        </>}
         {update?.version && <button type="button" className="update-release-link" onClick={() => void perform(() => window.vocab.showUpdateRelease())}>查看发布说明</button>}
       </div>
       <p className={`settings-footnote update-status ${update?.status === 'error' || error ? 'settings-error' : ''}`} role={update?.status === 'error' || error ? 'alert' : 'status'}>{error || update?.message || '正在读取版本信息…'}</p>
       {downloading && <div className="update-progress"><progress value={percent} max={100} aria-label="更新下载进度"/><span>{percent}%</span></div>}
       {update?.notes && <details className="update-notes"><summary>版本 {update.version} 更新内容</summary><p>{update.notes}</p></details>}
-      <p className="settings-footnote">词库与发音始终离线；仅检查和下载更新时联网。下载校验完成后，请退出旧版并用新版替换，学习记录会保留。</p>
+      <p className="settings-footnote">词库与发音始终离线；仅检查和下载更新时联网。下载并验证数字签名后，点击“安装并重启”即可更新，无需手动解压、退出或覆盖文件。学习记录会保留。</p>
     </div>
   </section>;
 }

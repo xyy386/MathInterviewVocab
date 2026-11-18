@@ -1,0 +1,93 @@
+name: Windows installer smoke
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, 'desktop-installer-*']
+    paths:
+      - 'Windows/**'
+      - '.github/workflows/windows-installer-smoke.yml'
+  pull_request:
+    paths:
+      - 'Windows/**'
+      - '.github/workflows/windows-installer-smoke.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-installer-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  installer:
+    runs-on: windows-2025
+    timeout-minutes: 40
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: Windows
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES: 'false'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: Windows/package-lock.json
+      - name: Prepare isolated evidence directory
+        run: |
+          $output = Join-Path $env:RUNNER_TEMP "math-vocab-installer-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
+          New-Item -ItemType Directory -Path (Join-Path $output 'evidence') -Force | Out-Null
+          "INSTALLER_SMOKE_DIRECTORY=$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          $version = node -p "JSON.parse(require('fs').readFileSync('package.json','utf8')).version"
+          if ($version -notmatch '^\d+\.\d+\.\d+$') { throw "Unsupported fixture version: $version" }
+          $parts = $version.Split('.')
+          $next = '{0}.{1}.{2}' -f $parts[0], $parts[1], (1 + [int]$parts[2])
+          "INITIAL_FIXTURE_VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "UPGRADE_FIXTURE_VERSION=$next" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      - name: Install locked dependencies
+        run: |
+          npm ci 2>&1 | Tee-Object -FilePath (Join-Path $env:INSTALLER_SMOKE_DIRECTORY 'evidence/npm-ci.log')
+          if ($LASTEXITCODE -ne 0) { throw "npm ci failed: $LASTEXITCODE" }
+      - name: Test logic and disposable update-signature fixtures
+        run: |
+          # 测试进程自行生成一次性签名密钥，不访问正式签名材料。
+          npm test 2>&1 | Tee-Object -FilePath (Join-Path $env:INSTALLER_SMOKE_DIRECTORY 'evidence/tests.log')
+          if ($LASTEXITCODE -ne 0) { throw "npm test failed: $LASTEXITCODE" }
+          npm run typecheck 2>&1 | Tee-Object -FilePath (Join-Path $env:INSTALLER_SMOKE_DIRECTORY 'evidence/typecheck.log')
+          if ($LASTEXITCODE -ne 0) { throw "typecheck failed: $LASTEXITCODE" }
+      - name: Build initial installer
+        run: |
+          npm run build 2>&1 | Tee-Object -FilePath (Join-Path $env:INSTALLER_SMOKE_DIRECTORY 'evidence/build-initial.log')
+          if ($LASTEXITCODE -ne 0) { throw "Initial build failed: $LASTEXITCODE" }
+          node scripts/package-windows.mjs (Join-Path $env:INSTALLER_SMOKE_DIRECTORY 'initial') 2>&1 | Tee-Object -FilePath (Join-Path $env:INSTALLER_SMOKE_DIRECTORY 'evidence/package-initial.log')
+          if ($LASTEXITCODE -ne 0) { throw "Initial packaging failed: $LASTEXITCODE" }
+      - name: Build unpublished upgrade fixture
+        run: |
+          # 仅修改 runner 的一次性工作副本，不打标签、不上传测试安装包。
+          npm version $env:UPGRADE_FIXTURE_VERSION --no-git-tag-version --ignore-scripts
+          if ($LASTEXITCODE -ne 0) { throw "Fixture version update failed: $LASTEXITCODE" }
+          npm run build 2>&1 | Tee-Object -FilePath (Join-Path $env:INSTALLER_SMOKE_DIRECTORY 'evidence/build-upgrade.log')
+          if ($LASTEXITCODE -ne 0) { throw "Upgrade build failed: $LASTEXITCODE" }
+          node scripts/package-windows.mjs (Join-Path $env:INSTALLER_SMOKE_DIRECTORY 'upgrade') 2>&1 | Tee-Object -FilePath (Join-Path $env:INSTALLER_SMOKE_DIRECTORY 'evidence/package-upgrade.log')
+          if ($LASTEXITCODE -ne 0) { throw "Upgrade packaging failed: $LASTEXITCODE" }
+      - name: Verify native install, handoff, restart, and data preservation
+        run: |
+          ./scripts/verify-installer.ps1 `
+            -InitialInstaller (Join-Path $env:INSTALLER_SMOKE_DIRECTORY "initial/MathInterviewVocab-Windows-x64-Setup-v$($env:INITIAL_FIXTURE_VERSION).exe") `
+            -UpgradeInstaller (Join-Path $env:INSTALLER_SMOKE_DIRECTORY "upgrade/MathInterviewVocab-Windows-x64-Setup-v$($env:UPGRADE_FIXTURE_VERSION).exe") `
+            -OutputDirectory $env:INSTALLER_SMOKE_DIRECTORY `
+            -InitialVersion $env:INITIAL_FIXTURE_VERSION -UpgradeVersion $env:UPGRADE_FIXTURE_VERSION
+      - name: Preserve verification evidence only
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: windows-installer-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/math-vocab-installer-${{ github.run_id }}-${{ github.run_attempt }}/evidence/
+          if-no-files-found: error
+          retention-days: 14

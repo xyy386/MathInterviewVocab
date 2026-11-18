@@ -53,6 +53,7 @@ export interface VocabAPI {
   getUpdateState(): Promise<UpdateState>;
   checkForUpdates(): Promise<UpdateState>;
   downloadUpdate(): Promise<UpdateState>;
+  installUpdate(): Promise<UpdateState>;
   cancelUpdate(): Promise<UpdateState>;
   showUpdateDownload(): Promise<void>;
   showUpdateRelease(): Promise<void>;
