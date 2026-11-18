@@ -143,4 +143,40 @@ class AcademicUiTest {
         assertEquals(1, glossaryListItemIndex(terms, subjects, 1))
         assertEquals(13, glossaryListItemIndex(terms, subjects, 12))
     }
+
+    @Test
+    fun expandableSectionAndSnapPhysicsSliderAndElasticTagOperateCleanly() {
+        var expanded by mutableStateOf(false)
+        var speed by mutableStateOf(1.0)
+        var tagSelected by mutableStateOf(false)
+        compose.setContent {
+            CircularRevealThemeHost(darkTheme = tagSelected, revealOrigin = null) {
+                Column(Modifier.width(360.dp)) {
+                    ElasticTagChip(
+                        label = "数学分析",
+                        selected = tagSelected,
+                        onClick = { tagSelected = !tagSelected },
+                    )
+                    SnapPhysicsSlider(
+                        options = SpeedOptions,
+                        selected = speed,
+                        onSelect = { speed = it },
+                    )
+                    ExpandableSection(
+                        title = "折叠详情",
+                        expanded = expanded,
+                        onToggle = { expanded = !expanded },
+                    ) {
+                        Text("展开后的详细说明内容")
+                    }
+                }
+            }
+        }
+        compose.onNodeWithText("数学分析").performClick()
+        assertTrue(tagSelected)
+        compose.onNodeWithText("快速").performClick()
+        assertEquals(1.25, speed, 0.0)
+        compose.onNodeWithText("折叠详情").performClick()
+        compose.onNodeWithText("展开后的详细说明内容").assertIsDisplayed()
+    }
 }

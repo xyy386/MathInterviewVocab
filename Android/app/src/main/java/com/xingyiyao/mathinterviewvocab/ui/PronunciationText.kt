@@ -59,12 +59,13 @@ fun SelectablePronunciationText(
     val selectionCallback by rememberUpdatedState(onSelection)
     val speakCallback by rememberUpdatedState(onSpeakSelection)
     val fontScale = LocalDensity.current.fontScale
+    val textColor = Academic.Blue.toArgb()
     AndroidView(
         modifier = modifier.fillMaxWidth(),
         factory = { context ->
             PronunciationTextView(context).apply {
                 setTextIsSelectable(true)
-                setTextColor(Academic.Blue.toArgb())
+                setTextColor(textColor)
                 setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
                 tag = fontScale
                 setPadding(0, 8, 0, 8)
@@ -96,6 +97,7 @@ fun SelectablePronunciationText(
             }
         },
         update = { view ->
+            view.setTextColor(textColor)
             if (view.tag != fontScale) {
                 view.tag = fontScale
                 view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
@@ -122,6 +124,7 @@ fun PronunciationPanel(
     key(term.id) {
         var selected by remember { mutableStateOf<String?>(null) }
         val words = remember(term.id, term.speechText) { VocabularyCore.extractWords(term.speechText) }
+        val accentColor = Academic.subjectAccent(term.subjectID)
         DisposableEffect(term.id) { onDispose { onStop() } }
         Column(modifier, verticalArrangement = Arrangement.spacedBy(12.dp)) {
             SelectablePronunciationText(
@@ -130,8 +133,11 @@ fun PronunciationPanel(
                 onSelection = { selected = it },
                 onSpeakSelection = { onSpeak(it, null) },
             )
-            Text("长按英文可选择单词或词组；选中文字不会自动播放。",
-                style = MaterialTheme.typography.bodySmall, color = Academic.Muted)
+            Text(
+                "长按英文可选择单词或词组；选中文字不会自动播放。",
+                style = MaterialTheme.typography.bodySmall,
+                color = Academic.Muted,
+            )
             if (words.size > 1) {
                 Text("单词快捷点读：", style = MaterialTheme.typography.labelMedium, color = Academic.Muted)
                 FlowRow(
@@ -140,39 +146,54 @@ fun PronunciationPanel(
                 ) {
                     words.forEach { word ->
                         val isChosen = selected.equals(word, ignoreCase = true)
-                        if (isChosen) {
-                            Button(
-                                onClick = { selected = word; onSpeak(word, null) },
-                                modifier = Modifier.heightIn(min = 48.dp),
-                            ) { Text(word) }
-                        } else {
-                            OutlinedButton(
-                                onClick = { selected = word; onSpeak(word, null) },
-                                modifier = Modifier.heightIn(min = 48.dp),
-                            ) { Text(word) }
-                        }
+                        ElasticTagChip(
+                            label = word,
+                            selected = isChosen,
+                            accentColor = accentColor,
+                            onClick = {
+                                selected = word
+                                onSpeak(word, null)
+                            },
+                        )
                     }
                 }
             }
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(10.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Button(onClick = { onSpeak(term.speechText, null) }, modifier = Modifier.heightIn(min = 48.dp)) {
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Button(
+                    onClick = { onSpeak(term.speechText, null) },
+                    modifier = Modifier.heightIn(min = 48.dp).bounceClick(),
+                ) {
                     Icon(Icons.AutoMirrored.Outlined.VolumeUp, contentDescription = null)
                     Text(" 朗读完整词组")
                 }
-                OutlinedButton(onClick = { selected?.let { onSpeak(it, null) } }, enabled = selected != null,
-                    modifier = Modifier.heightIn(min = 48.dp)) { Text("朗读所选") }
+                OutlinedButton(
+                    onClick = { selected?.let { onSpeak(it, null) } },
+                    enabled = selected != null,
+                    modifier = Modifier.heightIn(min = 48.dp).bounceClick(selected != null),
+                ) { Text("朗读所选") }
             }
-            Text(selected?.let { "已选择：$it" } ?: "尚未选择文字",
-                style = MaterialTheme.typography.bodySmall, color = Academic.Muted)
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                OutlinedButton(onClick = { onSpeak(term.speechText, "en-US") },
-                    modifier = Modifier.heightIn(min = 48.dp)) {
+            Text(
+                selected?.let { "已选择：$it" } ?: "尚未选择文字",
+                style = MaterialTheme.typography.bodySmall,
+                color = Academic.Muted,
+            )
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                OutlinedButton(
+                    onClick = { onSpeak(term.speechText, "en-US") },
+                    modifier = Modifier.heightIn(min = 48.dp).bounceClick(),
+                ) {
                     Text("美式  " + term.pronunciation.americanIPA)
                 }
-                OutlinedButton(onClick = { onSpeak(term.speechText, "en-GB") },
-                    modifier = Modifier.heightIn(min = 48.dp)) {
+                OutlinedButton(
+                    onClick = { onSpeak(term.speechText, "en-GB") },
+                    modifier = Modifier.heightIn(min = 48.dp).bounceClick(),
+                ) {
                     Text("英式  " + term.pronunciation.britishIPA)
                 }
             }

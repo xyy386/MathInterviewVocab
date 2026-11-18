@@ -10,13 +10,13 @@
 | --- | --- | --- | --- |
 | Windows | 1.3.0 | Windows 10/11，64 位 Intel/AMD（x64） | [Windows 免安装 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/MathInterviewVocab-Windows-x64-v1.3.0.zip) |
 | macOS | 1.3.0 build 5 | macOS 14+，Apple Silicon / Intel Universal | [macOS ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/MathInterviewVocab-macOS-universal-v1.3.0.zip) |
-| Android | 1.3.1 / code 3 | Android 10+，手机／平板，Universal APK | [Android APK](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.1/MathInterviewVocab-Android-universal-v1.3.1.apk) |
+| Android | 1.3.2 / code 4 | Android 10+，手机／平板，Universal APK | [Android APK](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.2/MathInterviewVocab-Android-universal-v1.3.2.apk) |
 
-[Android 1.3.1 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.1) · [Android 独立校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.1/SHA256SUMS-Android.txt) · [1.3.1 更新说明](docs/RELEASE-NOTES-v1.3.1.md) · [桌面 1.3.0 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.0) · [桌面版 SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/SHA256SUMS.txt)
+[Android 1.3.2 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.2) · [Android 独立校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.2/SHA256SUMS-Android.txt) · [1.3.2 更新说明](docs/RELEASE-NOTES-v1.3.2.md) · [桌面 1.3.0 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.0) · [桌面版 SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/SHA256SUMS.txt)
 
-Android 当前版本为 **1.3.1／code 3**（新增详情页上下词条切换、返回列表保持滚动位置与最近浏览标记、科目吸顶标题与回到顶部按钮、单词快捷点读胶囊、检测反馈页收藏按钮、学习记录跳转筛选及更新状态可靠性加固），采用同一套词库与 Kokoro 离线音源，按窗口宽度适配手机、平板和分屏。[Android 工程／安装说明](Android/README.md) · [详细需求与设计](Android/docs/REQUIREMENTS-AND-DESIGN.md) · [审查与已知问题](Android/docs/REVIEW-v1.2.0.md)。历史标签与附件保留不变；Android 源码使用独立标签 [android-v1.3.1](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.1)。
+Android 当前版本为 **1.3.2／code 4**（全面升级深浅双主题触点圆心扩散换页、上滑卡片堆叠、标签弹性让位、物理刻度吸附滑杆、平滑展开容器、超调回弹进度条、同组开关涟漪微震、收藏卡片曲线飞出、长按拖拽排序及详情页上下词条切换），采用同一套词库与 Kokoro 离线音源，按窗口宽度适配手机、平板和分屏。[Android 工程／安装说明](Android/README.md) · [详细需求与设计](Android/docs/REQUIREMENTS-AND-DESIGN.md) · [审查与已知问题](Android/docs/REVIEW-v1.2.0.md)。历史标签与附件保留不变；Android 源码使用独立标签 [android-v1.3.2](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.2)。
 
-请下载对应平台 ZIP／APK，**不要把 GitHub 自动生成的 Source code 当作可运行软件**。桌面版为 **1.3.0**，Android 为 **1.3.1**。没有检查更新入口的旧版桌面程序请直接手动下载当前桌面版。
+请下载对应平台 ZIP／APK，**不要把 GitHub 自动生成的 Source code 当作可运行软件**。桌面版为 **1.3.0**，Android 为 **1.3.2**。没有检查更新入口的旧版桌面程序请直接手动下载当前桌面版。
 
 ### 安装与首次打开
 
@@ -64,7 +64,7 @@ macOS／Windows 1.3.0 支持 `←`／`↑` 上一个词条、`→`／`↓` 下�
 
 下载完成后点击“在文件夹中显示”，退出旧版，完整解压后用新版替换原程序。Windows 必须替换整套程序目录，不能只替换 EXE；macOS 替换 `.app`。学习记录和发音设置在用户目录中，正常替换程序不会清空它们。
 
-Android 使用 `SHA256SUMS-Android.txt`，另核对 APK 包名、实际签名证书、较高 versionCode 与 Release 版本；用户点击安装后通过系统来源授权与 PackageInstaller 确认。已安装 1.2.0 或 1.3.0 的 Android 设备可在应用内检查并升级至 1.3.1（versionCode 3），或从 1.3.1 发布页下载 APK 直接覆盖安装。历史审查记录见 [Android 审查记录](Android/docs/REVIEW-v1.2.0.md)。
+Android 使用 `SHA256SUMS-Android.txt`，另核对 APK 包名、实际签名证书、较高 versionCode 与 Release 版本；用户点击安装后通过系统来源授权与 PackageInstaller 确认。已安装旧版的 Android 设备可在应用内检查并升级至 1.3.2（versionCode 4），或从 1.3.2 发布页下载 APK 直接覆盖安装。历史审查记录见 [Android 审查记录](Android/docs/REVIEW-v1.2.0.md)。
 
 **不自动安装或静默覆盖程序。** 没有启动时后台检查、账号、令牌或学习数据上传。仅在你主动检查／下载时连接 GitHub 及其官方资源主机；无法联网不影响离线学习。桌面 ZIP 添加系统互联网来源标记（macOS quarantine／Windows Internet Zone），失败时提示浏览器下载；Android 由系统安装器确认。SHA-256 检查完整性，不是独立发布签名，仍须核对来源与安全提示。
 

@@ -9,6 +9,7 @@ import com.xingyiyao.mathinterviewvocab.core.QuizAttempt
 import com.xingyiyao.mathinterviewvocab.core.QuizPreferences
 import com.xingyiyao.mathinterviewvocab.core.QuizQuestion
 import com.xingyiyao.mathinterviewvocab.core.SpeechSettings
+import com.xingyiyao.mathinterviewvocab.core.SubjectSummary
 import com.xingyiyao.mathinterviewvocab.core.Term
 import com.xingyiyao.mathinterviewvocab.core.TermFilters
 import com.xingyiyao.mathinterviewvocab.core.VocabularyCore
@@ -52,6 +53,8 @@ data class SavedQuiz(
 data class SavedScreen(
     val tab: String = "glossary",
     val showSettings: Boolean = false,
+    val darkTheme: Boolean = false,
+    val subjectOrder: List<String> = emptyList(),
     val query: String = "",
     val subjectID: String? = null,
     val importantOnly: Boolean = false,
@@ -73,13 +76,27 @@ data class AppUiState(
     val settings: SpeechSettings = SpeechSettings(),
     val screen: SavedScreen = SavedScreen(),
 ) {
+    val orderedSubjects: List<SubjectSummary>
+        get() {
+            val base = VocabularyCore.subjects(terms)
+            if (screen.subjectOrder.isEmpty()) return base
+            val byId = base.associateBy { it.id }
+            val ordered = screen.subjectOrder.mapNotNull { byId[it] }
+            val remaining = base.filter { it.id !in screen.subjectOrder }
+            return ordered + remaining
+        }
     val filters: TermFilters
         get() = TermFilters(
             screen.query, screen.subjectID, screen.importantOnly,
             screen.favoritesOnly, screen.mistakesOnly,
         )
     val filteredTerms: List<Term>
-        get() = VocabularyCore.filterTerms(terms, filters, progress)
+        get() {
+            val raw = VocabularyCore.filterTerms(terms, filters, progress)
+            if (screen.subjectOrder.isEmpty()) return raw
+            val rank = orderedSubjects.mapIndexed { index, s -> s.id to index }.toMap()
+            return raw.sortedWith(compareBy({ rank[it.subjectID] ?: Int.MAX_VALUE }, { it.id }))
+        }
     val selectedTerm: Term?
         get() = terms.find { it.id == screen.selectedTermID }
     val selectedTermIndex: Int
@@ -217,6 +234,18 @@ class AppViewModel(
     fun showSettings(show: Boolean) {
         stopSpeech()
         updateScreen { it.copy(showSettings = show) }
+    }
+
+    fun toggleTheme(dark: Boolean = !state.value.screen.darkTheme) {
+        updateScreen { it.copy(darkTheme = dark) }
+    }
+
+    fun moveSubject(fromIndex: Int, toIndex: Int) {
+        val current = state.value.orderedSubjects.map { it.id }.toMutableList()
+        if (fromIndex !in current.indices || toIndex !in current.indices || fromIndex == toIndex) return
+        val moved = current.removeAt(fromIndex)
+        current.add(toIndex, moved)
+        updateScreen { it.copy(subjectOrder = current) }
     }
 
     fun setQuery(query: String) = changeFilters { it.copy(query = query) }

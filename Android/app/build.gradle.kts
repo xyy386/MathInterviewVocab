@@ -29,8 +29,8 @@ android {
         applicationId = "com.xingyiyao.mathinterviewvocab"
         minSdk = 29
         targetSdk = 36
-        versionCode = 3
-        versionName = "1.3.1"
+        versionCode = 4
+        versionName = "1.3.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
