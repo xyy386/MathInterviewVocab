@@ -75,6 +75,7 @@ fun VocabularyApp(viewModel: AppViewModel) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val speech by viewModel.speechState.collectAsStateWithLifecycle()
     val update by viewModel.updateState.collectAsStateWithLifecycle()
+    val glossaryListState = rememberGlossaryListState(state.screen)
     // Material 3 Adaptive 依据当前 Activity 窗口计算断点，分屏和旋转时自动重算。
     val sizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val layout = when {
@@ -174,7 +175,7 @@ fun VocabularyApp(viewModel: AppViewModel) {
                         state.screen.showSettings -> SettingsScreen(state, update, viewModel)
                         state.screen.tab == "quiz" -> QuizScreen(state, viewModel)
                         state.screen.tab == "progress" -> LearningScreen(state, viewModel)
-                        else -> GlossaryScreen(state, viewModel, layout == AppWindowLayout.Expanded)
+                        else -> GlossaryScreen(state, viewModel, layout == AppWindowLayout.Expanded, glossaryListState)
                     }
                 }
             }

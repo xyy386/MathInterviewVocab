@@ -2,7 +2,11 @@
 set -eu
 
 # 只影响这次子进程，不修改系统 Java、shell 配置或 Android Studio 设置。
-tool_cache="${MATH_ANDROID_TOOLS_DIR:-$HOME/Library/Caches/MathInterviewVocab-Android}"
+default_tools="$HOME/Library/Caches/MathInterviewVocab-Android"
+if [ ! -d "$default_tools" ] && [ -d "$HOME/Library/Application Support/MathInterviewVocab-Android" ]; then
+    default_tools="$HOME/Library/Application Support/MathInterviewVocab-Android"
+fi
+tool_cache="${MATH_ANDROID_TOOLS_DIR:-$default_tools}"
 task_java="${MATH_ANDROID_JAVA_HOME:-$tool_cache/jdk-17.0.21+9/Contents/Home}"
 task_sdk="${MATH_ANDROID_SDK_ROOT:-$tool_cache/sdk}"
 if [ ! -x "$task_java/bin/java" ]; then

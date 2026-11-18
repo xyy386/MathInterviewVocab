@@ -20,6 +20,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.Typography
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -86,10 +91,20 @@ fun AcademicCard(
 fun ReadingColumn(
     modifier: Modifier = Modifier,
     maxWidth: Dp = 820.dp,
+    resetKey: Any? = Unit,
     content: @Composable ColumnScope.() -> Unit,
 ) {
+    val scrollState = rememberScrollState()
+    val currentKey = resetKey?.toString().orEmpty()
+    var previousKey by rememberSaveable { mutableStateOf(currentKey) }
+    LaunchedEffect(currentKey) {
+        if (previousKey != currentKey) {
+            previousKey = currentKey
+            scrollState.scrollTo(0)
+        }
+    }
     Column(
-        modifier = modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 24.dp),
+        modifier = modifier.fillMaxWidth().verticalScroll(scrollState).padding(horizontal = 20.dp, vertical = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Column(

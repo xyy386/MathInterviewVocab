@@ -1,6 +1,6 @@
-# 数学面试词汇 v1.3.0 · Windows + macOS
+# 数学面试词汇 v1.3.0 · Windows + macOS + Android
 
-桌面版新增统一的键盘学习操作：Windows x64 **1.3.0**、macOS Universal **1.3.0（build 5）**。Android 保持 **1.2.0／code 1**，本次不重建或替换 APK；历史标签、Release 和附件保留不变。
+桌面版新增统一的键盘学习操作：Windows x64 **1.3.0**、macOS Universal **1.3.0（build 5）**；Android 同步升级至 **1.3.0（versionCode 2）**，优化从单词详情返回词汇列表时的滚动位置保留及切词／换题阅读滚动复位。历史标签、Release 和附件保留不变。
 
 ## 新增快捷键
 
@@ -22,7 +22,7 @@
 
 不静默安装或自动覆盖程序；没有更新入口的更早版本请手动下载。正常替换程序不会清空本地学习记录。
 
-Android 仍从 [v1.2.0 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.2.0) 下载 [正式 APK](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.2.0/MathInterviewVocab-Android-universal-v1.2.0.apk)，并使用该版本的 [Android 独立校验文件](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.2.0/SHA256SUMS-Android.txt)。1.3.0 没有 Android 附件，Android 内检查更新会提示暂无对应安装包，不会下载桌面文件。
+Android 用户可在 1.2.0 应用内通过“设置 → 软件更新 → 检查更新”升级至 1.3.0，或从本发布页下载 [MathInterviewVocab-Android-universal-v1.3.0.apk](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/MathInterviewVocab-Android-universal-v1.3.0.apk)（配套校验文件 [SHA256SUMS-Android.txt](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/SHA256SUMS-Android.txt)）直接覆盖安装，保留本机学习记录。
 
 ## 验证与信任说明
 

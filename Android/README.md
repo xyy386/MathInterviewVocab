@@ -1,10 +1,10 @@
-# 数学面试词汇 · Android 1.2.0
+# 数学面试词汇 · Android 1.3.0
 
-Kotlin + Jetpack Compose 原生工程，最低 Android 10（API 29），compile/target 36。包名 `com.xingyiyao.mathinterviewvocab`，首发版本 `1.2.0` / code `1`。本工程不使用 WebView、账号或跨端同步。
+Kotlin + Jetpack Compose 原生工程，最低 Android 10（API 29），compile/target 36。包名 `com.xingyiyao.mathinterviewvocab`，当前版本 `1.3.0` / code `2`（首发 `1.2.0` / code `1`）。本工程不使用 WebView、账号或跨端同步。
 
-**Android 1.2.0 正式签名版**：[下载 Universal APK](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.2.0/MathInterviewVocab-Android-universal-v1.2.0.apk) · [SHA-256](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.2.0/SHA256SUMS-Android.txt) · [Android 源码标签](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.2.0)。桌面 v1.2.0 与已有附件不变。
+**Android 1.3.0 正式签名版**：[下载 Universal APK](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/MathInterviewVocab-Android-universal-v1.3.0.apk) · [SHA-256](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/SHA256SUMS-Android.txt) · [Android 源码标签](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.0)。桌面 v1.3.0 与历史 v1.2.0 附件不变。
 
-Debug／Release 各 107 项自动化测试通过，Release Lint 0 错误，APK 签名及全部词库／音频复核通过。实体手机／平板测试由用户报告全部通过并授权公开，未提供型号／系统版本，不冒充审查者真机实测。当前保留 3 项 P2 已知风险，详见 [发布审查](docs/REVIEW-v1.2.0.md)；后续开发交接见 [详细需求与设计](docs/REQUIREMENTS-AND-DESIGN.md)。
+Debug／Release 各 108 项自动化测试通过，Release Lint 0 错误，APK 签名及全部词库／音频复核通过。1.3.0 优化了从单词详情返回词汇列表时的滚动位置保持，以及切换词条／进入下一题时的阅读容器顶部复位。历史 1.2.0 审查记录见 [发布审查](docs/REVIEW-v1.2.0.md)；开发交接见 [详细需求与设计](docs/REQUIREMENTS-AND-DESIGN.md)。
 
 安装：核对下载地址与校验和，打开 APK，按系统正常提示为当前下载来源授权并确认；无需 Android Studio 或语音模型，不关闭系统安全防护。后续同包名、同签名覆盖升级保留学习记录，勿先卸载旧版。
 

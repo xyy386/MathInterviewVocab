@@ -5,9 +5,16 @@ import android.content.pm.ActivityInfo
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.test.assertHasClickAction
@@ -18,6 +25,9 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.test.core.app.ApplicationProvider
+import com.xingyiyao.mathinterviewvocab.SavedScreen
+import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -80,5 +90,47 @@ class AcademicUiTest {
             }
         }
         compose.onNodeWithText("数学专业面试英文词汇").assertIsDisplayed()
+    }
+
+    @Test
+    fun returningFromTermDetailPreservesGlossaryScrollPositionUntilFiltersChange() {
+        var screen by mutableStateOf(SavedScreen())
+        lateinit var listState: LazyListState
+        compose.setContent {
+            AcademicTheme {
+                listState = rememberGlossaryListState(screen)
+                if (screen.selectedTermID != null) {
+                    Text("详情页 ${screen.selectedTermID}")
+                } else {
+                    LazyColumn(Modifier.width(360.dp).height(240.dp), state = listState) {
+                        items((1..120).toList(), key = { it }) { id ->
+                            Text("词条 $id", Modifier.fillMaxWidth().height(48.dp))
+                        }
+                    }
+                }
+            }
+        }
+        compose.runOnIdle {
+            runBlocking { listState.scrollToItem(42, 18) }
+        }
+        compose.runOnIdle {
+            assertEquals(42, listState.firstVisibleItemIndex)
+            assertEquals(18, listState.firstVisibleItemScrollOffset)
+            screen = screen.copy(selectedTermID = 43)
+        }
+        compose.onNodeWithText("详情页 43").assertIsDisplayed()
+        compose.runOnIdle {
+            screen = screen.copy(selectedTermID = null)
+        }
+        compose.onNodeWithText("词条 43").assertIsDisplayed()
+        compose.runOnIdle {
+            assertEquals(42, listState.firstVisibleItemIndex)
+            assertEquals(18, listState.firstVisibleItemScrollOffset)
+            screen = screen.copy(query = "收敛")
+        }
+        compose.runOnIdle {
+            assertEquals(0, listState.firstVisibleItemIndex)
+            assertEquals(0, listState.firstVisibleItemScrollOffset)
+        }
     }
 }

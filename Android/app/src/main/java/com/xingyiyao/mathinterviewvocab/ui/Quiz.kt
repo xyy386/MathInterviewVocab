@@ -149,7 +149,7 @@ private fun ActiveQuiz(state: AppUiState, viewModel: AppViewModel) {
     val correct = quiz.selectedOptionID == question.correctOptionID
     var confirmEnd by remember { mutableStateOf(false) }
     BackHandler { confirmEnd = true }
-    ReadingColumn {
+    ReadingColumn(resetKey = question.id) {
         SectionHeading("检测进行中", "第 " + (quiz.index + 1) + " / " + quiz.questions.size + " 题 · " +
             if (question.direction == "zhToEn") "选择对应的英文术语" else "选择对应的中文术语")
         MasteryLine((quiz.index + if (answered) 1.0 else 0.0) / quiz.questions.size)

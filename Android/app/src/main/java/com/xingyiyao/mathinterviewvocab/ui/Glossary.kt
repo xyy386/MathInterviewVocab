@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.rememberScrollState
@@ -44,9 +45,11 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,22 +59,48 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.xingyiyao.mathinterviewvocab.AppUiState
 import com.xingyiyao.mathinterviewvocab.AppViewModel
+import com.xingyiyao.mathinterviewvocab.SavedScreen
 import com.xingyiyao.mathinterviewvocab.core.SubjectSummary
 import com.xingyiyao.mathinterviewvocab.core.Term
 import com.xingyiyao.mathinterviewvocab.core.VocabularyCore
 
 @Composable
-fun GlossaryScreen(state: AppUiState, viewModel: AppViewModel, expanded: Boolean) {
+fun rememberGlossaryListState(screen: SavedScreen): LazyListState {
+    val listState = rememberSaveable(saver = LazyListState.Saver) { LazyListState() }
+    val filterKey = listOf(
+        screen.query,
+        screen.subjectID.orEmpty(),
+        screen.importantOnly.toString(),
+        screen.favoritesOnly.toString(),
+        screen.mistakesOnly.toString(),
+    )
+    var previousFilterKey by rememberSaveable { mutableStateOf(filterKey) }
+    LaunchedEffect(filterKey) {
+        if (previousFilterKey != filterKey) {
+            previousFilterKey = filterKey
+            listState.scrollToItem(0)
+        }
+    }
+    return listState
+}
+
+@Composable
+fun GlossaryScreen(
+    state: AppUiState,
+    viewModel: AppViewModel,
+    expanded: Boolean,
+    listState: LazyListState = rememberGlossaryListState(state.screen),
+) {
     if (expanded) {
         Row(Modifier.fillMaxSize()) {
-            TermIndex(state, viewModel, Modifier.width(320.dp).fillMaxHeight())
+            TermIndex(state, viewModel, Modifier.width(320.dp).fillMaxHeight(), listState)
             Box(Modifier.width(1.dp).fillMaxHeight().background(Academic.Grid))
             Box(Modifier.weight(1f)) { GlossaryReading(state, viewModel) }
         }
     } else if (state.selectedTerm != null) {
         TermDetail(state.selectedTerm!!, state, viewModel)
     } else {
-        TermIndex(state, viewModel, Modifier.fillMaxSize())
+        TermIndex(state, viewModel, Modifier.fillMaxSize(), listState)
     }
 }
 
@@ -112,7 +141,12 @@ fun SubjectDropdown(
 }
 
 @Composable
-private fun TermIndex(state: AppUiState, viewModel: AppViewModel, modifier: Modifier) {
+private fun TermIndex(
+    state: AppUiState,
+    viewModel: AppViewModel,
+    modifier: Modifier,
+    listState: LazyListState,
+) {
     val terms = state.filteredTerms
     val subjects = remember(state.terms) { VocabularyCore.subjects(state.terms) }
     var filtersOpen by remember { mutableStateOf(false) }
@@ -162,7 +196,7 @@ private fun TermIndex(state: AppUiState, viewModel: AppViewModel, modifier: Modi
                 TextButton(onClick = { viewModel.setQuery(""); viewModel.clearFilters() }) { Text("显示全部词汇") }
             }
         } else {
-            LazyColumn(Modifier.weight(1f)) {
+            LazyColumn(Modifier.weight(1f), state = listState) {
                 subjects.forEach { subject ->
                     val matching = terms.filter { it.subjectID == subject.id }
                     if (matching.isNotEmpty()) {
@@ -217,7 +251,7 @@ private fun TermRow(term: Term, state: AppUiState, onClick: () -> Unit) {
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun TermDetail(term: Term, state: AppUiState, viewModel: AppViewModel) {
-    ReadingColumn {
+    ReadingColumn(resetKey = term.id) {
         SectionHeading(VocabularyCore.displayMathNotation(term.chinese), term.subjectName + " · " + term.subjectNameEn)
         AcademicCard {
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {

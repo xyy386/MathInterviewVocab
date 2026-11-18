@@ -27,8 +27,8 @@ def verify(apk, sdk):
         raise ValueError("APK 不是项目长期正式证书签名。")
     badging = run(str(tools / "aapt2"), "dump", "badging", str(apk))
     identity = re.search(r"package: name='([^']+)' versionCode='([^']+)' versionName='([^']+)'", badging)
-    if not identity or identity.groups() != ("com.xingyiyao.mathinterviewvocab", "1", "1.2.0"):
-        raise ValueError("包名、versionCode 或 versionName 不符合 Android 1.2.0。")
+    if not identity or identity.groups() != ("com.xingyiyao.mathinterviewvocab", "2", "1.3.0"):
+        raise ValueError("包名、versionCode 或 versionName 不符合 Android 1.3.0。")
     if not re.search(r"^(?:minSdkVersion|sdkVersion):'29'$", badging, re.M) or not re.search(r"^targetSdkVersion:'36'$", badging, re.M):
         raise ValueError("Android API 范围不符合 29 / 36。")
     if "application-debuggable" in badging:
@@ -86,7 +86,7 @@ def verify(apk, sdk):
         }
         if native_libs != expected_native_libs:
             raise ValueError(f"原生库或 Universal ABI 覆盖不符合预期：{sorted(native_libs)}")
-    return {"packageName": identity.group(1), "versionName": "1.2.0", "versionCode": 1,
+    return {"packageName": identity.group(1), "versionName": "1.3.0", "versionCode": 2,
             "sha256": sha256(apk.read_bytes()), "bytes": apk.stat().st_size,
             "certificateSHA256": expected, "terms": 326, "importantTerms": 130, "audioClips": 2328}
 

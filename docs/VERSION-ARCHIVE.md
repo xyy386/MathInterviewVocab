@@ -6,7 +6,7 @@
 
 | Release | 成品版本 | 对应源码 |
 | --- | --- | --- |
-| [v1.3.0](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.0) | Windows 1.3.0（file build 1.3.0.5）、macOS 1.3.0 build 5；Android 仍使用 v1.2.0 | [桌面 v1.3.0](https://github.com/xyy386/MathInterviewVocab/tree/v1.3.0) |
+| [v1.3.0](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.0) | Windows 1.3.0（file build 1.3.0.5）、macOS 1.3.0 build 5、Android 1.3.0 code 2 | [桌面 v1.3.0](https://github.com/xyy386/MathInterviewVocab/tree/v1.3.0) · [Android android-v1.3.0](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.0) |
 | [v1.2.0](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.2.0) | Windows 1.2.0、macOS 1.2.0 build 4、Android 1.2.0 code 1 | [桌面 v1.2.0](https://github.com/xyy386/MathInterviewVocab/tree/v1.2.0) · [Android android-v1.2.0](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.2.0) |
 | [v1.1.2](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.1.2) | macOS 1.1.2、Windows 1.1.1 | [v1.1.2](https://github.com/xyy386/MathInterviewVocab/tree/v1.1.2) |
 | [v1.1.1](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.1.1) | macOS 1.1、Windows 1.1.1 | [v1.1.1](https://github.com/xyy386/MathInterviewVocab/tree/v1.1.1) |
@@ -15,12 +15,12 @@
 
 ## v1.3.0 附件
 
-本次仅发布桌面版，不重建 Android APK；Android 下载仍使用下方 v1.2.0 的原附件。
-
 | 文件（直接下载） | 字节数 | SHA-256 |
 | --- | ---: | --- |
+| [MathInterviewVocab-Android-universal-v1.3.0.apk](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/MathInterviewVocab-Android-universal-v1.3.0.apk) | 100190936 | `1bf5aa4fe356edd5b0b052f465945e9e3dec46be6704bc5b4f83d4d7a20018f1` |
 | [MathInterviewVocab-macOS-universal-v1.3.0.zip](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/MathInterviewVocab-macOS-universal-v1.3.0.zip) | 48213002 | `5e395d37fd379e7103eb87b42da43d495ff73947e293fd3a38a2241526535d95` |
 | [MathInterviewVocab-Windows-x64-v1.3.0.zip](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/MathInterviewVocab-Windows-x64-v1.3.0.zip) | 206524113 | `b2365e8d25d864f11c7654393b3d26c13c5d77d90b6f87701eaebdbee4ac7897` |
+| [SHA256SUMS-Android.txt](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/SHA256SUMS-Android.txt) | 114 | `27092b8906a47c4256291dee2a7a25d3dbbc280f2f1c01e72381d5638d900af5` |
 | [SHA256SUMS.txt](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/SHA256SUMS.txt) | 220 | `7c7d1333224241ed2fb9f7253c9fe9569ad881937fdc4a0b8727fd16c2cd38f4` |
 
 ## v1.2.0 附件
