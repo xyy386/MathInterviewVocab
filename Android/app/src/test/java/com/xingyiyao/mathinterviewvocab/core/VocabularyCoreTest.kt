@@ -172,4 +172,16 @@ class VocabularyCoreTest {
         assertEquals("𝓕 ∫ f d x ∈ Ω", VocabularyCore.displayMathNotation("\\mathcal F \\int f \\mathrm{d} x \\in \\Omega"))
         assertFalse(VocabularyCore.displayMathNotation(terms.joinToString { it.definition }).contains('\\'))
     }
+
+    @Test fun extractWordsSplitsAndDeduplicatesSpeechTokens() {
+        assertEquals(
+            listOf("Lebesgue", "dominated", "convergence", "theorem"),
+            VocabularyCore.extractWords("Lebesgue dominated convergence theorem"),
+        )
+        assertEquals(
+            listOf("Green’s", "theorem", "formula"),
+            VocabularyCore.extractWords("Green’s theorem, Green’s formula"),
+        )
+        assertTrue(terms.all { VocabularyCore.extractWords(it.speechText).isNotEmpty() })
+    }
 }

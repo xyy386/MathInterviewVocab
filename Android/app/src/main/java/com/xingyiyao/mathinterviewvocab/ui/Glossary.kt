@@ -1,6 +1,7 @@
 package com.xingyiyao.mathinterviewvocab.ui
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,12 +23,16 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.FilterList
+import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.outlined.StarBorder
@@ -36,26 +41,34 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.xingyiyao.mathinterviewvocab.AppUiState
 import com.xingyiyao.mathinterviewvocab.AppViewModel
@@ -63,9 +76,28 @@ import com.xingyiyao.mathinterviewvocab.SavedScreen
 import com.xingyiyao.mathinterviewvocab.core.SubjectSummary
 import com.xingyiyao.mathinterviewvocab.core.Term
 import com.xingyiyao.mathinterviewvocab.core.VocabularyCore
+import kotlinx.coroutines.launch
+
+fun glossaryListItemIndex(terms: List<Term>, subjects: List<SubjectSummary>, termID: Int): Int? {
+    var index = 0
+    for (subject in subjects) {
+        val matching = terms.filter { it.subjectID == subject.id }
+        if (matching.isEmpty()) continue
+        index += 1 // 科目吸顶标题
+        for (term in matching) {
+            if (term.id == termID) return index
+            index += 1
+        }
+    }
+    return null
+}
 
 @Composable
-fun rememberGlossaryListState(screen: SavedScreen): LazyListState {
+fun rememberGlossaryListState(
+    screen: SavedScreen,
+    filteredTerms: List<Term> = emptyList(),
+    allTerms: List<Term> = emptyList(),
+): LazyListState {
     val listState = rememberSaveable(saver = LazyListState.Saver) { LazyListState() }
     val filterKey = listOf(
         screen.query,
@@ -81,6 +113,17 @@ fun rememberGlossaryListState(screen: SavedScreen): LazyListState {
             listState.scrollToItem(0)
         }
     }
+    val targetID = screen.selectedTermID ?: screen.lastViewedTermID
+    LaunchedEffect(screen.selectedTermID, targetID, filteredTerms.size) {
+        if (targetID == null || filteredTerms.isEmpty() || allTerms.isEmpty()) return@LaunchedEffect
+        val targetIndex = glossaryListItemIndex(filteredTerms, VocabularyCore.subjects(allTerms), targetID)
+            ?: return@LaunchedEffect
+        withFrameNanos {}
+        val info = listState.layoutInfo
+        if (info.totalItemsCount > 0 && info.visibleItemsInfo.none { it.key == targetID }) {
+            listState.scrollToItem(targetIndex)
+        }
+    }
     return listState
 }
 
@@ -89,7 +132,7 @@ fun GlossaryScreen(
     state: AppUiState,
     viewModel: AppViewModel,
     expanded: Boolean,
-    listState: LazyListState = rememberGlossaryListState(state.screen),
+    listState: LazyListState = rememberGlossaryListState(state.screen, state.filteredTerms, state.terms),
 ) {
     if (expanded) {
         Row(Modifier.fillMaxSize()) {
@@ -140,6 +183,7 @@ fun SubjectDropdown(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun TermIndex(
     state: AppUiState,
@@ -151,6 +195,14 @@ private fun TermIndex(
     val subjects = remember(state.terms) { VocabularyCore.subjects(state.terms) }
     var filtersOpen by remember { mutableStateOf(false) }
     val filterCount = listOf(state.screen.importantOnly, state.screen.favoritesOnly, state.screen.mistakesOnly).count { it }
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val coroutineScope = rememberCoroutineScope()
+    val showScrollToTop by remember(listState) { derivedStateOf { listState.firstVisibleItemIndex > 2 } }
+    fun dismissKeyboard() {
+        focusManager.clearFocus()
+        keyboardController?.hide()
+    }
     BoxWithConstraints(modifier.background(Color.White)) {
       val headerMaxHeight = maxHeight * 0.55f
       Column(Modifier.fillMaxSize()) {
@@ -165,12 +217,19 @@ private fun TermIndex(
                     if (state.screen.query.isNotEmpty()) IconButton(onClick = { viewModel.setQuery("") }) {
                         Icon(Icons.Outlined.Clear, "清空搜索")
                     }
-                }, singleLine = true, shape = RoundedCornerShape(12.dp),
+                },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardActions = KeyboardActions(onSearch = { dismissKeyboard() }),
+                shape = RoundedCornerShape(12.dp),
             )
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                SubjectDropdown(subjects, state.screen.subjectID, viewModel::setSubject, Modifier.weight(1f))
+                SubjectDropdown(subjects, state.screen.subjectID, {
+                    dismissKeyboard()
+                    viewModel.setSubject(it)
+                }, Modifier.weight(1f))
                 Box {
-                    IconButton(onClick = { filtersOpen = true }) {
+                    IconButton(onClick = { dismissKeyboard(); filtersOpen = true }) {
                         Icon(Icons.Outlined.FilterList, if (filterCount == 0) "筛选" else "筛选，已启用 $filterCount 项",
                             tint = if (filterCount == 0) Academic.Muted else Academic.Blue)
                     }
@@ -193,21 +252,48 @@ private fun TermIndex(
                 verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text("没有符合条件的词汇", style = MaterialTheme.typography.titleMedium)
                 Text("试试其他关键词，或清除科目和筛选条件。", color = Academic.Muted)
-                TextButton(onClick = { viewModel.setQuery(""); viewModel.clearFilters() }) { Text("显示全部词汇") }
+                TextButton(onClick = { dismissKeyboard(); viewModel.setQuery(""); viewModel.clearFilters() }) { Text("显示全部词汇") }
             }
         } else {
-            LazyColumn(Modifier.weight(1f), state = listState) {
-                subjects.forEach { subject ->
-                    val matching = terms.filter { it.subjectID == subject.id }
-                    if (matching.isNotEmpty()) {
-                        item(key = "subject-" + subject.id) {
-                            Text(subject.name, Modifier.fillMaxWidth().background(Academic.Paper).padding(16.dp),
-                                fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold,
-                                style = MaterialTheme.typography.titleSmall, color = Academic.Ink)
+            Box(Modifier.weight(1f).fillMaxWidth()) {
+                LazyColumn(Modifier.fillMaxSize(), state = listState) {
+                    subjects.forEach { subject ->
+                        val matching = terms.filter { it.subjectID == subject.id }
+                        if (matching.isNotEmpty()) {
+                            stickyHeader(key = "subject-" + subject.id) {
+                                Surface(color = Academic.Paper, modifier = Modifier.fillMaxWidth()) {
+                                    Column {
+                                        Text(
+                                            subject.name + " · " + matching.size,
+                                            Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp),
+                                            fontFamily = FontFamily.Serif,
+                                            fontWeight = FontWeight.Bold,
+                                            style = MaterialTheme.typography.titleSmall,
+                                            color = Academic.Ink,
+                                        )
+                                        HorizontalDivider(color = Academic.Grid)
+                                    }
+                                }
+                            }
+                            items(matching, key = { it.id }) { term ->
+                                TermRow(term, state, onClick = {
+                                    dismissKeyboard()
+                                    viewModel.selectTerm(term.id)
+                                })
+                            }
                         }
-                        items(matching, key = { it.id }) { term ->
-                            TermRow(term, state, onClick = { viewModel.selectTerm(term.id) })
-                        }
+                    }
+                }
+                if (showScrollToTop) {
+                    FilledTonalButton(
+                        onClick = {
+                            dismissKeyboard()
+                            coroutineScope.launch { listState.scrollToItem(0) }
+                        },
+                        modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp).heightIn(min = 48.dp),
+                    ) {
+                        Icon(Icons.Outlined.KeyboardArrowUp, contentDescription = null)
+                        Text(" 回到顶部")
                     }
                 }
             }
@@ -226,8 +312,14 @@ private fun FilterMenuItem(label: String, checked: Boolean, onClick: () -> Unit)
 @Composable
 private fun TermRow(term: Term, state: AppUiState, onClick: () -> Unit) {
     val selected = state.screen.selectedTermID == term.id
+    val recentlyViewed = !selected && state.screen.selectedTermID == null && state.screen.lastViewedTermID == term.id
+    val rowBackground = when {
+        selected -> Academic.Blue.copy(alpha = 0.08f)
+        recentlyViewed -> Academic.Blue.copy(alpha = 0.05f)
+        else -> Color.White
+    }
     Column(
-        Modifier.fillMaxWidth().background(if (selected) Academic.Blue.copy(alpha = 0.08f) else Color.White)
+        Modifier.fillMaxWidth().background(rowBackground)
             .clickable(onClick = onClick).padding(horizontal = 18.dp, vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
@@ -239,6 +331,7 @@ private fun TermRow(term: Term, state: AppUiState, onClick: () -> Unit) {
             fontWeight = if (term.important) FontWeight.Bold else FontWeight.Normal,
             style = MaterialTheme.typography.bodyMedium)
         FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            if (recentlyViewed) TermBadge("刚刚浏览")
             if (term.important) TermBadge("重点")
             if (term.id in state.progress.favoriteIDs) TermBadge("已收藏")
             if (term.id in state.progress.masteredIDs) TermBadge("已掌握", Academic.Success)
@@ -251,8 +344,41 @@ private fun TermRow(term: Term, state: AppUiState, onClick: () -> Unit) {
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun TermDetail(term: Term, state: AppUiState, viewModel: AppViewModel) {
+    val previousTerm = state.previousTerm
+    val nextTerm = state.nextTerm
+    val index = state.selectedTermIndex
+    val total = state.filteredTerms.size
     ReadingColumn(resetKey = term.id) {
         SectionHeading(VocabularyCore.displayMathNotation(term.chinese), term.subjectName + " · " + term.subjectNameEn)
+        if (index >= 0 && total > 0) {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                OutlinedButton(
+                    onClick = { viewModel.selectAdjacentTerm(-1) },
+                    enabled = previousTerm != null,
+                    modifier = Modifier.heightIn(min = 48.dp),
+                ) {
+                    Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = null)
+                    Text(" 上一个")
+                }
+                Text(
+                    "第 ${index + 1} / $total 个",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = Academic.Muted,
+                )
+                OutlinedButton(
+                    onClick = { viewModel.selectAdjacentTerm(1) },
+                    enabled = nextTerm != null,
+                    modifier = Modifier.heightIn(min = 48.dp),
+                ) {
+                    Text("下一个 ")
+                    Icon(Icons.AutoMirrored.Outlined.ArrowForward, contentDescription = null)
+                }
+            }
+        }
         AcademicCard {
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 if (term.important) TermBadge("重点词汇")

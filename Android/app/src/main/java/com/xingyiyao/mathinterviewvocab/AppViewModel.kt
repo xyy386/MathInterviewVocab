@@ -58,6 +58,7 @@ data class SavedScreen(
     val favoritesOnly: Boolean = false,
     val mistakesOnly: Boolean = false,
     val selectedTermID: Int? = null,
+    val lastViewedTermID: Int? = null,
     val quiz: SavedQuiz? = null,
     val pendingQuizPreferences: QuizPreferences? = null,
 )
@@ -81,6 +82,12 @@ data class AppUiState(
         get() = VocabularyCore.filterTerms(terms, filters, progress)
     val selectedTerm: Term?
         get() = terms.find { it.id == screen.selectedTermID }
+    val selectedTermIndex: Int
+        get() = screen.selectedTermID?.let { id -> filteredTerms.indexOfFirst { it.id == id } } ?: -1
+    val previousTerm: Term?
+        get() = if (selectedTermIndex > 0) filteredTerms.getOrNull(selectedTermIndex - 1) else null
+    val nextTerm: Term?
+        get() = if (selectedTermIndex >= 0) filteredTerms.getOrNull(selectedTermIndex + 1) else null
     val currentQuestion: QuizQuestion?
         get() {
             val quiz = screen.quiz ?: return null
@@ -128,8 +135,12 @@ class AppViewModel(
                 ).also { repository = it }
                 store.load()
                 var screen = mutableState.value.screen
-                if (screen.selectedTermID !in terms.map { it.id }.toSet()) {
+                val validIds = terms.map { it.id }.toSet()
+                if (screen.selectedTermID !in validIds) {
                     screen = screen.copy(selectedTermID = null)
+                }
+                if (screen.lastViewedTermID !in validIds) {
+                    screen = screen.copy(lastViewedTermID = null)
                 }
                 screen = restoreSavedAnswer(screen, store.progress.value, terms)
                 mutableState.value = AppUiState(
@@ -144,9 +155,14 @@ class AppViewModel(
                     store.progress.collect { progress ->
                         val current = mutableState.value.copy(progress = progress)
                         val selected = current.screen.selectedTermID
-                        val visible = current.filteredTerms.any { it.id == selected }
-                        val screen = if (selected != null && !visible)
-                            current.screen.copy(selectedTermID = null) else current.screen
+                        val lastViewed = current.screen.lastViewedTermID
+                        val visibleTerms = current.filteredTerms
+                        val visible = visibleTerms.any { it.id == selected }
+                        val lastVisible = visibleTerms.any { it.id == lastViewed }
+                        val screen = current.screen.copy(
+                            selectedTermID = if (selected != null && !visible) null else selected,
+                            lastViewedTermID = if (lastViewed != null && !lastVisible) null else lastViewed,
+                        )
                         mutableState.value = current.copy(screen = screen)
                         if (screen != current.screen) { stopSpeech(); persistScreen(screen) }
                     }
@@ -215,7 +231,46 @@ class AppViewModel(
     fun selectTerm(id: Int?) {
         if (id != null && state.value.terms.none { it.id == id }) return
         stopSpeech()
-        updateScreen { it.copy(tab = "glossary", selectedTermID = id, showSettings = false) }
+        updateScreen {
+            it.copy(
+                tab = "glossary",
+                selectedTermID = id,
+                lastViewedTermID = id ?: it.selectedTermID ?: it.lastViewedTermID,
+                showSettings = false,
+            )
+        }
+    }
+
+    fun selectAdjacentTerm(delta: Int) {
+        val target = when {
+            delta < 0 -> state.value.previousTerm
+            delta > 0 -> state.value.nextTerm
+            else -> null
+        } ?: return
+        selectTerm(target.id)
+    }
+
+    fun openFilteredGlossary(
+        subjectID: String? = null,
+        importantOnly: Boolean = false,
+        favoritesOnly: Boolean = false,
+        mistakesOnly: Boolean = false,
+    ) {
+        if (subjectID != null && subjectID !in VocabularyCore.subjectOrder) return
+        stopSpeech()
+        updateScreen {
+            it.copy(
+                tab = "glossary",
+                showSettings = false,
+                query = "",
+                subjectID = subjectID,
+                importantOnly = importantOnly,
+                favoritesOnly = favoritesOnly,
+                mistakesOnly = mistakesOnly,
+                selectedTermID = null,
+                lastViewedTermID = null,
+            )
+        }
     }
 
     fun toggleFavorite(id: Int) = mutate { it.toggleFavorite(id) }
@@ -352,8 +407,14 @@ class AppViewModel(
             screen.query, screen.subjectID, screen.importantOnly, screen.favoritesOnly, screen.mistakesOnly,
         )
         val selected = screen.selectedTermID
+        val lastViewed = screen.lastViewedTermID
         val visible = VocabularyCore.filterTerms(state.value.terms, filters, state.value.progress)
-        updateScreen { screen.copy(selectedTermID = selected?.takeIf { id -> visible.any { it.id == id } }) }
+        updateScreen {
+            screen.copy(
+                selectedTermID = selected?.takeIf { id -> visible.any { it.id == id } },
+                lastViewedTermID = lastViewed?.takeIf { id -> visible.any { it.id == id } },
+            )
+        }
         if (state.value.screen.selectedTermID != selected) stopSpeech()
     }
 

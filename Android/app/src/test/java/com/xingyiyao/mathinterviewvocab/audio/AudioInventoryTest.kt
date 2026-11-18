@@ -1,6 +1,7 @@
 package com.xingyiyao.mathinterviewvocab.audio
 
 import com.xingyiyao.mathinterviewvocab.core.Term
+import com.xingyiyao.mathinterviewvocab.core.VocabularyCore
 import java.io.File
 import kotlinx.serialization.json.Json
 import org.junit.Assert.*
@@ -30,7 +31,12 @@ class AudioInventoryTest {
         terms.forEach { term ->
             assertTrue(term.pronunciation.americanIPA.isNotBlank())
             assertTrue(term.pronunciation.britishIPA.isNotBlank())
-            AudioInventory.accents.forEach { accent -> assertNotNull("${term.id}: $accent", inventory.find(term.speechText, accent)) }
+            AudioInventory.accents.forEach { accent ->
+                assertNotNull("${term.id}: $accent", inventory.find(term.speechText, accent))
+                VocabularyCore.extractWords(term.speechText).forEach { word ->
+                    assertNotNull("${term.id} ($word): $accent", inventory.find(word, accent))
+                }
+            }
         }
     }
 

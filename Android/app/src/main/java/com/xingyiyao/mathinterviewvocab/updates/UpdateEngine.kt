@@ -65,8 +65,12 @@ internal class UpdateEngine(
     val state: StateFlow<UpdateUiState> = mutableState.asStateFlow()
 
     fun check(): Job? = start("checking", "正在检查 GitHub 正式版本…") { id ->
-        discardVerified()
-        synchronized(lock) { release = null; pageUrl = null }
+        discardVerified(id)
+        synchronized(lock) {
+            if (generation != id) throw CancellationException("obsolete check")
+            release = null
+            pageUrl = null
+        }
         val metadata = withTimeout(45_000) { fetch(id, UpdatePolicy.LATEST_URL, UpdatePolicy.MAX_METADATA) }
         when (val result = UpdatePolicy.parseRelease(metadata, currentVersion)) {
             ReleaseCheck.Current -> publish(id) { UpdateUiState(currentVersion, "current", "当前已是最新正式版本。") }
@@ -149,7 +153,7 @@ internal class UpdateEngine(
     }
 
     private suspend fun downloadAndVerify(id: Long, selected: AndroidRelease) {
-        discardVerified()
+        discardVerified(id)
         val checksumBytes = fetch(id, selected.checksums.url, UpdatePolicy.MAX_CHECKSUMS, selected.checksums.bytes)
         if (selected.checksums.digest != null && UpdatePolicy.sha256(checksumBytes) != selected.checksums.digest) {
             throw UpdateFailure("校验文件与 GitHub 附件摘要不一致。")
@@ -257,8 +261,11 @@ internal class UpdateEngine(
         return hash.digest().toHex()
     }
 
-    private fun discardVerified() {
-        val old = synchronized(lock) { verified.also { verified = null } }
+    private fun discardVerified(id: Long) {
+        val old = synchronized(lock) {
+            if (generation != id) throw CancellationException("obsolete operation")
+            verified.also { verified = null }
+        }
         old?.file?.let { file -> file.delete(); file.parentFile?.delete() }
     }
 

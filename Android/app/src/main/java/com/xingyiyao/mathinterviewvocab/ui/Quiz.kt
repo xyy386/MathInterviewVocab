@@ -10,12 +10,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
@@ -204,6 +208,17 @@ private fun ActiveQuiz(state: AppUiState, viewModel: AppViewModel) {
                     if (accent == null) viewModel.speak(text) else viewModel.speak(text, accent)
                 }, onStop = viewModel::stopSpeech)
                 Text(VocabularyCore.displayMathNotation(question.term.definition), color = Academic.Muted)
+                OutlinedButton(
+                    onClick = { viewModel.toggleFavorite(question.term.id) },
+                    enabled = !state.busy,
+                    modifier = Modifier.heightIn(min = 48.dp),
+                ) {
+                    Icon(
+                        if (question.term.id in state.progress.favoriteIDs) Icons.Outlined.Star else Icons.Outlined.StarBorder,
+                        contentDescription = null,
+                    )
+                    Text(if (question.term.id in state.progress.favoriteIDs) " 取消收藏" else " 收藏词汇")
+                }
                 if (!quiz.answerSaved) {
                     Text(if (state.busy) "正在保存答题记录…" else "此题尚未保存。请重试，保存成功后再继续。",
                         color = if (state.busy) Academic.Muted else Academic.Error)

@@ -31,6 +31,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.xingyiyao.mathinterviewvocab.core.Term
@@ -57,6 +58,7 @@ fun SelectablePronunciationText(
 ) {
     val selectionCallback by rememberUpdatedState(onSelection)
     val speakCallback by rememberUpdatedState(onSpeakSelection)
+    val fontScale = LocalDensity.current.fontScale
     AndroidView(
         modifier = modifier.fillMaxWidth(),
         factory = { context ->
@@ -64,6 +66,7 @@ fun SelectablePronunciationText(
                 setTextIsSelectable(true)
                 setTextColor(Academic.Blue.toArgb())
                 setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
+                tag = fontScale
                 setPadding(0, 8, 0, 8)
                 setLineSpacing(0f, 1.15f)
                 typeface = Typeface.create("sans-serif", if (important) Typeface.BOLD else Typeface.NORMAL)
@@ -93,6 +96,10 @@ fun SelectablePronunciationText(
             }
         },
         update = { view ->
+            if (view.tag != fontScale) {
+                view.tag = fontScale
+                view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
+            }
             if (view.text.toString() != text) {
                 view.text = text
                 Selection.removeSelection(view.text as? android.text.Spannable ?: return@AndroidView)
@@ -114,6 +121,7 @@ fun PronunciationPanel(
 ) {
     key(term.id) {
         var selected by remember { mutableStateOf<String?>(null) }
+        val words = remember(term.id, term.speechText) { VocabularyCore.extractWords(term.speechText) }
         DisposableEffect(term.id) { onDispose { onStop() } }
         Column(modifier, verticalArrangement = Arrangement.spacedBy(12.dp)) {
             SelectablePronunciationText(
@@ -124,6 +132,28 @@ fun PronunciationPanel(
             )
             Text("长按英文可选择单词或词组；选中文字不会自动播放。",
                 style = MaterialTheme.typography.bodySmall, color = Academic.Muted)
+            if (words.size > 1) {
+                Text("单词快捷点读：", style = MaterialTheme.typography.labelMedium, color = Academic.Muted)
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    words.forEach { word ->
+                        val isChosen = selected.equals(word, ignoreCase = true)
+                        if (isChosen) {
+                            Button(
+                                onClick = { selected = word; onSpeak(word, null) },
+                                modifier = Modifier.heightIn(min = 48.dp),
+                            ) { Text(word) }
+                        } else {
+                            OutlinedButton(
+                                onClick = { selected = word; onSpeak(word, null) },
+                                modifier = Modifier.heightIn(min = 48.dp),
+                            ) { Text(word) }
+                        }
+                    }
+                }
+            }
             FlowRow(horizontalArrangement = Arrangement.spacedBy(10.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Button(onClick = { onSpeak(term.speechText, null) }, modifier = Modifier.heightIn(min = 48.dp)) {

@@ -156,6 +156,19 @@ object VocabularyCore {
         return sanitizeSelection(source.substring(start, end))
     }
 
+    fun extractWords(text: String): List<String> {
+        val seen = mutableSetOf<String>()
+        val result = mutableListOf<String>()
+        for (raw in text.split(Regex("[\\s/]+"))) {
+            val cleaned = sanitizeSelection(raw) ?: continue
+            val normalized = normalizeAudioText(cleaned)
+            if (normalized.isNotEmpty() && seen.add(normalized.lowercase(Locale.ROOT))) {
+                result += cleaned
+            }
+        }
+        return result
+    }
+
     fun sanitizeSelection(text: String): String? {
         if (hasUnpairedSurrogate(text)) return null
         var start = 0

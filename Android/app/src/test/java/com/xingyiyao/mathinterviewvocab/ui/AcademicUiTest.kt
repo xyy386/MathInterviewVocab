@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.test.core.app.ApplicationProvider
 import com.xingyiyao.mathinterviewvocab.SavedScreen
+import com.xingyiyao.mathinterviewvocab.core.VocabularyCore
+import com.xingyiyao.mathinterviewvocab.core.canonicalTerms
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -132,5 +134,13 @@ class AcademicUiTest {
             assertEquals(0, listState.firstVisibleItemIndex)
             assertEquals(0, listState.firstVisibleItemScrollOffset)
         }
+    }
+
+    @Test
+    fun glossaryListItemIndexAccountsForStickySubjectHeaders() {
+        val terms = canonicalTerms()
+        val subjects = VocabularyCore.subjects(terms)
+        assertEquals(1, glossaryListItemIndex(terms, subjects, 1))
+        assertEquals(13, glossaryListItemIndex(terms, subjects, 12))
     }
 }

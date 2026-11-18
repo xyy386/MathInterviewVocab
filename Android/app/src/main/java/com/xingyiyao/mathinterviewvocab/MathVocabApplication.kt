@@ -21,7 +21,6 @@ class MathVocabApplication : Application() {
 
             override fun onStop(owner: LifecycleOwner) {
                 services.speech.stop()
-                services.updater.onAppBackground()
             }
         })
     }

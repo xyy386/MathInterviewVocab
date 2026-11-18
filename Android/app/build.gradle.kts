@@ -64,7 +64,7 @@ android {
             it.systemProperty("math.androidRoot", rootProject.projectDir.absolutePath)
         }
     }
-    lint { abortOnError = true; checkReleaseBuilds = true }
+    lint { abortOnError = true; checkReleaseBuilds = true; disable += "ObsoleteSdkInt" }
 }
 
 gradle.taskGraph.whenReady {

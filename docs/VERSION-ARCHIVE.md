@@ -17,10 +17,10 @@
 
 | 文件（直接下载） | 字节数 | SHA-256 |
 | --- | ---: | --- |
-| [MathInterviewVocab-Android-universal-v1.3.0.apk](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/MathInterviewVocab-Android-universal-v1.3.0.apk) | 100190936 | `1bf5aa4fe356edd5b0b052f465945e9e3dec46be6704bc5b4f83d4d7a20018f1` |
+| [MathInterviewVocab-Android-universal-v1.3.0.apk](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/MathInterviewVocab-Android-universal-v1.3.0.apk) | 100223744 | `0cdb430e4816b25bab69da88ac1f042b4546e8475a19ad6c2960df64a3bed973` |
 | [MathInterviewVocab-macOS-universal-v1.3.0.zip](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/MathInterviewVocab-macOS-universal-v1.3.0.zip) | 48213002 | `5e395d37fd379e7103eb87b42da43d495ff73947e293fd3a38a2241526535d95` |
 | [MathInterviewVocab-Windows-x64-v1.3.0.zip](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/MathInterviewVocab-Windows-x64-v1.3.0.zip) | 206524113 | `b2365e8d25d864f11c7654393b3d26c13c5d77d90b6f87701eaebdbee4ac7897` |
-| [SHA256SUMS-Android.txt](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/SHA256SUMS-Android.txt) | 114 | `27092b8906a47c4256291dee2a7a25d3dbbc280f2f1c01e72381d5638d900af5` |
+| [SHA256SUMS-Android.txt](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/SHA256SUMS-Android.txt) | 114 | `b8fa50dd9b386ebec7d60fb72a1491352a92b8f7346d960354baa55e18e6eeff` |
 | [SHA256SUMS.txt](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/SHA256SUMS.txt) | 220 | `7c7d1333224241ed2fb9f7253c9fe9569ad881937fdc4a0b8727fd16c2cd38f4` |
 
 ## v1.2.0 附件

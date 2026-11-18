@@ -4,7 +4,7 @@ Kotlin + Jetpack Compose 原生工程，最低 Android 10（API 29），compile/
 
 **Android 1.3.0 正式签名版**：[下载 Universal APK](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/MathInterviewVocab-Android-universal-v1.3.0.apk) · [SHA-256](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/SHA256SUMS-Android.txt) · [Android 源码标签](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.0)。桌面 v1.3.0 与历史 v1.2.0 附件不变。
 
-Debug／Release 各 108 项自动化测试通过，Release Lint 0 错误，APK 签名及全部词库／音频复核通过。1.3.0 优化了从单词详情返回词汇列表时的滚动位置保持，以及切换词条／进入下一题时的阅读容器顶部复位。历史 1.2.0 审查记录见 [发布审查](docs/REVIEW-v1.2.0.md)；开发交接见 [详细需求与设计](docs/REQUIREMENTS-AND-DESIGN.md)。
+Debug／Release 各 110 项自动化测试通过，Release Lint 0 错误，APK 签名及全部词库／音频复核通过。1.3.0 优化了从单词详情返回词汇列表时的滚动位置保持与最近浏览标记、详情页上下词条切换、科目分组吸顶与回到顶部按钮、单词快捷点读胶囊、检测反馈页收藏按钮、学习记录跳转筛选及更新／安装状态可靠性。历史 1.2.0 审查记录见 [发布审查](docs/REVIEW-v1.2.0.md)；开发交接见 [详细需求与设计](docs/REQUIREMENTS-AND-DESIGN.md)。
 
 安装：核对下载地址与校验和，打开 APK，按系统正常提示为当前下载来源授权并确认；无需 Android Studio 或语音模型，不关闭系统安全防护。后续同包名、同签名覆盖升级保留学习记录，勿先卸载旧版。
 

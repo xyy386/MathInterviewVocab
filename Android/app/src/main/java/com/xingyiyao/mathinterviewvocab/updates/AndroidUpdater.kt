@@ -31,6 +31,7 @@ class AndroidUpdater(context: Context) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val preferences = app.getSharedPreferences("update-install-session", Context.MODE_PRIVATE)
     private val installationActive = AtomicBoolean(false)
+    private val preparingSession = AtomicBoolean(false)
     private val restoredSession = AtomicBoolean(false)
     @Volatile private var confirmation: Intent? = null
     private val engine = UpdateEngine(
@@ -70,6 +71,7 @@ class AndroidUpdater(context: Context) {
             return
         }
         if (!installationActive.compareAndSet(false, true)) return
+        preparingSession.set(true)
         engine.updateInstallState { it.copy(status = "installing", canInstall = false, needsInstallPermission = false, message = "正在准备系统安装会话…") }
         scope.launch {
             var createdSession: Int? = null
@@ -104,9 +106,11 @@ class AndroidUpdater(context: Context) {
                     val callback = PendingIntent.getBroadcast(app, sessionId, resultIntent, flags)
                     session.commit(callback.intentSender)
                     committed = true
+                    preparingSession.set(false)
                 }
                 engine.updateInstallState { it.copy(message = "安装会话已提交，等待系统确认。不会静默安装。") }
             } catch (failure: Exception) {
+                preparingSession.set(false)
                 if (!committed) {
                     createdSession?.let { runCatching { installer.abandonSession(it) } }
                     clearSession()
@@ -148,6 +152,7 @@ class AndroidUpdater(context: Context) {
             engine.updateInstallState { it.copy(needsInstallPermission = false, message = "安装来源已允许。请再次点击安装更新，以打开系统确认。") }
         }
         if (installationActive.get() && confirmation == null) {
+            if (preparingSession.get()) return
             if (restoredSession.compareAndSet(true, false)) {
                 // 进程重建后不持久化系统 Intent；安全取消自己的旧会话，允许重新操作。
                 abandonOwnSession()
@@ -164,7 +169,7 @@ class AndroidUpdater(context: Context) {
         }
     }
 
-    fun onAppBackground() { engine.cancel() }
+    fun onAppBackground() = Unit
 
     internal fun handleInstallResult(intent: Intent) {
         val expectedId = preferences.getInt(SESSION_ID, -1)
@@ -186,6 +191,8 @@ class AndroidUpdater(context: Context) {
                     return
                 }
                 confirmation = pending
+                preparingSession.set(false)
+                installationActive.set(true)
                 restoredSession.set(false)
                 engine.updateInstallState { it.copy(status = "installing", message = "系统需要你确认安装，请点击“继续系统安装”。", needsUserConfirmation = true, canInstall = false) }
             }
@@ -203,6 +210,7 @@ class AndroidUpdater(context: Context) {
 
     private fun clearSession() {
         preferences.edit().remove(SESSION_ID).remove(SESSION_NONCE).commit()
+        preparingSession.set(false)
         installationActive.set(false)
         restoredSession.set(false)
         confirmation = null
