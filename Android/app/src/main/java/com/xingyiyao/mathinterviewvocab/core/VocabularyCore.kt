@@ -131,6 +131,62 @@ object VocabularyCore {
         return progress.copy(favoriteIDs = favorites.toSet())
     }
 
+    fun toggleMastered(progress: ProgressData, id: Int): ProgressData {
+        require(id > 0) { "无效词汇编号。" }
+        val mastered = progress.masteredIDs.toMutableSet()
+        val wrong = progress.wrongIDs.toMutableSet()
+        val streaks = progress.correctStreak.toMutableMap()
+        if (!mastered.remove(id)) {
+            mastered += id
+            wrong -= id
+            streaks[id.toString()] = maxOf(streaks[id.toString()] ?: 0, 3)
+        } else {
+            streaks[id.toString()] = 0
+        }
+        return progress.copy(
+            masteredIDs = mastered.toSet(),
+            wrongIDs = wrong.toSet(),
+            correctStreak = streaks.toMap(),
+        )
+    }
+
+    fun toggleWrong(progress: ProgressData, id: Int): ProgressData {
+        require(id > 0) { "无效词汇编号。" }
+        val wrong = progress.wrongIDs.toMutableSet()
+        val mastered = progress.masteredIDs.toMutableSet()
+        val streaks = progress.correctStreak.toMutableMap()
+        if (!wrong.remove(id)) {
+            wrong += id
+            mastered -= id
+            streaks[id.toString()] = 0
+        }
+        return progress.copy(
+            wrongIDs = wrong.toSet(),
+            masteredIDs = mastered.toSet(),
+            correctStreak = streaks.toMap(),
+        )
+    }
+
+    fun relatedTerms(term: Term, allTerms: List<Term>, limit: Int = 4): List<Term> {
+        if (limit <= 0) return emptyList()
+        val targetWords = extractWords(term.speechText).map { it.lowercase(Locale.ROOT) }.toSet()
+        val targetChars = term.chinese.filter { it.code > 127 }.toSet()
+        return allTerms
+            .asSequence()
+            .filter { it.id != term.id && it.subjectID == term.subjectID }
+            .sortedWith(
+                compareByDescending<Term> { candidate ->
+                    val words = extractWords(candidate.speechText).map { it.lowercase(Locale.ROOT) }.toSet()
+                    val sharedWords = words.intersect(targetWords).size * 10
+                    val sharedChars = candidate.chinese.count { it in targetChars } * 3
+                    val proximity = (20 - kotlin.math.abs(candidate.id - term.id)).coerceAtLeast(0)
+                    sharedWords + sharedChars + proximity
+                }.thenBy { kotlin.math.abs(it.id - term.id) },
+            )
+            .take(limit)
+            .toList()
+    }
+
     fun summarizeProgress(terms: List<Term>, progress: ProgressData): ProgressSummary {
         val correct = progress.attempts.count { it.selectedOptionID == it.correctOptionID }
         val total = progress.attempts.size

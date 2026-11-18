@@ -73,6 +73,16 @@ class ProgressRepository internal constructor(
         saveProgress(VocabularyCore.toggleFavorite(progress.value, id))
     }
 
+    suspend fun toggleMastered(id: Int): Unit = locked {
+        require(id in validIDs) { "无效词汇编号。" }
+        saveProgress(VocabularyCore.toggleMastered(progress.value, id))
+    }
+
+    suspend fun toggleWrong(id: Int): Unit = locked {
+        require(id in validIDs) { "无效词汇编号。" }
+        saveProgress(VocabularyCore.toggleWrong(progress.value, id))
+    }
+
     suspend fun updatePreferences(preferences: QuizPreferences): Unit = locked {
         VocabularyJson.validatePreferences(preferences)
         saveProgress(progress.value.copy(quizPreferences = preferences))

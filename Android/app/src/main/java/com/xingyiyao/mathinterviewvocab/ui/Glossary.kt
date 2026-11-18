@@ -1,14 +1,17 @@
 package com.xingyiyao.mathinterviewvocab.ui
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,11 +29,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -38,13 +43,19 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.ArrowForward
+import androidx.compose.material.icons.automirrored.outlined.VolumeUp
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.DragIndicator
+import androidx.compose.material.icons.outlined.FilterList
 import androidx.compose.material.icons.outlined.KeyboardArrowUp
+import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.outlined.StarBorder
+import androidx.compose.material.icons.outlined.Stop
+import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -73,6 +84,8 @@ import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -88,8 +101,13 @@ import com.xingyiyao.mathinterviewvocab.core.Term
 import com.xingyiyao.mathinterviewvocab.core.VocabularyCore
 import kotlinx.coroutines.launch
 
-fun glossaryListItemIndex(terms: List<Term>, subjects: List<SubjectSummary>, termID: Int): Int? {
-    var index = 0
+fun glossaryListItemIndex(
+    terms: List<Term>,
+    subjects: List<SubjectSummary>,
+    termID: Int,
+    leadingItems: Int = 0,
+): Int? {
+    var index = leadingItems
     for (subject in subjects) {
         val matching = terms.filter { it.subjectID == subject.id }
         if (matching.isEmpty()) continue
@@ -125,9 +143,10 @@ fun rememberGlossaryListState(
         }
     }
     val targetID = screen.selectedTermID ?: screen.lastViewedTermID
-    LaunchedEffect(screen.selectedTermID, targetID, filteredTerms.size) {
+    val leadingItems = if (screen.query.isEmpty()) 1 else 0
+    LaunchedEffect(screen.selectedTermID, targetID, filteredTerms.size, leadingItems) {
         if (targetID == null || filteredTerms.isEmpty() || subjects.isEmpty()) return@LaunchedEffect
-        val targetIndex = glossaryListItemIndex(filteredTerms, subjects, targetID)
+        val targetIndex = glossaryListItemIndex(filteredTerms, subjects, targetID, leadingItems)
             ?: return@LaunchedEffect
         withFrameNanos {}
         val info = listState.layoutInfo
@@ -147,7 +166,7 @@ fun GlossaryScreen(
 ) {
     if (expanded) {
         Row(Modifier.fillMaxSize()) {
-            TermIndex(state, viewModel, Modifier.width(340.dp).fillMaxHeight(), listState)
+            TermIndex(state, viewModel, Modifier.width(360.dp).fillMaxHeight(), listState)
             Box(Modifier.width(1.dp).fillMaxHeight().background(Academic.Grid))
             Box(Modifier.weight(1f)) { GlossaryReading(state, viewModel) }
         }
@@ -231,31 +250,94 @@ private fun TermIndex(
     }
 
     BoxWithConstraints(modifier.background(Academic.Paper)) {
-        val headerMaxHeight = maxHeight * 0.56f
+        val headerMaxHeight = maxHeight * 0.54f
         Column(Modifier.fillMaxSize()) {
             Surface(color = Academic.Surface, shadowElevation = 1.dp) {
                 Column(
                     Modifier.heightIn(max = headerMaxHeight)
                         .verticalScroll(rememberScrollState())
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                        .padding(horizontal = 14.dp, vertical = 10.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    OutlinedTextField(
-                        value = state.screen.query,
-                        onValueChange = viewModel::setQuery,
-                        modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("搜索中英文或释义") },
-                        leadingIcon = { Icon(Icons.Outlined.Search, null) },
-                        trailingIcon = {
-                            if (state.screen.query.isNotEmpty()) IconButton(onClick = { viewModel.setQuery("") }) {
-                                Icon(Icons.Outlined.Clear, "清空搜索")
+                    // 3. 紧凑顶部搜索栏：搜索框 + 筛选开关按钮 + 随身连播按钮
+                    Row(
+                        Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        OutlinedTextField(
+                            value = state.screen.query,
+                            onValueChange = viewModel::setQuery,
+                            modifier = Modifier.weight(1f),
+                            placeholder = { Text("搜索中英文、音标或释义") },
+                            leadingIcon = { Icon(Icons.Outlined.Search, null) },
+                            trailingIcon = {
+                                if (state.screen.query.isNotEmpty()) IconButton(onClick = { viewModel.setQuery("") }) {
+                                    Icon(Icons.Outlined.Clear, "清空搜索")
+                                }
+                            },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                            keyboardActions = KeyboardActions(onSearch = { dismissKeyboard() }),
+                            shape = RoundedCornerShape(14.dp),
+                        )
+                        Surface(
+                            onClick = { dismissKeyboard(); filtersExpanded = !filtersExpanded },
+                            shape = RoundedCornerShape(12.dp),
+                            color = if (filterCount > 0 || filtersExpanded) Academic.BlueSoft else Academic.SecondarySurface,
+                            border = BorderStroke(
+                                1.dp,
+                                if (filterCount > 0 || filtersExpanded) Academic.Blue else Academic.Grid,
+                            ),
+                            modifier = Modifier.heightIn(min = 48.dp).bounceClick(),
+                        ) {
+                            Row(
+                                Modifier.padding(horizontal = 10.dp, vertical = 10.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                            ) {
+                                Icon(
+                                    Icons.Outlined.FilterList,
+                                    contentDescription = "筛选条件",
+                                    tint = if (filterCount > 0 || filtersExpanded) Academic.Blue else Academic.Ink,
+                                    modifier = Modifier.size(18.dp),
+                                )
+                                Text(
+                                    if (filterCount > 0) "筛选($filterCount)" else "筛选",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = if (filterCount > 0 || filtersExpanded) Academic.Blue else Academic.Ink,
+                                )
                             }
-                        },
-                        singleLine = true,
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                        keyboardActions = KeyboardActions(onSearch = { dismissKeyboard() }),
-                        shape = RoundedCornerShape(14.dp),
-                    )
+                        }
+                        Surface(
+                            onClick = { dismissKeyboard(); viewModel.toggleAutoPlay() },
+                            shape = RoundedCornerShape(12.dp),
+                            color = if (state.autoPlayActive) Academic.Blue else Academic.SecondarySurface,
+                            border = BorderStroke(1.dp, if (state.autoPlayActive) Academic.Blue else Academic.Grid),
+                            modifier = Modifier.heightIn(min = 48.dp).bounceClick(),
+                        ) {
+                            Row(
+                                Modifier.padding(horizontal = 10.dp, vertical = 10.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                            ) {
+                                Icon(
+                                    if (state.autoPlayActive) Icons.Outlined.Stop else Icons.Outlined.PlayArrow,
+                                    contentDescription = if (state.autoPlayActive) "停止连播" else "随身听连播",
+                                    tint = if (state.autoPlayActive) Color.White else Academic.Blue,
+                                    modifier = Modifier.size(18.dp),
+                                )
+                                Text(
+                                    if (state.autoPlayActive) "停止" else "连播",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = if (state.autoPlayActive) Color.White else Academic.Blue,
+                                )
+                            }
+                        }
+                    }
+
                     // 10. 标签选择：点标签时选中项轻微放大，周边标签自动向两侧平移让位
                     Row(
                         Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
@@ -276,38 +358,83 @@ private fun TermIndex(
                             )
                         }
                     }
-                    // 5. 文本展开 + 3. 批量错峰弹性勾选
-                    ExpandableSection(
-                        title = if (filterCount == 0) "筛选条件（重点 / 收藏 / 错题）" else "筛选条件 · 已启用 $filterCount 项",
-                        expanded = filtersExpanded,
-                        onToggle = { dismissKeyboard(); filtersExpanded = !filtersExpanded },
-                    ) {
-                        StaggeredBatchFilterPanel(
-                            items = listOf(
-                                BatchFilterItem("important", "仅重点词汇", state.screen.importantOnly, viewModel::setImportantOnly),
-                                BatchFilterItem("favorites", "仅我的收藏（支持右滑飞出取消收藏）", state.screen.favoritesOnly, viewModel::setFavoritesOnly),
-                                BatchFilterItem("mistakes", "仅待复习错题", state.screen.mistakesOnly, viewModel::setMistakesOnly),
-                            ),
-                            onClearAll = viewModel::clearFilters,
-                        )
-                    }
+
+                    // 2. 遮挡自测模式栏（完整显示 / 遮英文自测 / 遮中文自测）+ 进度计数
                     Row(
-                        Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
+                        Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+                        horizontalArrangement = Arrangement.spacedBy(6.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
+                        listOf(
+                            "none" to "👁 完整显示",
+                            "hideEn" to "🙈 遮英文自测",
+                            "hideZh" to "🙈 遮中文自测",
+                        ).forEach { (mode, label) ->
+                            val active = state.screen.maskMode == mode
+                            Surface(
+                                onClick = { dismissKeyboard(); viewModel.setMaskMode(mode) },
+                                shape = RoundedCornerShape(999.dp),
+                                color = if (active) Academic.BlueSoft else Color.Transparent,
+                                border = BorderStroke(1.dp, if (active) Academic.Blue else Academic.Grid),
+                                modifier = Modifier.bounceClick(),
+                            ) {
+                                Text(
+                                    label,
+                                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    fontWeight = if (active) FontWeight.Bold else FontWeight.Medium,
+                                    color = if (active) Academic.Blue else Academic.Muted,
+                                )
+                            }
+                        }
+                        Spacer(Modifier.width(4.dp))
                         Text(
-                            "显示 ${terms.size} / ${state.terms.size} 个词汇" +
-                                if (filterCount > 0) " · $filterCount 项筛选" else "",
-                            style = MaterialTheme.typography.labelMedium,
+                            "${terms.size}/${state.terms.size} 词 · 浏览 $browsedCount/${terms.size.coerceAtLeast(1)}",
+                            style = MaterialTheme.typography.labelSmall,
                             color = Academic.Muted,
                         )
-                        if (terms.isNotEmpty()) {
-                            Text(
-                                "浏览进度 $browsedCount / ${terms.size}",
-                                style = MaterialTheme.typography.labelMedium,
-                                color = Academic.Blue,
+                    }
+
+                    // 3. 批量错峰弹性勾选面板（仅在点击“筛选”按钮后平滑展开）
+                    AnimatedVisibility(
+                        visible = filtersExpanded,
+                        enter = expandVertically(tween(220)) + fadeIn(tween(180)),
+                        exit = shrinkVertically(tween(200)) + fadeOut(tween(140)),
+                    ) {
+                        Column(Modifier.padding(top = 4.dp)) {
+                            StaggeredBatchFilterPanel(
+                                items = listOf(
+                                    BatchFilterItem("important", "仅重点词汇", state.screen.importantOnly, viewModel::setImportantOnly),
+                                    BatchFilterItem("favorites", "仅我的收藏（支持右滑飞出取消收藏）", state.screen.favoritesOnly, viewModel::setFavoritesOnly),
+                                    BatchFilterItem("mistakes", "仅待复习错题", state.screen.mistakesOnly, viewModel::setMistakesOnly),
+                                ),
+                                onClearAll = viewModel::clearFilters,
                             )
+                        }
+                    }
+
+                    if (state.autoPlayActive) {
+                        Surface(
+                            color = Academic.BlueSoft,
+                            shape = RoundedCornerShape(10.dp),
+                            border = BorderStroke(1.dp, Academic.Blue.copy(alpha = 0.45f)),
+                            modifier = Modifier.fillMaxWidth(),
+                        ) {
+                            Row(
+                                Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Text(
+                                    "🎧 随身听连播中：按美式 → 英式顺序自动朗读词表",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = Academic.Blue,
+                                    modifier = Modifier.weight(1f),
+                                )
+                                TextButton(onClick = viewModel::stopSpeech) {
+                                    Text("停止", fontWeight = FontWeight.Bold)
+                                }
+                            }
                         }
                     }
                 }
@@ -326,13 +453,23 @@ private fun TermIndex(
                 }
             } else {
                 Box(Modifier.weight(1f).fillMaxWidth()) {
-                    var flatIndex = 0
+                    val showDashboard = state.screen.query.isEmpty()
+                    var flatIndex = if (showDashboard) 1 else 0
                     LazyColumn(
                         Modifier.fillMaxSize(),
                         state = listState,
                         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 10.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
+                        if (showDashboard) {
+                            item(key = "mini-study-dashboard") {
+                                MiniStudyDashboardCard(
+                                    state = state,
+                                    viewModel = viewModel,
+                                    onDismissKeyboard = ::dismissKeyboard,
+                                )
+                            }
+                        }
                         subjects.forEach { subject ->
                             val matching = terms.filter { it.subjectID == subject.id }
                             if (matching.isNotEmpty()) {
@@ -344,7 +481,7 @@ private fun TermIndex(
                                         modifier = Modifier.fillMaxWidth(),
                                     ) {
                                         Row(
-                                            Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 10.dp),
+                                            Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp),
                                             horizontalArrangement = Arrangement.SpaceBetween,
                                             verticalAlignment = Alignment.CenterVertically,
                                         ) {
@@ -390,17 +527,27 @@ private fun TermIndex(
                                             onDismissed = { viewModel.toggleFavorite(term.id) },
                                             modifier = stackedModifier,
                                         ) {
-                                            TermRow(term, state, onClick = {
-                                                dismissKeyboard()
-                                                viewModel.selectTerm(term.id)
-                                            })
+                                            TermRow(
+                                                term = term,
+                                                state = state,
+                                                viewModel = viewModel,
+                                                onClick = {
+                                                    dismissKeyboard()
+                                                    viewModel.selectTerm(term.id)
+                                                },
+                                            )
                                         }
                                     } else {
                                         Box(stackedModifier) {
-                                            TermRow(term, state, onClick = {
-                                                dismissKeyboard()
-                                                viewModel.selectTerm(term.id)
-                                            })
+                                            TermRow(
+                                                term = term,
+                                                state = state,
+                                                viewModel = viewModel,
+                                                onClick = {
+                                                    dismissKeyboard()
+                                                    viewModel.selectTerm(term.id)
+                                                },
+                                            )
                                         }
                                     }
                                 }
@@ -427,10 +574,167 @@ private fun TermIndex(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun TermRow(term: Term, state: AppUiState, onClick: () -> Unit) {
+private fun MiniStudyDashboardCard(
+    state: AppUiState,
+    viewModel: AppViewModel,
+    onDismissKeyboard: () -> Unit,
+) {
+    val totalCount = state.terms.size.coerceAtLeast(1)
+    val masteredCount = state.progress.masteredIDs.size
+    val importantTerms = state.terms.filter { it.important }
+    val masteredImportant = importantTerms.count { it.id in state.progress.masteredIDs }
+    val wrongCount = state.progress.wrongIDs.size
+    val lastTerm = state.screen.lastViewedTermID?.let { id -> state.terms.find { it.id == id } }
+    val masteryFraction = (masteredCount.toFloat() / totalCount.toFloat()).coerceIn(0f, 1f)
+
+    Card(
+        shape = RoundedCornerShape(14.dp),
+        colors = CardDefaults.cardColors(containerColor = Academic.Surface),
+        border = BorderStroke(1.dp, Academic.Grid),
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Column(
+            Modifier.padding(14.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            Row(
+                Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(14.dp),
+            ) {
+                Box(Modifier.size(54.dp), contentAlignment = Alignment.Center) {
+                    val trackColor = Academic.Grid
+                    val ringColor = Academic.Success
+                    Canvas(Modifier.fillMaxSize()) {
+                        val stroke = 6.dp.toPx()
+                        drawArc(
+                            color = trackColor,
+                            startAngle = -90f,
+                            sweepAngle = 360f,
+                            useCenter = false,
+                            style = Stroke(width = stroke, cap = StrokeCap.Round),
+                        )
+                        drawArc(
+                            color = ringColor,
+                            startAngle = -90f,
+                            sweepAngle = 360f * masteryFraction,
+                            useCenter = false,
+                            style = Stroke(width = stroke, cap = StrokeCap.Round),
+                        )
+                    }
+                    Text(
+                        "${(masteryFraction * 100).toInt()}%",
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = Academic.Ink,
+                    )
+                }
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                    Text(
+                        "今日学习概览 · 已掌握 $masteredCount / ${state.terms.size}",
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = Academic.Ink,
+                    )
+                    Text(
+                        "重点掌握 $masteredImportant / ${importantTerms.size} · 待复习错题 $wrongCount · 收藏 ${state.progress.favoriteIDs.size}",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = Academic.Muted,
+                    )
+                }
+            }
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+            ) {
+                if (lastTerm != null) {
+                    Surface(
+                        onClick = {
+                            onDismissKeyboard()
+                            viewModel.selectTerm(lastTerm.id)
+                        },
+                        shape = RoundedCornerShape(999.dp),
+                        color = Academic.BlueSoft,
+                        border = BorderStroke(1.dp, Academic.Blue.copy(alpha = 0.4f)),
+                        modifier = Modifier.bounceClick(),
+                    ) {
+                        Text(
+                            "继续：${VocabularyCore.displayMathNotation(lastTerm.chinese)}",
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Academic.Blue,
+                        )
+                    }
+                }
+                Surface(
+                    onClick = {
+                        onDismissKeyboard()
+                        val subjectId = state.screen.subjectID
+                        val prefs = state.progress.quizPreferences.copy(
+                            scope = if (subjectId != null) "subject" else "all",
+                            selectedSubjectID = subjectId ?: state.progress.quizPreferences.selectedSubjectID,
+                            questionLength = "ten",
+                        )
+                        viewModel.startQuiz(prefs)
+                    },
+                    shape = RoundedCornerShape(999.dp),
+                    color = Academic.SecondarySurface,
+                    border = BorderStroke(1.dp, Academic.Grid),
+                    modifier = Modifier.bounceClick(),
+                ) {
+                    Text(
+                        "⚡ 快测 10 题",
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Academic.Ink,
+                    )
+                }
+                if (wrongCount > 0) {
+                    Surface(
+                        onClick = {
+                            onDismissKeyboard()
+                            viewModel.reviewMistakes()
+                        },
+                        shape = RoundedCornerShape(999.dp),
+                        color = Academic.Error.copy(alpha = 0.1f),
+                        border = BorderStroke(1.dp, Academic.Error.copy(alpha = 0.4f)),
+                        modifier = Modifier.bounceClick(),
+                    ) {
+                        Text(
+                            "🔥 专练错题 ($wrongCount)",
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Academic.Error,
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun TermRow(
+    term: Term,
+    state: AppUiState,
+    viewModel: AppViewModel,
+    onClick: () -> Unit,
+) {
     val selected = state.screen.selectedTermID == term.id
     val recentlyViewed = !selected && state.screen.selectedTermID == null && state.screen.lastViewedTermID == term.id
     val accent = Academic.subjectAccent(term.subjectID)
+    val isFavorite = term.id in state.progress.favoriteIDs
+    val maskMode = state.screen.maskMode
+    var revealed by rememberSaveable(term.id, maskMode) { mutableStateOf(false) }
+    val hideChinese = maskMode == "hideZh" && !revealed
+    val hideEnglish = maskMode == "hideEn" && !revealed
+    val ipaText = if (state.settings.accent == "en-GB") "UK ${term.pronunciation.britishIPA}" else "US ${term.pronunciation.americanIPA}"
+    val streak = state.progress.correctStreak[term.id.toString()] ?: 0
+
     val rowBackground = when {
         selected -> Academic.Blue.copy(alpha = if (Academic.IsDark) 0.22f else 0.09f)
         recentlyViewed -> Academic.Blue.copy(alpha = if (Academic.IsDark) 0.14f else 0.05f)
@@ -447,35 +751,144 @@ private fun TermRow(term: Term, state: AppUiState, onClick: () -> Unit) {
         elevation = CardDefaults.cardElevation(defaultElevation = if (Academic.IsDark) 0.dp else 1.dp),
         modifier = Modifier.fillMaxWidth().bounceClick(),
     ) {
-        Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min)) {
+        Row(
+            Modifier.fillMaxWidth().height(IntrinsicSize.Min),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             Box(
                 Modifier.width(5.dp).fillMaxHeight().background(accent),
             )
             Column(
-                Modifier.weight(1f).padding(horizontal = 16.dp, vertical = 14.dp),
-                verticalArrangement = Arrangement.spacedBy(6.dp),
+                Modifier.weight(1f).padding(start = 14.dp, top = 12.dp, bottom = 12.dp, end = 4.dp),
+                verticalArrangement = Arrangement.spacedBy(5.dp),
             ) {
-                Text(
-                    VocabularyCore.displayMathNotation(term.chinese),
-                    fontWeight = if (term.important) FontWeight.Bold else FontWeight.SemiBold,
-                    color = Academic.Ink,
-                )
-                Text(
-                    VocabularyCore.displayMathNotation(term.english),
-                    color = Academic.Blue,
-                    fontFamily = FontFamily.SansSerif,
-                    fontWeight = if (term.important) FontWeight.Bold else FontWeight.Normal,
-                    style = MaterialTheme.typography.bodyMedium,
-                )
+                if (hideChinese) {
+                    Surface(
+                        onClick = { revealed = true },
+                        shape = RoundedCornerShape(8.dp),
+                        color = Academic.SecondarySurface,
+                        border = BorderStroke(1.dp, Academic.Blue.copy(alpha = 0.35f)),
+                    ) {
+                        Row(
+                            Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        ) {
+                            Icon(Icons.Outlined.Visibility, null, tint = Academic.Blue, modifier = Modifier.size(15.dp))
+                            Text(
+                                "点击显词 · 先看英文回忆中文概念",
+                                style = MaterialTheme.typography.labelMedium,
+                                color = Academic.Blue,
+                            )
+                        }
+                    }
+                } else {
+                    Text(
+                        VocabularyCore.displayMathNotation(term.chinese),
+                        fontWeight = if (term.important) FontWeight.Bold else FontWeight.SemiBold,
+                        color = Academic.Ink,
+                    )
+                }
+
+                if (hideEnglish) {
+                    Surface(
+                        onClick = { revealed = true },
+                        shape = RoundedCornerShape(8.dp),
+                        color = Academic.SecondarySurface,
+                        border = BorderStroke(1.dp, Academic.Blue.copy(alpha = 0.35f)),
+                    ) {
+                        Row(
+                            Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        ) {
+                            Icon(Icons.Outlined.Visibility, null, tint = Academic.Blue, modifier = Modifier.size(15.dp))
+                            Text(
+                                "点击显词 · 先默想英文表达与发音",
+                                style = MaterialTheme.typography.labelMedium,
+                                color = Academic.Blue,
+                            )
+                        }
+                    }
+                } else {
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(2.dp),
+                    ) {
+                        Text(
+                            VocabularyCore.displayMathNotation(term.english),
+                            color = Academic.Blue,
+                            fontFamily = FontFamily.SansSerif,
+                            fontWeight = if (term.important) FontWeight.Bold else FontWeight.Medium,
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                        Text(
+                            ipaText,
+                            color = Academic.Muted,
+                            fontFamily = FontFamily.Monospace,
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                    }
+                }
+
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
                     if (recentlyViewed) TermBadge("刚刚浏览", accent)
                     if (term.important) TermBadge("重点", accent)
-                    if (term.id in state.progress.favoriteIDs) TermBadge("已收藏")
-                    if (term.id in state.progress.masteredIDs) TermBadge("已掌握", Academic.Success)
+                    if (isFavorite) TermBadge("已收藏")
+                    if (term.id in state.progress.masteredIDs) {
+                        TermBadge("已掌握", Academic.Success)
+                    } else if (streak > 0) {
+                        TermBadge("连对 $streak/3", Academic.Blue)
+                    }
                     if (term.id in state.progress.wrongIDs) TermBadge("待复习", Academic.Error)
+                    if (maskMode != "none" && revealed) {
+                        Surface(
+                            onClick = { revealed = false },
+                            shape = RoundedCornerShape(999.dp),
+                            color = Academic.SecondarySurface,
+                        ) {
+                            Row(
+                                Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(3.dp),
+                            ) {
+                                Icon(Icons.Outlined.VisibilityOff, null, tint = Academic.Muted, modifier = Modifier.size(12.dp))
+                                Text("重遮", style = MaterialTheme.typography.labelSmall, color = Academic.Muted)
+                            }
+                        }
+                    }
+                }
+            }
+            // 1. 列表行右侧直接提供「🔊 一键朗读」+「⭐ 一键收藏」快捷按钮
+            Row(
+                Modifier.padding(end = 6.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                IconButton(
+                    onClick = { viewModel.speak(term.speechText) },
+                    modifier = Modifier.size(40.dp),
+                ) {
+                    Icon(
+                        Icons.AutoMirrored.Outlined.VolumeUp,
+                        contentDescription = "朗读 ${term.english}",
+                        tint = Academic.Blue,
+                        modifier = Modifier.size(20.dp),
+                    )
+                }
+                IconButton(
+                    onClick = { viewModel.toggleFavorite(term.id) },
+                    enabled = !state.busy,
+                    modifier = Modifier.size(40.dp),
+                ) {
+                    Icon(
+                        if (isFavorite) Icons.Outlined.Star else Icons.Outlined.StarBorder,
+                        contentDescription = if (isFavorite) "取消收藏" else "收藏词汇",
+                        tint = if (isFavorite) Academic.Amber else Academic.Muted,
+                        modifier = Modifier.size(20.dp),
+                    )
                 }
             }
         }
@@ -489,8 +902,22 @@ fun TermDetail(term: Term, state: AppUiState, viewModel: AppViewModel) {
     val nextTerm = state.nextTerm
     val index = state.selectedTermIndex
     val total = state.filteredTerms.size
-    var tipsExpanded by rememberSaveable { mutableStateOf(true) }
+    var relatedExpanded by rememberSaveable { mutableStateOf(true) }
     val accent = Academic.subjectAccent(term.subjectID)
+    val streak = (state.progress.correctStreak[term.id.toString()] ?: 0).coerceIn(0, 3)
+    val isMastered = term.id in state.progress.masteredIDs
+    val isWrong = term.id in state.progress.wrongIDs
+    val isFavorite = term.id in state.progress.favoriteIDs
+    val termAttempts = remember(term.id, state.progress.attempts) {
+        state.progress.attempts.filter { it.termID == term.id }
+    }
+    val termCorrect = remember(termAttempts) {
+        termAttempts.count { it.selectedOptionID == it.correctOptionID }
+    }
+    val relatedTerms = remember(term.id, state.terms) {
+        VocabularyCore.relatedTerms(term, state.terms, limit = 4)
+    }
+
     ReadingColumn(resetKey = term.id) {
         SectionHeading(VocabularyCore.displayMathNotation(term.chinese), term.subjectName + " · " + term.subjectNameEn)
         if (index >= 0 && total > 0) {
@@ -526,9 +953,9 @@ fun TermDetail(term: Term, state: AppUiState, viewModel: AppViewModel) {
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 TermBadge(term.subjectName, accent)
                 if (term.important) TermBadge("重点词汇")
-                if (term.id in state.progress.masteredIDs) TermBadge("已掌握", Academic.Success)
-                if (term.id in state.progress.wrongIDs) TermBadge("待复习", Academic.Error)
-                if (term.id in state.progress.favoriteIDs) TermBadge("已收藏")
+                if (isMastered) TermBadge("已掌握", Academic.Success)
+                if (isWrong) TermBadge("待复习", Academic.Error)
+                if (isFavorite) TermBadge("已收藏")
             }
             PronunciationPanel(
                 term,
@@ -544,24 +971,148 @@ fun TermDetail(term: Term, state: AppUiState, viewModel: AppViewModel) {
                 style = MaterialTheme.typography.bodyLarge,
                 color = Academic.Ink,
             )
-            OutlinedButton(
-                onClick = { viewModel.toggleFavorite(term.id) },
-                enabled = !state.busy,
-                modifier = Modifier.heightIn(min = 48.dp).bounceClick(!state.busy),
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                Icon(if (term.id in state.progress.favoriteIDs) Icons.Outlined.Star else Icons.Outlined.StarBorder, null)
-                Text(if (term.id in state.progress.favoriteIDs) " 取消收藏" else " 收藏词汇")
+                OutlinedButton(
+                    onClick = { viewModel.toggleFavorite(term.id) },
+                    enabled = !state.busy,
+                    modifier = Modifier.heightIn(min = 48.dp).bounceClick(!state.busy),
+                ) {
+                    Icon(if (isFavorite) Icons.Outlined.Star else Icons.Outlined.StarBorder, null)
+                    Text(if (isFavorite) " 取消收藏" else " 收藏词汇")
+                }
+                FilledTonalButton(
+                    onClick = viewModel::toggleAutoPlay,
+                    modifier = Modifier.heightIn(min = 48.dp).bounceClick(),
+                ) {
+                    Icon(
+                        if (state.autoPlayActive) Icons.Outlined.Stop else Icons.Outlined.PlayArrow,
+                        contentDescription = null,
+                    )
+                    Text(if (state.autoPlayActive) " 停止连续播读" else " 连续播读词表")
+                }
             }
         }
+
+        // 4. 本词个人掌握轨迹 + 手动标为已掌握 / 待复习
+        AcademicCard {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text("本词掌握轨迹与熟练度", style = MaterialTheme.typography.titleMedium, color = Academic.Ink)
+                    Text(
+                        if (termAttempts.isEmpty()) "尚未在词汇检测中作答过本词"
+                        else "历史作答 ${termAttempts.size} 次 · 答对 $termCorrect 次（正确率 ${(termCorrect * 100) / termAttempts.size}%）",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Academic.Muted,
+                    )
+                }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    val effectiveDots = if (isMastered) 3 else streak
+                    repeat(3) { dotIndex ->
+                        val active = dotIndex < effectiveDots
+                        Box(
+                            Modifier
+                                .size(12.dp)
+                                .background(
+                                    if (active) Academic.Success else Academic.Grid,
+                                    CircleShape,
+                                ),
+                        )
+                    }
+                    Text(
+                        "${if (isMastered) 3 else streak}/3",
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = if (isMastered) Academic.Success else Academic.Muted,
+                    )
+                }
+            }
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                OutlinedButton(
+                    onClick = { viewModel.toggleMastered(term.id) },
+                    enabled = !state.busy,
+                    modifier = Modifier.heightIn(min = 48.dp).bounceClick(!state.busy),
+                ) {
+                    Icon(Icons.Outlined.Check, contentDescription = null)
+                    Text(if (isMastered) " 移出已掌握" else " 标为已掌握")
+                }
+                OutlinedButton(
+                    onClick = { viewModel.toggleWrong(term.id) },
+                    enabled = !state.busy,
+                    modifier = Modifier.heightIn(min = 48.dp).bounceClick(!state.busy),
+                ) {
+                    Text(if (isWrong) "✓ 移出待复习错题" else "⚑ 加入待复习错题")
+                }
+            }
+        }
+
+        // 5. 同科关联概念对比 + 本科目自测
         ExpandableSection(
-            title = "学习提示与本科目自测",
-            subtitle = "点击展开或收起记忆建议",
-            expanded = tipsExpanded,
-            onToggle = { tipsExpanded = !tipsExpanded },
+            title = "同科关联概念对比与本科目自测",
+            subtitle = "精选 ${relatedTerms.size} 个同科易混或递进术语，点击可直接跳转对比",
+            expanded = relatedExpanded,
+            onToggle = { relatedExpanded = !relatedExpanded },
         ) {
+            if (relatedTerms.isNotEmpty()) {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    relatedTerms.forEach { rel ->
+                        Surface(
+                            onClick = { viewModel.selectTerm(rel.id) },
+                            shape = RoundedCornerShape(12.dp),
+                            color = Academic.SecondarySurface,
+                            border = BorderStroke(1.dp, Academic.Grid),
+                            modifier = Modifier.fillMaxWidth().bounceClick(),
+                        ) {
+                            Row(
+                                Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                            ) {
+                                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                                    Text(
+                                        VocabularyCore.displayMathNotation(rel.chinese),
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = Academic.Ink,
+                                    )
+                                    Text(
+                                        "${VocabularyCore.displayMathNotation(rel.english)} · US ${rel.pronunciation.americanIPA}",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = Academic.Blue,
+                                    )
+                                }
+                                IconButton(
+                                    onClick = { viewModel.speak(rel.speechText) },
+                                    modifier = Modifier.size(36.dp),
+                                ) {
+                                    Icon(
+                                        Icons.AutoMirrored.Outlined.VolumeUp,
+                                        contentDescription = "朗读 ${rel.english}",
+                                        tint = Academic.Blue,
+                                        modifier = Modifier.size(18.dp),
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             Text(
                 "先根据中文回忆英文，再朗读并核对。连续答对两次可移出错题，连续答对三次标记为已掌握。",
                 color = Academic.Muted,
+                style = MaterialTheme.typography.bodySmall,
             )
             Button(
                 onClick = {

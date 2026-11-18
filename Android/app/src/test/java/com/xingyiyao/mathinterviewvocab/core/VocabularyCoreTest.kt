@@ -184,4 +184,28 @@ class VocabularyCoreTest {
         )
         assertTrue(terms.all { VocabularyCore.extractWords(it.speechText).isNotEmpty() })
     }
+
+    @Test fun toggleMasteredAndToggleWrongMaintainMutualConsistencyAndStreaks() {
+        var progress = ProgressData(wrongIDs = setOf(5), correctStreak = mapOf("5" to 1))
+        progress = VocabularyCore.toggleMastered(progress, 5)
+        assertEquals(setOf(5), progress.masteredIDs)
+        assertTrue(progress.wrongIDs.isEmpty())
+        assertEquals(3, progress.correctStreak["5"])
+
+        progress = VocabularyCore.toggleWrong(progress, 5)
+        assertEquals(setOf(5), progress.wrongIDs)
+        assertTrue(progress.masteredIDs.isEmpty())
+        assertEquals(0, progress.correctStreak["5"])
+
+        progress = VocabularyCore.toggleWrong(progress, 5)
+        assertTrue(progress.wrongIDs.isEmpty())
+    }
+
+    @Test fun relatedTermsSelectsSameSubjectConceptualNeighbors() {
+        val target = terms.first { it.subjectID == "analysis" && it.english.contains("convergence", ignoreCase = true) }
+        val related = VocabularyCore.relatedTerms(target, terms, limit = 4)
+        assertEquals(4, related.size)
+        assertTrue(related.none { it.id == target.id })
+        assertTrue(related.all { it.subjectID == target.subjectID })
+    }
 }

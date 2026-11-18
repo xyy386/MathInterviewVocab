@@ -106,6 +106,14 @@ object Academic {
         @Composable @ReadOnlyComposable get() = LocalAcademicPalette.current.surface
     val SurfaceSubtle: Color
         @Composable @ReadOnlyComposable get() = LocalAcademicPalette.current.surfaceSubtle
+    val SecondarySurface: Color
+        @Composable @ReadOnlyComposable get() = LocalAcademicPalette.current.surfaceSubtle
+    val BlueSoft: Color
+        @Composable @ReadOnlyComposable get() = LocalAcademicPalette.current.blue.copy(
+            alpha = if (LocalAcademicPalette.current.isDark) 0.22f else 0.10f,
+        )
+    val Amber: Color
+        @Composable @ReadOnlyComposable get() = if (LocalAcademicPalette.current.isDark) Color(0xFFFBBF24) else Color(0xFFD97706)
     val Grid: Color
         @Composable @ReadOnlyComposable get() = LocalAcademicPalette.current.grid
     val Success: Color

@@ -3,6 +3,7 @@ package com.xingyiyao.mathinterviewvocab.ui
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
@@ -11,6 +12,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -18,7 +20,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.VolumeUp
+import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.AlertDialog
@@ -26,11 +33,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -39,6 +48,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,6 +59,7 @@ import androidx.compose.ui.unit.dp
 import com.xingyiyao.mathinterviewvocab.AppUiState
 import com.xingyiyao.mathinterviewvocab.AppViewModel
 import com.xingyiyao.mathinterviewvocab.core.QuizPreferences
+import com.xingyiyao.mathinterviewvocab.core.QuizQuestion
 import com.xingyiyao.mathinterviewvocab.core.VocabularyCore
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -58,7 +69,16 @@ val QuizScopes = listOf(
     "important" to "重点词汇", "all" to "全部词汇", "subject" to "指定科目",
     "mistakes" to "错题复习", "favorites" to "我的收藏",
 )
-val QuizDirections = listOf("zhToEn" to "中文 → 英文", "enToZh" to "英文 → 中文", "mixed" to "双向混合")
+val QuizDirections = listOf(
+    "zhToEn" to "中文 → 英文",
+    "enToZh" to "英文 → 中文",
+    "mixed" to "双向混合",
+    "listening" to "🔊 听音辨义（听英文发音 → 选中文概念）",
+)
+val QuizPracticeModes = listOf(
+    "choice" to ("四选一客观题" to "从 4 个干扰项中辨析准确术语"),
+    "flashcard" to ("面试闪卡翻转自测" to "先主动口述回忆，再 3D 翻面核对并自评"),
+)
 val QuizLengths = listOf("ten" to "10 题", "twenty" to "20 题", "fifty" to "50 题", "all" to "全部")
 
 @Composable
@@ -131,6 +151,8 @@ private fun QuizSetup(state: AppUiState, viewModel: AppViewModel) {
     val preferences = state.progress.quizPreferences
     val pool = VocabularyCore.makePool(state.terms, preferences, state.progress)
     val count = VocabularyCore.resolveQuestionCount(preferences.questionLength, pool.size)
+    var modeRipple by remember { mutableIntStateOf(0) }
+    var modeOrigin by remember { mutableIntStateOf(0) }
     var directionRipple by remember { mutableIntStateOf(0) }
     var directionOrigin by remember { mutableIntStateOf(0) }
     var scopeRipple by remember { mutableIntStateOf(0) }
@@ -138,19 +160,53 @@ private fun QuizSetup(state: AppUiState, viewModel: AppViewModel) {
 
     fun save(value: QuizPreferences) { viewModel.setPreferences(value) }
     ReadingColumn {
-        SectionHeading("检测", "用主动回忆检验学习效果；每次答题立即保存到本机。")
+        SectionHeading("检测", "支持四选一客观检测、面试闪卡 3D 翻转自测与听音辨义。")
+        // 7. 训练题型选择：四选一 vs 面试闪卡翻转自测
+        AcademicCard {
+            Text("训练模式", style = MaterialTheme.typography.titleLarge, color = Academic.Ink)
+            QuizPracticeModes.forEachIndexed { index, (id, pair) ->
+                val (label, subtitle) = pair
+                ChoiceRow(
+                    label = label,
+                    selected = state.screen.quizPracticeMode == id,
+                    onSelect = {
+                        modeOrigin = index
+                        modeRipple += 1
+                        viewModel.setQuizPracticeMode(id)
+                    },
+                    enabled = !state.busy,
+                    supporting = subtitle,
+                    rippleSignal = modeRipple,
+                    rippleDistance = abs(index - modeOrigin),
+                )
+            }
+        }
+        // 8. 检测方向（新增“🔊 听音辨义”）
         AcademicCard {
             Text("检测方向", style = MaterialTheme.typography.titleLarge, color = Academic.Ink)
             QuizDirections.forEachIndexed { index, (id, label) ->
+                val isListeningOption = id == "listening"
+                val isSelected = if (isListeningOption) {
+                    state.screen.quizListeningMode
+                } else {
+                    !state.screen.quizListeningMode && preferences.direction == id
+                }
                 ChoiceRow(
                     label = label,
-                    selected = preferences.direction == id,
+                    selected = isSelected,
                     onSelect = {
                         directionOrigin = index
                         directionRipple += 1
-                        save(preferences.copy(direction = id))
+                        if (isListeningOption) {
+                            viewModel.setQuizListeningMode(true)
+                            save(preferences.copy(direction = "enToZh"))
+                        } else {
+                            viewModel.setQuizListeningMode(false)
+                            save(preferences.copy(direction = id))
+                        }
                     },
                     enabled = !state.busy,
+                    supporting = if (isListeningOption) "题面隐藏英文拼写并自动朗读发音，模拟全英文面试听力反应" else null,
                     rippleSignal = directionRipple,
                     rippleDistance = abs(index - directionOrigin),
                 )
@@ -217,70 +273,135 @@ private fun QuizSetup(state: AppUiState, viewModel: AppViewModel) {
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun ActiveQuiz(state: AppUiState, viewModel: AppViewModel) {
     val quiz = state.screen.quiz ?: return
     val question = state.currentQuestion ?: return
     val answered = quiz.selectedOptionID != null
     val correct = quiz.selectedOptionID == question.correctOptionID
+    val isFlashcard = quiz.mode == "flashcard"
+    val isListening = quiz.listeningMode
     var confirmEnd by remember { mutableStateOf(false) }
+
+    // 8. 听音辨义模式：切题后自动朗读当前英文术语
+    LaunchedEffect(question.id, isListening) {
+        if (isListening) {
+            viewModel.speak(question.term.speechText)
+        }
+    }
+
     BackHandler { confirmEnd = true }
     ReadingColumn(resetKey = question.id) {
-        SectionHeading(
-            "检测进行中",
-            "第 " + (quiz.index + 1) + " / " + quiz.questions.size + " 题 · " +
-                if (question.direction == "zhToEn") "选择对应的英文术语" else "选择对应的中文术语",
-        )
-        MasteryLine((quiz.index + if (answered) 1.0 else 0.0) / quiz.questions.size)
-        AcademicCard {
-            TermBadge(question.term.subjectName, Academic.subjectAccent(question.term.subjectID))
-            Text(
-                VocabularyCore.displayMathNotation(
-                    if (question.direction == "zhToEn") question.term.chinese else question.term.english,
-                ),
-                style = MaterialTheme.typography.headlineMedium,
-                fontFamily = if (question.direction == "zhToEn") FontFamily.Serif else FontFamily.SansSerif,
-                color = if (question.direction == "zhToEn") Academic.Ink else Academic.Blue,
-                fontWeight = if (question.term.important) FontWeight.Bold else FontWeight.Medium,
-            )
+        val subtitleText = buildString {
+            append("第 ${quiz.index + 1} / ${quiz.questions.size} 题 · ")
+            if (isFlashcard) append("面试闪卡自测 · ")
+            when {
+                isListening -> append("听英文发音辨析中文概念")
+                question.direction == "zhToEn" -> append("选择对应的英文术语")
+                else -> append("选择对应的中文术语")
+            }
         }
-        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            question.options.forEachIndexed { index, term ->
-                val chosen = term.id == quiz.selectedOptionID
-                val right = term.id == question.correctOptionID
-                val color = when {
-                    answered && right -> Academic.Success
-                    answered && chosen -> Academic.Error
-                    else -> Academic.Grid
-                }
-                val bgColor = if (answered && (right || chosen)) color.copy(alpha = 0.08f) else Academic.Surface
-                Card(
-                    onClick = { viewModel.answer(term.id) },
-                    enabled = !answered && !state.busy,
-                    modifier = Modifier.fillMaxWidth().heightIn(min = 64.dp).bounceClick(!answered && !state.busy),
-                    shape = Academic.Shape,
-                    border = BorderStroke(if (answered && (right || chosen)) 1.5.dp else 1.dp, color),
-                    colors = CardDefaults.cardColors(
-                        containerColor = bgColor,
-                        disabledContainerColor = bgColor,
-                        disabledContentColor = Academic.Ink,
-                    ),
+        SectionHeading("检测进行中", subtitleText)
+        MasteryLine((quiz.index + if (answered) 1.0 else 0.0) / quiz.questions.size)
+
+        if (isFlashcard && !answered) {
+            FlashcardQuestionCard(
+                question = question,
+                isListening = isListening,
+                busy = state.busy,
+                onSpeak = { accent -> viewModel.speak(question.term.speechText, accent) },
+                onSelfGrade = { knewIt -> viewModel.answerFlashcard(knewIt) },
+            )
+        } else {
+            AcademicCard {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
                 ) {
-                    Row(Modifier.padding(18.dp), horizontalArrangement = Arrangement.spacedBy(14.dp)) {
-                        Text(
-                            ('A' + index).toString(),
-                            color = Academic.Blue,
-                            fontFamily = FontFamily.Monospace,
-                            fontWeight = FontWeight.Bold,
-                        )
-                        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                            Text(
-                                VocabularyCore.displayMathNotation(if (question.direction == "zhToEn") term.english else term.chinese),
-                                fontWeight = if (term.important) FontWeight.Bold else FontWeight.Normal,
-                                color = Academic.Ink,
-                            )
-                            if (answered && right) Text("正确答案", color = Academic.Success, style = MaterialTheme.typography.labelMedium)
-                            else if (answered && chosen) Text("你的选择", color = Academic.Error, style = MaterialTheme.typography.labelMedium)
+                    TermBadge(question.term.subjectName, Academic.subjectAccent(question.term.subjectID))
+                    if (isListening) TermBadge("🔊 听音辨义", Academic.Blue)
+                    if (isFlashcard) TermBadge("面试闪卡", Academic.Blue)
+                }
+                if (isListening && !answered) {
+                    Text(
+                        "🎧 请听英文专业词汇发音，在下方选出对应的中文数学概念",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Academic.Ink,
+                    )
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        FilledTonalButton(
+                            onClick = { viewModel.speak(question.term.speechText, "en-US") },
+                            modifier = Modifier.heightIn(min = 48.dp).bounceClick(),
+                        ) {
+                            Icon(Icons.AutoMirrored.Outlined.VolumeUp, contentDescription = null)
+                            Text(" 重播美音")
+                        }
+                        OutlinedButton(
+                            onClick = { viewModel.speak(question.term.speechText, "en-GB") },
+                            modifier = Modifier.heightIn(min = 48.dp).bounceClick(),
+                        ) {
+                            Icon(Icons.AutoMirrored.Outlined.VolumeUp, contentDescription = null)
+                            Text(" 重播英音")
+                        }
+                    }
+                } else {
+                    Text(
+                        VocabularyCore.displayMathNotation(
+                            if (question.direction == "zhToEn") question.term.chinese else question.term.english,
+                        ),
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontFamily = if (question.direction == "zhToEn") FontFamily.Serif else FontFamily.SansSerif,
+                        color = if (question.direction == "zhToEn") Academic.Ink else Academic.Blue,
+                        fontWeight = if (question.term.important) FontWeight.Bold else FontWeight.Medium,
+                    )
+                }
+            }
+            if (!isFlashcard) {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    question.options.forEachIndexed { index, term ->
+                        val chosen = term.id == quiz.selectedOptionID
+                        val right = term.id == question.correctOptionID
+                        val color = when {
+                            answered && right -> Academic.Success
+                            answered && chosen -> Academic.Error
+                            else -> Academic.Grid
+                        }
+                        val bgColor = if (answered && (right || chosen)) color.copy(alpha = 0.08f) else Academic.Surface
+                        Card(
+                            onClick = { viewModel.answer(term.id) },
+                            enabled = !answered && !state.busy,
+                            modifier = Modifier.fillMaxWidth().heightIn(min = 64.dp).bounceClick(!answered && !state.busy),
+                            shape = Academic.Shape,
+                            border = BorderStroke(if (answered && (right || chosen)) 1.5.dp else 1.dp, color),
+                            colors = CardDefaults.cardColors(
+                                containerColor = bgColor,
+                                disabledContainerColor = bgColor,
+                                disabledContentColor = Academic.Ink,
+                            ),
+                        ) {
+                            Row(Modifier.padding(18.dp), horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+                                Text(
+                                    ('A' + index).toString(),
+                                    color = Academic.Blue,
+                                    fontFamily = FontFamily.Monospace,
+                                    fontWeight = FontWeight.Bold,
+                                )
+                                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                                    Text(
+                                        VocabularyCore.displayMathNotation(
+                                            if (question.direction == "zhToEn") term.english else term.chinese,
+                                        ),
+                                        fontWeight = if (term.important) FontWeight.Bold else FontWeight.Normal,
+                                        color = Academic.Ink,
+                                    )
+                                    if (answered && right) Text("正确答案", color = Academic.Success, style = MaterialTheme.typography.labelMedium)
+                                    else if (answered && chosen) Text("你的选择", color = Academic.Error, style = MaterialTheme.typography.labelMedium)
+                                }
+                            }
                         }
                     }
                 }
@@ -353,6 +474,192 @@ private fun ActiveQuiz(state: AppUiState, viewModel: AppViewModel) {
         confirmButton = { TextButton(onClick = { confirmEnd = false; viewModel.finishQuiz() }) { Text("结束检测") } },
         dismissButton = { TextButton(onClick = { confirmEnd = false }) { Text("继续答题") } },
     )
+}
+
+/**
+ * 7. 面试闪卡（Flashcard）3D 翻转自测卡片
+ */
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun FlashcardQuestionCard(
+    question: QuizQuestion,
+    isListening: Boolean,
+    busy: Boolean,
+    onSpeak: (String) -> Unit,
+    onSelfGrade: (Boolean) -> Unit,
+) {
+    var flipped by rememberSaveable(question.id) { mutableStateOf(false) }
+    val rotation by animateFloatAsState(
+        targetValue = if (flipped) 180f else 0f,
+        animationSpec = spring(dampingRatio = 0.78f, stiffness = 300f),
+        label = "flashcardFlipRotation",
+    )
+    val showBack = rotation > 90f
+
+    Card(
+        onClick = { flipped = !flipped },
+        shape = RoundedCornerShape(18.dp),
+        colors = CardDefaults.cardColors(containerColor = Academic.Surface),
+        border = BorderStroke(1.5.dp, if (showBack) Academic.Blue else Academic.Grid),
+        modifier = Modifier
+            .fillMaxWidth()
+            .bounceClick()
+            .graphicsLayer {
+                rotationY = rotation
+                cameraDistance = 14f * density
+            },
+    ) {
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .graphicsLayer {
+                    if (showBack) rotationY = 180f
+                }
+                .padding(22.dp),
+        ) {
+            if (!showBack) {
+                Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(6.dp),
+                    ) {
+                        TermBadge(question.term.subjectName, Academic.subjectAccent(question.term.subjectID))
+                        TermBadge("面试闪卡 · 正面", Academic.Blue)
+                        if (isListening) TermBadge("🔊 听音辨义", Academic.Blue)
+                    }
+                    if (isListening) {
+                        Text(
+                            "🎧 请听发音并口述对应的中文概念与数学定义",
+                            style = MaterialTheme.typography.titleLarge,
+                            color = Academic.Ink,
+                        )
+                        FlowRow(
+                            horizontalArrangement = Arrangement.spacedBy(10.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                        ) {
+                            FilledTonalButton(
+                                onClick = { onSpeak("en-US") },
+                                modifier = Modifier.heightIn(min = 48.dp),
+                            ) {
+                                Icon(Icons.AutoMirrored.Outlined.VolumeUp, contentDescription = null)
+                                Text(" 播放美音")
+                            }
+                            OutlinedButton(
+                                onClick = { onSpeak("en-GB") },
+                                modifier = Modifier.heightIn(min = 48.dp),
+                            ) {
+                                Icon(Icons.AutoMirrored.Outlined.VolumeUp, contentDescription = null)
+                                Text(" 播放英音")
+                            }
+                        }
+                    } else {
+                        Text(
+                            VocabularyCore.displayMathNotation(
+                                if (question.direction == "zhToEn") question.term.chinese else question.term.english,
+                            ),
+                            style = MaterialTheme.typography.headlineMedium,
+                            fontFamily = if (question.direction == "zhToEn") FontFamily.Serif else FontFamily.SansSerif,
+                            color = if (question.direction == "zhToEn") Academic.Ink else Academic.Blue,
+                            fontWeight = FontWeight.Bold,
+                        )
+                    }
+                    Surface(
+                        color = Academic.SecondarySurface,
+                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text(
+                            "💡 面试模拟提示：先在心中或出声拼读目标术语与核心定义，再点击卡片翻转核对。",
+                            modifier = Modifier.padding(12.dp),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Academic.Muted,
+                        )
+                    }
+                    FilledTonalButton(
+                        onClick = { flipped = true },
+                        modifier = Modifier.fillMaxWidth().heightIn(min = 50.dp),
+                    ) {
+                        Icon(Icons.Outlined.Refresh, contentDescription = null)
+                        Text(" 翻转闪卡核对答案")
+                    }
+                }
+            } else {
+                Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(6.dp),
+                    ) {
+                        TermBadge(question.term.subjectName, Academic.subjectAccent(question.term.subjectID))
+                        TermBadge("面试闪卡 · 答案背面", Academic.Success)
+                    }
+                    Text(
+                        VocabularyCore.displayMathNotation(question.term.chinese),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = Academic.Ink,
+                    )
+                    Text(
+                        VocabularyCore.displayMathNotation(question.term.english),
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = Academic.Blue,
+                    )
+                    Text(
+                        "US ${question.term.pronunciation.americanIPA}   ·   UK ${question.term.pronunciation.britishIPA}",
+                        fontFamily = FontFamily.Monospace,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Academic.Muted,
+                    )
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        FilledTonalButton(
+                            onClick = { onSpeak("en-US") },
+                            modifier = Modifier.heightIn(min = 44.dp),
+                        ) {
+                            Icon(Icons.AutoMirrored.Outlined.VolumeUp, contentDescription = null)
+                            Text(" 美式发音")
+                        }
+                        OutlinedButton(
+                            onClick = { onSpeak("en-GB") },
+                            modifier = Modifier.heightIn(min = 44.dp),
+                        ) {
+                            Icon(Icons.AutoMirrored.Outlined.VolumeUp, contentDescription = null)
+                            Text(" 英式发音")
+                        }
+                    }
+                    HorizontalDivider(color = Academic.Grid)
+                    Text(
+                        VocabularyCore.displayMathNotation(question.term.definition),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Academic.Ink,
+                    )
+                    Row(
+                        Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    ) {
+                        OutlinedButton(
+                            onClick = { onSelfGrade(false) },
+                            enabled = !busy,
+                            modifier = Modifier.weight(1f).heightIn(min = 50.dp).bounceClick(!busy),
+                        ) {
+                            Icon(Icons.Outlined.Close, contentDescription = null, tint = Academic.Error)
+                            Text(" 记错了·需复习", color = Academic.Error)
+                        }
+                        Button(
+                            onClick = { onSelfGrade(true) },
+                            enabled = !busy,
+                            modifier = Modifier.weight(1f).heightIn(min = 50.dp).bounceClick(!busy),
+                        ) {
+                            Icon(Icons.Outlined.Check, contentDescription = null)
+                            Text(" 熟练答出")
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
