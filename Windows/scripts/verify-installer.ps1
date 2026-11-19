@@ -219,7 +219,19 @@ try {
     $unexpectedDirectory = Join-Path $output 'must-not-install-here'
     $process = Start-Installer $upgrade @('/S', '/currentuser', "/D=$unexpectedDirectory") 'custom-install-directory-refused'
     Complete-Installer $process 'custom-install-directory-refused' $false
-    Assert-Condition (!(Test-Path -LiteralPath $unexpectedDirectory)) 'The installer used a caller-selected directory.'
+    # NSIS 在 .onInit 之前会 SetOutPath，可能留下空目录；不得安装文件或删除已有内容。
+    if (Test-Path -LiteralPath $unexpectedDirectory) {
+        Assert-Condition (@(Get-ChildItem -LiteralPath $unexpectedDirectory -Force).Count -eq 0) 'A rejected installer wrote files to the caller-selected directory.'
+    } else {
+        New-Item -ItemType Directory -Path $unexpectedDirectory | Out-Null
+    }
+    $protectedFile = Join-Path $unexpectedDirectory 'existing-user-file.txt'
+    'preserve this existing file' | Set-Content -LiteralPath $protectedFile -Encoding utf8NoBOM
+    $protectedHash = (Get-FileHash -LiteralPath $protectedFile -Algorithm SHA256).Hash
+    $process = Start-Installer $upgrade @('/S', '/currentuser', "/D=$unexpectedDirectory") 'existing-directory-preserved'
+    Complete-Installer $process 'existing-directory-preserved' $false
+    Assert-Condition ((Get-FileHash -LiteralPath $protectedFile -Algorithm SHA256).Hash -eq $protectedHash) 'A rejected installer changed an existing file.'
+    Assert-Condition (@(Get-ChildItem -LiteralPath $unexpectedDirectory -Force).Count -eq 1) 'A rejected installer added files to an existing directory.'
     $handoff = New-Handoff $window.Id
     $process = Start-Installer $upgrade $handoff.Arguments 'parent-exit-timeout'
     Wait-Handoff $handoff $window.Id $process

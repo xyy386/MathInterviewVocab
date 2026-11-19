@@ -26,6 +26,7 @@ Windows 仍提供同版本便携 ZIP，兼容旧下载入口及免安装使用�
 - macOS 使用 Sparkle 2.10.1，固定更新公钥，验证签名 appcast 和归档；Windows 使用固定 Ed25519 公钥验证精确清单字节，再绑定正式版、文件名、字节数和 SHA-256。下载和执行前均验证，不能仅凭可编辑校验文件执行任意 EXE。
 - Windows 清单为 `Windows-update.json`、分离签名为 `Windows-update.json.sig`；正式 Setup、便携 ZIP、macOS ZIP 和元数据的摘要统一放入 `SHA256SUMS.txt`。
 - Windows 保留 Internet Zone 标记；macOS 交由 Sparkle 已验证安装流程处理。不得关闭 Gatekeeper、SmartScreen、Defender 或全局安全设置。
+- Windows 拒绝 `/allusers` 与 `/D` 自定义安装目录。NSIS 预初始化可能为 `/D` 建立一个空目录，但随后拒绝安装，不写入程序文件，也不删除该目录中的已有内容。
 - 当前 Mac 仍是 ad-hoc 签名、未公证；Windows 未商业代码签名。更新认证不是操作系统对开发者身份的认证，不保证系统不会显示安全提示。
 - 没有验证过的断电、磁盘故障或部分安装场景不宣称自动回滚；历史正式包保留在 Releases，必要时用原安装器修复，不删除学习目录。
 
