@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><!-- sparkle-sign-warning:
+IMPORTANT: This file was signed by Sparkle. Any modifications to this file requires re-signing this file with generate_appcast or sign_update! The signed signature will be embedded at the end of this file.
+--><rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+  <channel>
+    <title>数学面试词汇</title>
+    <link>https://github.com/xyy386/MathInterviewVocab</link>
+    <description>macOS 正式版；仅在用户主动检查时使用。</description>
+    <item>
+      <title>数学面试词汇 1.4.0</title>
+      <link>https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.4.0</link>
+      <sparkle:version>6</sparkle:version>
+      <sparkle:shortVersionString>1.4.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <description><![CDATA[<p>更新说明：<a href="https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.4.0">1.4.0 正式发布页</a>。确认安装后自动退出、替换并重新打开；学习记录保留。</p>]]></description>
+      <enclosure url="https://github.com/xyy386/MathInterviewVocab/releases/download/v1.4.0/MathInterviewVocab-macOS-universal-v1.4.0.zip" length="49133327" type="application/octet-stream" sparkle:edSignature="4ZJGwReE03dQk/BV8KRG4mSoBeskWw9e1xGNr7fW5aux7XmiQ61PsFIMrlMIXCuzbghBUi6t4EzGXyGal9S8Cg=="></enclosure>
+    </item>
+  </channel>
+</rss><!-- sparkle-signatures:
+edSignature: CmOWmcBQEI8KnV2G8O8M6k//6lGyeuIMtRhW229WTvvZidb9m041VZ4mqUj9ihUo3lysHncmZZjeZXNYajteCA==
+length: 1492
+-->
