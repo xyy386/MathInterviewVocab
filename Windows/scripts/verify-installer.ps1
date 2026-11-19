@@ -92,7 +92,7 @@ function Close-FixtureWindow([Diagnostics.Process]$Process, [switch]$AllowRelaun
     if ($Process.HasExited) { return }
     Assert-Condition ([string]::Equals($Process.Path, $executable, [StringComparison]::OrdinalIgnoreCase)) 'Refusing to close a process outside the fixture installation.'
     Assert-Condition ($Process.CloseMainWindow()) 'The fixture application refused a normal window-close request.'
-    Assert-Condition ($Process.WaitForExit(30_000)) 'The fixture application did not quit gracefully.'
+    Assert-Condition ($Process.WaitForExit(30000)) 'The fixture application did not quit gracefully.'
     if (!$AllowRelaunch) {
         Wait-Condition { @(Find-FixtureProcesses).Count -eq 0 } 20 'Fixture child processes remained after graceful quit.'
     }

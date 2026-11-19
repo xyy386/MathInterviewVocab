@@ -39,6 +39,12 @@ jobs:
           node-version: '24'
           cache: npm
           cache-dependency-path: Windows/package-lock.json
+      - name: Validate native test script before building installers
+        run: |
+          $tokens = $null
+          $parseErrors = $null
+          [void][Management.Automation.Language.Parser]::ParseFile((Join-Path $PWD 'scripts/verify-installer.ps1'), [ref]$tokens, [ref]$parseErrors)
+          if ($parseErrors.Count -gt 0) { throw ($parseErrors | Out-String) }
       - name: Prepare isolated evidence directory
         run: |
           $output = Join-Path $env:RUNNER_TEMP "math-vocab-installer-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
