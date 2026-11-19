@@ -1,318 +1,294 @@
 import AppKit
-import CryptoKit
-import Darwin
 import Foundation
 import Observation
-
-struct AppUpdateTransport: Sendable {
-    var data: @Sendable (URL, Int64) async throws -> Data
-    var download: @Sendable (URL, Int64) async throws -> URL
-
-    static let live = Self(data: { url, limit in
-        let networkGuard = UpdateNetworkGuard()
-        let session = makeSession(delegate: networkGuard)
-        defer { session.invalidateAndCancel() }
-        let (bytes, response) = try await session.bytes(for: request(url), delegate: networkGuard)
-        try validate(response, maximumBytes: limit)
-        var data = Data()
-        for try await byte in bytes {
-            try Task.checkCancellation()
-            guard data.count < limit else { throw AppUpdateError.tooLarge }
-            data.append(byte)
-        }
-        return data
-    }, download: { url, limit in
-        let networkGuard = UpdateNetworkGuard()
-        let session = makeSession(delegate: networkGuard)
-        defer { session.invalidateAndCancel() }
-        let (bytes, response) = try await session.bytes(for: request(url), delegate: networkGuard)
-        try validate(response, maximumBytes: limit)
-        return try await writeBoundedArchive(bytes, maximumBytes: limit)
-    })
-
-    static func writeBoundedArchive<Bytes: AsyncSequence>(
-        _ bytes: Bytes, maximumBytes: Int64,
-        temporaryDirectory: URL = FileManager.default.temporaryDirectory
-    ) async throws -> URL where Bytes.Element == UInt8 {
-        guard maximumBytes > 0, maximumBytes <= AppUpdatePolicy.maximumArchiveBytes,
-              temporaryDirectory.isFileURL else { throw AppUpdateError.tooLarge }
-        let file = temporaryDirectory.appendingPathComponent("MathVocabUpdate-\(UUID().uuidString).partial")
-        try Data().write(to: file, options: .withoutOverwriting)
-        var complete = false
-        defer { if !complete { try? FileManager.default.removeItem(at: file) } }
-        let handle = try FileHandle(forWritingTo: file)
-        defer { try? handle.close() }
-        var buffer = Data()
-        buffer.reserveCapacity(65_536)
-        var total: Int64 = 0
-        // 不依赖下载完成后的检查或进度回调，在读入与写盘过程中强制限制大小。
-        for try await byte in bytes {
-            guard total < maximumBytes else { throw AppUpdateError.tooLarge }
-            total += 1
-            buffer.append(byte)
-            if buffer.count == 65_536 {
-                try Task.checkCancellation()
-                try handle.write(contentsOf: buffer)
-                buffer.removeAll(keepingCapacity: true)
-            }
-        }
-        try Task.checkCancellation()
-        guard total > 0 else { throw AppUpdateError.invalidArchive }
-        if !buffer.isEmpty { try handle.write(contentsOf: buffer) }
-        try handle.close()
-        complete = true
-        return file
-    }
-
-    private static func makeSession(delegate: UpdateNetworkGuard) -> URLSession {
-        let configuration = URLSessionConfiguration.ephemeral
-        configuration.httpShouldSetCookies = false
-        configuration.httpCookieStorage = nil
-        configuration.urlCredentialStorage = nil
-        configuration.urlCache = nil
-        configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
-        configuration.timeoutIntervalForRequest = 30
-        configuration.timeoutIntervalForResource = 600
-        configuration.waitsForConnectivity = false
-        return URLSession(configuration: configuration, delegate: delegate, delegateQueue: nil)
-    }
-
-    private static func request(_ url: URL) throws -> URLRequest {
-        guard AppUpdatePolicy.isAllowedNetworkURL(url) else { throw AppUpdateError.invalidURL }
-        var request = URLRequest(url: url)
-        request.setValue("MathInterviewVocab-Update", forHTTPHeaderField: "User-Agent")
-        request.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
-        request.setValue("2026-03-10", forHTTPHeaderField: "X-GitHub-Api-Version")
-        return request
-    }
-
-    static func validate(_ response: URLResponse, maximumBytes: Int64) throws {
-        guard let response = response as? HTTPURLResponse,
-              let url = response.url, AppUpdatePolicy.isAllowedNetworkURL(url) else {
-            throw AppUpdateError.invalidURL
-        }
-        guard response.statusCode == 200 else { throw AppUpdateError.status(response.statusCode) }
-        guard response.expectedContentLength <= maximumBytes else { throw AppUpdateError.tooLarge }
-    }
-}
-
-private final class UpdateNetworkGuard: NSObject, URLSessionTaskDelegate, Sendable {
-    func urlSession(
-        _ session: URLSession, task: URLSessionTask,
-        willPerformHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest,
-        completionHandler: @escaping @Sendable (URLRequest?) -> Void
-    ) {
-        guard let url = request.url, AppUpdatePolicy.isAllowedNetworkURL(url) else {
-            completionHandler(nil)
-            return
-        }
-        completionHandler(request)
-    }
-
-    func urlSession(
-        _ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge,
-        completionHandler: @escaping @Sendable (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
-    ) {
-        // 只使用系统 TLS 验证，不查询凭据或响应网站的账号认证请求。
-        completionHandler(
-            challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust
-                ? .performDefaultHandling : .cancelAuthenticationChallenge,
-            nil
-        )
-    }
-}
+import Sparkle
 
 enum AppUpdatePhase: Equatable {
     case idle
     case checking
     case current
-    case available
+    case available(String)
     case downloading
+    case verifying
     case ready
+    case installing
+    case deferred
     case failed(String)
+}
+
+enum UpdateInstallationError: LocalizedError {
+    case unsavedProgress
+    case invalidConfiguration
+    case invalidRelease
+    case manualChecksOnly
+
+    var errorDescription: String? {
+        switch self {
+        case .unsavedProgress:
+            "学习记录尚未成功读取或保存。请先处理设置中的保存错误，再安装更新；现有文件不会被重置。"
+        case .invalidConfiguration:
+            "更新配置不完整，请从官方 GitHub Release 重新安装完整版本。"
+        case .invalidRelease:
+            "更新信息与官方 macOS 安装包不一致，已停止更新。"
+        case .manualChecksOnly:
+            "仅允许你主动检查和安装更新。"
+        }
+    }
+}
+
+enum UpdateInstallationGuard {
+    @MainActor
+    static func saveProgress(_ progress: ProgressStore) throws {
+        // 读取失败时内存中可能是空记录，不得将其覆盖到原文件。
+        guard progress.lastPersistenceError == nil else {
+            throw UpdateInstallationError.unsavedProgress
+        }
+        try progress.save()
+    }
+}
+
+struct SparkleReleaseCandidate: Sendable {
+    let version: String
+    let build: String
+    let archiveURL: URL?
+    let bytes: UInt64
+    let pageURL: URL?
+    let releaseNotesURL: URL?
+
+    func validate(
+        currentVersion: String, currentBuild: String,
+        archiveOrigin: String = "https://github.com/xyy386/MathInterviewVocab"
+    ) throws {
+        guard let version = AppVersion(version), let current = AppVersion(currentVersion), version > current,
+              let buildNumber = UInt64(build), String(buildNumber) == build,
+              let currentBuildNumber = UInt64(currentBuild), buildNumber > currentBuildNumber,
+              bytes > 0, bytes <= UInt64(AppUpdatePolicy.maximumArchiveBytes) else {
+            throw UpdateInstallationError.invalidRelease
+        }
+        let page = "https://github.com/xyy386/MathInterviewVocab/releases/tag/v\(version)"
+        let archive = "\(archiveOrigin)/releases/download/v\(version)/MathInterviewVocab-macOS-universal-v\(version).zip"
+        guard archiveURL?.absoluteString == archive,
+              pageURL == nil || pageURL?.absoluteString == page,
+              releaseNotesURL == nil || releaseNotesURL?.absoluteString == page else {
+            throw UpdateInstallationError.invalidRelease
+        }
+    }
 }
 
 @MainActor
 @Observable
-final class UpdateService {
-    let currentVersion: String
-    private(set) var phase = AppUpdatePhase.idle
-    private(set) var release: AppUpdateRelease?
-    private(set) var downloadedURL: URL?
+final class UpdateService: NSObject, SPUUpdaterDelegate {
+    static let feedURL = "https://raw.githubusercontent.com/xyy386/MathInterviewVocab/main/updates/macos/appcast.xml"
+    static let publicKey = "IBdRtdCy/pTzCtxPyODNo0saDZ5zbprza4wRUJ5O1DU="
 
-    @ObservationIgnored private let transport: AppUpdateTransport
-    @ObservationIgnored private let downloadsDirectory: URL?
-    @ObservationIgnored private var operation: Task<Void, Never>?
-    @ObservationIgnored private var operationID = UUID()
+    let currentVersion: String
+    let currentBuild: String
+    private(set) var phase = AppUpdatePhase.idle
+    private(set) var hasPendingInstallation = false
+
+    @ObservationIgnored private let prepareForInstallation: @MainActor () throws -> Void
+    @ObservationIgnored private var controller: SPUStandardUpdaterController?
+    @ObservationIgnored private var resumeInstallation: (() -> Void)?
 
     init(
         currentVersion: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "未知",
-        transport: AppUpdateTransport = .live,
-        downloadsDirectory: URL? = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first
+        currentBuild: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "0",
+        prepareForInstallation: @escaping @MainActor () throws -> Void
     ) {
         self.currentVersion = currentVersion
-        self.transport = transport
-        self.downloadsDirectory = downloadsDirectory
+        self.currentBuild = currentBuild
+        self.prepareForInstallation = prepareForInstallation
+        super.init()
+        // 不在初始化或启动时创建、启动更新器，测试宿主和离线学习均不会访问网络。
     }
 
-    var isBusy: Bool { phase == .checking || phase == .downloading }
+    var isBusy: Bool { controller?.updater.sessionInProgress == true }
+    var canCheckForUpdates: Bool {
+        !hasPendingInstallation && (controller?.updater.canCheckForUpdates ?? true)
+    }
+    var canRetryInstallation: Bool { resumeInstallation != nil }
 
     func checkForUpdates() {
-        guard !isBusy else { return }
-        let id = UUID()
-        operationID = id
-        phase = .checking
-        release = nil
-        downloadedURL = nil
-        operation = Task {
-            do {
-                let data = try await transport.data(AppUpdatePolicy.latestURL, AppUpdatePolicy.maximumMetadataBytes)
-                try Task.checkCancellation()
-                guard operationID == id else { return }
-                switch try AppUpdatePolicy.check(data, currentVersion: currentVersion) {
-                case .current: phase = .current
-                case .available(let available):
-                    release = available
-                    phase = .available
-                }
-            } catch {
-                guard operationID == id else { return }
-                phase = .failed(Self.message(for: error))
+        guard canCheckForUpdates else { return }
+        if let controller, controller.updater.sessionInProgress {
+            // 原生 API 会将现有下载／安装窗口带到前台，而不是发起第二次检查。
+            controller.checkForUpdates(nil)
+            return
+        }
+        do {
+            try validateConfiguration(Bundle.main.infoDictionary ?? [:])
+            if controller == nil {
+                let controller = SPUStandardUpdaterController(
+                    startingUpdater: false, updaterDelegate: self, userDriverDelegate: nil
+                )
+                // 覆盖历史偏好；不提供后台检查、自动下载或系统信息上报开关。
+                controller.updater.automaticallyChecksForUpdates = false
+                controller.updater.automaticallyDownloadsUpdates = false
+                controller.updater.sendsSystemProfile = false
+                try controller.updater.start()
+                self.controller = controller
             }
+            phase = .checking
+            controller?.checkForUpdates(nil)
+        } catch {
+            phase = .failed(error.localizedDescription)
         }
     }
 
-    func downloadUpdate() {
-        guard !isBusy, let release else { return }
-        let id = UUID()
-        operationID = id
+    func retryInstallation() {
+        guard let resumeInstallation else { return }
+        do {
+            try prepareForInstallation()
+            self.resumeInstallation = nil
+            phase = .installing
+            resumeInstallation()
+        } catch {
+            phase = .failed(error.localizedDescription)
+        }
+    }
+
+    // Sparkle 的延迟重启回调并非每次都执行，最终退出还必须经过应用代理的保存门禁。
+    func prepareForUpdateTermination() -> Bool {
+        guard hasPendingInstallation else { return true }
+        do {
+            try prepareForInstallation()
+            phase = .installing
+            return true
+        } catch {
+            phase = .failed(error.localizedDescription)
+            return false
+        }
+    }
+
+    func validateConfiguration(_ information: [String: Any]) throws {
+        let expectedFeed = Self.fixtureFeedURL(in: information)?.absoluteString ?? Self.feedURL
+        guard information["SUFeedURL"] as? String == expectedFeed,
+              information["SUPublicEDKey"] as? String == Self.publicKey,
+              information["SUEnableAutomaticChecks"] as? Bool == false,
+              information["SUAutomaticallyUpdate"] as? Bool == false,
+              information["SUAllowsAutomaticUpdates"] as? Bool == false,
+              information["SUEnableSystemProfiling"] as? Bool == false,
+              information["SURequireSignedFeed"] as? Bool == true,
+              information["SUVerifyUpdateBeforeExtraction"] as? Bool == true else {
+            throw UpdateInstallationError.invalidConfiguration
+        }
+    }
+
+    func updater(_ updater: SPUUpdater, mayPerform updateCheck: SPUUpdateCheck) throws {
+        guard updateCheck == .updates else { throw UpdateInstallationError.manualChecksOnly }
+    }
+
+    func allowedSystemProfileKeys(for updater: SPUUpdater) -> [String]? { [] }
+    func updaterShouldPromptForPermissionToCheck(forUpdates updater: SPUUpdater) -> Bool { false }
+
+    func updater(_ updater: SPUUpdater, shouldProceedWithUpdate item: SUAppcastItem, updateCheck: SPUUpdateCheck) throws {
+        let fixtureFeed = Self.fixtureFeedURL(in: Bundle.main.infoDictionary ?? [:])
+        let archiveOrigin = fixtureFeed.flatMap { url -> String? in
+            guard let port = url.port else { return nil }
+            return "http://127.0.0.1:\(port)"
+        } ?? "https://github.com/xyy386/MathInterviewVocab"
+        try SparkleReleaseCandidate(
+            version: item.displayVersionString,
+            build: item.versionString,
+            archiveURL: item.fileURL,
+            bytes: item.contentLength,
+            pageURL: item.infoURL,
+            releaseNotesURL: item.releaseNotesURL
+        ).validate(currentVersion: currentVersion, currentBuild: currentBuild, archiveOrigin: archiveOrigin)
+    }
+
+    static func fixtureFeedURL(in information: [String: Any]) -> URL? {
+#if DEBUG
+        guard information["CFBundleIdentifier"] as? String == "com.xingyiyao.MathInterviewVocab.UpdaterFixture",
+              let text = information["SUFeedURL"] as? String, let url = URL(string: text),
+              url.scheme == "http", url.host == "127.0.0.1", url.port != nil,
+              url.path == "/appcast.xml", url.query == nil, url.fragment == nil,
+              url.user == nil, url.password == nil else { return nil }
+        return url
+#else
+        return nil
+#endif
+    }
+
+    func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
+        phase = .available(item.displayVersionString)
+    }
+
+    func updaterDidNotFindUpdate(_ updater: SPUUpdater, error: any Error) {
+        phase = .current
+    }
+
+    func updater(_ updater: SPUUpdater, willDownloadUpdate item: SUAppcastItem, with request: NSMutableURLRequest) {
         phase = .downloading
-        downloadedURL = nil
-        operation = Task {
-            var temporaryURL: URL?
-            defer { if let temporaryURL { try? FileManager.default.removeItem(at: temporaryURL) } }
-            do {
-                let checksums = try await transport.data(release.checksums.url, AppUpdatePolicy.maximumChecksumBytes)
-                guard checksums.count == release.checksums.bytes else { throw AppUpdateError.invalidChecksum }
-                if let declared = release.checksums.digest, Self.digest(checksums) != declared {
-                    throw AppUpdateError.invalidChecksum
-                }
-                let expected = try AppUpdatePolicy.checksum(in: checksums, for: release.archive.name)
-                guard release.archive.digest == nil || release.archive.digest == expected else {
-                    throw AppUpdateError.invalidChecksum
-                }
-                try Task.checkCancellation()
-                let file = try await transport.download(release.archive.url, release.archive.bytes)
-                temporaryURL = file
-                try await Self.verifyArchive(file, expectedBytes: release.archive.bytes, expectedDigest: expected)
-                try Task.checkCancellation()
-                guard operationID == id else { return }
-                downloadedURL = try saveVerifiedArchive(file, release: release)
-                phase = .ready
-            } catch {
-                guard operationID == id else { return }
-                phase = .failed(Self.message(for: error))
-            }
-        }
     }
 
-    func cancelDownload() {
-        guard phase == .downloading else { return }
-        operationID = UUID()
-        operation?.cancel()
-        phase = release == nil ? .idle : .available
+    func updater(_ updater: SPUUpdater, willExtractUpdate item: SUAppcastItem) {
+        phase = .verifying
     }
 
-    func showDownloadedArchive() {
-        guard phase == .ready, let downloadedURL,
-              FileManager.default.fileExists(atPath: downloadedURL.path) else { return }
-        NSWorkspace.shared.activateFileViewerSelecting([downloadedURL])
+    func updater(_ updater: SPUUpdater, didExtractUpdate item: SUAppcastItem) {
+        phase = .ready
     }
 
-    func showReleaseNotes() {
-        guard let release else { return }
-        NSWorkspace.shared.open(release.pageURL)
+    func updater(_ updater: SPUUpdater, willInstallUpdate item: SUAppcastItem) {
+        hasPendingInstallation = true
     }
 
-    func waitForOperation() async { await operation?.value }
-
-    static func verifyArchive(_ url: URL, expectedBytes: Int64, expectedDigest: String) async throws {
-        guard url.isFileURL, AppUpdatePolicy.isDigest(expectedDigest),
-              expectedBytes > 0, expectedBytes <= AppUpdatePolicy.maximumArchiveBytes,
-              let attributes = try? FileManager.default.attributesOfItem(atPath: url.path),
-              attributes[.type] as? FileAttributeType == .typeRegular,
-              (attributes[.size] as? NSNumber)?.int64Value == expectedBytes else {
-            throw AppUpdateError.invalidArchive
-        }
-        let handle = try FileHandle(forReadingFrom: url)
-        defer { try? handle.close() }
-        var hasher = SHA256()
-        var total: Int64 = 0
-        while let data = try handle.read(upToCount: 1_048_576), !data.isEmpty {
-            try Task.checkCancellation()
-            total += Int64(data.count)
-            guard total <= expectedBytes else { throw AppUpdateError.invalidArchive }
-            hasher.update(data: data)
-            // 分块校验期间让出界面执行权，取消无需等到整个文件处理完成。
-            await Task.yield()
-        }
-        guard total == expectedBytes,
-              hasher.finalize().map({ String(format: "%02x", $0) }).joined() == expectedDigest else {
-            throw AppUpdateError.invalidArchive
-        }
-    }
-
-    private func saveVerifiedArchive(_ file: URL, release: AppUpdateRelease) throws -> URL {
-        guard let downloadsDirectory, downloadsDirectory.isFileURL else { throw AppUpdateError.downloadsUnavailable }
-        let parent = downloadsDirectory.appendingPathComponent("MathInterviewVocab Updates", isDirectory: true)
-        let directory = parent.appendingPathComponent("v\(release.version)-\(UUID().uuidString)", isDirectory: true)
+    func updater(_ updater: SPUUpdater, shouldPostponeRelaunchForUpdate item: SUAppcastItem, untilInvokingBlock installHandler: @escaping () -> Void) -> Bool {
+        hasPendingInstallation = true
         do {
-            try FileManager.default.createDirectory(at: parent, withIntermediateDirectories: true)
-            try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: false)
-        } catch { throw AppUpdateError.downloadsUnavailable }
-        let destination = directory.appendingPathComponent(release.archive.name)
-        do {
-            try FileManager.default.moveItem(at: file, to: destination)
-            try DownloadQuarantine.mark(destination)
+            try prepareForInstallation()
+            phase = .installing
+            return false
+        } catch {
+            resumeInstallation = installHandler
+            phase = .failed(error.localizedDescription)
+            return true
         }
-        catch {
-            try? FileManager.default.removeItem(at: directory)
-            if let updateError = error as? AppUpdateError { throw updateError }
-            throw AppUpdateError.downloadsUnavailable
-        }
-        return destination
     }
 
-    private static func digest(_ data: Data) -> String {
-        SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+    func updaterWillRelaunchApplication(_ updater: SPUUpdater) {
+        hasPendingInstallation = true
     }
 
-    private static func message(for error: Error) -> String {
-        if let error = error as? AppUpdateError { return error.localizedDescription }
-        if (error as? URLError)?.code == .timedOut { return "连接 GitHub 超时，请检查网络后重试。" }
-        if error is CancellationError { return "下载已取消，可重新检查或下载。" }
-        return "无法完成更新，请检查网络、磁盘空间和下载文件夹权限后重试。"
+    func userDidCancelDownload(_ updater: SPUUpdater) {
+        phase = .deferred
+    }
+
+    func updater(_ updater: SPUUpdater, didAbortWithError error: any Error) {
+        hasPendingInstallation = false
+        resumeInstallation = nil
+        let error = error as NSError
+        if error.domain == SUSparkleErrorDomain && error.code == SUError.noUpdateError.rawValue {
+            phase = .current
+        } else {
+            phase = .failed(error.localizedDescription)
+        }
+    }
+
+    func updater(_ updater: SPUUpdater, didFinishUpdateCycleFor updateCheck: SPUUpdateCheck, error: (any Error)?) {
+        if let error {
+            self.updater(updater, didAbortWithError: error)
+        } else if phase != .installing {
+            hasPendingInstallation = false
+            if phase != .current { phase = .deferred }
+        }
     }
 }
 
-enum DownloadQuarantine {
-    static let attributeName = "com.apple.quarantine"
+@MainActor
+final class UpdateAppDelegate: NSObject, NSApplicationDelegate {
+    weak var updates: UpdateService?
 
-    static func mark(_ file: URL) throws {
-        guard file.isFileURL,
-              let attributes = try? FileManager.default.attributesOfItem(atPath: file.path),
-              attributes[.type] as? FileAttributeType == .typeRegular else {
-            throw AppUpdateError.quarantineUnavailable
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        guard updates?.prepareForUpdateTermination() != false else {
+            let alert = NSAlert()
+            alert.messageText = "未安装更新，学习记录尚未安全保存"
+            alert.informativeText = "请处理设置中的保存错误后重试安装。应用和现有学习记录均已保留。"
+            alert.addButton(withTitle: "返回应用")
+            alert.runModal()
+            return .terminateCancel
         }
-        let timestamp = String(Int(Date().timeIntervalSince1970), radix: 16)
-        let marker = Data("0081;\(timestamp);MathInterviewVocab;\(UUID().uuidString)".utf8)
-        // 保留下载来源隔离提示，不代表 Developer ID 签名或公证；已有标记绝不覆盖。
-        let result = file.withUnsafeFileSystemRepresentation { path -> Int32 in
-            guard let path else { return -1 }
-            return marker.withUnsafeBytes { bytes in
-                Darwin.setxattr(path, attributeName, bytes.baseAddress, bytes.count, 0, XATTR_CREATE | XATTR_NOFOLLOW)
-            }
-        }
-        guard result == 0 else { throw AppUpdateError.quarantineUnavailable }
+        return .terminateNow
     }
 }

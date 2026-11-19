@@ -43,6 +43,8 @@ Windows 数据位于 `%LOCALAPPDATA%\MathInterviewVocab`：学习记录为 `prog
 
 ## 软件更新与联网边界
 
+下一版 **1.4.0（待验收发布）** 改用当前用户 NSIS 安装版：主进程校验固定 Ed25519 公钥签名清单、安装包大小及 SHA-256，确认“安装并重启”后等待旧进程正常退出、替换并重启。记录保存失败或交接失败时停止安装，不强制结束进程，也不删除旧便携目录。原有 1.3.0 及更早版本仍需手动升级一次；下文是当前正式 1.3.0 的 ZIP 流程。详见 [桌面安装与更新](../docs/DESKTOP-UPDATES.md)。
+
 在 **设置 → 软件更新** 查看当前版本，点击“检查更新”查询本项目的 GitHub 最新正式版。只提示更高版本，不接收预发布版或降级。确认“下载更新”后，软件在主进程下载对应 x64 ZIP，核对大小和 SHA-256，再允许显示文件；取消或校验失败不会把临时文件当作完整安装包。
 
 学习、发音及渲染进程继续离线。更新请求不使用账号、令牌或本机 GitHub 登录凭据，不上传学习记录，也不在启动时后台检查。网络失败不影响学习。校验完成后请退出旧版，将新版完整解压到新目录或替换旧程序目录，勿删除 `%LOCALAPPDATA%\MathInterviewVocab`。
@@ -63,7 +65,9 @@ npm start
 npm run package:win
 ```
 
-依赖固定于 `package-lock.json`。`install-electron` 是当前 Electron 依赖提供的开发运行时安装命令。首次安装开发依赖和运行时需要网络；离线音频已经纳入源码，日常构建不需要重新制作语音。`package:win` 运行测试与构建后生成 Windows x64 EXE 和 ZIP；本地构建输出位于 `.out/`，不会提交到源码历史。开发主机为 macOS 时可交叉打包，不需要 Windows SDK 或额外虚拟化环境。
+依赖固定于 `package-lock.json`。`install-electron` 是当前 Electron 依赖提供的开发运行时安装命令。首次安装开发依赖和运行时需要网络；离线音频已经纳入源码，日常构建不需要重新制作语音。1.4.0 源码的 `package:win` 运行测试与构建后生成 Windows x64 便携 ZIP 与 NSIS Setup；本地构建输出位于 `.out/`，不会提交到源码历史。开发主机为 macOS 时可交叉打包，不需要 Windows SDK 或额外虚拟化环境，但交叉构建不代替原生 Windows 安装验证。
+
+更新界面事件验收运行 `npm run test:update-ui`。原生安装／升级验收工作流见 `.github/workflows/windows-installer-smoke.yml`；测试包不公开为正式版本，CI 不读取正式签名私钥。签名清单由 `scripts/sign-update.mjs` 离线生成，私钥路径只用于本机签名，不随成品打包。
 
 `test:keyboard-ui` 使用隔离 Electron 渲染窗口派发实际 DOM 键盘事件，学习数据只在测试内存中保存。隐藏窗口显式设置焦点／可见性测试条件，同时验证条件不满足时不触发快捷键；它不是 Windows 实机、原生系统菜单或物理键盘验收。
 

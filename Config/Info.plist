@@ -22,5 +22,21 @@
     <string>$(CURRENT_PROJECT_VERSION)</string>
     <key>LSApplicationCategoryType</key>
     <string>public.app-category.education</string>
+    <key>SUFeedURL</key>
+    <string>https://raw.githubusercontent.com/xyy386/MathInterviewVocab/main/updates/macos/appcast.xml</string>
+    <key>SUPublicEDKey</key>
+    <string>IBdRtdCy/pTzCtxPyODNo0saDZ5zbprza4wRUJ5O1DU=</string>
+    <key>SUEnableAutomaticChecks</key>
+    <false/>
+    <key>SUAutomaticallyUpdate</key>
+    <false/>
+    <key>SUAllowsAutomaticUpdates</key>
+    <false/>
+    <key>SUEnableSystemProfiling</key>
+    <false/>
+    <key>SURequireSignedFeed</key>
+    <true/>
+    <key>SUVerifyUpdateBeforeExtraction</key>
+    <true/>
 </dict>
 </plist>

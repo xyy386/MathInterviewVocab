@@ -178,7 +178,7 @@ struct AppUpdateTests {
     @Test @MainActor func checkingIsExplicitAndVerifiedDownloadDoesNotInstallAnything() async throws {
         let fixture = UpdateFixture()
         try await fixture.withDirectory { directory in
-            let service = UpdateService(currentVersion: "1.2.0", transport: try fixture.transport(in: directory), downloadsDirectory: directory)
+            let service = ArchiveUpdateDownloader(currentVersion: "1.2.0", transport: try fixture.transport(in: directory), downloadsDirectory: directory)
             #expect(service.phase == .idle)
             #expect(service.release == nil)
             #expect(try FileManager.default.contentsOfDirectory(atPath: directory.path).isEmpty)
@@ -227,7 +227,7 @@ struct AppUpdateTests {
                 try DownloadQuarantine.mark(file)
                 return file
             }
-            let service = UpdateService(currentVersion: "1.2.0", transport: transport, downloadsDirectory: directory)
+            let service = ArchiveUpdateDownloader(currentVersion: "1.2.0", transport: transport, downloadsDirectory: directory)
             service.checkForUpdates()
             await service.waitForOperation()
             service.downloadUpdate()
@@ -278,7 +278,7 @@ struct AppUpdateTests {
                     return file
                 }
             }
-            let service = UpdateService(currentVersion: "1.2.0", transport: transport, downloadsDirectory: directory)
+            let service = ArchiveUpdateDownloader(currentVersion: "1.2.0", transport: transport, downloadsDirectory: directory)
             service.checkForUpdates()
             await service.waitForOperation()
             service.downloadUpdate()
@@ -300,7 +300,7 @@ struct AppUpdateTests {
                 try await Task.sleep(nanoseconds: 60_000_000_000)
                 throw URLError(.cancelled)
             }
-            let service = UpdateService(currentVersion: "1.2.0", transport: transport, downloadsDirectory: directory)
+            let service = ArchiveUpdateDownloader(currentVersion: "1.2.0", transport: transport, downloadsDirectory: directory)
             service.checkForUpdates()
             await service.waitForOperation()
             service.downloadUpdate()

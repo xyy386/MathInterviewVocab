@@ -19,6 +19,11 @@ configs:
 fileGroups:
   - Config
 
+packages:
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    exactVersion: 2.10.1
+
 targets:
   MathInterviewVocab:
     type: application
@@ -59,12 +64,14 @@ targets:
     configFiles:
       Debug: Config/Debug.xcconfig
       Release: Config/Release.xcconfig
+    dependencies:
+      - package: Sparkle
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.xingyiyao.MathInterviewVocab
         PRODUCT_NAME: MathInterviewVocab
-        MARKETING_VERSION: "1.3.0"
-        CURRENT_PROJECT_VERSION: "5"
+        MARKETING_VERSION: "1.4.0"
+        CURRENT_PROJECT_VERSION: "6"
         SWIFT_VERSION: "6.0"
         SWIFT_STRICT_CONCURRENCY: complete
         SUPPORTED_PLATFORMS: macosx
