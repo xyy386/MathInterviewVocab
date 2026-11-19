@@ -136,7 +136,7 @@ test('updater downloads only on request and reveals verified installer only on a
     assert.deepEqual(await readFile(downloaded), archive);
     assert.ok(states.some(state => state.status === 'downloading'));
     assert.equal((await files(directory)).length, 1);
-    updater.showDownload(); assert.deepEqual(revealed, [downloaded]);
+    updater.showDownload(); assert.deepEqual(revealed, [await realpath(downloaded)]);
     await updater.download(); assert.equal((await files(directory)).length, 1);
 }));
 test('older legacy release needs no matching modern assets and cannot trigger downgrade', async () => fixture(async directory => {
