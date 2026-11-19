@@ -1,14 +1,14 @@
 # 数学面试词汇 · Windows 离线版
 
-Windows 1.3.0 面向 Windows 10/11 的 64 位 Intel/AMD（x64）电脑。它沿用 Mac 版的词汇、检测、学习记录、布局和设置层级，并使用独立的本地数据目录。
+Windows 1.4.0 面向 Windows 10/11 的 64 位 Intel/AMD（x64）电脑。它沿用 Mac 版的词汇、检测、学习记录、布局和设置层级，并使用独立的本地数据目录。
 
 ## 下载与使用
 
-从 [发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.0) 下载 [Windows 免安装 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/MathInterviewVocab-Windows-x64-v1.3.0.zip)，完整解压后运行 `数学面试词汇.exe`。不要在 ZIP 内运行，不要单独移动 EXE；旁边的 DLL、`resources` 和其他配套文件必须保留。Windows 与 macOS 桌面版为 1.3.0，Android 保持 1.2.0，历史 Release 不改名或替换。
+从 [发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.4.0) 下载 [Windows 安装版 Setup（推荐）](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.4.0/MathInterviewVocab-Windows-x64-Setup-v1.4.0.exe)，正常退出旧版后按向导安装。也可下载 [便携 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.4.0/MathInterviewVocab-Windows-x64-v1.4.0.zip)，完整解压后运行 `数学面试词汇.exe`；不要在 ZIP 内运行或单独移动 EXE。桌面版为 1.4.0，本轮不修改或替换 Android，历史 Release 保留。
 
 不需要管理员权限，也不需要安装 Node.js、Python、浏览器、模型或运行时。GitHub 自动生成的 Source code 是开发源码，不是可直接运行的软件。
 
-成品未使用商业代码签名证书，Windows 可能提示未知发布者。请核对官方发布页和 [SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.0/SHA256SUMS.txt)，不要关闭系统安全防护。本版不提供 Windows 7/8、32 位或 ARM 原生构建。
+成品未使用商业代码签名证书，Windows 可能提示未知发布者。请核对官方发布页和 [SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.4.0/SHA256SUMS.txt)，不要关闭系统安全防护。更新清单另有 Ed25519 签名，但这不等于 Authenticode 开发者身份认证。本版不提供 Windows 7/8、32 位或 ARM 原生构建。
 
 ## 功能与布局
 
@@ -19,7 +19,7 @@ Windows 1.3.0 面向 Windows 10/11 的 64 位 Intel/AMD（x64）电脑。它沿�
 - 四个不同编号的选项与即时反馈；连续答对两次移出错题、三次标记已掌握，收藏状态独立。
 - 默认美式／英式口音及 0.75× / 1× / 1.25× 语速；独立设置窗口即时保存并同步主窗。
 - `Ctrl+1/2/3` 切换模块，`Ctrl+,` 打开设置；四方向键前后切词；检测时 `A–D`／`1–4` 作答，反馈后 `Enter`／`→`／`↓` 下一题。
-- 设置中的“软件更新”可手动检查正式版本，下载并校验完整 ZIP，打开下载位置后由你退出旧版并替换整套程序目录。
+- 设置中的“软件更新”可手动检查正式版本，下载并校验安装包，确认后正常退出、安装并重新启动，无需自己解压覆盖。
 
 1.1.1 统一了顶部三段导航、单词汇侧栏、欢迎页、详情首卡、纵向四选项、反馈与学习记录。默认窗口 1220×780，最小 1000×680，词汇索引可折叠并在 320–460px 之间拖动；阅读列最大 820px。界面使用本机字体和自绘图标，不捆绑 Apple 字体或 SF Symbols，系统菜单、字形与确认对话框不承诺跨平台逐像素相同。
 
@@ -43,13 +43,15 @@ Windows 数据位于 `%LOCALAPPDATA%\MathInterviewVocab`：学习记录为 `prog
 
 ## 软件更新与联网边界
 
-下一版 **1.4.0（待验收发布）** 改用当前用户 NSIS 安装版：主进程校验固定 Ed25519 公钥签名清单、安装包大小及 SHA-256，确认“安装并重启”后等待旧进程正常退出、替换并重启。记录保存失败或交接失败时停止安装，不强制结束进程，也不删除旧便携目录。原有 1.3.0 及更早版本仍需手动升级一次；下文是当前正式 1.3.0 的 ZIP 流程。详见 [桌面安装与更新](../docs/DESKTOP-UPDATES.md)。
+1.4.0 改用当前用户 NSIS 安装版。**1.3.0 及更早版本仍需手动升级这一次**，旧客户端不能仅靠 GitHub 更新补上安装逻辑。详见 [桌面安装与更新](../docs/DESKTOP-UPDATES.md)。
 
-在 **设置 → 软件更新** 查看当前版本，点击“检查更新”查询本项目的 GitHub 最新正式版。只提示更高版本，不接收预发布版或降级。确认“下载更新”后，软件在主进程下载对应 x64 ZIP，核对大小和 SHA-256，再允许显示文件；取消或校验失败不会把临时文件当作完整安装包。
+在 **设置 → 软件更新** 查看当前版本，主动检查本项目对应平台的 GitHub 正式版。只提示更高版本，不接收预发布版或降级。确认下载后，主进程验证固定 Ed25519 公钥签名清单、x64 Setup 大小与 SHA-256，再提供“安装并重启”；取消或校验失败不执行下载文件。
 
-学习、发音及渲染进程继续离线。更新请求不使用账号、令牌或本机 GitHub 登录凭据，不上传学习记录，也不在启动时后台检查。网络失败不影响学习。校验完成后请退出旧版，将新版完整解压到新目录或替换旧程序目录，勿删除 `%LOCALAPPDATA%\MathInterviewVocab`。
+检查更新读取正式发布列表并筛选 Windows 安装器，跳过仅含 Android 的版本，不依赖仓库的全局 Latest 标记。桌面 1.4.0 为独立正式版，Android 1.3.4 继续保留 Latest。查找请求有页数、字节数和超时上限；超出范围提示从官方发布页手动确认。
 
-不静默安装、解压或执行下载文件；SHA-256 只验证完整性，不代替商业代码签名或系统安全判断。没有检查更新入口的 1.2.0 之前版本，请直接手动下载当前版本；1.2.0 可在设置中检查桌面更新。
+确认安装后，先检查记录和设置是否安全保存，再启动安装器。安装器先打开旧进程句柄并回执，应用才正常退出；安装器等待其结束后替换并重新启动，不强制终止程序。读取／保存错误、签名错误、篡改文件、交接失败或超时均停止操作，不把退出应用当作安装成功。
+
+学习、发音及渲染进程继续离线。没有启动后台检查或未经确认的安装，不使用账号、令牌或本机 GitHub 登录凭据，不上传学习记录。Windows Internet Zone 标记和系统防护不被主动关闭；首次运行仍可能出现系统安全提示。旧便携目录不自动删除，覆盖更新不清空 `%LOCALAPPDATA%\MathInterviewVocab`。安装失败可重新运行官方包修复，不承诺断电／部分复制故障的自动回滚。
 
 ## 开发与打包
 
@@ -88,6 +90,6 @@ node scripts/prepare-audio.mjs --verify --require-complete
 
 ## 验证与许可
 
-快捷键实现阶段的 112 项自动化测试、类型检查、生产构建及 9 组 Electron 页面事件验收通过；页面事件在 macOS 隔离隐藏窗口执行，不是 Windows 真机验收。此前 Windows 实机运行已由用户报告通过，该反馈不覆盖 1.3.0 新增功能。本次未使用 PD、虚拟机或模拟器，不宣称所有 Windows 系统、硬件、缩放和扬声器组合均已验证。详见 [快捷键验收与边界](../docs/KEYBOARD-SHORTCUTS.md) 和 [发布检查说明](../docs/RELEASE-CHECKS.md)。
+1.4.0 的 124 项自动化测试、类型检查、生产构建及 9 组 Electron 键盘事件与更新界面事件验收通过；页面事件在 macOS 隔离隐藏窗口执行，不是 Windows 硬件验收。GitHub 官方 Windows runner 另验证原生首装向导、拒绝异常安装、覆盖升级、自动重启、升级与卸载后的数据保留。未使用 PD，不将托管 runner 或此前用户反馈冒充本轮实体 Windows 硬件验收，不宣称所有 Windows 系统、硬件、缩放和扬声器组合均已验证。详见 [快捷键验收与边界](../docs/KEYBOARD-SHORTCUTS.md) 和 [发布检查说明](../docs/RELEASE-CHECKS.md)。
 
 项目原创代码使用 [MIT](../LICENSE)；第三方组件和语音资源保留原许可。见 [第三方说明](THIRD-PARTY-NOTICES.txt)、[音源声明](resources/AUDIO-SOURCES.md) 和 [来源说明](../docs/SOURCES.md)。

@@ -2,6 +2,8 @@
 
 macOS **1.4.0 build 6**，Windows **1.4.0 / file build 1.4.0.6**。Android 保留独立发布的 [1.3.4](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.4)，本 Release 不重建或替换 Android APK。
 
+本版是独立桌面正式版，不标记为预发布；仓库的 Latest 标记继续保留给 Android 1.3.4，避免影响现有安卓客户端。Mac 使用独立更新源，Windows 从正式发布列表查找本平台版本。
+
 ## 下载与首次升级
 
 - [Windows x64 安装版 Setup](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.4.0/MathInterviewVocab-Windows-x64-Setup-v1.4.0.exe)：推荐，正常退出旧便携版后按向导安装到当前用户目录。
@@ -32,8 +34,8 @@ Mac 验证固定公钥签名的 appcast 和更新归档；Windows 验证 Ed25519
 ## 验收范围
 
 - Mac：75 项测试／168 次执行通过，含原生窗口键盘事件与更新保存门禁；独立 Bundle ID 和记录目录实际验证签名更新、取消、篡改源拒绝、替换、自动重启及记录保留。
-- Windows：120 项逻辑测试、类型检查、生产构建、9 组隔离 Electron 键盘事件及更新界面事件验收通过；这些 Electron 事件在 macOS 上运行，不冒充 Windows 硬件测试。
-- 原生 Windows 安装与升级的最终验收结果见 [发布检查](RELEASE-CHECKS.md) 和正式 Release 链接的工作流记录。未完成原生验收前不公开正式附件。
+- Windows：124 项逻辑测试、类型检查、生产构建、9 组隔离 Electron 键盘事件及更新界面事件验收通过；这些 Electron 事件在 macOS 上运行，不冒充 Windows 硬件测试。
+- [原生 Windows 安装与升级工作流](https://github.com/xyy386/MathInterviewVocab/actions/runs/44447458879) 的 11 项安装链路检查通过，包括首装、异常拒绝、覆盖升级、自动重启及升级／卸载后的数据保留；使用 GitHub 官方 Windows runner，不是实体硬件。完整结果见 [发布检查](https://github.com/xyy386/MathInterviewVocab/blob/v1.4.0/docs/RELEASE-CHECKS.md)。
 - 不使用 PD；不宣称所有 Windows 版本、硬件、显示缩放或物理键盘均已验证。Mac 日志中既有 NSTableView 初载警告仍保留，不宣称完全无警告。
 
-依赖审查：运行时依赖无已报告告警；构建工具链仍有 glob／minimatch／picomatch 开发依赖告警，只对可信源码和固定构建路径运行工具，未为消除告警而强行降级框架或跨大版本覆盖依赖。详见 [安装与更新维护说明](DESKTOP-UPDATES.md)。
+依赖审查：运行时依赖无已报告告警；构建工具链仍有 glob／minimatch／picomatch 开发依赖告警，只对可信源码和固定构建路径运行工具，未为消除告警而强行降级框架或跨大版本覆盖依赖。详见 [安装与更新维护说明](https://github.com/xyy386/MathInterviewVocab/blob/v1.4.0/docs/DESKTOP-UPDATES.md)。
