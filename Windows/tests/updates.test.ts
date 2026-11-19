@@ -4,7 +4,7 @@ import { createHash, generateKeyPairSync, sign } from 'node:crypto';
 import { mkdir, mkdtemp, readdir, readFile, realpath, rm, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { checksumFor, githubTransport, latestReleaseURL, markInternetDownload, maximumArchiveBytes, newerVersion, parseRelease,
+import { checksumFor, githubTransport, latestReleaseURL, markInternetDownload, maximumArchiveBytes, newerVersion, newestWindowsRelease, parseRelease,
     readBounded, redirectedURL, SoftwareUpdater as ProductionUpdater, trustedURL, versionParts,
     type UpdateResponse, type UpdateTransport } from '../src/main/updates';
 import type { UpdateState } from '../src/shared/update';
@@ -39,7 +39,7 @@ function response(value: Buffer, declared = value.length): UpdateResponse {
     return { contentLength: declared, body: (async function* () { yield value.subarray(0, 5); yield value.subarray(5); })() };
 }
 const fixtureTransport: UpdateTransport = async url => {
-    if (url === latestReleaseURL) return response(Buffer.from(JSON.stringify(metadata())));
+    if (url === latestReleaseURL) return response(Buffer.from(JSON.stringify([metadata()])));
     if (url.endsWith('/SHA256SUMS.txt')) return response(checksums);
     if (url.endsWith('/Windows-update.json')) return response(signedManifest);
     if (url.endsWith('/Windows-update.json.sig')) return response(signature);
@@ -141,10 +141,53 @@ test('updater downloads only on request and reveals verified installer only on a
 }));
 test('older legacy release needs no matching modern assets and cannot trigger downgrade', async () => fixture(async directory => {
     const older = { ...metadata(), tag_name: 'v1.1.2', html_url: `${base}/releases/tag/v1.1.2`, assets: [] };
-    const updater = new SoftwareUpdater('1.2.0', directory, () => {}, () => assert.fail('must not reveal'), async () => {}, async () => response(Buffer.from(JSON.stringify(older))));
+    const updater = new SoftwareUpdater('1.2.0', directory, () => {}, () => assert.fail('must not reveal'), async () => {}, async () => response(Buffer.from(JSON.stringify([older]))));
     assert.equal((await updater.check()).status, 'current');
     assert.equal((await updater.download()).status, 'current');
     assert.equal((await files(directory)).length, 0);
+}));
+
+test('platform lookup ignores newer Android-only, draft and prerelease entries', async () => fixture(async directory => {
+    const android = { ...metadata(), tag_name: 'v9.0.0', html_url: `${base}/releases/tag/v9.0.0`, assets: [] };
+    const entries = [android, { ...metadata(), draft: true }, { ...metadata(), prerelease: true }, metadata()];
+    assert.equal(newestWindowsRelease(entries)?.version, version);
+    const updater = new SoftwareUpdater('1.2.0', directory, () => {}, () => {}, async () => {}, async () => response(Buffer.from(JSON.stringify(entries))));
+    assert.equal((await updater.check()).status, 'available');
+    assert.equal(updater.state.version, version);
+    assert.equal(newestWindowsRelease([android]), null);
+    assert.throws(() => newestWindowsRelease(metadata()));
+}));
+
+test('platform lookup compares Windows versions numerically and refuses invalid installer metadata', () => {
+    const candidate = (target: string) => JSON.parse(JSON.stringify(metadata()).replaceAll(version, target));
+    assert.equal(newestWindowsRelease([candidate('1.9.0'), candidate('1.10.0')])?.version, '1.10.0');
+    const invalid = metadata(); invalid.assets.pop();
+    assert.throws(() => newestWindowsRelease([invalid]));
+});
+
+test('platform lookup paginates past Android releases without downloading a package', async () => fixture(async directory => {
+    const requests: string[] = [];
+    const unrelated = { ...metadata(), assets: [] };
+    const updater = new SoftwareUpdater('1.2.0', directory, () => {}, () => {}, async () => {}, async url => {
+        requests.push(url);
+        return response(Buffer.from(JSON.stringify(url === latestReleaseURL ? Array(50).fill(unrelated) : [metadata()])));
+    });
+    assert.equal((await updater.check()).status, 'available');
+    assert.deepEqual(requests, [latestReleaseURL, `${latestReleaseURL}&page=2`]);
+    assert.deepEqual(await files(directory), []);
+}));
+
+test('platform history lookup has a bounded request budget and never offers a downgrade', async () => fixture(async directory => {
+    let requests = 0;
+    const unrelated = { ...metadata(), assets: [] };
+    const updater = new SoftwareUpdater('1.2.0', directory, () => {}, () => {}, async () => {}, async () => {
+        requests += 1; return response(Buffer.from(JSON.stringify(Array(50).fill(unrelated))));
+    });
+    assert.equal((await updater.check()).status, 'error');
+    assert.equal(requests, 4);
+    const newer = new SoftwareUpdater('2.0.0', directory, () => {}, () => {}, async () => {}, fixtureTransport);
+    assert.equal((await newer.check()).status, 'current');
+    assert.equal(newer.state.canDownload, false);
 }));
 for (const failure of ['hash', 'too-large', 'incomplete', 'network'] as const) {
     test(`failed ${failure} download cannot reveal ZIP or retain a partial file`, async () => fixture(async directory => {
@@ -214,7 +257,7 @@ test('GitHub asset digest disagreement fails before downloading the archive', as
     const value = metadata(); value.assets[0].digest = `sha256:${'0'.repeat(64)}`;
     let archives = 0;
     const updater = new SoftwareUpdater('1.2.0', directory, () => {}, () => assert.fail('must not reveal'), async () => {}, async (url, signal) => {
-        if (url === latestReleaseURL) return response(Buffer.from(JSON.stringify(value)));
+        if (url === latestReleaseURL) return response(Buffer.from(JSON.stringify([value])));
         if (url.endsWith(`/${archiveName}`)) archives += 1;
         return fixtureTransport(url, signal);
     });

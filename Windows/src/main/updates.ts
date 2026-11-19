@@ -6,7 +6,8 @@ import path from 'node:path';
 import type { UpdateState } from '../shared/update';
 import { verifyInstallerManifest, type SignedInstaller } from './update-signature';
 
-export const latestReleaseURL = 'https://api.github.com/repos/xyy386/MathInterviewVocab/releases/latest';
+// 保留既有内部导出名；按平台筛选发布列表，不占用 Android 的全局 Latest。
+export const latestReleaseURL = 'https://api.github.com/repos/xyy386/MathInterviewVocab/releases?per_page=50';
 const repositoryURL = 'https://github.com/xyy386/MathInterviewVocab';
 export const maximumArchiveBytes = 500 * 1024 * 1024;
 const allowedHosts = new Set(['api.github.com', 'github.com', 'release-assets.githubusercontent.com', 'objects.githubusercontent.com']);
@@ -117,6 +118,22 @@ export function parseRelease(input: unknown): UpdateRelease {
         manifest: asset('Windows-update.json', 4096),
         signature: asset('Windows-update.json.sig', 1024),
     };
+}
+
+export function newestWindowsRelease(input: unknown): UpdateRelease | null {
+    if (!Array.isArray(input) || input.length > 50) throw new Error('GitHub 发布列表格式无效。');
+    let latest: UpdateRelease | null = null;
+    for (const item of input) {
+        const release = object(item);
+        if (release.draft !== false || release.prerelease !== false || typeof release.tag_name !== 'string'
+            || !/^v\d+\.\d+\.\d+$/.test(release.tag_name) || !Array.isArray(release.assets)) continue;
+        const installer = `MathInterviewVocab-Windows-x64-Setup-${release.tag_name}.exe`;
+        if (!release.assets.some(asset => object(asset).name === installer)) continue;
+        // 出现本平台安装包就必须通过完整元数据校验，不能悄悄略过坏签名附件。
+        const candidate = parseRelease(item);
+        if (!latest || newerVersion(candidate.version, latest.version)) latest = candidate;
+    }
+    return latest;
 }
 
 export function checksumFor(text: string, name: string): string {
@@ -236,14 +253,19 @@ export class SoftwareUpdater {
         const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(45_000)]);
         this.publish({ status: 'checking', message: '正在检查更新…', canDownload: false, version: undefined, notes: undefined, fileName: undefined });
         try {
-            const bytes = await readBounded(await this.transport(latestReleaseURL, signal), 1024 * 1024, signal);
-            const data: unknown = JSON.parse(bytes.toString('utf8'));
-            const metadata = releaseMetadata(data);
-            signal.throwIfAborted();
-            if (!newerVersion(metadata.version, this.state.currentVersion)) {
-                return this.publish({ status: 'current', message: '当前已是最新版本。', canDownload: false });
+            let release: UpdateRelease | null = null;
+            for (let page = 1; page <= 4; page += 1) {
+                const url = page === 1 ? latestReleaseURL : `${latestReleaseURL}&page=${page}`;
+                const bytes = await readBounded(await this.transport(url, signal), 4 * 1024 * 1024, signal);
+                const data: unknown = JSON.parse(bytes.toString('utf8'));
+                release = newestWindowsRelease(data);
+                signal.throwIfAborted();
+                if (release || (Array.isArray(data) && data.length < 50)) break;
+                if (page === 4) throw new Error('近期发布中未找到 Windows 安装版，请从官方发布页手动确认。');
             }
-            const release = parseRelease(data);
+            if (!release || !newerVersion(release.version, this.state.currentVersion)) {
+                return this.publish({ status: 'current', message: release ? '当前已是最新 Windows 版本。' : '暂无可安装的 Windows 新版本。', canDownload: false });
+            }
             this.release = release;
             return this.publish({ status: 'available', version: release.version, notes: release.notes, totalBytes: release.archive.bytes,
                 message: `发现新版本 ${release.version}。`, canDownload: true });
