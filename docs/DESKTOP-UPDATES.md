@@ -34,6 +34,8 @@ Windows 仍提供同版本便携 ZIP，兼容旧下载入口及免安装使用�
 
 只采用稳定版依赖。Sparkle、NSIS 和其他第三方组件保留各自许可，不使用未发布框架的安全能力来描述当前实现。
 
+以后每次发版必须同时提高桌面语义版本和 Mac 的 `CFBundleVersion`，同步修改工程、打包脚本与 Windows 元数据；不能只修改 GitHub 标题或附件名称。Mac 同时要求版本与构建号递增，Windows 不允许降级。
+
 私钥和恢复备份留在仓库外的私有位置，不能提交、上传 CI 或公开为 Release 附件。Mac 签名由项目专用 Keychain 账号读取；Windows 签名脚本使用显式私钥路径。不在命令行中传递私钥内容，也不把密钥打印到日志。
 
 完成两端构建后，使用 `Scripts/prepare_desktop_release.mjs` 生成签名源和校验和：

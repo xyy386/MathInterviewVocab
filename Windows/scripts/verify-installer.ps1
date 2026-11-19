@@ -257,8 +257,9 @@ try {
     # 卸载只删除应用，不删除学习记录。
     $uninstallRoot = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall'
     $entry = Get-ChildItem -LiteralPath $uninstallRoot | ForEach-Object { Get-ItemProperty -LiteralPath $_.PSPath } | Where-Object {
-        $_.PSObject.Properties.Name -contains 'InstallLocation' -and
-        [string]::Equals(([string]$_.InstallLocation).TrimEnd('\'), $installDirectory.TrimEnd('\'), [StringComparison]::OrdinalIgnoreCase)
+        # NSIS 的 InstallLocation 位于私有安装键；控制面板键以实际卸载命令定位。
+        $_.PSObject.Properties.Name -contains 'UninstallString' -and
+        ([string]$_.UninstallString).StartsWith('"' + $installDirectory.TrimEnd('\') + '\', [StringComparison]::OrdinalIgnoreCase)
     } | Select-Object -First 1
     Assert-Condition ($null -ne $entry) 'The per-user uninstall registration is missing.'
     Assert-Condition ($entry.UninstallString -match '^"([^"]+\.exe)"') 'The uninstall command has an unexpected format.'
