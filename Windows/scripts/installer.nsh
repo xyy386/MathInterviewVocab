@@ -13,6 +13,17 @@ Var VocabProcessRetries
   StrCpy $isForceCurrentInstall "1"
 !macroend
 
+!ifndef BUILD_UNINSTALLER
+  ; 向导的用户模式页会重新计算目录，进入安装页前再次固定到专用目录。
+  !macro customPageAfterChangeDir
+    !define MUI_PAGE_CUSTOMFUNCTION_PRE vocabFixedInstallationDirectory
+  !macroend
+
+  Function vocabFixedInstallationDirectory
+    StrCpy $INSTDIR "$LOCALAPPDATA\Programs\MathInterviewVocab"
+  FunctionEnd
+!endif
+
 !macro vocabFailure message code
   MessageBox MB_OK|MB_ICONSTOP "${message}" /SD IDOK
   SetErrorLevel ${code}
@@ -22,11 +33,15 @@ Var VocabProcessRetries
 !macro customInit
   SetShellVarContext current
   StrCpy $installMode "CurrentUser"
+  StrCpy $hasPerMachineInstallation "0"
+  StrCpy $hasPerUserInstallation "1"
   StrCpy $INSTDIR "$LOCALAPPDATA\Programs\MathInterviewVocab"
-  ${GetParameters} $R0
-  ClearErrors
-  ${GetOptions} $R0 "/D=" $R1
-  ${IfNot} ${Errors}
+  ${If} ${isForAllUsers}
+    !insertmacro vocabFailure "此安装包仅支持当前用户安装，不申请管理员权限。" 20
+  ${EndIf}
+  ; /D 是 NSIS 特殊参数，普通 GetParameters 可能不包含它。
+  !insertmacro GetDParameter $R1
+  ${If} $R1 != ""
     !insertmacro vocabFailure "此安装包使用固定的当前用户安装目录，不支持 /D 参数。" 20
   ${EndIf}
 

@@ -40,6 +40,19 @@ $ownedInstallers = [Collections.Generic.List[object]]::new()
 $transcript = Join-Path $evidence 'native-installer.log'
 Start-Transcript -LiteralPath $transcript | Out-Null
 
+# 只点击本次安装器进程的标准 Next/Agree/Install/Finish 按钮，不操作系统安全对话框。
+Add-Type @'
+using System;
+using System.Text;
+using System.Runtime.InteropServices;
+public static class VocabInstallerButtons {
+    [DllImport("user32.dll")] public static extern IntPtr GetDlgItem(IntPtr parent, int id);
+    [DllImport("user32.dll")] public static extern bool IsWindowEnabled(IntPtr window);
+    [DllImport("user32.dll", CharSet=CharSet.Unicode)] public static extern int GetWindowText(IntPtr window, StringBuilder text, int count);
+    [DllImport("user32.dll")] public static extern bool PostMessage(IntPtr window, uint message, IntPtr wParam, IntPtr lParam);
+}
+'@
+
 function Assert-Condition([bool]$Condition, [string]$Message) {
     if (!$Condition) { throw $Message }
 }
@@ -105,6 +118,28 @@ function Complete-Installer([Diagnostics.Process]$Process, [string]$Name, [bool]
     $results.Add([ordered]@{ name = $Name; passed = $true; exitCode = $exitCode })
 }
 
+function Complete-AssistedInstaller([Diagnostics.Process]$Process) {
+    $deadline = [DateTime]::UtcNow.AddSeconds(120)
+    while ([DateTime]::UtcNow -lt $deadline) {
+        $Process.Refresh()
+        if ($Process.HasExited) { return }
+        Assert-Condition ([string]::Equals($Process.Path, $initial, [StringComparison]::OrdinalIgnoreCase)) 'The installer process path changed unexpectedly.'
+        if ($Process.MainWindowHandle -ne [IntPtr]::Zero) {
+            $button = [VocabInstallerButtons]::GetDlgItem($Process.MainWindowHandle, 1)
+            if ($button -ne [IntPtr]::Zero -and [VocabInstallerButtons]::IsWindowEnabled($button)) {
+                $caption = [Text.StringBuilder]::new(160)
+                [void][VocabInstallerButtons]::GetWindowText($button, $caption, $caption.Capacity)
+                $text = $caption.ToString().Replace('&', '')
+                Assert-Condition ($text -match 'Next|Agree|Install|Finish|下一步|同意|接受|安装|完成') "Unexpected installer action: $text"
+                Write-Host "Assisted installer action: $text"
+                Assert-Condition ([VocabInstallerButtons]::PostMessage($button, 0x00F5, [IntPtr]::Zero, [IntPtr]::Zero)) 'The installer button did not accept a native click event.'
+            }
+        }
+        Start-Sleep -Milliseconds 400
+    }
+    throw 'The assisted installer did not complete within the bounded UI fixture.'
+}
+
 function Assert-InstalledVersion([string]$Expected) {
     Assert-Condition (Test-Path -LiteralPath $executable -PathType Leaf) 'The installed EXE is missing.'
     $version = [Diagnostics.FileVersionInfo]::GetVersionInfo($executable)
@@ -145,8 +180,9 @@ function Wait-Handoff([hashtable]$Handoff, [int]$ParentID, [Diagnostics.Process]
 $failure = $null
 try {
     # 首次安装和真实 EXE 启动。
-    $process = Start-Installer $initial @('/S', '--force-run', '/currentuser') 'initial-install'
-    Complete-Installer $process 'initial-install' $true
+    $process = Start-Installer $initial @('/currentuser') 'assisted-initial-install'
+    Complete-AssistedInstaller $process
+    Complete-Installer $process 'assisted-initial-install' $true
     Assert-InstalledVersion $InitialVersion
     $window = Wait-FixtureWindow
     Close-FixtureWindow $window
@@ -178,6 +214,12 @@ try {
     Assert-Condition (!(Test-Path -LiteralPath $wrongReady)) 'The installer wrote a handoff outside its private directory.'
     $process = Start-Installer $upgrade @('/S', '/currentuser') 'running-application-refused'
     Complete-Installer $process 'running-application-refused' $false
+    $process = Start-Installer $upgrade @('/S', '/allusers') 'machine-install-refused'
+    Complete-Installer $process 'machine-install-refused' $false
+    $unexpectedDirectory = Join-Path $output 'must-not-install-here'
+    $process = Start-Installer $upgrade @('/S', '/currentuser', "/D=$unexpectedDirectory") 'custom-install-directory-refused'
+    Complete-Installer $process 'custom-install-directory-refused' $false
+    Assert-Condition (!(Test-Path -LiteralPath $unexpectedDirectory)) 'The installer used a caller-selected directory.'
     $handoff = New-Handoff $window.Id
     $process = Start-Installer $upgrade $handoff.Arguments 'parent-exit-timeout'
     Wait-Handoff $handoff $window.Id $process
