@@ -96,6 +96,8 @@ node scripts/prepare-audio.mjs --verify --require-complete
 
 ## 验证与许可
 
+1.5.1 的 158 项自动化测试、类型检查、生产构建、9 组键盘事件与 2 组更新界面流程通过；公式页面逐一渲染 44 个词条、63 种表达式，验证复制、选词发音分离、宽度／字号和局部滚动。另由 [官方 Windows runner](https://github.com/xyy386/MathInterviewVocab/actions/runs/45006177539) 通过 11 项原生安装及数据保留场景，不冒充实体 Windows 硬件或所有显示环境测试；没有使用 PD。
+
 1.5.0 的 151 项自动化测试、类型检查、生产构建及 9 组 Electron 键盘事件、2 组更新界面流程验收通过；页面事件在 macOS 隔离隐藏窗口执行，不是 Windows 硬件验收。GitHub 官方 Windows runner 另验证原生首装向导、拒绝异常安装、覆盖升级、自动重启、升级与卸载后的数据保留。未使用 PD，不将托管 runner 或此前用户反馈冒充本轮实体 Windows 硬件验收，不宣称所有 Windows 系统、硬件、缩放和扬声器组合均已验证。详见 [快捷键验收与边界](../docs/KEYBOARD-SHORTCUTS.md) 和 [发布检查说明](../docs/RELEASE-CHECKS.md)。
 
 项目原创代码使用 [MIT](../LICENSE)；第三方组件和语音资源保留原许可。见 [第三方说明](THIRD-PARTY-NOTICES.txt)、[音源声明](resources/AUDIO-SOURCES.md) 和 [来源说明](../docs/SOURCES.md)。

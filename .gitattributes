@@ -4,3 +4,5 @@
 /Tests/Fixtures/Math/** -text
 /Resources/Math/*.pdf binary
 /Tests/Fixtures/Math/*.pdf binary
+# Preserve upstream license text verbatim, including its original trailing spaces.
+/Resources/Math/GUST-FONT-LICENSE.txt -whitespace

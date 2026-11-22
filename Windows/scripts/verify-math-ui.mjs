@@ -52,6 +52,18 @@ async function run() {
         window = new BrowserWindow({ show: false, width: 1220, height: 780,
             webPreferences: { preload: path.join(root, '.out/app/preload.cjs'), sandbox: true, contextIsolation: true } });
         await open();
+        const renderedSources = new Set();
+        const formulaTerms = terms.filter(t => [t.chinese, t.english, t.definition].some(text => text.includes('\\(') || text.includes('\\[')));
+        for (const item of formulaTerms) {
+            await term(item.id);
+            const sources = await evaluate(`Array.from(document.querySelectorAll('.term-detail [data-math-source]')).map(node => {
+                if (!node.querySelector('svg path')) throw new Error('Missing vector paths');
+                return node.getAttribute('data-math-source');
+            })`);
+            for (const source of sources) renderedSources.add(source);
+            assert.equal(await evaluate('document.querySelectorAll(".term-detail .math-error").length'), 0);
+        }
+        assert.equal(formulaTerms.length, 44); assert.equal(renderedSources.size, 63);
         for (const id of [323, 324, 325, 326, 112, 294, 207, 206, 260]) {
             await term(id);
             assert.ok(await evaluate('document.querySelectorAll(".term-detail .math-unit > svg path").length > 0'));
@@ -83,6 +95,9 @@ async function run() {
                 await evaluate('document.querySelector(".sidebar-toggle").click();document.querySelector(".definition-text").style.fontSize="26px"');
                 await evaluate('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');
                 assert.equal(await evaluate(`(() => {const pane=document.querySelector('.detail-pane').getBoundingClientRect();const math=document.querySelector('.definition-text .math-unit');const r=math.getBoundingClientRect();return r.right<=pane.right+1&&r.width>0&&r.height>0;})()`), true);
+                assert.equal(await evaluate(`(() => {const math=document.querySelector('.definition-text .math-unit');
+                    if (math.scrollWidth <= math.clientWidth) return true;
+                    math.scrollLeft=math.scrollWidth; const moved=math.scrollLeft>0; math.scrollLeft=0;return moved;})()`), true);
                 const shot = await window.webContents.capturePage(); writeFileSync(path.join(output, `windows-math-${width}-${sidebar}.png`), shot.toPNG());
             }
         }
@@ -102,7 +117,7 @@ async function run() {
         }
         assert.ok(renderedOptions > 0); assert.ok(await evaluate('Boolean(document.querySelector("[data-testid=quiz-summary]"))'));
         assert.equal(blocked, 0, 'learning and formula rendering must not even attempt HTTP');
-        console.log(JSON.stringify({ passed: true, corpusTerms: 9, clipboardSource: true, formulaSelectionGuards: true,
+        console.log(JSON.stringify({ passed: true, corpusTerms: formulaTerms.length, distinctRenderedFormulas: renderedSources.size, clipboardSource: true, formulaSelectionGuards: true,
             selectedWordAudioLookup: true, formulaExcludedFromAudio: true, widths: [1000,1220,1440], sidebarStates: 2,
             quizAnswers: 4, networkRequests: blocked, platform: process.platform, physicalWindowsTesting: false }, null, 2));
     } catch (error) { console.error(error); result = 1; }

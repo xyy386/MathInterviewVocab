@@ -173,6 +173,8 @@ python3 Scripts/generate_terms.py
 
 ## 验证与反馈
 
+桌面 1.5.1：macOS 104 项逻辑测试／213 次执行、Windows 158 项测试、类型检查与构建通过；全部 63 个公式的矢量资源及同源 Electron 实际渲染、原始 LaTeX 复制、选词发音分离与三个宽度回归通过。GitHub 官方 Windows runner 通过 11 项原生安装场景，不是实体硬件测试；没有使用 PD。具体结果和人工验收边界见 [1.5.1 发布检查](docs/RELEASE-CHECKS.md#v151-离线公式排版验收)。
+
 桌面 1.5.0：macOS 96 项逻辑测试／201 次执行、Windows 151 项测试、类型检查及生产构建通过。9 组 Electron 键盘事件和 2 组更新界面流程在 macOS 隔离窗口运行，不是 Windows 硬件测试。另在 GitHub 官方 Windows runner 验证原生首装、覆盖升级、自动重启和数据保留；不使用 PD，不将托管 runner 称为实体设备，不宣称所有系统版本、硬件、缩放或音频设备均已验证。Mac 已实际验证取消／暂停、退出重开不联网、断点续传、拒绝错误签名源、替换与自动重启，初载的 `NSTableView` 警告仍保留。详细证据与边界见 [发布检查说明](docs/RELEASE-CHECKS.md) 和 [快捷键验收](docs/KEYBOARD-SHORTCUTS.md)。
 
 Android 1.2.0：Debug／Release 各 107 项自动化测试通过，Release Lint 为 0 错误；APK、签名、326／130 词库及 2328 段音频完成独立检查。实体手机／平板测试由用户报告全部通过并授权公开，未提供型号／系统版本，不冒充审查者真机实测；3 项 P2 已知问题与测试边界见 [完整审查记录](Android/docs/REVIEW-v1.2.0.md)。

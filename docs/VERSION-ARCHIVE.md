@@ -1,11 +1,12 @@
 # 历史版本与归档索引
 
-归档核验日期：2026-11-22。成品使用 GitHub Releases 保存，源码由固定标签保存；新增桌面 v1.5.0，原 Release、附件和标签保持不变，不重复上传构建缓存。桌面为独立正式版，Android v1.3.5 作为仓库 Latest。
+归档核验日期：2026-11-22。成品使用 GitHub Releases 保存，源码由固定标签保存；新增桌面 v1.5.1，原 Release、附件和标签保持不变，不重复上传构建缓存。桌面为独立正式版，Android v1.3.5 作为仓库 Latest。
 
 ## 版本与源码
 
 | Release | 成品版本 | 对应源码 |
 | --- | --- | --- |
+| [v1.5.1](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.5.1) | Windows 1.5.1（file build 1.5.1.8）、macOS 1.5.1 build 8；仅修复桌面 LaTeX 显示 | [桌面 v1.5.1](https://github.com/xyy386/MathInterviewVocab/tree/v1.5.1) |
 | [v1.5.0](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.5.0) | Windows 1.5.0（file build 1.5.0.7）、macOS 1.5.0 build 7；不修改 Android | [桌面 v1.5.0](https://github.com/xyy386/MathInterviewVocab/tree/v1.5.0) |
 | [v1.3.5](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.5) | Android 1.3.5 code 7；Windows／macOS 继续使用 v1.4.0 | [Android android-v1.3.5](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.5) |
 | [v1.4.0](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.4.0) | Windows 1.4.0（file build 1.4.0.6）、macOS 1.4.0 build 6；不修改 Android | [桌面 v1.4.0](https://github.com/xyy386/MathInterviewVocab/tree/v1.4.0) |
@@ -19,6 +20,22 @@
 | [v1.1.1](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.1.1) | macOS 1.1、Windows 1.1.1 | [v1.1.1](https://github.com/xyy386/MathInterviewVocab/tree/v1.1.1) |
 
 原 `v1.2.0` 标签早于 Android 工程，其自动生成的 Source code 归档不包含 Android。需要 Android 源码请使用独立 `android-v1.2.0` 标签；不要把 Source code 当作可运行安装包。
+
+## v1.5.1 桌面附件
+
+| 文件（直接下载） | 字节数 | SHA-256 |
+| --- | ---: | --- |
+| [MathInterviewVocab-macOS-universal-v1.5.1.zip](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/MathInterviewVocab-macOS-universal-v1.5.1.zip) | 50022660 | `457025e36142b5d9e690a46db99a399a60342650fc12831fd132fcb7e75e7628` |
+| [MathInterviewVocab-Windows-x64-v1.5.1.zip](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/MathInterviewVocab-Windows-x64-v1.5.1.zip) | 206775657 | `f2dc68ddab7987709387824b077f4c00a6f304de53b9e57a9188dcc3862381da` |
+| [MathInterviewVocab-Windows-x64-Setup-v1.5.1.exe](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/MathInterviewVocab-Windows-x64-Setup-v1.5.1.exe) | 155051933 | `2c592f00f10571970cdf4a39a9460b95ab5d54c581a9fd2d0c516175e376ac24` |
+| [appcast.xml](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/appcast.xml) | 1636 | `85242a49387147d827fd02c0ecc02b1f722666688d14b90e6a2a14f4869a198c` |
+| [Windows-update.json](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/Windows-update.json) | 236 | `51eda952da486edb7a38c651bf2d678298b2f21b1c9ebc472c1fabd2be31c534` |
+| [Windows-update.json.sig](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/Windows-update.json.sig) | 89 | `d3591a5ae66d38e4b2b0c2da6c5f8cbd0c257de23e1f0aa34b1f54aa98a354a3` |
+| [macOS-update-index.json](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/macOS-update-index.json) | 3323 | `0f69eb4c298677205522455d0b441db513fe28d160fe95b0d132b6eba5b6ab6c` |
+| [macOS-update-index.json.sig](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/macOS-update-index.json.sig) | 89 | `6fa565c0d729499362a287a08a26ae0714cee3f752c37cba4b9eedc0fd8d96b1` |
+| [Windows-update-index.json](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/Windows-update-index.json) | 3491 | `99407e54b676e7f5fec7af547aeea485e2d1443e7cf5d8163c99532cd6256307` |
+| [Windows-update-index.json.sig](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/Windows-update-index.json.sig) | 89 | `d318d6eacda4fc5bfccf7b758b06a8fb8d664e661f717117caa1a5efe04c69c8` |
+| [SHA256SUMS.txt](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/SHA256SUMS.txt) | 960 | `c1eff86584f8584be6d80312d73b59ca2bba0e6c24ad5608ee8b03aee31cf9dc` |
 
 ## v1.5.0 桌面附件
 
