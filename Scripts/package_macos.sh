@@ -4,9 +4,9 @@ set -euo pipefail
 # 在独立临时构建目录中生成 Universal 成品，不覆盖任何已有交付物。
 script_directory="$(cd "$(dirname "$0")" && pwd)"
 project_root="$(cd "$script_directory/.." && pwd)"
-destination="${1:-$project_root/release-artifacts/macos-v1.4.0}"
-version=1.4.0
-build_number=6
+destination="${1:-$project_root/release-artifacts/macos-v1.5.0}"
+version=1.5.0
+build_number=7
 archive_name="MathInterviewVocab-macOS-universal-v$version.zip"
 app_name='数学面试词汇.app'
 
@@ -43,6 +43,10 @@ plist="$application/Contents/Info.plist"
 if [[ "$(/usr/bin/plutil -extract CFBundleShortVersionString raw -o - "$plist")" != "$version" || \
       "$(/usr/bin/plutil -extract CFBundleVersion raw -o - "$plist")" != "$build_number" ]]; then
     printf '%s\n' 'Unexpected application version.' >&2
+    exit 1
+fi
+if [[ "$(/usr/bin/plutil -extract NSAppTransportSecurity.NSAllowsLocalNetworking raw -o - "$plist")" != true ]]; then
+    printf '%s\n' 'Local-only update handoff is not configured.' >&2
     exit 1
 fi
 architectures="$(/usr/bin/lipo -archs "$executable")"

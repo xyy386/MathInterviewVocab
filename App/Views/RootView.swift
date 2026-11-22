@@ -41,6 +41,7 @@ struct RootView: View {
 
     var body: some View {
         destinationView(selection)
+            .safeAreaInset(edge: .top, spacing: 0) { UpdateProgressBanner() }
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     AppSectionPicker(selection: $selection)

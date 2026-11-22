@@ -22,6 +22,11 @@
     <string>$(CURRENT_PROJECT_VERSION)</string>
     <key>LSApplicationCategoryType</key>
     <string>public.app-category.education</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsLocalNetworking</key>
+        <true/>
+    </dict>
     <key>SUFeedURL</key>
     <string>https://raw.githubusercontent.com/xyy386/MathInterviewVocab/main/updates/macos/appcast.xml</string>
     <key>SUPublicEDKey</key>

@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const directory = mkdtempSync(path.join(process.env.MATH_VOCAB_VALIDATION_DIRECTORY ?? tmpdir(), 'vocab-update-ui-'));
 app.setPath('userData', directory);
+app.disableHardwareAcceleration();
 app.commandLine.appendSwitch('disable-background-networking');
 let window;
 let mainWindow;
@@ -103,7 +104,9 @@ try {
     for (const width of [1000, 1220, 1440]) {
         mainWindow.setSize(width, 780);
         for (let sidebar = 0; sidebar < 2; sidebar += 1) {
-            await evaluate('document.querySelector(".sidebar-toggle").click()'); await pause();
+            await evaluate('document.querySelector(".sidebar-toggle").click()');
+            await evaluate('new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))');
+            await pause();
             const fit = await evaluate(`(() => { const r = document.querySelector('[data-testid=update-banner]').getBoundingClientRect();
                 const actions = document.querySelector('.update-banner-actions').getBoundingClientRect();
                 return r.left >= 0 && r.right <= innerWidth && actions.right <= innerWidth && r.bottom <= document.querySelector('.main-content').getBoundingClientRect().top + 1; })()`);

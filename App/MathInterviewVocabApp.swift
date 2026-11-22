@@ -12,7 +12,7 @@ struct MathInterviewVocabApp: App {
         let progress: ProgressStore
 #if DEBUG
         // 独立升级验收宿主可以显式隔离数据；正式发行忽略此环境变量。
-        let fixtureDirectory = Bundle.main.bundleIdentifier == "com.xingyiyao.MathInterviewVocab.UpdaterFixture"
+        let fixtureDirectory = UpdateService.isValidationFixture(Bundle.main.infoDictionary ?? [:])
             ? Bundle.main.object(forInfoDictionaryKey: "MathVocabFixtureDataDirectory") as? String
             : nil
         if let directory = fixtureDirectory ?? ProcessInfo.processInfo.environment["MATH_VOCAB_TEST_DATA_DIR"],
@@ -25,7 +25,24 @@ struct MathInterviewVocabApp: App {
         progress = ProgressStore()
 #endif
         let speech = SpeechService()
-        let updates = UpdateService {
+        var updaterCache: URL?
+        var updaterNetwork: UpdateNetworkOpen?
+#if DEBUG
+        if let directory = fixtureDirectory ?? ProcessInfo.processInfo.environment["MATH_VOCAB_TEST_DATA_DIR"], directory.hasPrefix("/") {
+            updaterCache = URL(fileURLWithPath: directory, isDirectory: true).appendingPathComponent("UpdatesCache", isDirectory: true)
+        }
+        if let origin = UpdateService.validationFixtureOrigin(in: Bundle.main.infoDictionary ?? [:]) {
+            updaterNetwork = { url, offset in
+                let path: String
+                if url.host == "raw.githubusercontent.com" { path = url.path.replacingOccurrences(of: "/xyy386/MathInterviewVocab/main", with: "") }
+                else if url.host == "github.com" { path = url.path.replacingOccurrences(of: "/xyy386/MathInterviewVocab", with: "") }
+                else { throw UpdateTransferError.failure("验收只使用明确指定的本机直连源。") }
+                let translated = URL(string: origin.absoluteString + path)!
+                return try await UpdateNetwork(fixtureOrigin: origin).start(translated, offset: offset)
+            }
+        }
+#endif
+        let updates = UpdateService(cacheDirectory: updaterCache, networkOpen: updaterNetwork) {
             try UpdateInstallationGuard.saveProgress(progress)
             speech.stop()
         }
@@ -61,6 +78,8 @@ struct MathInterviewVocabApp: App {
             .environment(library)
             .environment(progress)
             .environment(speech)
+            .environment(updates)
+            .task { await updates.restoreCache() }
             .preferredColorScheme(.light)
             .frame(minWidth: 1000, minHeight: 680)
     }

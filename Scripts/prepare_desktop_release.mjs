@@ -1,4 +1,4 @@
-import { createHash } from 'node:crypto';
+import { createHash, createPrivateKey, createPublicKey, sign, verify } from 'node:crypto';
 import { createReadStream } from 'node:fs';
 import { mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
@@ -8,6 +8,30 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const account = 'com.xingyiyao.MathInterviewVocab.sparkle';
 const publicKey = 'IBdRtdCy/pTzCtxPyODNo0saDZ5zbprza4wRUJ5O1DU=';
+
+export function desktopIndex({ platform, version, build, notes, assets }) {
+    if (!['macos-universal', 'windows-x64'].includes(platform) || !/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(version)
+        || typeof notes !== 'string' || !Array.isArray(assets)) throw new Error('Invalid desktop update index.');
+    const expected = platform === 'macos-universal'
+        ? [`MathInterviewVocab-macOS-universal-v${version}.zip`, 'appcast.xml']
+        : [`MathInterviewVocab-Windows-x64-Setup-v${version}.exe`, 'Windows-update.json', 'Windows-update.json.sig'];
+    if (platform === 'macos-universal' ? !/^[1-9]\d*$/.test(build) : !new RegExp(`^${version.replaceAll('.', '\\.')}\\.[1-9]\\d*$`).test(build)) {
+        throw new Error('Invalid desktop build.');
+    }
+    if (assets.length !== expected.length || new Set(assets.map(asset => asset.name)).size !== expected.length
+        || assets.some(asset => !expected.includes(asset.name) || !Number.isSafeInteger(asset.bytes) || asset.bytes <= 0
+            || !/^[a-f0-9]{64}$/.test(asset.sha256) || Object.keys(asset).sort().join(',') !== 'bytes,name,sha256')) {
+        throw new Error('Invalid signed index assets.');
+    }
+    return Buffer.from(JSON.stringify({ schema: 1, platform, version, build, notes: notes.slice(0, 8000), assets }, null, 2) + '\n');
+}
+
+export function verifyMacIndexSignature(data, signature) {
+    const key = createPublicKey({ format: 'der', type: 'spki', key: Buffer.concat([
+        Buffer.from('302a300506032b6570032100', 'hex'), Buffer.from(publicKey, 'base64'),
+    ]) });
+    return verify(null, data, key, Buffer.from(signature.trim(), 'base64'));
+}
 
 export function macAppcast({ version, build, bytes, signature }) {
     if (!/^\d+\.\d+\.\d+$/.test(version) || !/^[1-9]\d*$/.test(build)
@@ -77,6 +101,28 @@ async function prepare(args) {
 
     const assets = [macZIP, windowsZIP, installer, feed,
         path.join(outputDirectory, 'Windows-update.json'), path.join(outputDirectory, 'Windows-update.json.sig')];
+    const notes = await readFile(path.join(projectRoot, `docs/RELEASE-NOTES-v${version}.md`), 'utf8');
+    const windowsKey = createPrivateKey(await readFile(process.env.WINDOWS_UPDATE_SIGNING_KEY));
+    const pinned = /-----BEGIN PUBLIC KEY-----[\s\S]+?-----END PUBLIC KEY-----/.exec(await readFile(path.join(projectRoot, 'Windows/src/main/update-signature.ts'), 'utf8'))?.[0];
+    if (!pinned || createPublicKey(windowsKey).export({ type: 'spki', format: 'pem' }).toString().trim() !== pinned.trim()) throw new Error('Windows signing key mismatch.');
+    for (const [platform, build, inputs, filename] of [
+        ['macos-universal', info.CFBundleVersion, [macZIP, feed], 'macOS-update-index.json'],
+        ['windows-x64', `${version}.7`, [installer, assets[4], assets[5]], 'Windows-update-index.json'],
+    ]) {
+        const entries = [];
+        for (const file of inputs) entries.push({ name: path.basename(file), bytes: (await stat(file)).size, sha256: await digest(file) });
+        const data = desktopIndex({ platform, version, build, notes, assets: entries });
+        const file = path.join(outputDirectory, filename);
+        await writeFile(file, data, { flag: 'wx' });
+        const signed = platform === 'macos-universal'
+            ? execFileSync(signingTool, ['--account', account, '-p', file], { encoding: 'utf8' }).trim()
+            : sign(null, data, windowsKey).toString('base64');
+        if (platform === 'macos-universal' ? !verifyMacIndexSignature(data, signed) : !verify(null, data, createPublicKey(pinned), Buffer.from(signed, 'base64'))) {
+            throw new Error('Index signature read-back failed.');
+        }
+        await writeFile(file + '.sig', signed + '\n', { flag: 'wx' });
+        assets.push(file, file + '.sig');
+    }
     const checksums = [];
     for (const file of assets) checksums.push(`${await digest(file)}  ${path.basename(file)}`);
     await writeFile(path.join(outputDirectory, 'SHA256SUMS.txt'), checksums.join('\n') + '\n', { flag: 'wx' });

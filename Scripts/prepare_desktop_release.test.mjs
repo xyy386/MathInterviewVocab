@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { macAppcast } from './prepare_desktop_release.mjs';
+import { desktopIndex, macAppcast } from './prepare_desktop_release.mjs';
 
 const valid = { version: '1.4.0', build: '6', bytes: 50000000, signature: 'A'.repeat(86) + '==' };
 
@@ -19,4 +19,17 @@ test('appcast rejects XML injection, prerelease and malformed signature or size'
         { signature: 'not-a-signature' }]) {
         assert.throws(() => macAppcast({ ...valid, ...invalid }));
     }
+});
+
+test('platform index has a fixed non-cyclic schema and immutable attachment identities', () => {
+    const asset = name => ({ name, bytes: 100, sha256: 'a'.repeat(64) });
+    const value = { platform: 'macos-universal', version: '1.5.0', build: '7', notes: 'n'.repeat(9000),
+        assets: [asset('MathInterviewVocab-macOS-universal-v1.5.0.zip'), asset('appcast.xml')] };
+    const index = JSON.parse(desktopIndex(value));
+    assert.equal(index.notes.length, 8000);
+    assert.deepEqual(Object.keys(index).sort(), ['assets', 'build', 'notes', 'platform', 'schema', 'version']);
+    assert.throws(() => desktopIndex({ ...value, assets: [...value.assets, asset('SHA256SUMS.txt')] }));
+    assert.throws(() => desktopIndex({ ...value, platform: 'android' }));
+    assert.throws(() => desktopIndex({ ...value, build: '0' }));
+    assert.throws(() => desktopIndex({ ...value, version: '1.5.0-beta' }));
 });

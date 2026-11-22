@@ -8,11 +8,11 @@
 
 | 平台 | 当前应用版本 | 系统要求 | 下载 |
 | --- | --- | --- | --- |
-| Windows | 1.4.0 | Windows 10/11，64 位 Intel/AMD（x64） | [安装版 Setup（推荐）](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.4.0/MathInterviewVocab-Windows-x64-Setup-v1.4.0.exe) · [便携 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.4.0/MathInterviewVocab-Windows-x64-v1.4.0.zip) |
-| macOS | 1.4.0 build 6 | macOS 14+，Apple Silicon / Intel Universal | [macOS ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.4.0/MathInterviewVocab-macOS-universal-v1.4.0.zip) |
+| Windows | 1.5.0 / file build 1.5.0.7 | Windows 10/11，64 位 Intel/AMD（x64） | [安装版 Setup（推荐）](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.0/MathInterviewVocab-Windows-x64-Setup-v1.5.0.exe) · [便携 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.0/MathInterviewVocab-Windows-x64-v1.5.0.zip) |
+| macOS | 1.5.0 build 7 | macOS 14+，Apple Silicon / Intel Universal | [macOS ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.0/MathInterviewVocab-macOS-universal-v1.5.0.zip) |
 | Android | 1.3.5 / code 7 | Android 10+，手机／平板，Universal APK | [Android APK](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/MathInterviewVocab-Android-universal-v1.3.5.apk) |
 
-[桌面 1.4.0 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.4.0) · [桌面版 SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.4.0/SHA256SUMS.txt) · [桌面更新说明](docs/RELEASE-NOTES-v1.4.0.md) · [Android 1.3.5 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.5) · [Android 独立校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/SHA256SUMS-Android.txt) · [Android 更新说明](docs/RELEASE-NOTES-v1.3.5.md)
+[桌面 1.5.0 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.5.0) · [桌面版 SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.0/SHA256SUMS.txt) · [桌面更新说明](docs/RELEASE-NOTES-v1.5.0.md) · [Android 1.3.5 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.5) · [Android 独立校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/SHA256SUMS-Android.txt) · [Android 更新说明](docs/RELEASE-NOTES-v1.3.5.md)
 
 Android 当前版本为 **1.3.5／code 7**（新增多线路对冲竞速检查与三大加速镜像/CDN 回退、HTTP Range 跨线路断点续传、低速自动切换线路、设置页线路选择与实时网速显示，以及主界面非侵入式后台更新进度条），采用同一套词库与 Kokoro 离线音源，按窗口宽度适配手机、平板和分屏。[Android 工程／安装说明](Android/README.md) · [详细需求与设计](Android/docs/REQUIREMENTS-AND-DESIGN.md) · [审查与已知问题](Android/docs/REVIEW-v1.2.0.md)。历史标签与附件保留不变；Android 源码使用独立标签 [android-v1.3.5](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.5)。
 
@@ -66,11 +66,15 @@ macOS／Windows 1.3.0 支持 `←`／`↑` 上一个词条、`→`／`↓` 下�
 
 桌面与 Android 分平台发布：桌面 1.4.0 是正式版，仓库 Latest 保留给 Android 1.3.5。Mac 使用独立更新源，Windows 从正式发布列表筛选 Windows 安装版，不会把仅有 Android APK 的版本误当作桌面更新。
 
+**1.5.0 增加多线路加速、持久断点和主窗口进度条。** 默认智能多线加速，也可选择镜像优先或纯 GitHub 直连；大安装包单线路传输，断流或持续低速时换线续传。暂停、断网或退出保留断点，重开后只读取本地缓存，下次手动继续；关闭设置或切页不停止下载，没有退出后常驻服务。设置可单独确认清除更新缓存，不影响学习记录。
+
+桌面 1.5.0 使用两平台独立签名索引并保留 Android Latest；Mac 继续使用原生 Sparkle 确认安装，Windows 继续使用 NSIS。保留旧更新源和清单供 1.4.0 升级，新的加速能力从安装 1.5.0 后生效。
+
 确认安装后，软件检查学习记录是否安全保存，正常退出，由安装器替换程序并重新打开，不需要自己解压覆盖。Windows 安装器先持有旧进程句柄再等待退出，不强制终止其他程序。保存或交接失败则停止操作，不清空记录；安装后的磁盘故障等场景不承诺自动回滚。旧便携目录不会自动删除。
 
 Android 使用 `SHA256SUMS-Android.txt`，另核对 APK 包名、实际签名证书、较高 versionCode 与 Release 版本；支持 GitHub 直连与三大加速镜像/CDN 多线择优、HTTP Range 断点续传和低速自动切线；用户点击安装后通过系统来源授权与 PackageInstaller 确认。已安装旧版的 Android 设备可在应用内检查并升级至 1.3.5（versionCode 7），或从 1.3.5 发布页下载 APK 直接覆盖安装。历史审查记录见 [Android 审查记录](Android/docs/REVIEW-v1.2.0.md)。
 
-**不未经确认安装，也不在启动时后台检查。** 没有账号、令牌或学习数据上传，仅主动检查／下载时连接 GitHub 及其官方资源主机；断网不影响学习。Windows 保留 Internet Zone 标记，Mac 由 Sparkle 的已验证安装流程处理；Android 由系统安装器确认。更新签名和 SHA-256 不等于商业代码签名或 Apple 公证，不能代替系统对开发者身份的判断，不关闭系统安全防护。
+**不未经确认安装，也不在启动时后台检查。** 没有账号、令牌或学习数据上传，仅主动检查／下载时连接更新资源。智能或镜像模式会请求第三方加速节点（CDN 只读小索引），可切换 GitHub 直连以禁用这些节点；不发送学习记录和朗读文本，断网不影响学习。Windows 保留 Internet Zone 标记，Mac 由 Sparkle 的已验证安装流程处理；Android 由系统安装器确认。更新签名和 SHA-256 不等于商业代码签名或 Apple 公证，不能代替系统对开发者身份的判断，不关闭系统安全防护。
 
 ## 词汇内容
 
@@ -161,7 +165,7 @@ python3 Scripts/generate_terms.py
 
 ## 验证与反馈
 
-桌面 1.4.0：macOS 75 项逻辑测试／168 次执行、Windows 124 项测试、类型检查及生产构建通过。9 组 Electron 键盘事件及更新界面事件在 macOS 隔离窗口运行，不是 Windows 硬件测试。另在 GitHub 官方 Windows runner 验证原生首装、覆盖升级、自动重启和数据保留；不使用 PD，不将托管 runner 称为实体设备，不宣称所有系统版本、硬件、缩放或音频设备均已验证。Mac 已实际完成隔离应用的签名替换／重启验收，初载的 `NSTableView` 警告仍保留。详细证据与边界见 [发布检查说明](docs/RELEASE-CHECKS.md) 和 [快捷键验收](docs/KEYBOARD-SHORTCUTS.md)。
+桌面 1.5.0：macOS 96 项逻辑测试／201 次执行、Windows 151 项测试、类型检查及生产构建通过。9 组 Electron 键盘事件和 2 组更新界面流程在 macOS 隔离窗口运行，不是 Windows 硬件测试。另在 GitHub 官方 Windows runner 验证原生首装、覆盖升级、自动重启和数据保留；不使用 PD，不将托管 runner 称为实体设备，不宣称所有系统版本、硬件、缩放或音频设备均已验证。Mac 已实际验证取消／暂停、退出重开不联网、断点续传、拒绝错误签名源、替换与自动重启，初载的 `NSTableView` 警告仍保留。详细证据与边界见 [发布检查说明](docs/RELEASE-CHECKS.md) 和 [快捷键验收](docs/KEYBOARD-SHORTCUTS.md)。
 
 Android 1.2.0：Debug／Release 各 107 项自动化测试通过，Release Lint 为 0 错误；APK、签名、326／130 词库及 2328 段音频完成独立检查。实体手机／平板测试由用户报告全部通过并授权公开，未提供型号／系统版本，不冒充审查者真机实测；3 项 P2 已知问题与测试边界见 [完整审查记录](Android/docs/REVIEW-v1.2.0.md)。
 

@@ -98,7 +98,6 @@ struct AppUpdateTransport: Sendable {
         guard response.expectedContentLength <= maximumBytes else { throw AppUpdateError.tooLarge }
     }
 }
-
 private final class UpdateNetworkGuard: NSObject, URLSessionTaskDelegate, Sendable {
     func urlSession(
         _ session: URLSession, task: URLSessionTask,
@@ -295,27 +294,5 @@ final class ArchiveUpdateDownloader {
         if (error as? URLError)?.code == .timedOut { return "连接 GitHub 超时，请检查网络后重试。" }
         if error is CancellationError { return "下载已取消，可重新检查或下载。" }
         return "无法完成更新，请检查网络、磁盘空间和下载文件夹权限后重试。"
-    }
-}
-
-enum DownloadQuarantine {
-    static let attributeName = "com.apple.quarantine"
-
-    static func mark(_ file: URL) throws {
-        guard file.isFileURL,
-              let attributes = try? FileManager.default.attributesOfItem(atPath: file.path),
-              attributes[.type] as? FileAttributeType == .typeRegular else {
-            throw AppUpdateError.quarantineUnavailable
-        }
-        let timestamp = String(Int(Date().timeIntervalSince1970), radix: 16)
-        let marker = Data("0081;\(timestamp);MathInterviewVocab;\(UUID().uuidString)".utf8)
-        // 保留下载来源隔离提示，不代表 Developer ID 签名或公证；已有标记绝不覆盖。
-        let result = file.withUnsafeFileSystemRepresentation { path -> Int32 in
-            guard let path else { return -1 }
-            return marker.withUnsafeBytes { bytes in
-                Darwin.setxattr(path, attributeName, bytes.baseAddress, bytes.count, 0, XATTR_CREATE | XATTR_NOFOLLOW)
-            }
-        }
-        guard result == 0 else { throw AppUpdateError.quarantineUnavailable }
     }
 }

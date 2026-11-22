@@ -70,8 +70,8 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.xingyiyao.MathInterviewVocab
         PRODUCT_NAME: MathInterviewVocab
-        MARKETING_VERSION: "1.4.0"
-        CURRENT_PROJECT_VERSION: "6"
+        MARKETING_VERSION: "1.5.0"
+        CURRENT_PROJECT_VERSION: "7"
         SWIFT_VERSION: "6.0"
         SWIFT_STRICT_CONCURRENCY: complete
         SUPPORTED_PLATFORMS: macosx

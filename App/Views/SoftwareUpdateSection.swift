@@ -7,17 +7,42 @@ struct SoftwareUpdateSection: View {
         Section("软件更新") {
             LabeledContent("当前版本", value: updates.currentVersion)
 
+            Picker("更新线路", selection: Binding(get: { updates.transfer.routeMode }, set: { updates.setRouteMode($0) })) {
+                ForEach(UpdateRouteMode.allCases) { mode in Text(mode.title).tag(mode) }
+            }
+            .pickerStyle(.segmented)
+            .disabled(updates.isBusy)
+
             HStack(spacing: 10) {
                 Button(updates.isBusy ? "显示更新窗口" : "检查更新") { updates.checkForUpdates() }
-                    .disabled(!updates.canCheckForUpdates)
+                    .disabled(!updates.canCheckForUpdates && !updates.nativeSessionActive)
 
                 if updates.canRetryInstallation {
                     Button("重试安装并重启") { updates.retryInstallation() }
                 }
 
+                if updates.transfer.canResume && !updates.isBusy {
+                    Button("继续下载…") { updates.resumeDownload() }
+                }
+                if updates.transfer.status == "downloading" {
+                    Button("暂停下载") { updates.pauseDownload() }
+                }
+
                 if updates.isBusy {
                     ProgressView().controlSize(.small)
                 }
+            }
+
+            if updates.transfer.hasCachedDownload && !updates.isBusy {
+                Button("清除下载缓存…") { updates.clearDownloadCache() }
+            }
+
+            if ["downloading", "paused", "verifying", "ready"].contains(updates.transfer.status) {
+                ProgressView(value: Double(updates.transfer.downloadedBytes), total: Double(max(1, updates.transfer.totalBytes)))
+                    .accessibilityLabel("更新下载进度")
+                Text(updateTransferDetail(updates.transfer))
+                    .font(.caption.monospacedDigit()).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             Text(status)
@@ -34,16 +59,22 @@ struct SoftwareUpdateSection: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
+
+            Text("智能或镜像模式会请求第三方加速节点，可切换 GitHub 直连。取消、暂停或退出会保留断点，下次手动继续；不会退出后常驻下载。")
+                .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
         }
     }
 
     private var isFailure: Bool {
         if case .failed = updates.phase { return true }
-        return false
+        return updates.transfer.status == "error"
     }
 
     private var status: String {
-        switch updates.phase {
+        if updates.preparing || updates.transfer.status == "paused" || updates.transfer.status == "error" {
+            return updates.transfer.message
+        }
+        return switch updates.phase {
         case .idle: "手动检查 GitHub 正式版，不会在后台自动联网。"
         case .checking: "正在检查更新…"
         case .current: "当前已是最新版本。"

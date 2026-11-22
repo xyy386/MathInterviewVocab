@@ -174,6 +174,19 @@ struct SparkleUpdateTests {
         #expect(service.phase == .current)
     }
 
+    @Test func finishedNativeSessionPublishesAnObservableIdleStateAfterPause() {
+        let service = UpdateService(prepareForInstallation: {})
+        let controller = SPUStandardUpdaterController(startingUpdater: false, updaterDelegate: service, userDriverDelegate: nil)
+        service.updater(controller.updater, didFindValidUpdate: SUAppcastItem.empty())
+        #expect(service.isBusy)
+        service.userDidCancelDownload(controller.updater)
+        service.updater(controller.updater, didFinishUpdateCycleFor: .updates, error: nil)
+        #expect(!service.nativeSessionActive)
+        #expect(!service.isBusy)
+        #expect(service.canCheckForUpdates)
+        #expect(service.phase == .deferred)
+    }
+
     @Test func successfulPreinstallSavePreservesFavoritesAndPreferences() throws {
         try withDirectory { directory in
             let file = directory.appendingPathComponent("progress.json")
