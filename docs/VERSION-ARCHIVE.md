@@ -23,6 +23,8 @@
 
 ## v1.5.1 桌面附件
 
+11 个附件均经草稿与匿名公开下载完整核对；原历史附件／标签及 Android 1.3.5 Latest 未改变。桌面更新源在公开回读后启用，验证边界见 [发布检查](RELEASE-CHECKS.md#v151-离线公式排版验收)。
+
 | 文件（直接下载） | 字节数 | SHA-256 |
 | --- | ---: | --- |
 | [MathInterviewVocab-macOS-universal-v1.5.1.zip](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/MathInterviewVocab-macOS-universal-v1.5.1.zip) | 50022660 | `457025e36142b5d9e690a46db99a399a60342650fc12831fd132fcb7e75e7628` |
