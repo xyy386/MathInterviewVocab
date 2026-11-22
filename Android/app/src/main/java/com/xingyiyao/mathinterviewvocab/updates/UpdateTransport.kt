@@ -16,14 +16,17 @@ import okhttp3.Response
 internal interface UpdateResponse : Closeable {
     val input: InputStream
     val contentLength: Long?
+    val resumedFromOffset: Boolean get() = false
     fun cancel()
 }
 
 internal fun interface UpdateTransport {
     suspend fun open(url: String): UpdateResponse
+
+    suspend fun open(url: String, rangeStart: Long): UpdateResponse = open(url)
 }
 
-/** 禁止自动重定向，每一跳都重新验证 HTTPS 主机。 */
+/** 禁止自动重定向，每一跳都重新验证 HTTPS 主机；缩短超时以便慢速节点快速切换镜像。 */
 internal class GitHubUpdateTransport(builder: OkHttpClient.Builder = OkHttpClient.Builder()) : UpdateTransport {
     private val client = builder
         .followRedirects(false)
@@ -33,22 +36,27 @@ internal class GitHubUpdateTransport(builder: OkHttpClient.Builder = OkHttpClien
         .authenticator(Authenticator.NONE)
         .proxyAuthenticator(Authenticator.NONE)
         .cache(null)
-        .connectTimeout(15, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
+        .connectTimeout(6, TimeUnit.SECONDS)
+        .readTimeout(12, TimeUnit.SECONDS)
         .callTimeout(15, TimeUnit.MINUTES)
         .build()
 
-    override suspend fun open(url: String): UpdateResponse {
+    override suspend fun open(url: String): UpdateResponse = open(url, 0L)
+
+    override suspend fun open(url: String, rangeStart: Long): UpdateResponse {
         var current = url
         var redirects = 0
         while (true) {
             UpdatePolicy.checkedUrl(current)
-            val request = Request.Builder().url(current)
+            val requestBuilder = Request.Builder().url(current)
                 .header("Accept", "application/vnd.github+json, application/octet-stream")
                 .header("Accept-Encoding", "identity")
                 .header("User-Agent", "MathInterviewVocab-Android-Updater")
                 .header("Cache-Control", "no-cache")
-                .build()
+            if (rangeStart > 0L) {
+                requestBuilder.header("Range", "bytes=$rangeStart-")
+            }
+            val request = requestBuilder.build()
             val call = client.newCall(request)
             val response = execute(call)
             if (response.code in setOf(301, 302, 303, 307, 308)) {
@@ -58,11 +66,11 @@ internal class GitHubUpdateTransport(builder: OkHttpClient.Builder = OkHttpClien
                 }
                 continue
             }
-            if (response.code != 200) {
+            if (response.code !in setOf(200, 206)) {
                 val code = response.code
                 response.close()
                 throw UpdateFailure(when (code) {
-                    403, 429 -> "GitHub 暂时限制请求，请稍后重试。"
+                    403, 429 -> "GitHub 或加速节点暂时限制请求，正在尝试切换线路或请稍后重试。"
                     404 -> "尚无可获取的正式版本或附件。"
                     else -> "更新服务返回错误（HTTP $code），请稍后重试。"
                 })
@@ -76,9 +84,29 @@ internal class GitHubUpdateTransport(builder: OkHttpClient.Builder = OkHttpClien
                 response.close()
                 throw UpdateFailure("更新服务返回空内容。")
             }
+            val isPartialContent = if (response.code == 206 && rangeStart > 0L) {
+                val contentRange = response.header("Content-Range")
+                if (contentRange == null) {
+                    true
+                } else {
+                    val match = Regex("bytes\\s+(\\d+)-.*").matchEntire(contentRange.trim())
+                    val serverStart = match?.groupValues?.get(1)?.toLongOrNull()
+                    when (serverStart) {
+                        rangeStart -> true
+                        0L -> false
+                        else -> {
+                            response.close()
+                            throw UpdateFailure("断点续传位置不匹配，已重新校验。")
+                        }
+                    }
+                }
+            } else {
+                false
+            }
             return object : UpdateResponse {
                 override val input: InputStream = body.byteStream()
                 override val contentLength: Long? = body.contentLength().takeIf { it >= 0 }
+                override val resumedFromOffset: Boolean = isPartialContent
                 override fun close() = response.close()
                 override fun cancel() { call.cancel(); response.close() }
             }

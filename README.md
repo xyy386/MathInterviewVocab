@@ -10,13 +10,13 @@
 | --- | --- | --- | --- |
 | Windows | 1.4.0 | Windows 10/11，64 位 Intel/AMD（x64） | [安装版 Setup（推荐）](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.4.0/MathInterviewVocab-Windows-x64-Setup-v1.4.0.exe) · [便携 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.4.0/MathInterviewVocab-Windows-x64-v1.4.0.zip) |
 | macOS | 1.4.0 build 6 | macOS 14+，Apple Silicon / Intel Universal | [macOS ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.4.0/MathInterviewVocab-macOS-universal-v1.4.0.zip) |
-| Android | 1.3.4 / code 6 | Android 10+，手机／平板，Universal APK | [Android APK](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.4/MathInterviewVocab-Android-universal-v1.3.4.apk) |
+| Android | 1.3.5 / code 7 | Android 10+，手机／平板，Universal APK | [Android APK](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/MathInterviewVocab-Android-universal-v1.3.5.apk) |
 
-[桌面 1.4.0 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.4.0) · [桌面版 SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.4.0/SHA256SUMS.txt) · [桌面更新说明](docs/RELEASE-NOTES-v1.4.0.md) · [Android 1.3.4 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.4) · [Android 独立校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.4/SHA256SUMS-Android.txt) · [Android 更新说明](docs/RELEASE-NOTES-v1.3.4.md)
+[桌面 1.4.0 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.4.0) · [桌面版 SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.4.0/SHA256SUMS.txt) · [桌面更新说明](docs/RELEASE-NOTES-v1.4.0.md) · [Android 1.3.5 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.5) · [Android 独立校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/SHA256SUMS-Android.txt) · [Android 更新说明](docs/RELEASE-NOTES-v1.3.5.md)
 
-Android 当前版本为 **1.3.4／code 6**（修复列表上滑单词半透明残影与挤压显示不全、紧凑化顶部搜索栏与常驻底部导航栏、优化回到顶部小圆钮、取消检测界面重点词汇加粗、对调闪卡 3D 翻转方向并精简标签、修复音标重音符跨行截断及移除同科关联词条冗余音标），采用同一套词库与 Kokoro 离线音源，按窗口宽度适配手机、平板和分屏。[Android 工程／安装说明](Android/README.md) · [详细需求与设计](Android/docs/REQUIREMENTS-AND-DESIGN.md) · [审查与已知问题](Android/docs/REVIEW-v1.2.0.md)。历史标签与附件保留不变；Android 源码使用独立标签 [android-v1.3.4](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.4)。
+Android 当前版本为 **1.3.5／code 7**（新增多线路对冲竞速检查与三大加速镜像/CDN 回退、HTTP Range 跨线路断点续传、低速自动切换线路、设置页线路选择与实时网速显示，以及主界面非侵入式后台更新进度条），采用同一套词库与 Kokoro 离线音源，按窗口宽度适配手机、平板和分屏。[Android 工程／安装说明](Android/README.md) · [详细需求与设计](Android/docs/REQUIREMENTS-AND-DESIGN.md) · [审查与已知问题](Android/docs/REVIEW-v1.2.0.md)。历史标签与附件保留不变；Android 源码使用独立标签 [android-v1.3.5](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.5)。
 
-请下载对应平台 Setup／ZIP／APK，**不要把 GitHub 自动生成的 Source code 当作可运行软件**。桌面版为 **1.4.0**，Android 为 **1.3.4**。1.3.0 及更早的桌面版必须手动安装升级这一次，之后可在软件中确认安装并重启。
+请下载对应平台 Setup／ZIP／APK，**不要把 GitHub 自动生成的 Source code 当作可运行软件**。桌面版为 **1.4.0**，Android 为 **1.3.5**。1.3.0 及更早的桌面版必须手动安装升级这一次，之后可在软件中确认安装并重启。
 
 ### 安装与首次打开
 
@@ -64,11 +64,11 @@ macOS／Windows 1.3.0 支持 `←`／`↑` 上一个词条、`→`／`↓` 下�
 
 打开 **设置 → 软件更新 → 检查更新**，只接受本仓库对应平台的正式版本，不接收预发布版，不建议降级。Mac 使用 Sparkle 原生窗口，验证签名更新源和归档，确认后安装并重启；设置与菜单可唤起已有更新窗口。Windows 下载 Setup，验证固定 Ed25519 公钥签名清单、文件大小及 SHA-256，再提供“安装并重启”。下载可取消，失败可重试。
 
-桌面与 Android 分平台发布：桌面 1.4.0 是正式版，仓库 Latest 保留给 Android 1.3.4。Mac 使用独立更新源，Windows 从正式发布列表筛选 Windows 安装版，不会把仅有 Android APK 的版本误当作桌面更新。
+桌面与 Android 分平台发布：桌面 1.4.0 是正式版，仓库 Latest 保留给 Android 1.3.5。Mac 使用独立更新源，Windows 从正式发布列表筛选 Windows 安装版，不会把仅有 Android APK 的版本误当作桌面更新。
 
 确认安装后，软件检查学习记录是否安全保存，正常退出，由安装器替换程序并重新打开，不需要自己解压覆盖。Windows 安装器先持有旧进程句柄再等待退出，不强制终止其他程序。保存或交接失败则停止操作，不清空记录；安装后的磁盘故障等场景不承诺自动回滚。旧便携目录不会自动删除。
 
-Android 使用 `SHA256SUMS-Android.txt`，另核对 APK 包名、实际签名证书、较高 versionCode 与 Release 版本；用户点击安装后通过系统来源授权与 PackageInstaller 确认。已安装旧版的 Android 设备可在应用内检查并升级至 1.3.4（versionCode 6），或从 1.3.4 发布页下载 APK 直接覆盖安装。历史审查记录见 [Android 审查记录](Android/docs/REVIEW-v1.2.0.md)。
+Android 使用 `SHA256SUMS-Android.txt`，另核对 APK 包名、实际签名证书、较高 versionCode 与 Release 版本；支持 GitHub 直连与三大加速镜像/CDN 多线择优、HTTP Range 断点续传和低速自动切线；用户点击安装后通过系统来源授权与 PackageInstaller 确认。已安装旧版的 Android 设备可在应用内检查并升级至 1.3.5（versionCode 7），或从 1.3.5 发布页下载 APK 直接覆盖安装。历史审查记录见 [Android 审查记录](Android/docs/REVIEW-v1.2.0.md)。
 
 **不未经确认安装，也不在启动时后台检查。** 没有账号、令牌或学习数据上传，仅主动检查／下载时连接 GitHub 及其官方资源主机；断网不影响学习。Windows 保留 Internet Zone 标记，Mac 由 Sparkle 的已验证安装流程处理；Android 由系统安装器确认。更新签名和 SHA-256 不等于商业代码签名或 Apple 公证，不能代替系统对开发者身份的判断，不关闭系统安全防护。
 

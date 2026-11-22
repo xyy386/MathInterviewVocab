@@ -29,6 +29,7 @@ class UpdateEngineTest {
         val bytes: ByteArray,
         override val contentLength: Long? = bytes.size.toLong(),
         override val input: InputStream = ByteArrayInputStream(bytes),
+        override val resumedFromOffset: Boolean = false,
     ) : UpdateResponse {
         var closed = false
         var cancelled = false
@@ -38,11 +39,23 @@ class UpdateEngineTest {
 
     private class Transport : UpdateTransport {
         val routes = mutableMapOf<String, () -> UpdateResponse>()
+        val rangeRoutes = mutableMapOf<String, (Long) -> UpdateResponse>()
         val requests = mutableListOf<String>()
+        val rangeOffsets = mutableListOf<Pair<String, Long>>()
         val responses = mutableListOf<UpdateResponse>()
-        override suspend fun open(url: String): UpdateResponse {
-            synchronized(this) { requests.add(url) }
-            return (routes[url]?.invoke() ?: throw IOException("fixture missing")).also { synchronized(this) { responses.add(it) } }
+        override suspend fun open(url: String): UpdateResponse = open(url, 0L)
+        override suspend fun open(url: String, rangeStart: Long): UpdateResponse {
+            synchronized(this) {
+                requests.add(url)
+                rangeOffsets.add(url to rangeStart)
+            }
+            val opener = rangeRoutes[url]
+            val resp = if (opener != null) {
+                opener(rangeStart)
+            } else {
+                routes[url]?.invoke() ?: throw IOException("fixture missing")
+            }
+            return resp.also { synchronized(this) { responses.add(it) } }
         }
     }
 
@@ -325,5 +338,61 @@ class UpdateEngineTest {
             } catch (_: UpdateFailure) { rejected = true }
             assertTrue(rejected)
         }
+    }
+
+    @Test fun directFailureFallsBackToMirrorRouteForCheckAndDownload() = runBlocking {
+        val release = UpdateFixtures.release()
+        val remote = Transport().apply {
+            routes["${UpdatePolicy.GH_PROXY.prefix}${UpdatePolicy.LATEST_URL}"] = { Response(UpdateFixtures.metadata()) }
+            routes["${UpdatePolicy.GH_FAST.prefix}${release.checksums.url}"] = { Response(UpdateFixtures.checksum) }
+            routes["${UpdatePolicy.GH_FAST.prefix}${release.apk.url}"] = { Response(UpdateFixtures.apk) }
+        }
+        val engine = engine(remote)
+        engine.check()!!.join()
+        assertEquals("available", engine.state.value.status)
+        assertEquals(UpdatePolicy.GH_PROXY.label, engine.state.value.activeRouteLabel)
+        engine.download()!!.join()
+        assertEquals("ready", engine.state.value.status)
+        assertEquals(UpdatePolicy.GH_FAST.label, engine.state.value.activeRouteLabel)
+        assertTrue(engine.verifiedUpdate()!!.file.readBytes().contentEquals(UpdateFixtures.apk))
+    }
+
+    @Test fun interruptedApkDownloadResumesViaRangeOnFallbackMirror() = runBlocking {
+        val release = UpdateFixtures.release()
+        val apkBytes = UpdateFixtures.apk
+        val split = apkBytes.size / 2
+        val brokenFirstStream = object : InputStream() {
+            var index = 0
+            override fun read(): Int {
+                if (index < split) return apkBytes[index++].toInt() and 0xFF
+                throw IOException("simulated mid-stream disconnect")
+            }
+            override fun read(b: ByteArray, off: Int, len: Int): Int {
+                if (index >= split) throw IOException("simulated mid-stream disconnect")
+                val count = minOf(len, split - index)
+                System.arraycopy(apkBytes, index, b, off, count)
+                index += count
+                return count
+            }
+        }
+        val mirrorApkUrl = "${UpdatePolicy.GH_FAST.prefix}${release.apk.url}"
+        val remote = Transport().apply {
+            routes[UpdatePolicy.LATEST_URL] = { Response(UpdateFixtures.metadata()) }
+            routes[release.checksums.url] = { Response(UpdateFixtures.checksum) }
+            routes[release.apk.url] = {
+                Response(apkBytes, contentLength = apkBytes.size.toLong(), input = brokenFirstStream)
+            }
+            rangeRoutes[mirrorApkUrl] = { offset ->
+                val remaining = apkBytes.copyOfRange(offset.toInt(), apkBytes.size)
+                Response(remaining, contentLength = remaining.size.toLong(), resumedFromOffset = offset > 0L)
+            }
+        }
+        val engine = engine(remote)
+        engine.check()!!.join()
+        engine.download()!!.join()
+        assertEquals("ready", engine.state.value.status)
+        assertEquals(UpdatePolicy.GH_FAST.label, engine.state.value.activeRouteLabel)
+        assertTrue(remote.rangeOffsets.any { it.first == mirrorApkUrl && it.second == split.toLong() })
+        assertTrue(engine.verifiedUpdate()!!.file.readBytes().contentEquals(apkBytes))
     }
 }

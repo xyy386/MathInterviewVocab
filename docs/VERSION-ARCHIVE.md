@@ -1,11 +1,12 @@
 # 历史版本与归档索引
 
-归档核验日期：2026-11-19。成品使用 GitHub Releases 保存，源码由固定标签保存；新增桌面 v1.4.0，原 Release、附件和标签保持不变，不重复上传构建缓存。桌面 v1.4.0 为独立正式版，Android v1.3.4 继续保留仓库 Latest。
+归档核验日期：2026-11-22。成品使用 GitHub Releases 保存，源码由固定标签保存；新增 Android v1.3.5，原 Release、附件和标签保持不变，不重复上传构建缓存。桌面 v1.4.0 为独立正式版，Android v1.3.5 作为仓库 Latest。
 
 ## 版本与源码
 
 | Release | 成品版本 | 对应源码 |
 | --- | --- | --- |
+| [v1.3.5](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.5) | Android 1.3.5 code 7；Windows／macOS 继续使用 v1.4.0 | [Android android-v1.3.5](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.5) |
 | [v1.4.0](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.4.0) | Windows 1.4.0（file build 1.4.0.6）、macOS 1.4.0 build 6；不修改 Android | [桌面 v1.4.0](https://github.com/xyy386/MathInterviewVocab/tree/v1.4.0) |
 | [v1.3.4](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.4) | Android 1.3.4 code 6；Windows／macOS 继续使用 v1.3.0 | [Android android-v1.3.4](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.4) |
 | [v1.3.3](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.3) | Android 1.3.3 code 5；Windows／macOS 继续使用 v1.3.0 | [Android android-v1.3.3](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.3) |
@@ -31,6 +32,13 @@
 | [SHA256SUMS.txt](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.4.0/SHA256SUMS.txt) | 588 | `fd3d1939bc253a744249921dea798e89ce6c80d25132672ff42013e1c01b7647` |
 
 桌面更新分别使用签名 Mac appcast 和 Windows 更新清单，不依赖 Android Latest。系统首次安装提示和旧版手动引导升级边界见 [1.4.0 更新说明](RELEASE-NOTES-v1.4.0.md)。
+
+## v1.3.5 附件
+
+| 文件（直接下载） | 字节数 | SHA-256 |
+| --- | ---: | --- |
+| [MathInterviewVocab-Android-universal-v1.3.5.apk](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/MathInterviewVocab-Android-universal-v1.3.5.apk) | 100616960 | `ad5355e53ffbd8a900f30cd9b3f80b22d149af8602af1eb72e8e1507521b3cf8` |
+| [SHA256SUMS-Android.txt](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/SHA256SUMS-Android.txt) | 114 | `4c3c4c86d4bc311d761e4cf84d98867beb29ce9f9fca16a7562ac35533a0478e` |
 
 ## v1.3.4 附件
 

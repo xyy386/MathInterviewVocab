@@ -1,0 +1,23 @@
+{
+  "tag_name": "v1.3.5",
+  "html_url": "https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.5",
+  "draft": false,
+  "prerelease": false,
+  "body": "Android 1.3.5（versionCode 7）：升级多线路更新引擎，支持 GitHub 官方直连与三大国内加速镜像 / CDN 对冲测速择优、HTTP Range 跨线路断点续传、低速（< 40 KB/s）自动切换线路、设置页线路模式切换与实时网速显示，以及主界面非侵入式后台更新进度条。",
+  "assets": [
+    {
+      "name": "MathInterviewVocab-Android-universal-v1.3.5.apk",
+      "state": "uploaded",
+      "size": 100616960,
+      "browser_download_url": "https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/MathInterviewVocab-Android-universal-v1.3.5.apk",
+      "digest": "sha256:ad5355e53ffbd8a900f30cd9b3f80b22d149af8602af1eb72e8e1507521b3cf8"
+    },
+    {
+      "name": "SHA256SUMS-Android.txt",
+      "state": "uploaded",
+      "size": 114,
+      "browser_download_url": "https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/SHA256SUMS-Android.txt",
+      "digest": "sha256:4c3c4c86d4bc311d761e4cf84d98867beb29ce9f9fca16a7562ac35533a0478e"
+    }
+  ]
+}

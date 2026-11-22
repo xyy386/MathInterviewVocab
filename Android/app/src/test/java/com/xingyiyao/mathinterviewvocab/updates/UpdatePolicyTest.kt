@@ -127,12 +127,50 @@ class UpdatePolicyTest {
     }
 
     @Test fun onlyHttpsExactHostsAreAllowed() {
-        for (host in listOf("github.com", "api.github.com", "release-assets.githubusercontent.com", "objects.githubusercontent.com")) {
+        for (host in listOf("github.com", "api.github.com", "raw.githubusercontent.com", "release-assets.githubusercontent.com", "objects.githubusercontent.com")) {
             assertEquals(host, UpdatePolicy.checkedUrl("https://$host/path?signature=opaque").host)
         }
-        for (value in listOf("http://github.com/a", "https://github.com.evil.test/a", "https://evilgithub.com/a", "https://user@github.com/a", "https://github.com:444/a", "https://github.com/a#b", "file:///tmp/a", "https://GITHUB.com/a")) {
+        for (validMirrorOrCdn in listOf(
+            "https://ghfast.top/https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/app.apk",
+            "https://gh-proxy.com/https://api.github.com/repos/xyy386/MathInterviewVocab/releases/latest",
+            "https://ghproxy.net/https://raw.githubusercontent.com/xyy386/MathInterviewVocab/main/Android/latest-release.json",
+            "https://testingcf.jsdelivr.net/gh/xyy386/MathInterviewVocab@main/Android/latest-release.json",
+            "https://fastly.jsdelivr.net/gh/xyy386/MathInterviewVocab@main/Android/latest-release.json",
+        )) {
+            assertEquals("https", UpdatePolicy.checkedUrl(validMirrorOrCdn).scheme)
+        }
+        for (value in listOf(
+            "http://github.com/a", "https://github.com.evil.test/a", "https://evilgithub.com/a",
+            "https://user@github.com/a", "https://github.com:444/a", "https://github.com/a#b",
+            "file:///tmp/a", "https://GITHUB.com/a",
+            "https://ghfast.top/https://github.com/other/MathInterviewVocab/releases/latest",
+            "https://gh-proxy.com/https://evil.com/payload.apk",
+            "https://ghproxy.net/payload.apk",
+            "https://testingcf.jsdelivr.net/gh/other/repo@main/file.json",
+            "https://fastly.jsdelivr.net/npm/some-pkg/index.js",
+        )) {
             assertThrows(value, UpdateFailure::class.java) { UpdatePolicy.checkedUrl(value) }
         }
+    }
+
+    @Test fun assetCandidatesRespectRouteModeAndPreferredRoute() {
+        val official = "https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/app.apk"
+        assertEquals(
+            listOf("direct", "ghfast", "ghproxy", "ghproxynet"),
+            UpdatePolicy.assetCandidates(official, "auto").map { it.first.id },
+        )
+        assertEquals(
+            listOf("ghproxy", "direct", "ghfast", "ghproxynet"),
+            UpdatePolicy.assetCandidates(official, "auto", preferredRouteId = "ghproxy").map { it.first.id },
+        )
+        assertEquals(
+            listOf("ghfast", "ghproxy", "ghproxynet", "direct"),
+            UpdatePolicy.assetCandidates(official, "mirror").map { it.first.id },
+        )
+        assertEquals(
+            listOf("direct"),
+            UpdatePolicy.assetCandidates(official, "direct").map { it.first.id },
+        )
     }
 
     @Test fun redirectsAreRecheckedAndBounded() {
@@ -243,5 +281,33 @@ class UpdateTransportTest {
         var failed = false
         try { transport { response(it, encoding = "gzip") }.open(UpdatePolicy.LATEST_URL) } catch (_: UpdateFailure) { failed = true }
         assertTrue(failed)
+    }
+
+    @Test fun rangeRequestsSendRangeHeaderAndValidatePartialContent() = runBlocking {
+        val remote = transport { request ->
+            assertEquals("bytes=10-", request.header("Range"))
+            Response.Builder().request(request).protocol(Protocol.HTTP_1_1).code(206).message("Partial Content")
+                .header("Content-Range", "bytes 10-19/20")
+                .body("0123456789".toResponseBody())
+                .build()
+        }
+        remote.open("https://ghfast.top/https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/app.apk", rangeStart = 10L).use {
+            assertTrue(it.resumedFromOffset)
+            assertEquals("0123456789", String(it.input.readBytes()))
+        }
+
+        val mismatched = transport { request ->
+            Response.Builder().request(request).protocol(Protocol.HTTP_1_1).code(206).message("Partial Content")
+                .header("Content-Range", "bytes 5-19/20")
+                .body("payload".toResponseBody())
+                .build()
+        }
+        var rejected = false
+        try {
+            mismatched.open("https://ghfast.top/https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/app.apk", rangeStart = 10L)
+        } catch (_: UpdateFailure) {
+            rejected = true
+        }
+        assertTrue(rejected)
     }
 }

@@ -44,6 +44,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
@@ -69,6 +70,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontFamily
@@ -76,6 +78,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.xingyiyao.mathinterviewvocab.AppViewModel
+import com.xingyiyao.mathinterviewvocab.updates.UpdateUiState
 
 private data class Destination(val id: String, val title: String, val icon: ImageVector)
 private val destinations = listOf(
@@ -90,6 +93,7 @@ fun VocabularyApp(viewModel: AppViewModel) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val speech by viewModel.speechState.collectAsStateWithLifecycle()
     val update by viewModel.updateState.collectAsStateWithLifecycle()
+    val activity = LocalContext.current.findActivity()
     val glossaryListState = rememberGlossaryListState(state.screen, state.filteredTerms, state.orderedSubjects)
     var themeRevealOrigin by remember { mutableStateOf<Offset?>(null) }
     var themeButtonCenter by remember { mutableStateOf(Offset(960f, 96f)) }
@@ -215,6 +219,18 @@ fun VocabularyApp(viewModel: AppViewModel) {
                             action = if (speech.status == "playing") "停止" else "知道了",
                         )
                     }
+                    if (!state.screen.showSettings && update.status in setOf("downloading", "verifying", "ready")) {
+                        BackgroundUpdateBar(
+                            update = update,
+                            onAction = {
+                                if (update.canInstall && activity != null) {
+                                    viewModel.updater.requestInstall(activity)
+                                } else {
+                                    viewModel.showSettings(true)
+                                }
+                            },
+                        )
+                    }
                     AnimatedContent(
                         targetState = pageKey,
                         transitionSpec = { fadeIn(tween(180)) togetherWith fadeOut(tween(140)) },
@@ -286,6 +302,40 @@ private fun StatusMessage(message: String, error: Boolean, onDismiss: () -> Unit
         ) {
             Text(message, Modifier.weight(1f), color = color, style = MaterialTheme.typography.bodyMedium)
             TextButton(onClick = onDismiss) { Text(action) }
+        }
+    }
+}
+
+@Composable
+private fun BackgroundUpdateBar(update: UpdateUiState, onAction: () -> Unit) {
+    Surface(color = Academic.BlueSoft) {
+        Column(Modifier.fillMaxWidth()) {
+            Row(
+                Modifier.fillMaxWidth().padding(start = 16.dp, end = 8.dp, top = 4.dp, bottom = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    formatDownloadBanner(update),
+                    Modifier.weight(1f),
+                    color = Academic.Blue,
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.Medium,
+                    maxLines = 1,
+                )
+                TextButton(onClick = onAction) {
+                    Text(if (update.canInstall) "立即安装" else "查看")
+                }
+            }
+            if (update.status in setOf("downloading", "verifying")) {
+                if (update.totalBytes > 0L) {
+                    LinearProgressIndicator(
+                        progress = { (update.downloadedBytes.toFloat() / update.totalBytes.toFloat()).coerceIn(0f, 1f) },
+                        modifier = Modifier.fillMaxWidth().height(2.5.dp),
+                    )
+                } else {
+                    LinearProgressIndicator(modifier = Modifier.fillMaxWidth().height(2.5.dp))
+                }
+            }
         }
     }
 }

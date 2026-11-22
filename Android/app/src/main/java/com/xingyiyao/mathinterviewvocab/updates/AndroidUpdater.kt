@@ -53,6 +53,7 @@ class AndroidUpdater(context: Context) {
     fun check() { if (!installationActive.get()) engine.check() }
     fun download() { if (!installationActive.get()) engine.download() }
     fun cancel() = engine.cancel()
+    fun setRouteMode(mode: String) = engine.setRouteMode(mode)
 
     fun openReleaseNotes(activity: Activity) {
         val url = engine.releasePage() ?: "${UpdatePolicy.REPOSITORY}/releases/latest"

@@ -24,6 +24,9 @@ data class UpdateUiState(
     val canInstall: Boolean = false,
     val needsInstallPermission: Boolean = false,
     val needsUserConfirmation: Boolean = false,
+    val routeMode: String = "auto",
+    val activeRouteLabel: String = "",
+    val speedBytesPerSecond: Long = 0,
 )
 
 internal class UpdateFailure(message: String) : IOException(message)
@@ -67,22 +70,97 @@ internal data class ApkIdentity(
     val certificates: Set<String>,
 )
 
+internal data class UpdateRoute(val id: String, val label: String, val prefix: String)
+
 /** 只信任官方版本、专用 Android 附件以及当前应用的真实签名。 */
 internal object UpdatePolicy {
     const val REPOSITORY = "https://github.com/xyy386/MathInterviewVocab"
     const val LATEST_URL = "https://api.github.com/repos/xyy386/MathInterviewVocab/releases/latest"
+    const val RAW_LATEST_URL = "https://raw.githubusercontent.com/xyy386/MathInterviewVocab/main/Android/latest-release.json"
+    const val JSDELIVR_CF_LATEST_URL = "https://testingcf.jsdelivr.net/gh/xyy386/MathInterviewVocab@main/Android/latest-release.json"
+    const val JSDELIVR_FASTLY_LATEST_URL = "https://fastly.jsdelivr.net/gh/xyy386/MathInterviewVocab@main/Android/latest-release.json"
     const val CHECKSUM_NAME = "SHA256SUMS-Android.txt"
     const val MAX_METADATA = 1024L * 1024
     const val MAX_CHECKSUMS = 128L * 1024
     const val MAX_APK = 500L * 1024 * 1024
     const val MAX_REDIRECTS = 5
-    private val hosts = setOf("github.com", "api.github.com", "release-assets.githubusercontent.com", "objects.githubusercontent.com")
+
+    val DIRECT = UpdateRoute("direct", "GitHub 官方直连", "")
+    val GH_FAST = UpdateRoute("ghfast", "加速镜像 1 (ghfast)", "https://ghfast.top/")
+    val GH_PROXY = UpdateRoute("ghproxy", "加速镜像 2 (gh-proxy)", "https://gh-proxy.com/")
+    val GH_PROXY_NET = UpdateRoute("ghproxynet", "加速镜像 3 (ghproxy.net)", "https://ghproxy.net/")
+    val JSDELIVR_CF = UpdateRoute("jsdelivr_cf", "CDN 加速 (jsDelivr CF)", "")
+    val JSDELIVR_FASTLY = UpdateRoute("jsdelivr_fastly", "CDN 加速 (jsDelivr Fastly)", "")
+
+    val ASSET_MIRROR_ROUTES = listOf(GH_FAST, GH_PROXY, GH_PROXY_NET)
+
+    private val officialHosts = setOf(
+        "github.com",
+        "api.github.com",
+        "raw.githubusercontent.com",
+        "release-assets.githubusercontent.com",
+        "objects.githubusercontent.com",
+    )
+    private val mirrorProxyHosts = setOf("ghfast.top", "gh-proxy.com", "ghproxy.net")
+    private val mirrorPathPrefixes = listOf(
+        "/https://github.com/xyy386/MathInterviewVocab/",
+        "/https://api.github.com/repos/xyy386/MathInterviewVocab/",
+        "/https://raw.githubusercontent.com/xyy386/MathInterviewVocab/",
+    )
+    private val cdnHosts = setOf("fastly.jsdelivr.net", "testingcf.jsdelivr.net")
+    private const val CDN_PATH_PREFIX = "/gh/xyy386/MathInterviewVocab@main/"
     private val shaPattern = Regex("[0-9a-fA-F]{64}")
+
+    fun normalizeRouteMode(mode: String): String =
+        if (mode in setOf("auto", "mirror", "direct")) mode else "auto"
+
+    fun metadataCandidates(routeMode: String): List<Pair<UpdateRoute, String>> {
+        val mirrorCandidates = listOf(
+            GH_PROXY to "${GH_PROXY.prefix}$LATEST_URL",
+            JSDELIVR_CF to JSDELIVR_CF_LATEST_URL,
+            JSDELIVR_FASTLY to JSDELIVR_FASTLY_LATEST_URL,
+            GH_FAST to "${GH_FAST.prefix}$RAW_LATEST_URL",
+            GH_PROXY_NET to "${GH_PROXY_NET.prefix}$RAW_LATEST_URL",
+        )
+        return when (normalizeRouteMode(routeMode)) {
+            "direct" -> listOf(DIRECT to LATEST_URL, DIRECT to RAW_LATEST_URL)
+            "mirror" -> mirrorCandidates + listOf(DIRECT to LATEST_URL, DIRECT to RAW_LATEST_URL)
+            else -> listOf(DIRECT to LATEST_URL) + mirrorCandidates + listOf(DIRECT to RAW_LATEST_URL)
+        }
+    }
+
+    fun assetCandidates(
+        officialUrl: String,
+        routeMode: String,
+        preferredRouteId: String? = null,
+    ): List<Pair<UpdateRoute, String>> {
+        val mirrors = ASSET_MIRROR_ROUTES.map { route -> route to "${route.prefix}$officialUrl" }
+        val base = when (normalizeRouteMode(routeMode)) {
+            "direct" -> listOf(DIRECT to officialUrl)
+            "mirror" -> mirrors + listOf(DIRECT to officialUrl)
+            else -> listOf(DIRECT to officialUrl) + mirrors
+        }
+        if (preferredRouteId.isNullOrBlank()) return base
+        val preferred = base.filter { it.first.id == preferredRouteId }
+        if (preferred.isEmpty()) return base
+        val rest = base.filterNot { it.first.id == preferredRouteId }
+        return preferred + rest
+    }
 
     fun checkedUrl(value: String): URI {
         val uri = try { URI(value) } catch (_: Exception) { throw UpdateFailure("更新地址无效。") }
-        if (uri.scheme != "https" || uri.host !in hosts || uri.rawUserInfo != null ||
+        if (uri.scheme != "https" || uri.rawUserInfo != null ||
             uri.port !in setOf(-1, 443) || uri.rawFragment != null || uri.isOpaque) {
+            throw UpdateFailure("更新地址不属于受信任的 HTTPS 服务。")
+        }
+        val path = uri.rawPath.orEmpty()
+        val allowed = when (uri.host) {
+            in officialHosts -> true
+            in mirrorProxyHosts -> mirrorPathPrefixes.any { path.startsWith(it) }
+            in cdnHosts -> path.startsWith(CDN_PATH_PREFIX)
+            else -> false
+        }
+        if (!allowed) {
             throw UpdateFailure("更新地址不属于受信任的 HTTPS 服务。")
         }
         return uri
@@ -90,7 +168,8 @@ internal object UpdatePolicy {
 
     fun redirectUrl(current: String, location: String, redirectCount: Int): String {
         if (redirectCount >= MAX_REDIRECTS) throw UpdateFailure("更新下载重定向次数过多。")
-        val resolved = try { checkedUrl(current).resolve(location).toString() }
+        val currentUri = checkedUrl(current)
+        val resolved = try { currentUri.resolve(location).toString() }
         catch (_: Exception) { throw UpdateFailure("更新重定向地址无效。") }
         checkedUrl(resolved)
         return resolved

@@ -3,11 +3,14 @@ package com.xingyiyao.mathinterviewvocab.ui
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
@@ -34,9 +37,9 @@ import com.xingyiyao.mathinterviewvocab.updates.UpdateUiState
 import java.util.Locale
 import kotlin.math.abs
 
-private fun Context.activity(): Activity? = when (this) {
+internal fun Context.findActivity(): Activity? = when (this) {
     is Activity -> this
-    is ContextWrapper -> baseContext.activity()
+    is ContextWrapper -> baseContext.findActivity()
     else -> null
 }
 
@@ -50,7 +53,7 @@ fun SettingsScreen(
     viewModel: AppViewModel,
     onToggleThemeWithOrigin: ((Offset, Boolean) -> Unit)? = null,
 ) {
-    val activity = LocalContext.current.activity()
+    val activity = LocalContext.current.findActivity()
     var resetConfirm by remember { mutableStateOf(false) }
     var showNotes by remember { mutableStateOf(false) }
     var accentRipple by remember { mutableIntStateOf(0) }
@@ -171,15 +174,40 @@ fun SettingsScreen(
                 style = MaterialTheme.typography.titleMedium,
                 color = Academic.Ink,
             )
+            Text("更新线路", style = MaterialTheme.typography.titleSmall, color = Academic.Ink)
+            Row(
+                Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                listOf(
+                    "auto" to "智能多线加速",
+                    "mirror" to "加速镜像优先",
+                    "direct" to "GitHub 直连",
+                ).forEach { (mode, label) ->
+                    ElasticTagChip(
+                        label = label,
+                        selected = update.routeMode == mode,
+                        compact = true,
+                        onClick = { if (!updateBusy) updater.setRouteMode(mode) },
+                    )
+                }
+            }
             Text(
-                update.message.ifBlank { "仅在你点击时检查 GitHub 正式版，不在启动时联网。" },
+                update.message.ifBlank { "仅在你点击时检查 GitHub 正式版，不在启动时联网；支持多线择优、镜像加速与断点续传。" },
                 color = if (update.status == "error") Academic.Error else Academic.Muted,
             )
+            if (update.activeRouteLabel.isNotBlank() && update.status in setOf("current", "available", "unavailable", "ready")) {
+                Text(
+                    "本次使用线路：${update.activeRouteLabel}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Academic.Blue,
+                )
+            }
             if (update.status in setOf("downloading", "verifying")) {
                 if (update.totalBytes > 0) {
                     MasteryLine(update.downloadedBytes.toDouble() / update.totalBytes)
                     Text(
-                        formatBytes(update.downloadedBytes) + " / " + formatBytes(update.totalBytes),
+                        formatDownloadDetail(update),
                         style = MaterialTheme.typography.bodySmall,
                         color = Academic.Muted,
                     )
@@ -278,4 +306,35 @@ private fun BoxWithOrigin(
     }
 }
 
-private fun formatBytes(bytes: Long): String = String.format(Locale.ROOT, "%.1f MB", bytes / 1_048_576.0)
+internal fun formatBytes(bytes: Long): String = String.format(Locale.ROOT, "%.1f MB", bytes / 1_048_576.0)
+
+internal fun formatSpeed(bytesPerSecond: Long): String = when {
+    bytesPerSecond >= 1_048_576L -> String.format(Locale.ROOT, "%.1f MB/s", bytesPerSecond / 1_048_576.0)
+    bytesPerSecond >= 1024L -> "${bytesPerSecond / 1024L} KB/s"
+    bytesPerSecond > 0L -> "$bytesPerSecond B/s"
+    else -> ""
+}
+
+internal fun formatDownloadDetail(update: UpdateUiState): String {
+    val pct = if (update.totalBytes > 0L) ((update.downloadedBytes * 100L) / update.totalBytes).coerceIn(0L, 100L) else 0L
+    val speed = formatSpeed(update.speedBytesPerSecond)
+    return buildList {
+        add("$pct% · ${formatBytes(update.downloadedBytes)} / ${formatBytes(update.totalBytes)}")
+        if (speed.isNotEmpty()) add(speed)
+        if (update.activeRouteLabel.isNotBlank()) add(update.activeRouteLabel)
+    }.joinToString(" · ")
+}
+
+internal fun formatDownloadBanner(update: UpdateUiState): String = when (update.status) {
+    "verifying" -> "正在校验新版本安装包与签名…"
+    "ready" -> "新版本 ${update.availableVersion.orEmpty()} 已就绪，可安装"
+    else -> {
+        val pct = if (update.totalBytes > 0L) ((update.downloadedBytes * 100L) / update.totalBytes).coerceIn(0L, 100L) else 0L
+        val speed = formatSpeed(update.speedBytesPerSecond)
+        buildList {
+            add("后台下载更新 ${update.availableVersion.orEmpty()}：$pct%")
+            if (speed.isNotEmpty()) add(speed)
+            if (update.activeRouteLabel.isNotBlank()) add(update.activeRouteLabel)
+        }.joinToString(" · ")
+    }
+}
