@@ -6,16 +6,16 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
     <link>https://github.com/xyy386/MathInterviewVocab</link>
     <description>macOS 正式版；仅在用户主动检查时使用。</description>
     <item>
-      <title>数学面试词汇 1.5.0</title>
-      <link>https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.5.0</link>
-      <sparkle:version>7</sparkle:version>
-      <sparkle:shortVersionString>1.5.0</sparkle:shortVersionString>
+      <title>数学面试词汇 1.5.1</title>
+      <link>https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.5.1</link>
+      <sparkle:version>8</sparkle:version>
+      <sparkle:shortVersionString>1.5.1</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-      <description><![CDATA[<p>更新说明：<a href="https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.5.0">1.5.0 正式发布页</a>。确认安装后自动退出、替换并重新打开；学习记录保留。</p>]]></description>
-      <enclosure url="https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.0/MathInterviewVocab-macOS-universal-v1.5.0.zip" length="49564036" type="application/octet-stream" sparkle:edSignature="wwKVJHmA3EAJFd/sHwTQZ2XPbQaIcNjXRzL7ZkYb8M93Wd8HGfdQpj8zxUFOosekHgNyZAcuLT8leNBywVq2Bw=="></enclosure>
+      <description><![CDATA[<p>更新说明：<a href="https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.5.1">1.5.1 正式发布页</a>。确认安装后自动退出、替换并重新打开；学习记录保留。</p>]]></description>
+      <enclosure url="https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/MathInterviewVocab-macOS-universal-v1.5.1.zip" length="50022660" type="application/octet-stream" sparkle:edSignature="M6pgeFtCzkbbLSf7Clq711Yf4N3IitB6OPRdG7eHxdpHy5AumGFRsi2iwjagx1z5+MEUYj6SNdVZSzoIps/xAg=="></enclosure>
     </item>
   </channel>
 </rss><!-- sparkle-signatures:
-edSignature: q2OOhWfH8JLj4hcHieXw7eRQLq1lT3RWW4aAxZREfrkB/JR2E8PIjFEh2ii62D8IH+S7M1WVxSlVCycJsVnABQ==
+edSignature: JSDSruueqOMgMM6inarTScNVdOdAwqCJCEPMLX1dP4IU+C9cjgt1Q10NdbRDtqT7jORK6xx3h0sbO4wZd8JJAA==
 length: 1492
 -->

@@ -1,19 +1,19 @@
 {
   "schema": 1,
   "platform": "macos-universal",
-  "version": "1.5.0",
-  "build": "7",
-  "notes": "# 桌面 1.5.0 · 多线路更新、断点续传与后台进度\n\nmacOS **1.5.0 build 7**、Windows **1.5.0（file build 1.5.0.7）**。本次不修改 Android，保留 Android 独立 Latest。\n\n## 更新内容\n\n- 三种更新线路：默认“智能多线加速”、镜像优先、GitHub 直连。官方请求超时或失败时择优使用备用节点，最多同时探测三条线路；大安装包始终单线路下载。两家 jsDelivr 节点只读取小型索引，不分发安装包。\n- 下载中断或持续低速时切换线路，使用经过严格校验的 HTTP Range 续传；不支持续传的响应会安全重新下载，不拼接错误内容。\n- 增加暂停、继续和单独确认的清除缓存。暂停、断网和退出均保留可恢复断点；下次打开只读取本地缓存，由你手动继续，不自动联网或常驻后台。\n- 词汇、检测、学习记录顶部增加轻量进度条，显示百分比、已下载／总大小、速度和当前线路；关闭设置或切页不停止下载。\n- 两平台新增独立签名更新索引，固定平台、版本、构建号、附件大小及 SHA-256；镜像不能改变安装包身份。下载完成重新核对完整摘要，安装前继续执行既有签名校验和学习记录保存门禁。\n\nMac 保留 Sparkle 原生更新窗口及确认、替换和重启流程；新下载层通过仅绑定本机回环地址的单会话只读交接层提供已绑定的更新源与归档，不暴露目录或通用代理。Windows 保留应用内更新界面及 NSIS 安装器，不强制结束其他进程。\n\n## 下载与升级\n\n- [Windows 安装版（推荐）](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.0/MathInterviewVocab-Windows-x64-Setup-v1.5.0.exe)\n- [Windows 便携 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.0/MathInterviewVocab-Windows-x64-v1.5.0.zip)\n- [macOS Universal ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.0/MathInterviewVocab-macOS-universal-v1.5.0.zip)\n- [SHA256SUMS.txt](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.0/SHA256SUMS.txt)\n\n1.4.0 可以使用原有更新流程升级至 1.5.0，新的加速和持久断点功能从安装 1.5.0 后生效。1.3.0 及更早桌面版本仍需手动安装一次。Windows 便携版通过应用内更新转入固定目录安装版，不自动清理旧解压目录。\n\n326 条词汇、130 条重点、2328 段 Kokoro 离线音频、快捷键、学习数据格式及位置不变。更新缓存与学习记录分离，清除下载缓存不会重置记录。\n\n## 隐私与安全\n\n智能或镜像模式会向第三方节点发送公开更新资源请求，可以选择 GitHub 直连以完全禁用镜像和 CDN；不发送学习记录或朗读文本。没有启动自动检查、静默安装或退出后下载服务。\n\nMac 仍为 ad-hoc 签名、未 Apple 公证；Windows 未商业代码签名。更新签名不是操作系统的发布者认证，不关闭 Gatekeeper、SmartScreen 或其他系统防护，不手动移除隔离标记。\n\n验证范围与限制见 [发布检查](RELEASE-CHECKS.md)，缓存位置及维护流程见 [桌面更新说明](DESKTOP-UPDATES.md)。Windows 原生安装验收使用 GitHub 官方托管 runner，不是实体设备测试，不使用 PD。\n",
+  "version": "1.5.1",
+  "build": "8",
+  "notes": "# 桌面 1.5.1 · LaTeX 公式显示修复\n\nmacOS **1.5.1 build 8**、Windows **1.5.1（file build 1.5.1.8）**。本次仅更新桌面版，不修改 Android，保留 Android 独立 Latest。\n\n## 更新内容\n\n- 修复 44 个词条、45 个字段中的 63 个不同公式，包括 H₀、H₁／Hₐ、p 级数、积分、转置、逆矩阵和维数公式，不再直接显示 LaTeX 命令。\n- 词汇列表、英文标题、中文释义、检测题干与选项、答题反馈及学习记录统一使用离线矢量公式。公式大小、颜色和基线与正文协调，超宽公式局部横向滚动，不撑宽整个页面。\n- 公式按整体选择；复制公式或混合段落保留原始 LaTeX，例如 `\\(H_0\\)`，而不是图片占位符。搜索支持 `H_0`、`H₀` 和 `H0`。\n- 复制和发音分开：完整词条仍使用既有朗读文本，普通英文选词照常朗读；公式源码不交给播放器。资源异常时保留正文并显示错误，仍能复制公式源码。\n\n资源由固定 MathJax 4.1.3 在开发阶段生成，Windows 使用 SVG，Mac 使用矢量 PDF。应用运行时不加载 MathJax、远程字体或数学 CDN；Mac 不增加网页运行环境，日常构建不增加 Node.js 要求。本功能不是完整 LaTeX 文档编辑器。\n\n## 下载与升级\n\n- [Windows 安装版（推荐）](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/MathInterviewVocab-Windows-x64-Setup-v1.5.1.exe)\n- [Windows 便携 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/MathInterviewVocab-Windows-x64-v1.5.1.zip)\n- [macOS Universal ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/MathInterviewVocab-macOS-universal-v1.5.1.zip)\n- [SHA256SUMS.txt](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/SHA256SUMS.txt)\n\n1.4.0／1.5.0 可在设置中主动检查、确认安装并重新启动；1.3.0 及更早桌面版本仍需手动安装一次。1.5.0 的多线路更新、持久断点、主窗口进度条保持不变，没有启动自动检查、静默安装或退出后下载服务。\n\n326 条词汇、130 条重点、2328 段 Kokoro 音频、英美 IPA、三档语速、快捷键、学习记录格式及保存位置不变。历史安装包和标签不覆盖。\n\n## 安全与验证边界\n\nMac 仍为 ad-hoc 签名、未 Apple 公证；Windows 未商业代码签名。请核对本仓库来源及 SHA-256，不关闭 Gatekeeper、SmartScreen 或其他系统防护。\n\n公式生成、原生混排、混合复制、离线发音与安装验证范围见 [发布检查](RELEASE-CHECKS.md)，资源及许可见 [公式来源](../Resources/Math/SOURCES.md)。Windows 原生安装验收使用 GitHub 官方托管 runner，不是实体设备测试；不使用 PD，不宣称已测遍全部系统、显示缩放或音频设备。\n",
   "assets": [
     {
-      "name": "MathInterviewVocab-macOS-universal-v1.5.0.zip",
-      "bytes": 49564036,
-      "sha256": "e410f16c312f36f64a760467c61b36170de79478ad5135a4a7fa6155fc997cc5"
+      "name": "MathInterviewVocab-macOS-universal-v1.5.1.zip",
+      "bytes": 50022660,
+      "sha256": "457025e36142b5d9e690a46db99a399a60342650fc12831fd132fcb7e75e7628"
     },
     {
       "name": "appcast.xml",
       "bytes": 1636,
-      "sha256": "d0f3d04fb65dafd0f9710952dad66c05f5bbfcf19732cc62834ffc2609e1ad38"
+      "sha256": "85242a49387147d827fd02c0ecc02b1f722666688d14b90e6a2a14f4869a198c"
     }
   ]
 }
