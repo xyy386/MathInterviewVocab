@@ -101,7 +101,7 @@ struct MathTextTests {
         for sidebarWidth in [0.0, 380.0] {
             let width = min(820, windowWidth - sidebarWidth - 60)
             for fontSize in [16.0, 32.0] {
-                let host = NSHostingView(rootView: RichMathText(source, size: fontSize).frame(width: width).background(Color.white))
+                let host = NSHostingView(rootView: RichMathText(source: source, size: fontSize).frame(width: width).background(Color.white))
                 host.frame = NSRect(x: 0, y: 0, width: width, height: 240)
                 let window = NSWindow(contentRect: host.frame, styleMask: [.titled], backing: .buffered, defer: false)
                 window.isReleasedWhenClosed = false
