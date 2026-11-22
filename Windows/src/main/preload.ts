@@ -17,6 +17,9 @@ contextBridge.exposeInMainWorld('vocab', {
     downloadUpdate: () => ipcRenderer.invoke('vocab:update-download'),
     installUpdate: () => ipcRenderer.invoke('vocab:update-install'),
     cancelUpdate: () => ipcRenderer.invoke('vocab:update-cancel'),
+    pauseUpdate: () => ipcRenderer.invoke('vocab:update-pause'),
+    setUpdateRouteMode: (mode: string) => ipcRenderer.invoke('vocab:update-route', mode),
+    clearUpdateCache: () => ipcRenderer.invoke('vocab:update-clear'),
     showUpdateDownload: () => ipcRenderer.invoke('vocab:update-reveal'),
     showUpdateRelease: () => ipcRenderer.invoke('vocab:update-release'),
     onUpdateChanged: (callback: (state: unknown) => void) => {

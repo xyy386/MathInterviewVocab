@@ -55,6 +55,9 @@ export interface VocabAPI {
   downloadUpdate(): Promise<UpdateState>;
   installUpdate(): Promise<UpdateState>;
   cancelUpdate(): Promise<UpdateState>;
+  pauseUpdate(): Promise<UpdateState>;
+  setUpdateRouteMode(mode: 'auto' | 'mirror' | 'direct'): Promise<UpdateState>;
+  clearUpdateCache(): Promise<UpdateState>;
   showUpdateDownload(): Promise<void>;
   showUpdateRelease(): Promise<void>;
   onUpdateChanged(callback: (state: UpdateState) => void): () => void;

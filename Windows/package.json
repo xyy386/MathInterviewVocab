@@ -1,7 +1,7 @@
 {
   "name": "math-interview-vocab-windows",
   "productName": "数学面试词汇",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "private": true,
   "overrides": {
     "archiver-utils": {

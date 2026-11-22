@@ -6,6 +6,7 @@ import { ProgressView, QuizView } from './Learning';
 import { SettingsView } from './Settings';
 import { Icon } from './ui';
 import { useAudio } from './useAudio';
+import { UpdateBanner } from './UpdateBanner';
 
 type MainTab = 'glossary' | 'quiz' | 'progress';
 const tabs: { id: MainTab; label: string; icon: string }[] = [
@@ -74,6 +75,7 @@ export function App() {
       <nav className="main-navigation" aria-label="主导航">{tabs.map((item, index) => <button type="button" key={item.id} aria-current={tab === item.id ? 'page' : undefined} title={`Ctrl+${index + 1}`} className={tab === item.id ? 'is-selected' : ''} onClick={() => { audio.stop(); setTab(item.id); }}><Icon name={item.icon} size={14}/>{item.label}</button>)}</nav>
       <button type="button" className="icon-button settings-toggle" aria-label="设置" title="设置 (Ctrl+,)" onClick={() => void window.vocab.openSettings()}><Icon name="gear" size={18}/></button>
     </WindowChrome>
+    <UpdateBanner/>
     {notice && <div className="save-notice" role="alert"><Icon name="warning"/>{notice}<button type="button" aria-label="关闭提示" onClick={() => setNotice('')}><Icon name="cross" size={12}/></button></div>}
     <main className="main-content">
       {tab === 'glossary' && <GlossaryView terms={payload.terms} progress={payload.progress} settings={payload.settings} audio={audio} onFavorite={onFavorite} sidebarOpen={sidebarOpen} sidebarWidth={sidebarWidth} onSidebarResize={setSidebarWidth}/>}

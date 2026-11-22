@@ -208,6 +208,23 @@ export async function readBounded(response: UpdateResponse, maximum: number, sig
     } catch (error) { response.cancel?.(); throw error; }
 }
 
+/** 安装前复核真正执行的普通文件；旧版与多线路更新器共用同一门禁。 */
+export async function verifyExecutable(file: string, manifest: Readonly<SignedInstaller>, currentVersion: string): Promise<void> {
+    if (!newerVersion(manifest.version, currentVersion)) throw new Error('此安装包不是更高版本。');
+    const stat = await lstat(file);
+    if (!stat.isFile() || stat.isSymbolicLink() || stat.size !== manifest.bytes || await realpath(file) !== path.resolve(file)) {
+        throw new Error('已下载的安装包发生变化，请重新下载。');
+    }
+    const hash = createHash('sha256');
+    let bytes = 0;
+    for await (const chunk of createReadStream(file)) {
+        bytes += chunk.length;
+        if (bytes > manifest.bytes) throw new Error('安装包大小发生变化，请重新下载。');
+        hash.update(chunk);
+    }
+    if (bytes !== manifest.bytes || hash.digest('hex') !== manifest.sha256) throw new Error('安装包完整性校验失败，已阻止执行。请重新下载。');
+}
+
 export class SoftwareUpdater {
     state: UpdateState;
     private release: UpdateRelease | null = null;
@@ -362,18 +379,7 @@ export class SoftwareUpdater {
         this.publish({ status: 'installing', message: '正在重新校验并启动安装器，随后将退出并重启…', canDownload: false });
         try {
             if (!newerVersion(manifest.version, this.state.currentVersion) || !this.installer.launch) throw new Error('此版本或运行环境不支持安装更新。');
-            const stat = await lstat(file);
-            if (!stat.isFile() || stat.isSymbolicLink() || stat.size !== manifest.bytes || await realpath(file) !== path.resolve(file)) {
-                throw new Error('已下载的安装包发生变化，请重新下载。');
-            }
-            const hash = createHash('sha256');
-            let bytes = 0;
-            for await (const chunk of createReadStream(file)) {
-                bytes += chunk.length;
-                if (bytes > manifest.bytes) throw new Error('安装包大小发生变化，请重新下载。');
-                hash.update(chunk);
-            }
-            if (bytes !== manifest.bytes || hash.digest('hex') !== manifest.sha256) throw new Error('安装包完整性校验失败，已阻止执行。请重新下载。');
+            await verifyExecutable(file, manifest, this.state.currentVersion);
             await this.installer.launch(file);
             // 安装器接管后不在仍存活的旧进程内宣称“安装成功”。
             return this.state;

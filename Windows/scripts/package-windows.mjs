@@ -42,7 +42,7 @@ for (const term of terms) {
 
 const paths = await packager({
     dir: stage, out: path.join(root, '.out/win'), platform: 'win32', arch: 'x64',
-    name: '数学面试词汇', executableName: '数学面试词汇', appVersion: metadata.version, buildVersion: `${metadata.version}.6`,
+    name: '数学面试词汇', executableName: '数学面试词汇', appVersion: metadata.version, buildVersion: `${metadata.version}.7`,
     electronVersion: metadata.devDependencies.electron, overwrite: true, asar: true, prune: true,
     icon: path.join(root, '.out/icon.ico'),
     win32metadata: { CompanyName: 'MathInterviewVocab', FileDescription: '数学面试词汇 · 全离线学习版', ProductName: '数学面试词汇',
@@ -63,7 +63,7 @@ await mkdir(destination, { recursive: true });
 await build({ projectDir: stage, prepackaged: bundle, targets: Platform.WINDOWS.createTarget('nsis', Arch.x64),
     publish: 'never', config: {
         appId: 'com.xingyiyao.MathInterviewVocab', productName: metadata.productName,
-        executableName: '数学面试词汇', buildVersion: `${metadata.version}.6`,
+        executableName: '数学面试词汇', buildVersion: `${metadata.version}.7`,
         directories: { output: destination, buildResources: path.join(root, 'scripts') },
         electronVersion: metadata.devDependencies.electron,
         win: { target: ['nsis'], icon: path.join(root, '.out/icon.ico'), signAndEditExecutable: false,

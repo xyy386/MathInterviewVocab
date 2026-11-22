@@ -5,7 +5,7 @@ import { pathToFileURL } from 'node:url';
 import { LocalRepository } from './persistence';
 import { BundledAudio } from './audio';
 import { sanitizeSelection, type Term } from '../shared/core';
-import { SoftwareUpdater } from './updates';
+import { AcceleratedUpdater } from './accelerated-updates';
 import { launchInstaller } from './installer';
 
 app.setName('MathInterviewVocab');
@@ -67,9 +67,9 @@ async function initialize(): Promise<void> {
     const broadcast = (change: unknown) => windows().forEach(window => window.webContents.send('vocab:data-changed', change));
     let installing = false;
     let confirmingInstall = false;
-    const updater = new SoftwareUpdater(app.getVersion(), app.getPath('downloads'),
+    const updater = new AcceleratedUpdater(app.getVersion(), path.join(directory, 'UpdatesCache'),
         state => windows().forEach(window => window.webContents.send('vocab:update-changed', state)),
-        file => shell.showItemInFolder(file), url => shell.openExternal(url), undefined, undefined, {
+        file => shell.showItemInFolder(file), url => shell.openExternal(url), {
             launch: async file => {
                 if (repository.error) throw new Error('学习记录或设置存在保存／读取错误，请先处理后再安装更新。原文件会保留。');
                 if (!app.isPackaged || process.platform !== 'win32') throw new Error('安装更新仅支持 Windows 正式应用。');
@@ -79,7 +79,17 @@ async function initialize(): Promise<void> {
                 catch (error) { installing = false; throw error; }
             },
         });
-    app.on('before-quit', () => updater.cancel());
+    await updater.restore();
+    let waitingToQuit = false;
+    app.on('before-quit', event => {
+        if (!installing && updater.busy) {
+            event.preventDefault();
+            if (!waitingToQuit) {
+                waitingToQuit = true;
+                void updater.pause().finally(() => app.quit());
+            }
+        }
+    });
     const protectWindow = (window: BrowserWindow) => {
         window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
         window.webContents.on('will-navigate', (event, url) => {
@@ -146,7 +156,24 @@ async function initialize(): Promise<void> {
     handle('vocab:open-settings', () => openSettings());
     handle('vocab:update-state', () => updater.state);
     handle('vocab:update-check', () => updater.check());
-    handle('vocab:update-download', () => updater.download());
+    let confirmingDownload = false;
+    handle('vocab:update-download', async event => {
+        if (!updater.needsCacheReplacement) return updater.download();
+        if (confirmingDownload || updater.busy) return updater.state;
+        const window = BrowserWindow.fromWebContents(event.sender);
+        if (!window) throw new Error('无法找到更新窗口。');
+        confirmingDownload = true;
+        const version = updater.state.version;
+        try {
+            const result = await dialog.showMessageBox(window, { type: 'question', title: '替换旧的下载断点？',
+                message: `开始下载 ${version ?? ''}，并清除旧版更新缓存？`,
+                detail: '仅清除本软件的更新下载，不影响学习记录、收藏或设置。', buttons: ['保留旧断点', '下载新版'],
+                defaultId: 0, cancelId: 0, noLink: true });
+            if (result.response !== 1) return updater.state;
+            if (updater.state.version !== version) throw new Error('候选版本已改变，请重新确认下载。');
+            return updater.download(true);
+        } finally { confirmingDownload = false; }
+    });
     handle('vocab:update-install', async event => {
         if (confirmingInstall || installing || updater.state.status !== 'ready') return updater.state;
         const window = BrowserWindow.fromWebContents(event.sender);
@@ -160,7 +187,21 @@ async function initialize(): Promise<void> {
             return result.response === 1 ? await updater.install() : updater.state;
         } finally { confirmingInstall = false; }
     });
-    handle('vocab:update-cancel', () => updater.cancel());
+    handle('vocab:update-cancel', () => updater.pause());
+    handle('vocab:update-pause', () => updater.pause());
+    handle('vocab:update-route', (_event, mode) => {
+        if (!['auto', 'mirror', 'direct'].includes(String(mode))) throw new Error('无效更新线路。');
+        return updater.setRouteMode(mode);
+    });
+    handle('vocab:update-clear', async event => {
+        if (updater.busy) return updater.state;
+        const window = BrowserWindow.fromWebContents(event.sender);
+        if (!window) throw new Error('无法找到更新窗口。');
+        const result = await dialog.showMessageBox(window, { type: 'question', title: '清除更新下载缓存？',
+            message: '清除已保留的更新安装包和下载断点？', detail: '不会删除学习记录、收藏、错题、发音设置或更新线路偏好。',
+            buttons: ['保留缓存', '清除下载缓存'], defaultId: 0, cancelId: 0, noLink: true });
+        return result.response === 1 ? updater.clearCache() : updater.state;
+    });
     handle('vocab:update-reveal', () => updater.showDownload());
     handle('vocab:update-release', () => updater.showRelease());
     handle('vocab:window-action', (event, action) => {

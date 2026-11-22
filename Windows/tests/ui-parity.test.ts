@@ -280,7 +280,9 @@ test('software update settings keep networking opt-in, actual app version and ma
     assert.match(settingsHTML, /data-testid="software-update"/);
     assertOrder(settingsHTML, ['软件更新', '当前版本', '检查更新', '词库与发音始终离线']);
     assert.match(settingsHTML, /仅检查和下载更新时联网/);
-    assert.match(mainSource, /new SoftwareUpdater\(app\.getVersion\(\), app\.getPath\('downloads'\)/);
-    assert.match(mainSource, /handle\('vocab:update-download', \(\) => updater\.download\(\)\)/);
+    assert.match(mainSource, /new AcceleratedUpdater\(app\.getVersion\(\), path\.join\(directory, 'UpdatesCache'\)/);
+    assert.match(mainSource, /await updater\.restore\(\)/);
+    assert.match(mainSource, /handle\('vocab:update-download', async event/);
+    assert.match(mainSource, /updater\.needsCacheReplacement/);
     assert.doesNotMatch(source('SoftwareUpdate.tsx'), /fetch\(|https?:\/\//);
 });

@@ -36,6 +36,17 @@ h3 { font-size: 11px; }
 .is-error { color: var(--red); }
 .app-shell, .settings-shell { height: 100%; display: flex; flex-direction: column; min-width: 0; }
 .main-content { flex: 1; min-height: 0; min-width: 0; overflow: hidden; }
+.update-banner { flex: 0 0 auto; min-width: 0; position: relative; display: flex; align-items: center; gap: 16px; padding: 8px 20px 10px; background: var(--paper); border-bottom: 1px solid var(--grid); }
+.update-banner-info { flex: 1; min-width: 0; display: flex; align-items: baseline; flex-wrap: wrap; column-gap: 12px; row-gap: 3px; }
+.update-banner-title { font-size: 12px; font-weight: 600; color: var(--blue); }
+.update-banner-detail, .update-transfer-detail { font-size: 11px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.update-banner-detail { color: var(--muted); }
+.update-banner-actions { display: flex; flex: 0 0 auto; align-items: center; gap: 12px; }
+.update-banner > progress { position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; border: 0; accent-color: var(--blue); }
+.update-route-control { display: flex; padding: 3px; gap: 2px; margin: 10px 0; border: 1px solid var(--grid); background: #14213d08; border-radius: 8px; }
+.update-route-control button { flex: 1; min-width: 0; padding: 6px 3px; background: transparent; border-radius: 5px; font-size: 11px; }
+.update-route-control button.is-selected { background: var(--blue); color: white; }
+.update-route-control button:disabled { opacity: .55; }
 .window-chrome {
   height: 52px; flex: 0 0 52px; position: relative; background: #f5f5f6;
   border-bottom: 1px solid #d6d7da; -webkit-app-region: drag; user-select: none;
