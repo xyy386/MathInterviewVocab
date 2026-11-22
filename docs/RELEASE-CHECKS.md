@@ -1,5 +1,14 @@
 # 发布检查说明
 
+## Android 1.3.6 离线公式验收
+
+2026-11-22：Android `1.3.6`（`versionCode 8`）。仅同步离线 LaTeX 矢量公式渲染、原始 LaTeX 复制与公式别名检索能力至 Android；桌面 [`v1.5.1`](VERSION-ARCHIVE.md#v151-桌面附件)、既有历史 Release、326／130 规范词库、2328 段离线音频及本地学习记录格式保持不变。
+
+- `logic-tests` 全套 100 项纯 JVM 测试全部通过（0 失败、0 跳过），含新增 7 项 [`MathTextTest`](../Android/app/src/test/java/com/xingyiyao/mathinterviewvocab/core/MathTextTest.kt)：验证 `\(...\)`／`\[...\]` 分段、普通下划线不被误识、`H_0`／`H₀`／`H0` 检索命中、`Resources/Math/manifest.json`（63 个 SVG 均核对 `svgSHA256` 与 `termsSHA256`，重点覆盖含未转义 `<` 的 `data-latex="f(a)f(b)<0"`）、`Tests/Fixtures/Math/manifest.json`（6 个嵌套分式含 `<rect>`、根式、上下标、矩阵、求和与积分夹具）、恶意 DOCTYPE/未知标签拒收，以及公式朗读拦截逻辑。
+- Android `:app:testDebugUnitTest`（136 项，0 失败、0 跳过）、`:app:testReleaseUnitTest`（136 项，0 失败、0 跳过）与 `:app:lintDebug`／`:app:lintRelease`（0 错误）全部通过；新增 [`MathUiTest`](../Android/app/src/test/java/com/xingyiyao/mathinterviewvocab/ui/MathUiTest.kt) 使用 Robolectric 覆盖打包 `assets/math/` 加载与 SHA-256 篡改拒绝、全部 44 个公式词条在深浅主题与 100%／200% `fontScale` 下的渲染、超宽维数公式 `\dim(U+W)=\dim U+\dim W-\dim(U\cap W)` 在阅读区进入独立横向滚动块并在卡片中按容器宽度等比自适应、原生 `MathTextView`／`PronunciationTextView` 系统 `copy` 剪贴板准确写入原始 LaTeX、英文单词与公式选区分离朗读提示，以及缺失资产回退展示 `[公式显示异常：...]`。
+- 构建与 APK 核验：使用仓库外长期正式密钥签名编译 `:app:assembleRelease`，通过 [`verify-apk.py`](../Android/scripts/verify-apk.py) 独立核验正式发布证书（`24e92a08b1fe647bb6d1726a6208ad75436c1ac2a391651d58c68c067dce1069`）、`com.xingyiyao.mathinterviewvocab` / `1.3.6` / `versionCode 8`、`326` 词库 / `130` 重点、`2328` 段 Kokoro 音频、`63` 个公式 SVG 与清单摘要、全部 9 份随包许可与来源文件（含 MathJax 4.1.3 Apache-2.0、GUST Font License、LPPL 1.3c 与 New Computer Modern 说明）、原有 3 项权限及 4 个 Universal ABI 既有 `libandroidx.graphics.path.so` 原生库未新增任何依赖或权限。
+- 证据边界：Android 1.3.6 的 UI 与交互验证全部基于 Robolectric 单元测试、构建校验与 APK 静态核验；**本轮未进行 Android 实体手机或平板真机验收**，且 Robolectric 图形画布不作为像素级渲染截图证据。
+
 ## v1.5.1 离线公式排版验收
 
 2026-11-22：macOS 1.5.1 build 8、Windows 1.5.1（file build 1.5.1.8）。仅修复桌面公式显示，不修改 Android、规范词库、离线音频或学习数据格式。

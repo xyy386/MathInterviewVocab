@@ -15,6 +15,7 @@ import androidx.media3.datasource.AssetDataSource
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.TransferListener
 import androidx.media3.common.util.UnstableApi
+import com.xingyiyao.mathinterviewvocab.core.MathTextDocument
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -62,6 +63,10 @@ class SpeechController(context: Context) {
 
     fun speak(text: String, accent: String, speed: Double) {
         stop()
+        MathTextDocument.mathSpeechBlockMessage(text)?.let { message ->
+            mutableState.value = SpeechUiState("missing", message)
+            return
+        }
         if (accent !in AudioInventory.accents || speed !in setOf(0.75, 1.0, 1.25)) {
             mutableState.value = SpeechUiState("error", "无效的发音设置。")
             return

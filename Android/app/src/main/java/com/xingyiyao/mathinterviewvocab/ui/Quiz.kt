@@ -290,9 +290,7 @@ private fun ActiveQuiz(state: AppUiState, viewModel: AppViewModel) {
                         val right = term.id == question.correctOptionID
                         QuizOptionCard(
                             index = index,
-                            label = VocabularyCore.displayMathNotation(
-                                if (question.direction == "zhToEn") term.english else term.chinese,
-                            ),
+                            label = if (question.direction == "zhToEn") term.english else term.chinese,
                             chosen = chosen,
                             right = right,
                             answered = answered,
@@ -314,8 +312,8 @@ private fun ActiveQuiz(state: AppUiState, viewModel: AppViewModel) {
                     color = if (correct) Academic.Success else Academic.Error,
                     style = MaterialTheme.typography.titleLarge,
                 )
-                Text(
-                    VocabularyCore.displayMathNotation(question.term.chinese),
+                RichMathText(
+                    question.term.chinese,
                     style = MaterialTheme.typography.titleMedium,
                     color = Academic.Ink,
                 )
@@ -327,7 +325,11 @@ private fun ActiveQuiz(state: AppUiState, viewModel: AppViewModel) {
                     onStop = viewModel::stopSpeech,
                     emphasizeImportant = false,
                 )
-                Text(VocabularyCore.displayMathNotation(question.term.definition), color = Academic.Muted)
+                SelectableMathText(
+                    question.term.definition,
+                    color = Academic.Muted,
+                    allowHorizontalScrollOverflow = true,
+                )
                 OutlinedButton(
                     onClick = { viewModel.toggleFavorite(question.term.id) },
                     enabled = !state.busy,
@@ -420,10 +422,8 @@ internal fun FlashcardQuestionCard(
             if (!showBack) {
                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     TermBadge(question.term.subjectName, Academic.Blue)
-                    Text(
-                        VocabularyCore.displayMathNotation(
-                            if (question.direction == "zhToEn") question.term.chinese else question.term.english,
-                        ),
+                    RichMathText(
+                        if (question.direction == "zhToEn") question.term.chinese else question.term.english,
                         style = MaterialTheme.typography.headlineMedium,
                         fontFamily = if (question.direction == "zhToEn") FontFamily.Serif else FontFamily.SansSerif,
                         color = if (question.direction == "zhToEn") Academic.Ink else Academic.Blue,
@@ -452,14 +452,14 @@ internal fun FlashcardQuestionCard(
             } else {
                 Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
                     TermBadge(question.term.subjectName, Academic.Blue)
-                    Text(
-                        VocabularyCore.displayMathNotation(question.term.chinese),
+                    RichMathText(
+                        question.term.chinese,
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                         color = Academic.Ink,
                     )
-                    Text(
-                        VocabularyCore.displayMathNotation(question.term.english),
+                    RichMathText(
+                        question.term.english,
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
                         color = Academic.Blue,
@@ -498,8 +498,8 @@ internal fun FlashcardQuestionCard(
                         }
                     }
                     HorizontalDivider(color = Academic.Grid)
-                    Text(
-                        VocabularyCore.displayMathNotation(question.term.definition),
+                    RichMathText(
+                        question.term.definition,
                         style = MaterialTheme.typography.bodyMedium,
                         color = Academic.Ink,
                     )
@@ -567,9 +567,9 @@ private fun QuizSummary(state: AppUiState, viewModel: AppViewModel) {
                     modifier = Modifier.fillMaxWidth().bounceClick(),
                 ) {
                     Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text(VocabularyCore.displayMathNotation(term.chinese), fontWeight = FontWeight.Bold, color = Academic.Ink)
-                        Text(
-                            VocabularyCore.displayMathNotation(term.english),
+                        RichMathText(term.chinese, fontWeight = FontWeight.Bold, color = Academic.Ink)
+                        RichMathText(
+                            term.english,
                             color = Academic.Blue,
                             fontWeight = FontWeight.Normal,
                         )
@@ -599,10 +599,8 @@ internal fun QuizQuestionPromptCard(
             TermBadge(question.term.subjectName, Academic.Blue)
             if (isFlashcard) TermBadge("面试闪卡", Academic.Blue)
         }
-        Text(
-            VocabularyCore.displayMathNotation(
-                if (question.direction == "zhToEn") question.term.chinese else question.term.english,
-            ),
+        RichMathText(
+            if (question.direction == "zhToEn") question.term.chinese else question.term.english,
             style = MaterialTheme.typography.headlineMedium,
             fontFamily = if (question.direction == "zhToEn") FontFamily.Serif else FontFamily.SansSerif,
             color = if (question.direction == "zhToEn") Academic.Ink else Academic.Blue,
@@ -647,7 +645,7 @@ internal fun QuizOptionCard(
                 fontWeight = FontWeight.Bold,
             )
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text(
+                RichMathText(
                     label,
                     fontWeight = FontWeight.Normal,
                     color = Academic.Ink,

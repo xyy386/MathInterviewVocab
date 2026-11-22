@@ -236,7 +236,7 @@ fun ReadingColumn(
 @Composable
 fun SectionHeading(title: String, subtitle: String? = null) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(title, style = MaterialTheme.typography.headlineMedium, color = Academic.Ink)
+        RichMathText(title, style = MaterialTheme.typography.headlineMedium, color = Academic.Ink)
         if (subtitle != null) Text(subtitle, style = MaterialTheme.typography.bodyMedium, color = Academic.Muted)
     }
 }

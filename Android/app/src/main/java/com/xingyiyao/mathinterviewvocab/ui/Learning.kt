@@ -344,13 +344,13 @@ fun LearningScreen(state: AppUiState, viewModel: AppViewModel) {
                                 horizontalArrangement = Arrangement.SpaceBetween,
                             ) {
                                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                                    Text(
-                                        VocabularyCore.displayMathNotation(term.chinese),
+                                    RichMathText(
+                                        term.chinese,
                                         fontWeight = if (term.important) FontWeight.Bold else FontWeight.Medium,
                                         color = Academic.Ink,
                                     )
-                                    Text(
-                                        "${VocabularyCore.displayMathNotation(term.english)} · US ${VocabularyCore.displayIpa(term.pronunciation.americanIPA, withSlashes = true)}",
+                                    RichMathText(
+                                        "${term.english} · US ${VocabularyCore.displayIpa(term.pronunciation.americanIPA, withSlashes = true)}",
                                         color = Academic.Blue,
                                         fontWeight = if (term.important) FontWeight.Bold else FontWeight.Normal,
                                     )
@@ -384,13 +384,13 @@ fun LearningScreen(state: AppUiState, viewModel: AppViewModel) {
                                 horizontalArrangement = Arrangement.SpaceBetween,
                             ) {
                                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                                    Text(
-                                        VocabularyCore.displayMathNotation(term.chinese),
+                                    RichMathText(
+                                        term.chinese,
                                         fontWeight = if (term.important) FontWeight.Bold else FontWeight.Medium,
                                         color = Academic.Ink,
                                     )
-                                    Text(
-                                        "${VocabularyCore.displayMathNotation(term.english)} · US ${VocabularyCore.displayIpa(term.pronunciation.americanIPA, withSlashes = true)}",
+                                    RichMathText(
+                                        "${term.english} · US ${VocabularyCore.displayIpa(term.pronunciation.americanIPA, withSlashes = true)}",
                                         color = Academic.Blue,
                                         fontWeight = if (term.important) FontWeight.Bold else FontWeight.Normal,
                                     )
@@ -433,8 +433,8 @@ fun LearningScreen(state: AppUiState, viewModel: AppViewModel) {
                                     TermBadge(if (attempt.direction == "zhToEn") "中 → 英" else "英 → 中")
                                     Text(formattedTime, style = MaterialTheme.typography.labelSmall, color = Academic.Muted)
                                 }
-                                Text(
-                                    "${VocabularyCore.displayMathNotation(term.chinese)} · ${VocabularyCore.displayMathNotation(term.english)}",
+                                RichMathText(
+                                    "${term.chinese} · ${term.english}",
                                     fontWeight = FontWeight.SemiBold,
                                     color = Academic.Ink,
                                 )

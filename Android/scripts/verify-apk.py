@@ -27,8 +27,8 @@ def verify(apk, sdk):
         raise ValueError("APK 不是项目长期正式证书签名。")
     badging = run(str(tools / "aapt2"), "dump", "badging", str(apk))
     identity = re.search(r"package: name='([^']+)' versionCode='([^']+)' versionName='([^']+)'", badging)
-    if not identity or identity.groups() != ("com.xingyiyao.mathinterviewvocab", "7", "1.3.5"):
-        raise ValueError("包名、versionCode 或 versionName 不符合 Android 1.3.5。")
+    if not identity or identity.groups() != ("com.xingyiyao.mathinterviewvocab", "8", "1.3.6"):
+        raise ValueError("包名、versionCode 或 versionName 不符合 Android 1.3.6。")
     if not re.search(r"^(?:minSdkVersion|sdkVersion):'29'$", badging, re.M) or not re.search(r"^targetSdkVersion:'36'$", badging, re.M):
         raise ValueError("Android API 范围不符合 29 / 36。")
     if "application-debuggable" in badging:
@@ -70,14 +70,36 @@ def verify(apk, sdk):
             data = archive.read(f'assets/audio/{entry["file"]}')
             if len(data) != entry["bytes"] or sha256(data) != entry["sha256"]:
                 raise ValueError(f'APK 音频校验失败：{entry["file"]}')
+        canonical_math_manifest = (root / "Resources/Math/manifest.json").read_bytes()
+        if archive.read("assets/math/manifest.json") != canonical_math_manifest:
+            raise ValueError("APK 公式清单与规范资源不一致。")
+        math_manifest = json.loads(canonical_math_manifest)
+        if math_manifest.get("schema") != 1 or math_manifest.get("engine") != "MathJax 4.1.3":
+            raise ValueError("APK 公式清单 schema 或引擎无效。")
+        if math_manifest.get("termsSHA256") != sha256(canonical_terms):
+            raise ValueError("APK 公式清单与词库 SHA-256 不一致。")
+        math_entries = math_manifest["entries"]
+        math_names = {name for name in names if name.startswith("assets/math/") and not name.endswith("/")}
+        expected_math_names = {"assets/math/manifest.json"} | {f'assets/math/{entry["svg"]}' for entry in math_entries}
+        if len(math_entries) != 63 or math_names != expected_math_names:
+            raise ValueError("APK 公式资源有缺失或多余项。")
+        for entry in math_entries:
+            data = archive.read(f'assets/math/{entry["svg"]}')
+            if sha256(data) != entry["svgSHA256"]:
+                raise ValueError(f'APK 公式 SVG 校验失败：{entry["svg"]}')
         for bundled, source in [
             ("assets/licenses/PROJECT-MIT.txt", root / "LICENSE"),
             ("assets/licenses/AUDIO-SOURCES.md", root / "Windows/resources/AUDIO-SOURCES.md"),
             ("assets/licenses/KOKORO-APACHE-2.0.txt", root / "Windows/resources/KOKORO-APACHE-2.0.txt"),
             ("assets/licenses/THIRD-PARTY-NOTICES.md", root / "Android/THIRD-PARTY-NOTICES.md"),
+            ("assets/licenses/MATH-SOURCES.md", root / "Resources/Math/SOURCES.md"),
+            ("assets/licenses/MathJax-LICENSE.txt", root / "Resources/Math/MathJax-LICENSE.txt"),
+            ("assets/licenses/GUST-FONT-LICENSE.txt", root / "Resources/Math/GUST-FONT-LICENSE.txt"),
+            ("assets/licenses/LPPL-1.3c.txt", root / "Resources/Math/LPPL-1.3c.txt"),
+            ("assets/licenses/NewComputerModern-License.txt", root / "Resources/Math/NewComputerModern-License.txt"),
         ]:
             if archive.read(bundled) != source.read_bytes():
-                raise ValueError("APK 许可证缺失或不一致。")
+                raise ValueError(f"APK 许可证缺失或不一致：{bundled}")
         # Compose UI graphics-path 随附 4 个通用 Android ABI 的路径原生库；核对完整 Universal ABI 覆盖且无其他原生库。
         native_libs = {name for name in names if name.startswith("lib/") and not name.endswith("/")}
         expected_native_libs = {
@@ -86,9 +108,10 @@ def verify(apk, sdk):
         }
         if native_libs != expected_native_libs:
             raise ValueError(f"原生库或 Universal ABI 覆盖不符合预期：{sorted(native_libs)}")
-    return {"packageName": identity.group(1), "versionName": "1.3.5", "versionCode": 7,
+    return {"packageName": identity.group(1), "versionName": "1.3.6", "versionCode": 8,
             "sha256": sha256(apk.read_bytes()), "bytes": apk.stat().st_size,
-            "certificateSHA256": expected, "terms": 326, "importantTerms": 130, "audioClips": 2328}
+            "certificateSHA256": expected, "terms": 326, "importantTerms": 130,
+            "audioClips": 2328, "mathFormulas": 63}
 
 
 if __name__ == "__main__":

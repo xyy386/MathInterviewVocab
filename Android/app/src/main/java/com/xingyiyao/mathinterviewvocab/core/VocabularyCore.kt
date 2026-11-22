@@ -17,13 +17,15 @@ object VocabularyCore {
 
     fun filterTerms(terms: List<Term>, filters: TermFilters, progress: ProgressData): List<Term> {
         val query = trimWhitespace(filters.query).lowercase(Locale.ROOT)
+        val mathQuery = MathTextDocument.searchText(query)
         return terms.filter { term ->
             (filters.subjectID.isNullOrEmpty() || term.subjectID == filters.subjectID) &&
                 (!filters.importantOnly || term.important) &&
                 (!filters.favoritesOnly || term.id in progress.favoriteIDs) &&
                 (!filters.mistakesOnly || term.id in progress.wrongIDs) &&
-                (query.isEmpty() || listOf(term.chinese, term.english, term.definition).any {
-                    it.lowercase(Locale.ROOT).contains(query)
+                (query.isEmpty() || listOf(term.chinese, term.english, term.definition).any { field ->
+                    field.lowercase(Locale.ROOT).contains(query) ||
+                        (mathQuery.isNotEmpty() && MathTextDocument.searchText(field).contains(mathQuery))
                 })
         }
     }

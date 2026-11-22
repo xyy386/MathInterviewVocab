@@ -1,10 +1,10 @@
-# 数学面试词汇 · Android 1.3.5
+# 数学面试词汇 · Android 1.3.6
 
-Kotlin + Jetpack Compose 原生工程，最低 Android 10（API 29），compile/target 36。包名 `com.xingyiyao.mathinterviewvocab`，当前版本 `1.3.5` / code `7`（首发 `1.2.0` / code `1`）。本工程不使用 WebView、账号或跨端同步。
+Kotlin + Jetpack Compose 原生工程，最低 Android 10（API 29），compile/target 36。包名 `com.xingyiyao.mathinterviewvocab`，当前版本 `1.3.6` / code `8`（首发 `1.2.0` / code `1`）。本工程不使用 WebView、账号或跨端同步。
 
-**Android 1.3.5 正式签名版**：[下载 Universal APK](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/MathInterviewVocab-Android-universal-v1.3.5.apk) · [SHA-256](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/SHA256SUMS-Android.txt) · [Android 源码标签](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.5)。桌面 v1.4.0 与历史附件不变。
+**Android 1.3.6 正式签名版**：[下载 Universal APK](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.6/MathInterviewVocab-Android-universal-v1.3.6.apk) · [SHA-256](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.6/SHA256SUMS-Android.txt) · [Android 源码标签](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.6)。桌面正式版与历史附件不变。
 
-Debug／Release 各 124 项及 `logic-tests` 93 项自动化测试全部通过，Release Lint 0 错误，APK 签名及全部词库／音频复核通过。1.3.5 新增多线路对冲竞速检查与镜像回退（`ghfast.top`、`gh-proxy.com`、`ghproxy.net` 与 jsDelivr CDN）、HTTP Range 跨线路断点续传、低速（`< 40 KB/s`）自动切线、设置页线路切换与实时网速显示，以及主界面非侵入式后台更新进度条。历史 1.2.0 审查记录见 [发布审查](docs/REVIEW-v1.2.0.md)；开发交接见 [详细需求与设计](docs/REQUIREMENTS-AND-DESIGN.md)。
+Debug／Release 各 136 项及 `logic-tests` 100 项自动化测试全部通过，Debug／Release Lint 0 错误，APK 签名及全部词库／音频／离线公式 SVG 复核通过。1.3.6 同步桌面 1.5.1 离线 LaTeX 矢量公式排版：内置零新增依赖的原生 SVG 矢量路径解析与基线对齐混排，阅读区支持超宽公式局部横向滚动及长按划选复制还原原始 LaTeX，卡片场景等比缩放防手势冲突，选区含公式时明确提示朗读边界而不误播，并支持 `H_0`／`H₀`／`H0` 归一化检索。历史 1.2.0 审查记录见 [发布审查](docs/REVIEW-v1.2.0.md)；开发交接见 [详细需求与设计](docs/REQUIREMENTS-AND-DESIGN.md)。
 
 安装：核对下载地址与校验和，打开 APK，按系统正常提示为当前下载来源授权并确认；无需 Android Studio 或语音模型，不关闭系统安全防护。后续同包名、同签名覆盖升级保留学习记录，勿先卸载旧版。
 
@@ -12,7 +12,7 @@ Debug／Release 各 124 项及 `logic-tests` 93 项自动化测试全部通过�
 
 按实际应用窗口宽度（不是设备型号）切换：小于 600 dp 底部导航与列表／详情单页；600–839 dp 左导航栏与单页；840 dp 起左导航栏与 320 dp 词汇列表／详情双栏。阅读列最大 820 dp，设置最大 560 dp。支持旋转、分屏、系统栏／键盘避让和系统大字体；验收要求见 [真机验收表](docs/DEVICE-ACCEPTANCE.md)。
 
-直接复用仓库内 `Resources/terms.json` 及 `Windows/resources/audio*`。构建前核验 326 条词汇、130 条重点、2328 段音频的数量、大小和 SHA-256，再复制到生成目录；Android 不维护另一份音源。构建排除隐藏文件及网盘临时文件，随包保留项目 MIT、Kokoro Apache-2.0 与来源说明。
+直接复用仓库内 `Resources/terms.json`、`Windows/resources/audio*` 及 `Resources/Math/` 预渲染公式矢量资源。构建前核验 326 条词汇、130 条重点、2328 段音频及 63 个离线公式 SVG 的数量、大小和 SHA-256，再复制到生成目录；Android 不维护另一份音源或公式源。构建排除隐藏文件及网盘临时文件，随包保留项目 MIT、Kokoro Apache-2.0 与 MathJax / New Computer Modern 字体来源说明及许可。
 
 英美 IPA、完整词组、完整单词及收录词组选区可离线朗读，语速 0.75× / 1× / 1.25×。长按／拖动选择后再按“朗读所选”，不会因选择而自动播放。未收录片段提示缺失，不使用 Google、不联网补音、不回退系统 TTS。
 

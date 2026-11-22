@@ -836,8 +836,8 @@ internal fun TermRow(
                         }
                     }
                 } else {
-                    Text(
-                        VocabularyCore.displayMathNotation(term.chinese),
+                    RichMathText(
+                        term.chinese,
                         fontWeight = if (term.important) FontWeight.Bold else FontWeight.Medium,
                         color = Academic.Ink,
                     )
@@ -864,8 +864,8 @@ internal fun TermRow(
                         }
                     }
                 } else {
-                    Text(
-                        VocabularyCore.displayMathNotation(term.english),
+                    RichMathText(
+                        term.english,
                         color = Academic.Blue,
                         fontFamily = FontFamily.SansSerif,
                         fontWeight = if (term.important) FontWeight.Bold else FontWeight.Normal,
@@ -958,7 +958,7 @@ fun TermDetail(term: Term, state: AppUiState, viewModel: AppViewModel) {
     }
 
     ReadingColumn(resetKey = term.id) {
-        SectionHeading(VocabularyCore.displayMathNotation(term.chinese), term.subjectName + " · " + term.subjectNameEn)
+        SectionHeading(term.chinese, term.subjectName + " · " + term.subjectNameEn)
         if (index >= 0 && total > 0) {
             Row(
                 Modifier.fillMaxWidth(),
@@ -1004,10 +1004,11 @@ fun TermDetail(term: Term, state: AppUiState, viewModel: AppViewModel) {
             )
             HorizontalDivider(color = Academic.Grid)
             Text("概念释义", style = MaterialTheme.typography.titleMedium, color = Academic.Ink)
-            Text(
-                VocabularyCore.displayMathNotation(term.definition),
+            SelectableMathText(
+                term.definition,
                 style = MaterialTheme.typography.bodyLarge,
                 color = Academic.Ink,
+                allowHorizontalScrollOverflow = true,
             )
             OutlinedButton(
                 onClick = { viewModel.toggleFavorite(term.id) },
@@ -1185,14 +1186,14 @@ internal fun RelatedTermCard(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                Text(
-                    VocabularyCore.displayMathNotation(rel.chinese),
+                RichMathText(
+                    rel.chinese,
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = Academic.Ink,
                 )
-                Text(
-                    VocabularyCore.displayMathNotation(rel.english),
+                RichMathText(
+                    rel.english,
                     style = MaterialTheme.typography.bodySmall,
                     color = Academic.Blue,
                 )

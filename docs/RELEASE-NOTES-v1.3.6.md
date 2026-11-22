@@ -1,0 +1,19 @@
+# 数学面试词汇 v1.3.6 · Android 离线 LaTeX 矢量公式排版
+
+本次更新将 Android 原生版升级至 **1.3.6（versionCode 8）**，同步引入桌面端 [`v1.5.1`](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.5.1) 的离线 LaTeX 矢量公式渲染、LaTeX 复制还原与归一化检索能力；桌面端 1.5.1 及历史发布保持不变。
+
+## Android 1.3.6（versionCode 8）更新内容
+
+1. **零新增依赖的原生 SVG 离线矢量公式渲染**：复用仓库 `Resources/Math/` 的 63 个 MathJax 4.1.3 预渲染 SVG（覆盖全部 44 个公式词条、45 处字段，兼容含未转义 `<` 的 `data-latex="f(a)f(b)<0"`），内置纯 Kotlin 引号感知解析器直接绘制为 Compose `Canvas` 与原生 `TextView` 矢量 Span，精确对齐基线，自动适配系统深浅双主题与 100%–200% 字体缩放，不引入 WebView、JS 引擎或第三方原生库。
+2. **移动端分场景防裁剪排版**：词条详情页与检测答题反馈等阅读区保留自然字号，块级及超宽公式（如 `20.15 em` 维数公式）独立成段并支持局部横向滚动；词汇列表、关联词卡、检测四选一选项、闪卡正反面及错题/收藏记录等可点击或可滑动卡片内自动按容器宽度等比自适应，避免触控手势冲突。
+3. **长按划选复制还原原始 LaTeX**：词条详情「英文标题」与「概念释义」均支持原生划选与系统复制（以及局部横滚公式点按/长按复制），复制混合公式段落或单个公式时自动还原为原始 LaTeX 源码（如 `\(H_0\)`、`\(F(x)=\int_{-\infty}^{x}f(t)\,\mathrm{d}t\)`）。
+4. **选区朗读边界与完整发音不变**：划选纯英文单词（如 `Null`）可继续正常调用内置 Kokoro 离线音频；划选包含数学公式的片段点击朗读时明确提示“所选内容含数学公式，暂无对应内置语音；可选取英文单词或朗读完整词条”，不误报音频缺失，点击“朗读完整词组”或英美发音仍正常播放完整词组。
+5. **下标公式别名检索与资源完整性保障**：词汇搜索统一进行 NFKC 与 LaTeX 符号归一化，搜索 `H_0`、`H₀` 或 `H0` 均可命中相关词条；公式资源每次按 `svgSHA256` 校验并随包纳入 MathJax 4.1.3 / New Computer Modern 字体许可，异常或缺失时优雅回退展示 `[公式显示异常：<原式>]`，不阻断正文显示。
+
+## 下载与升级
+
+- **Android Universal APK**：[MathInterviewVocab-Android-universal-v1.3.6.apk](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.6/MathInterviewVocab-Android-universal-v1.3.6.apk)（`100,867,932` 字节，SHA-256：`b960c48faed846cf1d492a538960ba55d740aca2da0007945acebb92cce4f1d8`）
+- **Android 独立校验文件**：[SHA256SUMS-Android.txt](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.6/SHA256SUMS-Android.txt)（`114` 字节，SHA-256：`5c0b1e293de8f92821a81ada7d48e1067a81e5223a197cfd0a26394e8a3ea88c`）
+- **公开签名证书 SHA-256**：`24e92a08b1fe647bb6d1726a6208ad75436c1ac2a391651d58c68c067dce1069`
+
+已安装旧版（`1.2.0`–`1.3.5`）的 Android 设备可在应用内打开 **设置 → 软件更新 → 检查更新** 升级至 `1.3.6`（`versionCode 8`），或从上方链接下载 APK 直接覆盖安装，本机学习记录自动保留。

@@ -29,8 +29,8 @@ android {
         applicationId = "com.xingyiyao.mathinterviewvocab"
         minSdk = 29
         targetSdk = 36
-        versionCode = 7
-        versionName = "1.3.5"
+        versionCode = 8
+        versionName = "1.3.6"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
@@ -77,19 +77,28 @@ gradle.taskGraph.whenReady {
     }
 }
 
-// 三个平台共用规范词库和音源，不复制维护第二份源文件。
+// 三个平台共用规范词库、音源与公式矢量资源，不复制维护第二份源文件。
 val manifestFile = File(repositoryRoot, "Windows/resources/audio-manifest.json")
 val audioDirectory = File(repositoryRoot, "Windows/resources/audio")
 val termsFile = File(repositoryRoot, "Resources/terms.json")
+val mathDirectory = File(repositoryRoot, "Resources/Math")
+val mathManifestFile = File(mathDirectory, "manifest.json")
 val generatedAssets = layout.buildDirectory.dir("generated/vocabularyAssets")
 val verifyVocabularyAssets by tasks.registering {
     inputs.file(manifestFile)
     inputs.file(termsFile)
+    inputs.file(mathManifestFile)
     inputs.files(fileTree(audioDirectory) { include("*.mp3"); exclude(".*") })
+    inputs.files(fileTree(mathDirectory) { include("*.svg"); exclude(".*") })
     inputs.files(File(repositoryRoot, "LICENSE"),
         rootProject.file("THIRD-PARTY-NOTICES.md"),
         File(repositoryRoot, "Windows/resources/KOKORO-APACHE-2.0.txt"),
-        File(repositoryRoot, "Windows/resources/AUDIO-SOURCES.md"))
+        File(repositoryRoot, "Windows/resources/AUDIO-SOURCES.md"),
+        File(mathDirectory, "SOURCES.md"),
+        File(mathDirectory, "MathJax-LICENSE.txt"),
+        File(mathDirectory, "GUST-FONT-LICENSE.txt"),
+        File(mathDirectory, "LPPL-1.3c.txt"),
+        File(mathDirectory, "NewComputerModern-License.txt"))
     doLast {
         val parser = JsonSlurper()
         val terms = parser.parse(termsFile) as List<*>
@@ -113,7 +122,22 @@ val verifyVocabularyAssets by tasks.registering {
             require(hash(audio.readBytes()) == entry["sha256"]) { "音频校验失败：$key" }
         }
         require(audioDirectory.listFiles { file -> file.isFile && file.extension == "mp3" && !file.name.startsWith(".") }?.size == 2328)
-        logger.lifecycle("已验证 326 条词汇、130 条重点及 2328 段 Kokoro 音频（大小/SHA-256）。")
+
+        val termsHash = hash(termsFile.readBytes())
+        val mathManifest = parser.parse(mathManifestFile) as Map<*, *>
+        require((mathManifest["schema"] as Number).toInt() == 1 && mathManifest["engine"] == "MathJax 4.1.3") { "公式清单版本或引擎错误。" }
+        require(mathManifest["termsSHA256"] == termsHash) { "公式清单与当前词库摘要不一致。" }
+        val mathEntries = mathManifest["entries"] as List<*>
+        require(mathEntries.size == 63) { "公式数量错误：${mathEntries.size}" }
+        mathEntries.forEach { rawEntry ->
+            val entry = rawEntry as Map<*, *>
+            val id = entry["id"] as String
+            require(id.matches(Regex("[0-9a-f]{64}")) && entry["svg"] == "$id.svg") { "公式条目异常：$id" }
+            val svgFile = File(mathDirectory, "$id.svg")
+            require(svgFile.isFile && hash(svgFile.readBytes()) == entry["svgSHA256"]) { "公式 SVG 校验失败：$id" }
+        }
+        require(mathDirectory.listFiles { file -> file.isFile && file.extension == "svg" && !file.name.startsWith(".") }?.size == 63) { "公式 SVG 目录包含多余或缺失文件。" }
+        logger.lifecycle("已验证 326 条词汇、130 条重点、2328 段 Kokoro 音频及 63 个离线矢量公式 SVG（大小/SHA-256）。")
     }
 }
 val syncVocabularyAssets by tasks.registering(Sync::class) {
@@ -122,10 +146,16 @@ val syncVocabularyAssets by tasks.registering(Sync::class) {
     from(termsFile)
     from(manifestFile)
     from(audioDirectory) { into("audio"); include("*.mp3"); exclude(".*") }
+    from(mathDirectory) { into("math"); include("manifest.json", "*.svg") }
     from(File(repositoryRoot, "LICENSE")) { into("licenses"); rename { "PROJECT-MIT.txt" } }
     from(rootProject.file("THIRD-PARTY-NOTICES.md")) { into("licenses") }
     from(File(repositoryRoot, "Windows/resources/AUDIO-SOURCES.md")) { into("licenses") }
     from(File(repositoryRoot, "Windows/resources/KOKORO-APACHE-2.0.txt")) { into("licenses") }
+    from(File(mathDirectory, "SOURCES.md")) { into("licenses"); rename { "MATH-SOURCES.md" } }
+    from(File(mathDirectory, "MathJax-LICENSE.txt")) { into("licenses") }
+    from(File(mathDirectory, "GUST-FONT-LICENSE.txt")) { into("licenses") }
+    from(File(mathDirectory, "LPPL-1.3c.txt")) { into("licenses") }
+    from(File(mathDirectory, "NewComputerModern-License.txt")) { into("licenses") }
 }
 android.sourceSets["main"].assets.srcDir(generatedAssets)
 tasks.named("preBuild").configure { dependsOn(syncVocabularyAssets) }

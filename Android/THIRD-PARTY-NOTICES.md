@@ -36,5 +36,15 @@ voice-weight hashes, generation details, attribution and full license are in
 the bundled `assets/licenses/AUDIO-SOURCES.md` and
 `assets/licenses/KOKORO-APACHE-2.0.txt`. No Google Translate audio is included.
 
+Offline LaTeX mathematical formula vectors (`assets/math/manifest.json` and
+`assets/math/*.svg`) are reused without modification from `Resources/Math/`.
+Formula glyphs were pre-rendered at build preparation time with `@mathjax/src`
+4.1.3 and `@mathjax/mathjax-newcm-font` 4.1.3 (Apache-2.0; upstream New Computer
+Modern glyph outlines under GUST Font License and LPPL 1.3c). No MathJax runtime,
+JavaScript engine, remote fonts or CDN requests are bundled in the APK. Full
+attribution and license texts are in `assets/licenses/MATH-SOURCES.md`,
+`assets/licenses/MathJax-LICENSE.txt`, `assets/licenses/GUST-FONT-LICENSE.txt`,
+`assets/licenses/LPPL-1.3c.txt` and `assets/licenses/NewComputerModern-License.txt`.
+
 Nothing here implies endorsement by the upstream authors. Dependency changes
 require reviewing the resolved lockfile and updating this inventory.
