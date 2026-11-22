@@ -3,9 +3,10 @@ import {
     type CSSProperties, type PointerEvent,
 } from 'react';
 import {
-    filterTerms, mathDisplay, sanitizeSelection, subjectsFromTerms,
+    filterTerms, sanitizeSelection, subjectsFromTerms,
     type ProgressData, type SpeechSettings, type Term,
 } from '../shared/core';
+import { RichMathText } from './RichMathText';
 import { AcademicCard, Icon, KnowledgeAxis, Metric, PronunciationPanel, SelectableEnglish } from './ui';
 import { adjacentTermIndex, glossaryDirection, useKeyboardShortcuts } from './keyboard';
 import type { AudioController } from './useAudio';
@@ -220,7 +221,7 @@ export function GlossaryView({
                                             <span className="term-id">{term.id}</span>
                                             <span className="term-labels">
                                                 <span className="term-chinese">{term.chinese}{term.important && <span className="term-important">重点</span>}</span>
-                                                <span className="term-english" lang="en">{mathDisplay(term.english)}</span>
+                                                <span className="term-english" lang="en"><RichMathText source={term.english} selectable={false}/></span>
                                             </span>
                                             <span className="row-status">
                                                 {progress.favoriteIDs.includes(term.id) && <span className="favorite-status" role="img" aria-label="已收藏"><Icon name="star.fill" /></span>}
@@ -338,7 +339,7 @@ function TermDetail({ term, progress, settings, audio, onFavorite }: {
                     <button type="button" className="secondary-button button-large" data-testid="speak-selection"
                         title={selection ? `朗读：${selectedText}` : '先双击单词或拖动选择一段英文'}
                         disabled={!selection} onMouseDown={event => event.preventDefault()}
-                        onClick={() => { if (selection) void audio.play(selection); }}>
+                        onClick={() => { if (selection) void audio.play(selectedText); }}>
                         <Icon name="text.cursor" />朗读所选
                     </button>
                     <button type="button" className="secondary-button button-large" data-testid="favorite-button"
@@ -354,7 +355,7 @@ function TermDetail({ term, progress, settings, audio, onFavorite }: {
 
             <AcademicCard className="definition-card">
                 <h2>中文释义</h2>
-                <p className="definition-text">{mathDisplay(term.definition)}</p>
+                <p className="definition-text"><RichMathText source={term.definition}/></p>
             </AcademicCard>
 
             <AcademicCard className="term-progress-card">

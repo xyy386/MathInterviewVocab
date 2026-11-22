@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-    makePool, makeQuestions, mathDisplay, resolveQuestionCount, sanitizeSelection,
+    makePool, makeQuestions, resolveQuestionCount, sanitizeSelection,
     subjectsFromTerms, summarizeProgress,
     type ProgressData, type QuizAttempt, type QuizDirection, type QuizLength,
     type QuizPreferences, type QuizQuestion, type QuizScope, type SpeechSettings, type Term,
 } from '../shared/core';
+import { RichMathText } from './RichMathText';
 import { AcademicCard, Icon, KnowledgeAxis, Metric, PronunciationPanel, SelectableEnglish } from './ui';
 import { isQuizAdvanceKey, quizOptionIndex, useKeyboardShortcuts } from './keyboard';
 import type { AudioController } from './useAudio';
@@ -332,7 +333,7 @@ export function QuizView({ terms, progress, settings, audio, onPreferences, onAn
 
                 <AcademicCard emphasized className="quiz-question-card">
                     <span className="section-badge"><Icon name="questionmark" size={10} />{currentQuestion.direction === 'zhToEn' ? '选择对应英文' : '选择对应中文'}</span>
-                    <h1 lang={currentQuestion.direction === 'zhToEn' ? 'zh-CN' : 'en'}>{currentQuestion.direction === 'zhToEn' ? currentQuestion.term.chinese : mathDisplay(currentQuestion.term.english)}</h1>
+                    <h1 lang={currentQuestion.direction === 'zhToEn' ? 'zh-CN' : 'en'}><RichMathText source={currentQuestion.direction === 'zhToEn' ? currentQuestion.term.chinese : currentQuestion.term.english}/></h1>
                 </AcademicCard>
 
                 <div className="answer-list" data-testid="answer-options">
@@ -341,12 +342,12 @@ export function QuizView({ terms, progress, settings, audio, onPreferences, onAn
                         const isSelected = option.id === selectedOptionID;
                         const revealed = selectedOptionID !== null;
                         const state = !revealed ? '' : isCorrect ? ' is-correct' : isSelected ? ' is-wrong' : ' is-muted';
-                        const label = currentQuestion.direction === 'zhToEn' ? mathDisplay(option.english) : option.chinese;
+                        const label = currentQuestion.direction === 'zhToEn' ? option.english : option.chinese;
                         return (
                             <button type="button" key={option.id} className={`answer-option${state}`} disabled={revealed}
                                 aria-label={`选项 ${index + 1}，${label}`} onClick={() => void selectAnswer(option.id)} data-testid={`answer-option-${index + 1}`}>
                                 <span className="answer-index">{String.fromCharCode(65 + index)}</span>
-                                <span className="answer-label" lang={currentQuestion.direction === 'zhToEn' ? 'en' : 'zh-CN'}>{label}</span>
+                                <span className="answer-label" lang={currentQuestion.direction === 'zhToEn' ? 'en' : 'zh-CN'}><RichMathText source={label} selectable={false}/></span>
                                 {revealed && isCorrect && <Icon name="checkmark.circle.fill" size={15} className="answer-correct-icon" />}
                                 {revealed && !isCorrect && isSelected && <Icon name="xmark.circle.fill" size={15} className="answer-wrong-icon" />}
                             </button>
@@ -372,7 +373,7 @@ export function QuizView({ terms, progress, settings, audio, onPreferences, onAn
                                 <Icon name="text.cursor" size={13} />朗读所选
                             </button>
                         </div>
-                        <p className="feedback-definition">{mathDisplay(currentQuestion.term.definition)}</p>
+                        <p className="feedback-definition"><RichMathText source={currentQuestion.term.definition}/></p>
                         <button type="button" className="primary-button next-question" disabled={saving} onClick={advance} data-testid="next-question">
                             {questionIndex + 1 === questions.length ? '查看结果' : '下一题'}<Icon name="arrow.right" size={13} />
                         </button>
@@ -438,7 +439,7 @@ export function ProgressView({ terms, progress, audio, persistenceError }: Learn
                         {wrongTerms.map((term, index) => (
                             <div className="review-entry" key={term.id}>
                                 <div className="review-row">
-                                    <div><strong>{term.chinese}</strong><small>{mathDisplay(term.english)}</small></div>
+                                    <div><strong>{term.chinese}</strong><small><RichMathText source={term.english}/></small></div>
                                     <button type="button" className="borderless-button" aria-label={`播放 ${term.english} 的发音`} onClick={() => audio.play(term.speechText)}>
                                         <Icon name="speaker.wave.2.fill" size={13} />
                                     </button>

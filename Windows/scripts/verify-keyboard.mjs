@@ -5,14 +5,13 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const directory = mkdtempSync(path.join(os.tmpdir(), 'math-vocab-keyboard-'));
+const directory = mkdtempSync(path.join(process.env.MATH_VOCAB_VALIDATION_DIRECTORY ?? os.tmpdir(), 'math-vocab-keyboard-'));
 app.setPath('userData', directory);
 app.commandLine.appendSwitch('disable-background-networking');
 const terms = JSON.parse(readFileSync(path.join(root, '../Resources/terms.json'), 'utf8'));
-const { mathDisplay } = await import(pathToFileURL(path.join(root, '.out/core-audit.mjs')).href);
 const preferences = { direction: 'mixed', scope: 'important', questionLength: 'ten', selectedSubjectID: 'analysis', includeMastered: true };
 let progress = { attempts: [], favoriteIDs: [2, 104, 326], wrongIDs: [], masteredIDs: [], correctStreak: {}, quizPreferences: preferences };
 const settings = { accent: 'en-US', speed: 1 };
@@ -192,12 +191,12 @@ try {
         const inputs = [ ['B', { shiftKey: true }, 2], ['c', {}, 3], ['D', {}, 4], ['1', { code: 'Numpad1' }, 1],
             ['2', { code: 'Numpad2' }, 2], ['3', { code: 'Numpad3' }, 3], ['4', { code: 'Numpad4' }, 4], ['a', {}, 1], ['b', {}, 2] ];
         for (const [index, [value, options, position]] of inputs.entries()) {
-            const expected = await evaluate(`document.querySelector('[data-testid="answer-option-${position}"]').textContent.slice(1)`);
+            const expected = await evaluate(`document.querySelector('[data-testid="answer-option-${position}"]').getAttribute('aria-label')`);
             await key(value, options);
             await waitFor('Boolean(document.querySelector("[data-testid=answer-feedback]")) && !document.querySelector("[data-testid=next-question]").disabled');
             const answered = progress.attempts.at(-1);
             const answerTerm = terms.find(term => term.id === answered.selectedOptionID);
-            assert.ok(expected.includes(answered.direction === 'zhToEn' ? mathDisplay(answerTerm.english) : answerTerm.chinese));
+            assert.ok(expected.includes(answered.direction === 'zhToEn' ? answerTerm.english : answerTerm.chinese));
             assert.equal(progress.attempts.length, index + 2);
             assert.equal(await key(value, { ...options, repeat: true }), true);
             assert.equal(progress.attempts.length, index + 2);

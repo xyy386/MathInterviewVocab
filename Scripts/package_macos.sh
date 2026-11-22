@@ -4,9 +4,9 @@ set -euo pipefail
 # 在独立临时构建目录中生成 Universal 成品，不覆盖任何已有交付物。
 script_directory="$(cd "$(dirname "$0")" && pwd)"
 project_root="$(cd "$script_directory/.." && pwd)"
-destination="${1:-$project_root/release-artifacts/macos-v1.5.0}"
-version=1.5.0
-build_number=7
+destination="${1:-$project_root/release-artifacts/macos-v1.5.1}"
+version=1.5.1
+build_number=8
 archive_name="MathInterviewVocab-macOS-universal-v$version.zip"
 app_name='数学面试词汇.app'
 
@@ -77,6 +77,23 @@ if [[ "$audio_count" != 2328 ]]; then
     printf 'Bundled audio files: expected 2328, found %s.\n' "$audio_count" >&2
     exit 1
 fi
+# 校验预生成的公式资源，不要求 Mac 构建环境安装 Node.js。
+math_directory="$application/Contents/Resources/Math"
+math_manifest="$math_directory/manifest.json"
+for math_index in {0..62}; do
+    math_id="$(/usr/bin/plutil -extract "entries.$math_index.id" raw -o - "$math_manifest")"
+    if [[ ! "$math_id" =~ ^[a-f0-9]{64}$ ]]; then
+        printf '%s\n' 'Invalid bundled formula ID.' >&2; exit 1
+    fi
+    for math_format in svg pdf; do
+        expected_math_hash="$(/usr/bin/plutil -extract "entries.$math_index.${math_format}SHA256" raw -o - "$math_manifest")"
+        actual_math_hash="$(/usr/bin/shasum -a 256 "$math_directory/$math_id.$math_format" | /usr/bin/cut -d ' ' -f 1)"
+        if [[ "$expected_math_hash" != "$actual_math_hash" ]]; then
+            printf 'Invalid bundled formula: %s.%s\n' "$math_id" "$math_format" >&2; exit 1
+        fi
+    done
+done
+
 # 未启用 Xcode 签名时，SPM 的自动嵌入会删掉已封存的头文件。
 # 从锁定版本的二进制工件恢复完整框架，保留上游签名和 XPC helper。
 sparkle_framework="$application/Contents/Frameworks/Sparkle.framework"

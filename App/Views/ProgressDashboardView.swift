@@ -105,7 +105,7 @@ struct ProgressDashboardView: View {
                                     Text(term.chinese)
                                         .font(.body.weight(.semibold))
                                         .foregroundStyle(AcademicTheme.inkNavy)
-                                    Text(MathNotation.display(term.english))
+                                    RichMathText(source: term.english, size: 12, color: .secondaryLabelColor, selectable: false)
                                         .font(.subheadline)
                                         .foregroundStyle(.secondary)
                                 }

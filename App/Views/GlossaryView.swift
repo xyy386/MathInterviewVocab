@@ -20,10 +20,12 @@ struct GlossaryView: View {
             let matchesFavorite = !favoritesOnly || progress.favoriteIDs.contains(term.id)
             let matchesMistake = !mistakesOnly || progress.wrongIDs.contains(term.id)
             let normalizedQuery = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+            let mathQuery = MathTextDocument.searchText(normalizedQuery)
             let matchesSearch = normalizedQuery.isEmpty
                 || term.chinese.localizedCaseInsensitiveContains(normalizedQuery)
                 || term.english.localizedCaseInsensitiveContains(normalizedQuery)
                 || term.definition.localizedCaseInsensitiveContains(normalizedQuery)
+                || (!mathQuery.isEmpty && [term.chinese, term.english, term.definition].contains { MathTextDocument.searchText($0).contains(mathQuery) })
 
             return matchesSubject
                 && matchesImportant
@@ -283,11 +285,8 @@ private struct TermRow: View {
                     }
                 }
 
-                Text(MathNotation.display(term.english))
-                    .font(.subheadline)
-                    .foregroundStyle(
-                        isSelected ? Color.white.opacity(0.82) : Color.secondary
-                    )
+                RichMathText(source: term.english, size: 12,
+                    color: isSelected ? NSColor.white.withAlphaComponent(0.82) : .secondaryLabelColor, selectable: false)
                     .lineLimit(2)
                     .environment(\.locale, Locale(identifier: "en"))
             }

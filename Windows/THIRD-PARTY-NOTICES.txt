@@ -7,6 +7,12 @@ React / React DOM — MIT
 Copyright (c) Meta Platforms, Inc. and affiliates.
 https://github.com/facebook/react
 
+MathJax 4.1.3 / MathJax-Newcm 字形数据 4.1.3 — 发布包声明 Apache-2.0。
+仅在开发时生成离线 SVG/PDF；应用不包含 MathJax 运行时，不请求远程字体。
+来源、锁定版本与完整许可见 resources/app.asar 中 resources/math/SOURCES.md 与 MathJax-LICENSE.txt。
+底层 NewCMMath-Book 字形（Antonis Tsolomitis）另保留同目录 GUST-FONT-LICENSE.txt、LPPL-1.3c.txt 与 NewComputerModern-License.txt；不捆绑 OTF/WOFF 字体。
+https://github.com/mathjax/MathJax-src
+
 NSIS 安装器 — zlib/libpng 许可；其压缩、解压及插件保留各自许可。
 electron-builder — MIT，仅用于生成安装包；不在应用中加入第三方更新运行时。
 https://nsis.sourceforge.io/License

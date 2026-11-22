@@ -31,6 +31,7 @@ await build({ entryPoints: [path.join(root, 'src/shared/core.ts')], outfile: pat
     bundle: true, platform: 'node', target: 'node22', format: 'esm' });
 await copyBuildDirectory(path.join(root, '.out/ui'), path.join(stage, 'ui'));
 await cp(path.join(root, '../Resources/terms.json'), path.join(stage, 'resources/terms.json'));
+await copyBuildDirectory(path.join(root, '../Resources/Math'), path.join(stage, 'resources/math'));
 await copyBuildDirectory(path.join(root, 'resources'), path.join(stage, 'resources'));
 try { await readFile(path.join(stage, 'resources/audio-manifest.json')); }
 catch {

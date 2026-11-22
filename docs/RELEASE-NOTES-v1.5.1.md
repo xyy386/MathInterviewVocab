@@ -1,0 +1,29 @@
+# 桌面 1.5.1 · LaTeX 公式显示修复
+
+macOS **1.5.1 build 8**、Windows **1.5.1（file build 1.5.1.8）**。本次仅更新桌面版，不修改 Android，保留 Android 独立 Latest。
+
+## 更新内容
+
+- 修复 44 个词条、45 个字段中的 63 个不同公式，包括 H₀、H₁／Hₐ、p 级数、积分、转置、逆矩阵和维数公式，不再直接显示 LaTeX 命令。
+- 词汇列表、英文标题、中文释义、检测题干与选项、答题反馈及学习记录统一使用离线矢量公式。公式大小、颜色和基线与正文协调，超宽公式局部横向滚动，不撑宽整个页面。
+- 公式按整体选择；复制公式或混合段落保留原始 LaTeX，例如 `\(H_0\)`，而不是图片占位符。搜索支持 `H_0`、`H₀` 和 `H0`。
+- 复制和发音分开：完整词条仍使用既有朗读文本，普通英文选词照常朗读；公式源码不交给播放器。资源异常时保留正文并显示错误，仍能复制公式源码。
+
+资源由固定 MathJax 4.1.3 在开发阶段生成，Windows 使用 SVG，Mac 使用矢量 PDF。应用运行时不加载 MathJax、远程字体或数学 CDN；Mac 不增加网页运行环境，日常构建不增加 Node.js 要求。本功能不是完整 LaTeX 文档编辑器。
+
+## 下载与升级
+
+- [Windows 安装版（推荐）](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/MathInterviewVocab-Windows-x64-Setup-v1.5.1.exe)
+- [Windows 便携 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/MathInterviewVocab-Windows-x64-v1.5.1.zip)
+- [macOS Universal ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/MathInterviewVocab-macOS-universal-v1.5.1.zip)
+- [SHA256SUMS.txt](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/SHA256SUMS.txt)
+
+1.4.0／1.5.0 可在设置中主动检查、确认安装并重新启动；1.3.0 及更早桌面版本仍需手动安装一次。1.5.0 的多线路更新、持久断点、主窗口进度条保持不变，没有启动自动检查、静默安装或退出后下载服务。
+
+326 条词汇、130 条重点、2328 段 Kokoro 音频、英美 IPA、三档语速、快捷键、学习记录格式及保存位置不变。历史安装包和标签不覆盖。
+
+## 安全与验证边界
+
+Mac 仍为 ad-hoc 签名、未 Apple 公证；Windows 未商业代码签名。请核对本仓库来源及 SHA-256，不关闭 Gatekeeper、SmartScreen 或其他系统防护。
+
+公式生成、原生混排、混合复制、离线发音与安装验证范围见 [发布检查](RELEASE-CHECKS.md)，资源及许可见 [公式来源](../Resources/Math/SOURCES.md)。Windows 原生安装验收使用 GitHub 官方托管 runner，不是实体设备测试；不使用 PD，不宣称已测遍全部系统、显示缩放或音频设备。

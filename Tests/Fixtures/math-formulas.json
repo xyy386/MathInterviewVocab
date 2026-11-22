@@ -1,0 +1,8 @@
+[
+  "\\frac{1}{1+\\frac{a}{b}}",
+  "\\sqrt[n]{x^2+y^2}",
+  "x_{i+j}^{n+1}",
+  "\\begin{pmatrix}a&b\\\\c&d\\end{pmatrix}",
+  "\\sum_{k=1}^{n}\\frac{1}{k^2}",
+  "\\int_{-\\infty}^{x}e^{-t^2}\\,\\mathrm{d}t"
+]

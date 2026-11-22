@@ -63,7 +63,7 @@ struct TermDetailView: View {
                         .accessibilityRepresentation { Text(term.chinese) }
 
                     SelectablePronunciationText(
-                        text: MathNotation.display(term.english),
+                        text: term.english,
                         selectedText: $selectedPronunciationText
                     ) { selection in
                         speech.speak(text: selection)
@@ -86,8 +86,8 @@ struct TermDetailView: View {
                         .controlSize(.large)
 
                         Button {
-                            if let selection = sanitizedSelection {
-                                speech.speak(text: selection)
+                            if sanitizedSelection != nil {
+                                speech.speak(text: selectedPronunciationText)
                             }
                         } label: {
                             Label("朗读所选", systemImage: "text.cursor")
@@ -120,12 +120,7 @@ struct TermDetailView: View {
                     Text("中文释义")
                         .font(.headline)
                         .foregroundStyle(AcademicTheme.inkNavy)
-                    Text(MathNotation.display(term.definition))
-                        .font(.body)
-                        .foregroundStyle(AcademicTheme.inkNavy.opacity(0.90))
-                        .lineSpacing(6)
-                        .textSelection(.enabled)
-                        .accessibilityRepresentation { Text(MathNotation.display(term.definition)) }
+                    RichMathText(source: term.definition, color: NSColor(AcademicTheme.inkNavy).withAlphaComponent(0.90))
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .academicCard()

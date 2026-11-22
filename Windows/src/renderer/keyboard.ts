@@ -47,7 +47,7 @@ function browserContext(event: KeyboardInput, composing: boolean): ShortcutConte
         blockedTarget: blockedElement(event.target) || blockedElement(document.activeElement),
         overlayOpen: document.querySelector('[role="dialog"], [aria-modal="true"], dialog[open], '
             + 'details[open], [popover]:popover-open') !== null,
-        hasSelection: Boolean(selection && !selection.isCollapsed && selection.toString().length > 0),
+        hasSelection: Boolean(selection && !selection.isCollapsed),
         composing,
     };
 }

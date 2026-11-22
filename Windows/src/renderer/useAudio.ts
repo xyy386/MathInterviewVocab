@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { sanitizeSelection, type Accent, type SpeechSettings } from '../shared/core';
+import { mathSegments } from '../shared/math-source.mjs';
 
 export interface PlaybackState {
   kind: 'idle' | 'loading' | 'playing' | 'missing' | 'error';
@@ -25,6 +26,9 @@ export function useAudio(settings: SpeechSettings): AudioController {
   }, []);
   const play = useCallback(async (input: string, accent = settings.accent) => {
     stop();
+    if (mathSegments(input).some(part => part.kind === 'math')) {
+      setState({ kind: 'missing', message: '所选内容含数学公式，暂无对应内置语音；可选取英文单词或朗读完整词条。' }); return;
+    }
     const text = sanitizeSelection(input);
     if (!text) { setState({ kind: 'missing', message: '请先选择包含字母或数字的英文。' }); return; }
     const token = request.current;

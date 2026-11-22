@@ -107,7 +107,7 @@ async function prepare(args) {
     if (!pinned || createPublicKey(windowsKey).export({ type: 'spki', format: 'pem' }).toString().trim() !== pinned.trim()) throw new Error('Windows signing key mismatch.');
     for (const [platform, build, inputs, filename] of [
         ['macos-universal', info.CFBundleVersion, [macZIP, feed], 'macOS-update-index.json'],
-        ['windows-x64', `${version}.7`, [installer, assets[4], assets[5]], 'Windows-update-index.json'],
+        ['windows-x64', `${version}.${metadata.desktopBuild}`, [installer, assets[4], assets[5]], 'Windows-update-index.json'],
     ]) {
         const entries = [];
         for (const file of inputs) entries.push({ name: path.basename(file), bytes: (await stat(file)).size, sha256: await digest(file) });

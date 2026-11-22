@@ -319,3 +319,7 @@ progress::-webkit-progress-value { background: var(--blue); border-radius: 4px; 
 .update-notes p { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 150px; overflow: auto; margin-top: 8px; }
 @media (max-width: 1100px) { .window-title.with-sidebar { display: none; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; } }
+.math-unit { display: inline-block; max-width: 100%; overflow-x: auto; overflow-y: hidden; line-height: 0; user-select: all; }
+.math-unit > svg { display: block; max-width: none; flex-shrink: 0; }
+.math-display { display: block; margin: .45em 0; }
+.math-error { color: var(--red); overflow-wrap: anywhere; }

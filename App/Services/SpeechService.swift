@@ -48,6 +48,10 @@ final class SpeechService {
 
     func speak(text: String, accent requestedAccent: EnglishAccent? = nil) {
         stop()
+        if MathTextDocument(text).containsMath {
+            playbackSource = .missing(requestedAccent ?? accent, text: "所选内容包含数学公式，可选取英文单词或朗读完整词条")
+            return
+        }
         guard let selection = SpeechSelectionSanitizer.sanitize(text) else { return }
         let playbackAccent = requestedAccent ?? accent
 

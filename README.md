@@ -8,15 +8,15 @@
 
 | 平台 | 当前应用版本 | 系统要求 | 下载 |
 | --- | --- | --- | --- |
-| Windows | 1.5.0 / file build 1.5.0.7 | Windows 10/11，64 位 Intel/AMD（x64） | [安装版 Setup（推荐）](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.0/MathInterviewVocab-Windows-x64-Setup-v1.5.0.exe) · [便携 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.0/MathInterviewVocab-Windows-x64-v1.5.0.zip) |
-| macOS | 1.5.0 build 7 | macOS 14+，Apple Silicon / Intel Universal | [macOS ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.0/MathInterviewVocab-macOS-universal-v1.5.0.zip) |
+| Windows | 1.5.1 / file build 1.5.1.8 | Windows 10/11，64 位 Intel/AMD（x64） | [安装版 Setup（推荐）](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/MathInterviewVocab-Windows-x64-Setup-v1.5.1.exe) · [便携 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/MathInterviewVocab-Windows-x64-v1.5.1.zip) |
+| macOS | 1.5.1 build 8 | macOS 14+，Apple Silicon / Intel Universal | [macOS ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/MathInterviewVocab-macOS-universal-v1.5.1.zip) |
 | Android | 1.3.5 / code 7 | Android 10+，手机／平板，Universal APK | [Android APK](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/MathInterviewVocab-Android-universal-v1.3.5.apk) |
 
-[桌面 1.5.0 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.5.0) · [桌面版 SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.0/SHA256SUMS.txt) · [桌面更新说明](docs/RELEASE-NOTES-v1.5.0.md) · [Android 1.3.5 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.5) · [Android 独立校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/SHA256SUMS-Android.txt) · [Android 更新说明](docs/RELEASE-NOTES-v1.3.5.md)
+[桌面 1.5.1 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.5.1) · [桌面版 SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/SHA256SUMS.txt) · [桌面更新说明](docs/RELEASE-NOTES-v1.5.1.md) · [Android 1.3.5 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.5) · [Android 独立校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/SHA256SUMS-Android.txt) · [Android 更新说明](docs/RELEASE-NOTES-v1.3.5.md)
 
 Android 当前版本为 **1.3.5／code 7**（新增多线路对冲竞速检查与三大加速镜像/CDN 回退、HTTP Range 跨线路断点续传、低速自动切换线路、设置页线路选择与实时网速显示，以及主界面非侵入式后台更新进度条），采用同一套词库与 Kokoro 离线音源，按窗口宽度适配手机、平板和分屏。[Android 工程／安装说明](Android/README.md) · [详细需求与设计](Android/docs/REQUIREMENTS-AND-DESIGN.md) · [审查与已知问题](Android/docs/REVIEW-v1.2.0.md)。历史标签与附件保留不变；Android 源码使用独立标签 [android-v1.3.5](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.5)。
 
-请下载对应平台 Setup／ZIP／APK，**不要把 GitHub 自动生成的 Source code 当作可运行软件**。桌面版为 **1.4.0**，Android 为 **1.3.5**。1.3.0 及更早的桌面版必须手动安装升级这一次，之后可在软件中确认安装并重启。
+请下载对应平台 Setup／ZIP／APK，**不要把 GitHub 自动生成的 Source code 当作可运行软件**。桌面版为 **1.5.1**，Android 为 **1.3.5**。1.3.0 及更早的桌面版必须手动安装升级这一次，之后可在软件中确认安装并重启。
 
 ### 安装与首次打开
 
@@ -38,6 +38,12 @@ Android 当前版本为 **1.3.5／code 7**（新增多线路对冲竞速检查�
 - 设置中的“软件更新”：手动检查正式版、查看说明并验证本平台附件；桌面确认后安装并重新启动，Android 经系统授权与确认安装 APK。
 
 三平台沿用相同的内容和交互层级，但使用各自系统字体、原生菜单及确认对话框，不承诺跨系统逐像素相同。
+
+### 桌面公式显示（1.5.1）
+
+词汇、释义、检测及学习记录中的公式使用内置矢量资源显示，涵盖 63 个不同表达式。显示 H₀，复制仍为 `\(H_0\)`；支持公式与中英文混合复制，搜索兼容 `H_0`／`H₀`／`H0`。超宽公式局部横向滚动，不缩小正文。普通英文选词朗读不变，公式源码不会送入播放器；资源异常会显示提示并保留源码复制。
+
+MathJax 4.1.3 只在资源生成时使用，不作为应用运行时依赖；无需联网、数学 CDN 或远程字体。不是完整 LaTeX 文档编辑器，本轮不改变 Android 的显示实现。[资源与字体许可](Resources/Math/SOURCES.md)。
 
 ### 桌面快捷键（macOS／Windows 1.3.0）
 
@@ -64,7 +70,7 @@ macOS／Windows 1.3.0 支持 `←`／`↑` 上一个词条、`→`／`↓` 下�
 
 打开 **设置 → 软件更新 → 检查更新**，只接受本仓库对应平台的正式版本，不接收预发布版，不建议降级。Mac 使用 Sparkle 原生窗口，验证签名更新源和归档，确认后安装并重启；设置与主窗口的“查看”可唤起已有更新窗口。Windows 下载 Setup，验证固定 Ed25519 公钥签名清单、文件大小及 SHA-256，再提供“安装并重启”。下载可取消，失败可重试。
 
-桌面与 Android 分平台发布：桌面 1.5.0 是正式版，仓库 Latest 保留给 Android 1.3.5。两平台使用独立签名更新源，不会把仅有 Android APK 的版本误当作桌面更新；1.4.0 的 Windows 仍通过正式发布列表查找本平台安装器。
+桌面与 Android 分平台发布：桌面 1.5.1 是正式版，仓库 Latest 保留给 Android 1.3.5。两平台使用独立签名更新源，不会把仅有 Android APK 的版本误当作桌面更新；1.4.0 的 Windows 仍通过正式发布列表查找本平台安装器。
 
 **1.5.0 增加多线路加速、持久断点和主窗口进度条。** 默认智能多线加速，也可选择镜像优先或纯 GitHub 直连；大安装包单线路传输，断流或持续低速时换线续传。暂停、断网或退出保留断点，重开后只读取本地缓存，下次手动继续；关闭设置或切页不停止下载，没有退出后常驻服务。设置可单独确认清除更新缓存，不影响学习记录。
 
@@ -125,7 +131,7 @@ xcodebuild -project MathInterviewVocab.xcodeproj \
 构建并封装 Universal Release：
 
 ```sh
-bash Scripts/package_macos.sh release-artifacts/macOS-1.4.0
+bash Scripts/package_macos.sh release-artifacts/macos-v1.5.1
 ```
 
 脚本输出 `.app`、仅含应用的 macOS ZIP 及单平台校验文件，拒绝覆盖已有输出。许可和使用说明在应用的 `Contents/Resources/Notices`；保留完整 Sparkle 框架及原签名后，对宿主 ad-hoc 签名，不因此获得 Apple 公证。GitHub Release 的 `SHA256SUMS.txt` 包含两平台成品及签名元数据校验和。
@@ -162,6 +168,8 @@ python3 Scripts/generate_terms.py
 脚本校验科目顺序、连续编号、326 条总量及 130 条重点后生成 `Resources/terms.json`。IPA 复核数据位于 `Scripts/term_phonetics.json`。只有修改朗读文本、需要刷新 IPA 草稿时才需安装 eSpeak NG 并运行 `Scripts/generate_phonetics.py`；应用运行和日常构建不依赖它。
 
 修改词表后还需更新和核验三平台共用的离线音频，不能仅修改文本就宣称音频覆盖完整。
+
+公式资源由 `Scripts/generate_math_assets.mjs` 从显式 `\(...\)`／`\[...\]` 生成，失败会报告词条编号与字段。通常直接使用已提交资源；核验运行 `node Scripts/generate_math_assets.mjs --verify`。只有修改公式时，才需先在 `Windows` 安装锁定开发依赖，并设置独立 `MATH_VOCAB_VALIDATION_DIRECTORY` 后运行生成脚本；不修改原词库或音频。
 
 ## 验证与反馈
 

@@ -1,0 +1,62 @@
+%PDF-1.4
+%Óëéá
+1 0 obj
+<</Title (data:text/html;charset=utf-8,<!doctype html><html><head><meta http-equiv%3D"Content-Security-Policy" content%3D"default-src 'none'%3B style-src 'unsafe-inline'"><style>%40page%7Bsize%3A403.71pt 110.35pt%3Bmargin%3A0%7Dhtml%2Cbody%7Bmargin%3A0%3Bpadding%3A0%3Bwidth%3A403.71pt%3Bheight%3A110.35pt%3Bcolor%3A%23000%7Dsvg%7Bdisplay%3Ablock%7D<%2Fstyle><%2Fhead><body><svg style%3D"" xmlns%3D"http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width%3D"403.71pt" height%3D"110.35pt" role%3D"img" focusable%3D"false" viewBox%3D"-30 -879.5 4037.1 1103.5"><g stroke%3D"currentColor" fill%3D"currentColor" stroke-width%3D"0" transform%3D"scale\(1%2C-1\)"><g data-mml-node%3D"math" data-latex%3D"Q%5E%5Cmathsf%7BT%7DQ%3DI"><g data-mml-node%3D"msup" data-latex%3D"Q%5E%5Cmathsf%7BT%7D"><g data-mml-node%3D"mi" data-latex%3D"Q"><path data-c%3D"1D444" d%3D"M306-24C335-24 366-19 399-10C396-48 395-72 395-81C395-156 424-194 481-194C542-194 589-145 612-100C637-48 650-14 650 2C650 11 645 16 635 16C628 16 623 12 620 3C605-43 564-90 508-90C457-90 450-49 442 6C526 39 597 96 654 178C711 260 740 345 740 434C740 513 717 577 670 628C623 679 561 705 484 705C431 705 378 692 325 665C217 612 138 528 87 415C62 358 49 302 49 245C49 88 151-24 306-24M645 466C645 405 630 335 600 254C565 161 511 92 436 48C432 70 426 90 418 108C405 138 381 153 346 153C291 153 241 103 241 48C241 39 242 30 244 23C177 54 144 117 144 213C144 255 152 306 169 366C204 493 267 583 358 636C401 660 441 672 478 672C588 672 645 581 645 466M346 123C383 123 402 96 402 43C402 34 399 29 393 27C365 15 338 9 312 9C284 9 270 22 270 48C270 86 308 123 346 123Z"><%2Fpath><%2Fg><g data-mml-node%3D"TeXAtom" transform%3D"translate\(824%2C363\) scale\(0.707\)" data-latex%3D"%5Cmathsf%7BT%7D" data-mjx-texclass%3D"ORD"><g data-mml-node%3D"mi" data-latex%3D"T"><path data-c%3D"1D5B3" d%3D"M644 616L644 688L36 688L36 616L190 616C198 617 204 617 208 617L293 617L293 0L388 0L388 617L472 617C476 617 482 617 490 616Z"><%2Fpath><%2Fg><%2Fg><%2Fg><g data-mml-node%3D"mi" data-latex%3D"Q" transform%3D"translate\(1355.5%2C0\)"><path data-c%3D"1D444" d%3D"M306-24C335-24 366-19 399-10C396-48 395-72 395-81C395-156 424-194 481-194C542-194 589-145 612-100C637-48 650-14 650 2C650 11 645 16 635 16C628 16 623 12 620 3C605-43 564-90 508-90C457-90 450-49 442 6C526 39 597 96 654 178C711 260 740 345 740 434C740 513 717 577 670 628C623 679 561 705 484 705C431 705 378 692 325 665C217 612 138 528 87 415C62 358 49 302 49 245C49 88 151-24 306-24M645 466C645 405 630 335 600 254C565 161 511 92 436 48C432 70 426 90 418 108C405 138 381 153 346 153C291 153 241 103 241 48C241 39 242 30 244 23C177 54 144 117 144 213C144 255 152 306 169 366C204 493 267 583 358 636C401 660 441 672 478 672C588 672 645 581 645 466M346 123C383 123 402 96 402 43C402 34 399 29 393 27C365 15 338 9 312 9C284 9 270 22 270 48C270 86 308 123 346 123Z"><%2Fpath><%2Fg><g data-mml-node%3D"mo" data-latex%3D"%3D" transform%3D"translate\(2424.3%2C0\)"><path data-c%3D"3D" d%3D"M698 367L80 367C64 367 56 359 56 344C56 329 64 321 80 321L698 321C714 321 722 329 722 344C722 356 711 367 698 367M698 179L80 179C64 179 56 171 56 156C56 141 64 133 80 133L698 133C714 133 722 141 722 156C722 169 711 179 698 179Z"><%2Fpath><%2Fg><g data-mml-node%3D"mi" data-latex%3D"I" transform%3D"translate\(3480.1%2C0\)"><path data-c%3D"1D43C" d%3D"M497 667C497 678 491 683 478 683L349 680L218 683C202 684 194 676 194 659C194 649 205 644 226 644C269 644 290 639 290 630C290 625 289 620 288 615L155 82C150 60 140 47 125 42C118 40 100 39 69 39C44 39 34 38 34 15C34 5 40 0 53 0L181 3L313 0C329-1 337 7 337 23C337 39 325 39 303 39C264 39 240 37 240 53C240 58 241 65 244 75L376 602C381 623 391 636 406 641C413 643 431 644 462 644C486 644 497 645 497 667Z"><%2Fpath><%2Fg><%2Fg><%2Fg><%2Fsvg>%0A<%2Fbody><%2Fhtml>)
+/Creator (Chromium)
+/Producer (Skia/PDF m156)
+/CreationDate (D:20261122084324+00'00')
+/ModDate (D:20261122084324+00'00')>>
+endobj
+3 0 obj
+<</ca 1
+/BM /Normal>>
+endobj
+4 0 obj
+<</Filter /FlateDecode
+/Length 902>> stream
+xœíV;\7ÌyŠŠÌ˜ıeóŠåÄx°å`Ö€äûB5g×Jdlæd'˜*şº›ıã»«íşabâvÿa(sß·ì½×Ëø:¸A²ä®oŒßÁßãë¸»dºÍz
+yŠŞCİ=–yw[±)löÆß>áo_Æ¯Ÿ_ş67u¼³hf™¸É†í›L\ÃvâæÛÛÒƒ%½¸I$\‡^rÈ5ÂõĞ(Jò@
+g&e¦­–™1¹Ö¨œ	¤$‘ÖpÔê±D‘:aœ›"·=³¯á±š9Åû†»‚rB¶{a'2²
+×X"ĞœX>an¼YˆaÉB¬…\´†6rmD
+Öxyã5ÜÎŒ­Bn…i “+*«½ V-Ô‚K´0X|Ã¦Ô[ÒF$ä„æ¬kĞ?‰—Ãf m‚!Ì9¡ÑşO:O"Ø
+·„W[§X®	zH
+2{~FÛe%0˜gã5tŸuÌƒ-ŠÄh«Â&ÔÊı²èZwˆ¬F•^ ‹€„öe$wçÛ5t:|4¢¬‘–m– sÂ]Kátêb®DFD¤ñ–Ö¦«1«ËšùTFœàÖRæäÊ\7èâAú,`VØ0QlÚV]ªçîk¢§êŞêÛÿ5şŸY¤º=23_+ıuh÷²2…JÜe§øÖhº#åÛ‘UxËˆ$Cö|c…”úôà3ÖìÑlòxÕ§GŸ,›yj¸Ş,zü{ÙŸu¤Xë®å¢é£!}4¤ÿµ!ıô«aªŞc«îwiî‚åÂË¨Ùä1Ò›ÛÛnğs˜npUÜ­¬Ó ‚ÇXr––jïlì£Í"ÁR èW¥ç´¬}Ô“´zéÔ‡,iˆ<ê…arˆÕÌêÉ¨Œ;ûh³Ü­¢_•¾ÇŸz÷r±wúÓ÷B¶?›-Ö ËNr•u
+md±W«œ¹ÇĞ©Èr°©åÊƒÔ5š±jY‰LrÍÆkhî3ÃnÎZiœ]Uì$­İMûM`ÕKJù´ÄDN»Ñ‚ğÃ”‰/Rp~ÀNVkˆ68Ó¹“ºøß’ÌÁö€‰àt)¯bò|”½f«ÿ;…I(K£aÚÑ é§Ü'¸Ó[*»ÀDTw…Œî«uó=›Ú¯të6z™mhÒ;LLÆ,İÀI/yêÓo^Çƒ!ö3f¯ùğy|É ;“
+endstream
+endobj
+2 0 obj
+<</Type /Page
+/Resources <</ProcSet [/PDF /Text /ImageB /ImageC /ImageI]
+/ExtGState <</G3 3 0 R>>>>
+/MediaBox [0 0 403.91998 109.919998]
+/Contents 4 0 R
+/Tabs /S
+/Parent 5 0 R>>
+endobj
+5 0 obj
+<</Type /Pages
+/Count 1
+/Kids [2 0 R]>>
+endobj
+6 0 obj
+<</Type /Catalog
+/Pages 5 0 R
+/ViewerPreferences <</Type /ViewerPreferences
+/DisplayDocTitle true>>>>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000015 00000 n 
+0000004938 00000 n 
+0000003929 00000 n 
+0000003966 00000 n 
+0000005131 00000 n 
+0000005186 00000 n 
+trailer
+<</Size 7
+/Root 6 0 R
+/Info 1 0 R>>
+startxref
+5303
+%%EOF

@@ -208,9 +208,8 @@ struct QuizView: View {
                             question.direction == .zhToEn ? "选择对应英文" : "选择对应中文",
                             systemImage: "questionmark"
                         )
-                        Text(prompt(for: question))
-                            .font(.system(.largeTitle, design: .serif, weight: .bold))
-                            .foregroundStyle(AcademicTheme.inkNavy)
+                        RichMathText(source: prompt(for: question), size: 26, weight: .bold,
+                            color: NSColor(AcademicTheme.inkNavy), serif: true)
                             .fixedSize(horizontal: false, vertical: true)
                             .accessibilityAddTraits(.isHeader)
                     }
@@ -264,9 +263,8 @@ struct QuizView: View {
                     .background(optionMarkerColor(isCorrect: isCorrectOption, isSelected: isSelected), in: Circle())
                     .foregroundStyle(selectedOptionID == nil ? AcademicTheme.formulaBlue : Color.white)
 
-                Text(answer(for: option, direction: question.direction))
-                    .font(.body.weight(.semibold))
-                    .foregroundStyle(AcademicTheme.inkNavy)
+                RichMathText(source: answer(for: option, direction: question.direction), weight: .semibold,
+                    color: NSColor(AcademicTheme.inkNavy), selectable: false)
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -314,7 +312,7 @@ struct QuizView: View {
                 .foregroundStyle(AcademicTheme.inkNavy)
 
             SelectablePronunciationText(
-                text: MathNotation.display(question.term.english),
+                text: question.term.english,
                 selectedText: $feedbackSelectedText
             ) { selection in
                 speech.speak(text: selection)
@@ -332,10 +330,10 @@ struct QuizView: View {
                 .buttonStyle(.bordered)
 
                 Button {
-                    if let selection = SpeechSelectionSanitizer.sanitize(
+                    if SpeechSelectionSanitizer.sanitize(
                         feedbackSelectedText
-                    ) {
-                        speech.speak(text: selection)
+                    ) != nil {
+                        speech.speak(text: feedbackSelectedText)
                     }
                 } label: {
                     Label("朗读所选", systemImage: "text.cursor")
@@ -351,9 +349,7 @@ struct QuizView: View {
                 )
             }
 
-            Text(MathNotation.display(question.term.definition))
-                .foregroundStyle(AcademicTheme.inkNavy.opacity(0.88))
-                .lineSpacing(5)
+            RichMathText(source: question.term.definition, color: NSColor(AcademicTheme.inkNavy).withAlphaComponent(0.88))
 
             Button(action: advanceQuestion) {
                 Label(
@@ -558,12 +554,12 @@ struct QuizView: View {
     private func prompt(for question: QuizQuestion) -> String {
         question.direction == .zhToEn
             ? question.term.chinese
-            : MathNotation.display(question.term.english)
+            : question.term.english
     }
 
     private func answer(for option: Term, direction: QuizDirection) -> String {
         direction == .zhToEn
-            ? MathNotation.display(option.english)
+            ? option.english
             : option.chinese
     }
 

@@ -1,14 +1,14 @@
 # 数学面试词汇 · Windows 离线版
 
-Windows 1.5.0（file build 1.5.0.7）面向 Windows 10/11 的 64 位 Intel/AMD（x64）电脑。它沿用 Mac 版的词汇、检测、学习记录、布局和设置层级，并使用独立的本地数据目录。
+Windows 1.5.1（file build 1.5.1.8）面向 Windows 10/11 的 64 位 Intel/AMD（x64）电脑。它沿用 Mac 版的词汇、检测、学习记录、布局和设置层级，并使用独立的本地数据目录。
 
 ## 下载与使用
 
-从 [发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.5.0) 下载 [Windows 安装版 Setup（推荐）](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.0/MathInterviewVocab-Windows-x64-Setup-v1.5.0.exe)，正常退出旧版后按向导安装。也可下载 [便携 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.0/MathInterviewVocab-Windows-x64-v1.5.0.zip)，完整解压后运行 `数学面试词汇.exe`；不要在 ZIP 内运行或单独移动 EXE。本轮不修改或替换 Android，历史 Release 保留。
+从 [发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.5.1) 下载 [Windows 安装版 Setup（推荐）](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/MathInterviewVocab-Windows-x64-Setup-v1.5.1.exe)，正常退出旧版后按向导安装。也可下载 [便携 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/MathInterviewVocab-Windows-x64-v1.5.1.zip)，完整解压后运行 `数学面试词汇.exe`；不要在 ZIP 内运行或单独移动 EXE。本轮不修改或替换 Android，历史 Release 保留。
 
 不需要管理员权限，也不需要安装 Node.js、Python、浏览器、模型或运行时。GitHub 自动生成的 Source code 是开发源码，不是可直接运行的软件。
 
-成品未使用商业代码签名证书，Windows 可能提示未知发布者。请核对官方发布页和 [SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.0/SHA256SUMS.txt)，不要关闭系统安全防护。更新清单另有 Ed25519 签名，但这不等于 Authenticode 开发者身份认证。本版不提供 Windows 7/8、32 位或 ARM 原生构建。
+成品未使用商业代码签名证书，Windows 可能提示未知发布者。请核对官方发布页和 [SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/SHA256SUMS.txt)，不要关闭系统安全防护。更新清单另有 Ed25519 签名，但这不等于 Authenticode 开发者身份认证。本版不提供 Windows 7/8、32 位或 ARM 原生构建。
 
 ## 功能与布局
 
@@ -26,6 +26,8 @@ Windows 1.5.0（file build 1.5.0.7）面向 Windows 10/11 的 64 位 Intel/AMD�
 1.3.0 新增的快捷键按当前筛选及实际列表顺序移动，首尾不循环；侧栏折叠仍可切词，重新展开显示当前词条。输入、选词、菜单与侧栏调宽优先，长按不连续操作。检测不跳过未答题，也不能回退改答案。完整规则见 [桌面快捷键](../docs/KEYBOARD-SHORTCUTS.md)。
 
 ## 内置离线发音
+
+1.5.1 修复词汇、释义、检测及学习记录的 LaTeX 显示：63 个内置 SVG 公式与正文混排，复制保留原始源码（如 `\(H_0\)`），超宽公式局部滚动。搜索支持 `H_0`／`H₀`／`H0`。选中公式不会误导航或把源码交给播放器；英文单词选择及发音不变。资源在开发阶段由 MathJax 4.1.3 生成，运行时不加载数学 CDN、远程字体或 MathJax。
 
 本版包含 2328 个预生成 MP3 音频片段，覆盖 1164 份文本的美式和英式发音。音源为 Kokoro-82M v1.0，美式 `af_heart`、英式 `bf_emma`；两套音频不是同一个声线改名。
 

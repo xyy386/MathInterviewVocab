@@ -31,6 +31,13 @@ for (const [key, entry] of entries) {
     }
 }
 const terms = JSON.parse(await readFile(path.join(stage, 'resources/terms.json'), 'utf8'));
+const mathManifest = JSON.parse(await readFile(path.join(stage, 'resources/math/manifest.json'), 'utf8'));
+if (mathManifest.entries.length !== 63 || mathManifest.engine !== 'MathJax 4.1.3') throw new Error('公式资源不完整。');
+for (const formula of mathManifest.entries) for (const type of ['svg', 'pdf']) {
+    if (!/^[a-f0-9]{64}$/.test(formula.id) || formula[type] !== `${formula.id}.${type}`) throw new Error('无效公式路径。');
+    const data = await readFile(path.join(stage, 'resources/math', formula[type]));
+    if (createHash('sha256').update(data).digest('hex') !== formula[`${type}SHA256`]) throw new Error(`公式校验失败：${formula.id}`);
+}
 const { normalizeAudioText, sanitizeSelection } = await import('../.out/core-audit.mjs');
 for (const term of terms) {
     const text = normalizeAudioText(sanitizeSelection(term.speechText) ?? '');
@@ -42,7 +49,7 @@ for (const term of terms) {
 
 const paths = await packager({
     dir: stage, out: path.join(root, '.out/win'), platform: 'win32', arch: 'x64',
-    name: '数学面试词汇', executableName: '数学面试词汇', appVersion: metadata.version, buildVersion: `${metadata.version}.7`,
+    name: '数学面试词汇', executableName: '数学面试词汇', appVersion: metadata.version, buildVersion: `${metadata.version}.${metadata.desktopBuild}`,
     electronVersion: metadata.devDependencies.electron, overwrite: true, asar: true, prune: true,
     icon: path.join(root, '.out/icon.ico'),
     win32metadata: { CompanyName: 'MathInterviewVocab', FileDescription: '数学面试词汇 · 全离线学习版', ProductName: '数学面试词汇',
@@ -63,7 +70,7 @@ await mkdir(destination, { recursive: true });
 await build({ projectDir: stage, prepackaged: bundle, targets: Platform.WINDOWS.createTarget('nsis', Arch.x64),
     publish: 'never', config: {
         appId: 'com.xingyiyao.MathInterviewVocab', productName: metadata.productName,
-        executableName: '数学面试词汇', buildVersion: `${metadata.version}.7`,
+        executableName: '数学面试词汇', buildVersion: `${metadata.version}.${metadata.desktopBuild}`,
         directories: { output: destination, buildResources: path.join(root, 'scripts') },
         electronVersion: metadata.devDependencies.electron,
         win: { target: ['nsis'], icon: path.join(root, '.out/icon.ico'), signAndEditExecutable: false,

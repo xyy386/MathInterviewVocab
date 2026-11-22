@@ -1,3 +1,4 @@
+import { mathSearchText } from './math-source.mjs';
 export type Accent = 'en-US' | 'en-GB';
 export type QuizDirection = 'zhToEn' | 'enToZh' | 'mixed';
 export type QuizScope = 'important' | 'all' | 'subject' | 'mistakes' | 'favorites';
@@ -121,11 +122,13 @@ export function decodeProgress(input: unknown): ProgressData {
 
 export function filterTerms(terms: Term[], filters: TermFilters, progress: ProgressData): Term[] {
     const query = filters.query.trim().toLocaleLowerCase();
+    const mathQuery = mathSearchText(query);
     return terms.filter(term => (!filters.subjectID || term.subjectID === filters.subjectID)
         && (!filters.importantOnly || term.important)
         && (!filters.favoritesOnly || progress.favoriteIDs.includes(term.id))
         && (!filters.mistakesOnly || progress.wrongIDs.includes(term.id))
-        && (!query || [term.chinese, term.english, term.definition].some(text => text.toLocaleLowerCase().includes(query))));
+        && (!query || [term.chinese, term.english, term.definition].some(text => text.toLocaleLowerCase().includes(query)
+            || (mathQuery.length > 0 && mathSearchText(text).includes(mathQuery)))));
 }
 export function makePool(terms: Term[], preferences: QuizPreferences, progress: ProgressData): Term[] {
     return terms.filter(term => {

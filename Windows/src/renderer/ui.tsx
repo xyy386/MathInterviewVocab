@@ -1,6 +1,7 @@
 import { useEffect, useRef, type CSSProperties, type ReactNode, type MouseEvent } from 'react';
-import { mathDisplay, sanitizeSelection, type Accent, type SpeechSettings, type Term } from '../shared/core';
+import { type Accent, type SpeechSettings, type Term } from '../shared/core';
 import type { AudioController } from './useAudio';
+import { RichMathText, mathSelectionText } from './RichMathText';
 
 // 自绘线性图标，不分发 Apple 字体或 SF Symbols 资源。
 const paths: Record<string, ReactNode> = {
@@ -82,7 +83,7 @@ export function SelectableEnglish({ term, onSelection, className = '' }: { term:
       const selection = window.getSelection();
       const element = ref.current;
       const within = selection && element && selection.anchorNode && selection.focusNode && element.contains(selection.anchorNode) && element.contains(selection.focusNode);
-      onSelection(within ? sanitizeSelection(selection.toString()) ?? '' : '');
+      onSelection(within ? mathSelectionText(selection) : '');
     };
     document.addEventListener('selectionchange', changed);
     return () => document.removeEventListener('selectionchange', changed);
@@ -90,9 +91,9 @@ export function SelectableEnglish({ term, onSelection, className = '' }: { term:
   const contextMenu = (event: MouseEvent) => {
     const selection = window.getSelection();
     if (!selection || selection.isCollapsed || !ref.current?.contains(selection.anchorNode) || !ref.current.contains(selection.focusNode)) return;
-    event.preventDefault(); void window.vocab.showSelectionMenu(selection.toString());
+    event.preventDefault(); void window.vocab.showSelectionMenu(mathSelectionText(selection));
   };
-  return <div ref={ref} lang="en" className={`selectable-english ${className}`} onContextMenu={contextMenu} title="可选择、复制或右键朗读">{mathDisplay(term.english)}</div>;
+  return <div ref={ref} lang="en" className={`selectable-english ${className}`} onContextMenu={contextMenu} title="可选择、复制或右键朗读"><RichMathText source={term.english}/></div>;
 }
 export function PronunciationPanel({ term, settings, audio, compact = false }: { term: Term; settings: SpeechSettings; audio: AudioController; compact?: boolean }) {
   return <section className={`pronunciation-panel ${compact ? 'is-compact' : ''}`} aria-label="英美音标">
