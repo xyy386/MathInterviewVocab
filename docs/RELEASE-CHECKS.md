@@ -9,6 +9,14 @@
 - 构建与 APK 核验：使用仓库外长期正式密钥签名编译 `:app:assembleRelease`，通过 [`verify-apk.py`](../Android/scripts/verify-apk.py) 独立核验正式发布证书（`24e92a08b1fe647bb6d1726a6208ad75436c1ac2a391651d58c68c067dce1069`）、`com.xingyiyao.mathinterviewvocab` / `1.3.6` / `versionCode 8`、`326` 词库 / `130` 重点、`2328` 段 Kokoro 音频、`63` 个公式 SVG 与清单摘要、全部 9 份随包许可与来源文件（含 MathJax 4.1.3 Apache-2.0、GUST Font License、LPPL 1.3c 与 New Computer Modern 说明）、原有 3 项权限及 4 个 Universal ABI 既有 `libandroidx.graphics.path.so` 原生库未新增任何依赖或权限。
 - 证据边界：Android 1.3.6 的 UI 与交互验证全部基于 Robolectric 单元测试、构建校验与 APK 静态核验；**本轮未进行 Android 实体手机或平板真机验收**，且 Robolectric 图形画布不作为像素级渲染截图证据。
 
+### 2026-11-23 正式发布复核
+
+- 项目所有者确认 1.3.6 已在实体手机和平板上完成公式显示／复制、离线发音及覆盖升级保留记录测试，并授权公开正式 APK。这是用户报告，未提供设备型号及 Android 版本；维护者不将其记作独立真机实测，也不补造硬件覆盖。
+- 独立复跑 Debug／Release 各 136 项测试、100 项 JVM 逻辑测试，全部通过、0 失败、0 跳过；Debug／Release Lint 均为 0 错误、7 条非阻断建议（KTX 与 SharedPreferences 提示）。没有使用 PD、模拟器或用户学习数据，没有修改应用代码。
+- 发布使用既有原始正式 APK（100,867,932 字节，SHA-256 `b960c48faed846cf1d492a538960ba55d740aca2da0007945acebb92cce4f1d8`），未重新构建／签名。证书指纹与本地历史 1.3.5 APK 一致；包名、versionName 1.3.6／code 8、API 29／36、全部词库／音频／公式、9 份许可、既有权限及 4 个 ABI 均通过核验，包内未发现私钥或学习记录路径。
+- 补齐已有草稿后，两个附件先完整回读，再公开为正式 Latest，并从匿名公开链接重新下载；字节数和 SHA-256 全部一致。原 12 个历史 Release、42 个标签引用、桌面 1.5.1 附件及五份桌面签名更新文件保持不变。既有 `v1.3.6`／`android-v1.3.6` 标签均保留在源码提交 `163559bbd0b985cac7397d1ea628190d3ff9c052`。
+- 公开复核后更新 Android 独立索引；直接调用生产 `UpdatePolicy` 验证正式元数据：1.3.5 可发现 1.3.6 的 APK、1.3.6 返回当前版本，大小、摘要、校验文件、证书与更高 code 校验通过。此项只验证策略，不执行安装或改动设备记录。
+
 ## v1.5.1 离线公式排版验收
 
 2026-11-22：macOS 1.5.1 build 8、Windows 1.5.1（file build 1.5.1.8）。仅修复桌面公式显示，不修改 Android、规范词库、离线音频或学习数据格式。

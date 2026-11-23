@@ -17,3 +17,10 @@
 - **公开签名证书 SHA-256**：`24e92a08b1fe647bb6d1726a6208ad75436c1ac2a391651d58c68c067dce1069`
 
 已安装旧版（`1.2.0`–`1.3.5`）的 Android 设备可在应用内打开 **设置 → 软件更新 → 检查更新** 升级至 `1.3.6`（`versionCode 8`），或从上方链接下载 APK 直接覆盖安装，本机学习记录自动保留。
+
+## 验证与源码
+
+- [Android 固定源码标签](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.6) 对应提交 `163559bbd0b985cac7397d1ea628190d3ff9c052`，同名 `v1.3.6` 标签也指向此提交。发布使用原始正式签名 APK，不重新构建或更换签名。
+- 2026-11-23 独立复跑：Debug／Release 各 136 项测试、100 项 JVM 逻辑测试全部通过，0 失败、0 跳过；Debug／Release Lint 均为 0 错误、7 条非阻断建议。APK 签名、平台身份、全部词库／音频／公式与许可核对通过。
+- 项目所有者于 2026-11-23 确认实体手机和平板的公式显示／复制、离线发音及覆盖升级保留记录测试通过，并授权公开。此项为用户报告；未提供设备型号和 Android 版本，维护者不将 Robolectric 测试冒充真机或像素级截图验收。本次不使用 PD 或模拟器。
+- [公式与字体许可](https://github.com/xyy386/MathInterviewVocab/blob/android-v1.3.6/Resources/Math/SOURCES.md) 随 APK 提供。不要卸载旧版或清空数据后再升级，也不要关闭系统安全防护。

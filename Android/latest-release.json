@@ -1,23 +1,23 @@
 {
-  "tag_name": "v1.3.5",
-  "html_url": "https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.5",
+  "tag_name": "v1.3.6",
+  "html_url": "https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.6",
   "draft": false,
   "prerelease": false,
-  "body": "Android 1.3.5（versionCode 7）：升级多线路更新引擎，支持 GitHub 官方直连与三大国内加速镜像 / CDN 对冲测速择优、HTTP Range 跨线路断点续传、低速（< 40 KB/s）自动切换线路、设置页线路模式切换与实时网速显示，以及主界面非侵入式后台更新进度条。",
+  "body": "# 数学面试词汇 v1.3.6 · Android 离线 LaTeX 矢量公式排版\n\n本次更新将 Android 原生版升级至 **1.3.6（versionCode 8）**，同步引入桌面端 [`v1.5.1`](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.5.1) 的离线 LaTeX 矢量公式渲染、LaTeX 复制还原与归一化检索能力；桌面端 1.5.1 及历史发布保持不变。\n\n## Android 1.3.6（versionCode 8）更新内容\n\n1. **零新增依赖的原生 SVG 离线矢量公式渲染**：复用仓库 `Resources/Math/` 的 63 个 MathJax 4.1.3 预渲染 SVG（覆盖全部 44 个公式词条、45 处字段，兼容含未转义 `<` 的 `data-latex=\"f(a)f(b)<0\"`），内置纯 Kotlin 引号感知解析器直接绘制为 Compose `Canvas` 与原生 `TextView` 矢量 Span，精确对齐基线，自动适配系统深浅双主题与 100%–200% 字体缩放，不引入 WebView、JS 引擎或第三方原生库。\n2. **移动端分场景防裁剪排版**：词条详情页与检测答题反馈等阅读区保留自然字号，块级及超宽公式（如 `20.15 em` 维数公式）独立成段并支持局部横向滚动；词汇列表、关联词卡、检测四选一选项、闪卡正反面及错题/收藏记录等可点击或可滑动卡片内自动按容器宽度等比自适应，避免触控手势冲突。\n3. **长按划选复制还原原始 LaTeX**：词条详情「英文标题」与「概念释义」均支持原生划选与系统复制（以及局部横滚公式点按/长按复制），复制混合公式段落或单个公式时自动还原为原始 LaTeX 源码（如 `\\(H_0\\)`、`\\(F(x)=\\int_{-\\infty}^{x}f(t)\\,\\mathrm{d}t\\)`）。\n4. **选区朗读边界与完整发音不变**：划选纯英文单词（如 `Null`）可继续正常调用内置 Kokoro 离线音频；划选包含数学公式的片段点击朗读时明确提示“所选内容含数学公式，暂无对应内置语音；可选取英文单词或朗读完整词条”，不误报音频缺失，点击“朗读完整词组”或英美发音仍正常播放完整词组。\n5. **下标公式别名检索与资源完整性保障**：词汇搜索统一进行 NFKC 与 LaTeX 符号归一化，搜索 `H_0`、`H₀` 或 `H0` 均可命中相关词条；公式资源每次按 `svgSHA256` 校验并随包纳入 MathJax 4.1.3 / New Computer Modern 字体许可，异常或缺失时优雅回退展示 `[公式显示异常：<原式>]`，不阻断正文显示。\n\n## 下载与升级\n\n- **Android Universal APK**：[MathInterviewVocab-Android-universal-v1.3.6.apk](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.6/MathInterviewVocab-Android-universal-v1.3.6.apk)（`100,867,932` 字节，SHA-256：`b960c48faed846cf1d492a538960ba55d740aca2da0007945acebb92cce4f1d8`）\n- **Android 独立校验文件**：[SHA256SUMS-Android.txt](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.6/SHA256SUMS-Android.txt)（`114` 字节，SHA-256：`5c0b1e293de8f92821a81ada7d48e1067a81e5223a197cfd0a26394e8a3ea88c`）\n- **公开签名证书 SHA-256**：`24e92a08b1fe647bb6d1726a6208ad75436c1ac2a391651d58c68c067dce1069`\n\n已安装旧版（`1.2.0`–`1.3.5`）的 Android 设备可在应用内打开 **设置 → 软件更新 → 检查更新** 升级至 `1.3.6`（`versionCode 8`），或从上方链接下载 APK 直接覆盖安装，本机学习记录自动保留。\n\n## 验证与源码\n\n- [Android 固定源码标签](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.6) 对应提交 `163559bbd0b985cac7397d1ea628190d3ff9c052`，同名 `v1.3.6` 标签也指向此提交。发布使用原始正式签名 APK，不重新构建或更换签名。\n- 2026-11-23 独立复跑：Debug／Release 各 136 项测试、100 项 JVM 逻辑测试全部通过，0 失败、0 跳过；Debug／Release Lint 均为 0 错误、7 条非阻断建议。APK 签名、平台身份、全部词库／音频／公式与许可核对通过。\n- 项目所有者于 2026-11-23 确认实体手机和平板的公式显示／复制、离线发音及覆盖升级保留记录测试通过，并授权公开。此项为用户报告；未提供设备型号和 Android 版本，维护者不将 Robolectric 测试冒充真机或像素级截图验收。本次不使用 PD 或模拟器。\n- [公式与字体许可](https://github.com/xyy386/MathInterviewVocab/blob/android-v1.3.6/Resources/Math/SOURCES.md) 随 APK 提供。不要卸载旧版或清空数据后再升级，也不要关闭系统安全防护。\n",
   "assets": [
     {
-      "name": "MathInterviewVocab-Android-universal-v1.3.5.apk",
+      "name": "MathInterviewVocab-Android-universal-v1.3.6.apk",
       "state": "uploaded",
-      "size": 100616960,
-      "browser_download_url": "https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/MathInterviewVocab-Android-universal-v1.3.5.apk",
-      "digest": "sha256:ad5355e53ffbd8a900f30cd9b3f80b22d149af8602af1eb72e8e1507521b3cf8"
+      "size": 100867932,
+      "browser_download_url": "https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.6/MathInterviewVocab-Android-universal-v1.3.6.apk",
+      "digest": "sha256:b960c48faed846cf1d492a538960ba55d740aca2da0007945acebb92cce4f1d8"
     },
     {
       "name": "SHA256SUMS-Android.txt",
       "state": "uploaded",
       "size": 114,
-      "browser_download_url": "https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.5/SHA256SUMS-Android.txt",
-      "digest": "sha256:4c3c4c86d4bc311d761e4cf84d98867beb29ce9f9fca16a7562ac35533a0478e"
+      "browser_download_url": "https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.6/SHA256SUMS-Android.txt",
+      "digest": "sha256:5c0b1e293de8f92821a81ada7d48e1067a81e5223a197cfd0a26394e8a3ea88c"
     }
   ]
 }
