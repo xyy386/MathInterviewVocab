@@ -1,11 +1,12 @@
 # 历史版本与归档索引
 
-归档核验日期：2026-11-23。成品使用 GitHub Releases 保存，源码由固定标签保存；新增 Android v1.3.6，原 Release、附件和标签保持不变，不重复上传构建缓存。桌面 v1.5.1 为独立正式版，Android v1.3.6 作为仓库 Latest。
+归档核验日期：2026-11-28。成品使用 GitHub Releases 保存，源码由固定标签保存；新增 Android v1.3.7，原 Release、附件和标签保持不变，不重复上传构建缓存。桌面 v1.5.1 为独立正式版，Android v1.3.7 作为仓库 Latest。
 
 ## 版本与源码
 
 | Release | 成品版本 | 对应源码 |
 | --- | --- | --- |
+| [v1.3.7](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.7) | Android 1.3.7 code 9；学习筛选、闪卡流畅度、防误触滑动与撤销横幅，Windows／macOS 继续使用 v1.5.1 | [Android android-v1.3.7](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.7) |
 | [v1.3.6](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.6) | Android 1.3.6 code 8；同步离线 LaTeX 矢量公式，Windows／macOS 继续使用 v1.5.1 | [Android android-v1.3.6](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.6) |
 | [v1.5.1](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.5.1) | Windows 1.5.1（file build 1.5.1.8）、macOS 1.5.1 build 8；仅修复桌面 LaTeX 显示 | [桌面 v1.5.1](https://github.com/xyy386/MathInterviewVocab/tree/v1.5.1) |
 | [v1.5.0](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.5.0) | Windows 1.5.0（file build 1.5.0.7）、macOS 1.5.0 build 7；不修改 Android | [桌面 v1.5.0](https://github.com/xyy386/MathInterviewVocab/tree/v1.5.0) |
@@ -21,6 +22,15 @@
 | [v1.1.1](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.1.1) | macOS 1.1、Windows 1.1.1 | [v1.1.1](https://github.com/xyy386/MathInterviewVocab/tree/v1.1.1) |
 
 原 `v1.2.0` 标签早于 Android 工程，其自动生成的 Source code 归档不包含 Android。需要 Android 源码请使用独立 `android-v1.2.0` 标签；不要把 Source code 当作可运行安装包。
+
+## v1.3.7 Android 附件
+
+Android Universal APK 与独立校验文件经本地签名构建、APK 静态核验、Release 回读与匿名公开下载核对；原桌面 `v1.5.1` 及历史附件／标签均保持不变，验证边界见 [发布检查](RELEASE-CHECKS.md#android-137-交互与防误触验收)。
+
+| 文件（直接下载） | 字节数 | SHA-256 |
+| --- | ---: | --- |
+| [MathInterviewVocab-Android-universal-v1.3.7.apk](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.7/MathInterviewVocab-Android-universal-v1.3.7.apk) | 100917084 | `3402b61e5199fcf194797772901014ca46620a975fcfb6b3cea0685fc5215ce1` |
+| [SHA256SUMS-Android.txt](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.7/SHA256SUMS-Android.txt) | 114 | `0ec17186ac13824cfbf67e0304fad1293bb0a16c641ab59a362ba77ed11c7e09` |
 
 ## v1.3.6 Android 附件
 

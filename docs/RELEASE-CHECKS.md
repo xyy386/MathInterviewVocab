@@ -1,5 +1,14 @@
 # 发布检查说明
 
+## Android 1.3.7 交互与防误触验收
+
+2026-11-28：Android `1.3.7`（`versionCode 9`）。优化学习记录筛选跳转、界面偏好持久化、闪卡与检测设置交互、跨页词条详情返回、角度锁定滑动防误触与滑动移出顶部撤销横幅；桌面 [`v1.5.1`](VERSION-ARCHIVE.md#v151-桌面附件)、既有历史 Release、326／130 规范词库、2328 段离线音频、63 个离线公式 SVG 及 `progress.json`／`settings.json` 数据格式保持不变。
+
+- `logic-tests` 全套 102 项纯 JVM 测试全部通过（0 失败、0 跳过），覆盖单选互斥学习状态筛选（`attempted`／`mastered`／`learning`／`mistakes`／`unseen`）与重点／收藏／科目／搜索组合筛选、`resetProgress()` 清理失效状态筛选，以及完整保留 1.3.6 全部公式与更新策略回归。
+- Android `:app:testDebugUnitTest`（141 项，0 失败、0 跳过）、`:app:testReleaseUnitTest`（141 项，0 失败、0 跳过）与 `:app:lintDebug`／`:app:lintRelease`（0 错误、26 条非阻断建议）全部通过：[`AcademicUiTest`](../Android/app/src/test/java/com/xingyiyao/mathinterviewvocab/ui/AcademicUiTest.kt) 使用 Robolectric 覆盖学习记录“已检测词汇”／“已掌握”与“学习分布”四项图例点击跳转精准筛选、独立 `UiPreferencesStore`（`SharedPreferences("ui-preferences")`）冷启动恢复深色模式／科目顺序／检测模式、闪卡自评直切与背面收藏、从“学习记录”／“检测总结”进入详情再返回原标签页、角度锁定（`SwipeToFlyCornerCard` 仅水平右滑且超 35% 宽度触发，竖滑／斜滑交由列表滚动）与 `SnapPhysicsSlider` 水平拖拽防误触，以及滑动移出错题／收藏后顶部 `UndoToastBanner` 撤销恢复与 5 秒自动消失边界。
+- 构建与 APK 核验：使用仓库外长期正式密钥签名编译 `:app:assembleRelease`，产出 `MathInterviewVocab-Android-universal-v1.3.7.apk`（`100,917,084` 字节，SHA-256 `3402b61e5199fcf194797772901014ca46620a975fcfb6b3cea0685fc5215ce1`），并通过 [`verify-apk.py`](../Android/scripts/verify-apk.py) 独立核验正式发布证书（`24e92a08b1fe647bb6d1726a6208ad75436c1ac2a391651d58c68c067dce1069`）、`com.xingyiyao.mathinterviewvocab` / `1.3.7` / `versionCode 9`、API 29／36、`326` 词库 / `130` 重点、`2328` 段 Kokoro 音频、`63` 个公式 SVG 与清单摘要、全部 9 份随包许可与来源文件、原有 3 项权限及 4 个 Universal ABI 既有 `libandroidx.graphics.path.so` 原生库，未新增任何依赖或权限。
+- 证据边界：Android 1.3.7 的 UI、筛选与手势／撤销交互验证全部基于 Robolectric 单元测试、构建校验与 APK 静态核验；**本轮未进行 Android 实体手机或平板真机实测**，也不使用模拟器或 PD。
+
 ## Android 1.3.6 离线公式验收
 
 2026-11-22：Android `1.3.6`（`versionCode 8`）。仅同步离线 LaTeX 矢量公式渲染、原始 LaTeX 复制与公式别名检索能力至 Android；桌面 [`v1.5.1`](VERSION-ARCHIVE.md#v151-桌面附件)、既有历史 Release、326／130 规范词库、2328 段离线音频及本地学习记录格式保持不变。

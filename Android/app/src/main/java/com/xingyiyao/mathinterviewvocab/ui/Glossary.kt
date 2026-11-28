@@ -109,6 +109,23 @@ import com.xingyiyao.mathinterviewvocab.core.Term
 import com.xingyiyao.mathinterviewvocab.core.VocabularyCore
 import kotlinx.coroutines.launch
 
+private val LearningStatusLabels = listOf(
+    "attempted" to "已检测词汇",
+    "mastered" to "已掌握",
+    "learning" to "学习巩固中",
+    "mistakes" to "待复习错题",
+    "unseen" to "尚未检测",
+)
+
+private fun activeLearningStatusOf(screen: SavedScreen): String? =
+    screen.learningStatus?.takeIf { it in VocabularyCore.learningStatuses }
+        ?: when {
+            screen.mistakesOnly -> "mistakes"
+            screen.attemptedOnly -> "attempted"
+            screen.masteredOnly -> "mastered"
+            else -> null
+        }
+
 fun glossaryListItemIndex(
     terms: List<Term>,
     subjects: List<SubjectSummary>,
@@ -140,7 +157,7 @@ fun rememberGlossaryListState(
         screen.subjectID.orEmpty(),
         screen.importantOnly.toString(),
         screen.favoritesOnly.toString(),
-        screen.mistakesOnly.toString(),
+        activeLearningStatusOf(screen).orEmpty(),
         screen.subjectOrder.joinToString(","),
     )
     var previousFilterKey by rememberSaveable { mutableStateOf(filterKey) }
@@ -151,7 +168,9 @@ fun rememberGlossaryListState(
         }
     }
     val targetID = screen.selectedTermID ?: screen.lastViewedTermID
-    val leadingItems = if (screen.query.isEmpty()) 1 else 0
+    val hasDashboard = screen.query.isEmpty() && screen.subjectID == null &&
+        !screen.importantOnly && !screen.favoritesOnly && activeLearningStatusOf(screen) == null
+    val leadingItems = if (hasDashboard) 1 else 0
     LaunchedEffect(screen.selectedTermID, targetID, filteredTerms.size, leadingItems) {
         if (targetID == null || filteredTerms.isEmpty() || subjects.isEmpty()) return@LaunchedEffect
         val targetIndex = glossaryListItemIndex(filteredTerms, subjects, targetID, leadingItems)
@@ -369,7 +388,13 @@ private fun TermIndex(
     var filtersExpanded by rememberSaveable { mutableStateOf(false) }
     var searchFocused by remember { mutableStateOf(false) }
     var themeButtonCenter by remember { mutableStateOf(Offset(960f, 96f)) }
-    val filterCount = listOf(state.screen.importantOnly, state.screen.favoritesOnly, state.screen.mistakesOnly).count { it }
+    val activeStatus = activeLearningStatusOf(state.screen)
+    val filterCount = listOf(
+        state.screen.importantOnly,
+        state.screen.favoritesOnly,
+        activeStatus != null,
+    ).count { it }
+    val hasActiveFilter = state.screen.query.isNotEmpty() || state.screen.subjectID != null || filterCount > 0
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val coroutineScope = rememberCoroutineScope()
@@ -377,10 +402,16 @@ private fun TermIndex(
     val atTop by remember(listState) {
         derivedStateOf { listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset < 24 }
     }
-    val browsedCount by remember(listState, terms.size) {
+    val browsedCount by remember(listState, terms) {
         derivedStateOf {
             if (terms.isEmpty()) 0
-            else (listState.firstVisibleItemIndex + 1).coerceIn(1, terms.size)
+            else {
+                val firstTermId = listState.layoutInfo.visibleItemsInfo
+                    .firstOrNull { it.key is Int }
+                    ?.key as? Int
+                val indexInTerms = firstTermId?.let { id -> terms.indexOfFirst { it.id == id } } ?: -1
+                if (indexInTerms >= 0) indexInTerms + 1 else 1
+            }
         }
     }
     val pinToolbar = state.screen.query.isNotEmpty() || filtersExpanded || searchFocused || terms.isEmpty()
@@ -597,21 +628,65 @@ private fun TermIndex(
                                 )
                             }
 
-                            // 3. 批量错峰弹性勾选面板（仅在点击“筛选”按钮后平滑展开）
+                            if (!filtersExpanded && filterCount > 0) {
+                                FlowRow(
+                                    Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                                ) {
+                                    if (state.screen.importantOnly) {
+                                        ActiveFilterChip("重点词汇") { dismissKeyboard(); viewModel.setImportantOnly(false) }
+                                    }
+                                    if (state.screen.favoritesOnly) {
+                                        ActiveFilterChip("我的收藏") { dismissKeyboard(); viewModel.setFavoritesOnly(false) }
+                                    }
+                                    if (activeStatus != null) {
+                                        val statusLabel = LearningStatusLabels.firstOrNull { it.first == activeStatus }?.second
+                                            ?: activeStatus
+                                        ActiveFilterChip(statusLabel) { dismissKeyboard(); viewModel.setLearningStatus(null) }
+                                    }
+                                }
+                            }
+
+                            // 3. 批量错峰弹性勾选面板 + 学习状态单选互斥胶囊
                             AnimatedVisibility(
                                 visible = filtersExpanded,
                                 enter = expandVertically(tween(220)) + fadeIn(tween(180)),
                                 exit = shrinkVertically(tween(200)) + fadeOut(tween(140)),
                             ) {
-                                Column(Modifier.padding(top = 4.dp)) {
+                                Column(Modifier.padding(top = 4.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                     StaggeredBatchFilterPanel(
                                         items = listOf(
                                             BatchFilterItem("important", "仅重点词汇", state.screen.importantOnly, viewModel::setImportantOnly),
                                             BatchFilterItem("favorites", "仅我的收藏（支持右滑飞出取消收藏）", state.screen.favoritesOnly, viewModel::setFavoritesOnly),
-                                            BatchFilterItem("mistakes", "仅待复习错题", state.screen.mistakesOnly, viewModel::setMistakesOnly),
                                         ),
                                         onClearAll = viewModel::clearFilters,
                                     )
+                                    Text(
+                                        "学习状态（单选，再点取消）",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = Academic.Muted,
+                                    )
+                                    FlowRow(
+                                        Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                        verticalArrangement = Arrangement.spacedBy(6.dp),
+                                    ) {
+                                        LearningStatusLabels.forEach { (statusId, label) ->
+                                            val selected = activeStatus == statusId
+                                            ElasticTagChip(
+                                                label = label,
+                                                selected = selected,
+                                                compact = true,
+                                                accentColor = if (statusId == "mistakes") Academic.Error else Academic.Blue,
+                                                onClick = {
+                                                    dismissKeyboard()
+                                                    viewModel.setLearningStatus(if (selected) null else statusId)
+                                                },
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -632,7 +707,7 @@ private fun TermIndex(
                 }
             } else {
                 Box(Modifier.weight(1f).fillMaxWidth()) {
-                    val showDashboard = state.screen.query.isEmpty()
+                    val showDashboard = !hasActiveFilter
                     LazyColumn(
                         Modifier.fillMaxSize(),
                         state = listState,
@@ -664,11 +739,16 @@ private fun TermIndex(
                                     }
                                 }
                                 items(matching, key = { it.id }) { term ->
-                                    if (state.screen.favoritesOnly) {
+                                    val swipeAction = when {
+                                        state.screen.favoritesOnly -> "取消收藏" to { viewModel.dismissFavoriteWithUndo(term) }
+                                        activeStatus == "mistakes" -> "移出错题" to { viewModel.dismissWrongWithUndo(term) }
+                                        else -> null
+                                    }
+                                    if (swipeAction != null) {
                                         SwipeToFlyCornerCard(
-                                            itemKey = term.id,
-                                            dismissLabel = "取消收藏",
-                                            onDismissed = { viewModel.toggleFavorite(term.id) },
+                                            itemKey = "${swipeAction.first}-${term.id}",
+                                            dismissLabel = swipeAction.first,
+                                            onDismissed = swipeAction.second,
                                         ) {
                                             TermRow(
                                                 term = term,
@@ -709,6 +789,25 @@ private fun TermIndex(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun ActiveFilterChip(label: String, onClear: () -> Unit) {
+    Surface(
+        onClick = onClear,
+        shape = RoundedCornerShape(999.dp),
+        color = Academic.BlueSoft,
+        border = BorderStroke(1.dp, Academic.Blue.copy(alpha = 0.45f)),
+        modifier = Modifier.bounceClick(),
+    ) {
+        Text(
+            "$label ×",
+            modifier = Modifier.padding(horizontal = 9.dp, vertical = 3.dp),
+            style = MaterialTheme.typography.labelSmall,
+            fontWeight = FontWeight.Medium,
+            color = Academic.Blue,
+        )
     }
 }
 

@@ -3,6 +3,7 @@ package com.xingyiyao.mathinterviewvocab.ui
 import android.app.Application
 import android.content.pm.ActivityInfo
 import androidx.activity.ComponentActivity
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
@@ -39,6 +42,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -47,6 +51,7 @@ import androidx.compose.ui.unit.dp
 import androidx.test.core.app.ApplicationProvider
 import com.xingyiyao.mathinterviewvocab.AppUiState
 import com.xingyiyao.mathinterviewvocab.SavedScreen
+import com.xingyiyao.mathinterviewvocab.UndoBanner
 import com.xingyiyao.mathinterviewvocab.core.Pronunciation
 import com.xingyiyao.mathinterviewvocab.core.QuizQuestion
 import com.xingyiyao.mathinterviewvocab.core.Term
@@ -504,6 +509,50 @@ class AcademicUiTest {
     }
 
     @Test
+    fun flashcardBackFavoriteButtonTogglesState() {
+        val term = Term(
+            id = 11,
+            subjectID = "analysis",
+            subjectName = "数学分析",
+            subjectNameEn = "Mathematical Analysis",
+            chinese = "极限",
+            english = "limit",
+            definition = "函数逼近极限值。",
+            important = false,
+            speechText = "limit",
+            pronunciation = Pronunciation("/ˈlɪmɪt/", "/ˈlɪmɪt/"),
+        )
+        val question = QuizQuestion(
+            id = "fc-11",
+            term = term,
+            direction = "zhToEn",
+            options = emptyList(),
+            correctOptionID = term.id,
+        )
+        var isFav by mutableStateOf(false)
+        compose.setContent {
+            AcademicTheme {
+                Column(Modifier.width(360.dp)) {
+                    FlashcardQuestionCard(
+                        question = question,
+                        busy = false,
+                        isFavorite = isFav,
+                        onToggleFavorite = { isFav = !isFav },
+                        onSpeak = {},
+                        onSelfGrade = {},
+                    )
+                }
+            }
+        }
+        compose.onNodeWithText(" 翻转闪卡核对答案").performClick()
+        compose.waitForIdle()
+        compose.onNodeWithText(" 收藏").assertIsDisplayed().performClick()
+        compose.waitForIdle()
+        assertTrue(isFav)
+        compose.onNodeWithText(" 已收藏").assertIsDisplayed()
+    }
+
+    @Test
     fun relatedTermCardOmitsIPAAndShowsEnglishTermOnly() {
         val term = Term(
             id = 64,
@@ -527,5 +576,89 @@ class AcademicUiTest {
         compose.onNodeWithText("一致连续定理").assertIsDisplayed()
         compose.onNodeWithText("uniform continuity theorem").assertIsDisplayed()
         compose.onNodeWithText("US", substring = true, useUnmergedTree = true).assertDoesNotExist()
+    }
+
+    @Test
+    fun swipeCardAllowsVerticalScrollAndOnlyDismissesOnRightSwipe() {
+        var dismissed = false
+        lateinit var scrollState: ScrollState
+        compose.setContent {
+            CompositionLocalProvider(LocalDensity provides Density(1f, 1f)) {
+                AcademicTheme {
+                    scrollState = rememberScrollState()
+                    Column(Modifier.width(360.dp).height(260.dp).verticalScroll(scrollState)) {
+                        SwipeToFlyCornerCard(
+                            itemKey = "wrong-1",
+                            dismissLabel = "移出错题",
+                            onDismissed = { dismissed = true },
+                        ) {
+                            Box(Modifier.fillMaxWidth().height(120.dp)) {
+                                Text("凸性")
+                            }
+                        }
+                        repeat(6) { idx ->
+                            Box(Modifier.fillMaxWidth().height(100.dp)) {
+                                Text("后续词条 $idx")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // 1. 直接按住卡片竖直向上拖动（附带轻微水平偏移）时应顺畅滚动页面且不移除卡片
+        compose.onNodeWithText("凸性").performTouchInput {
+            down(center)
+            repeat(8) { moveBy(Offset(2f, -20f)) }
+            up()
+        }
+        compose.waitForIdle()
+        assertFalse(dismissed)
+        assertTrue("Expected parent ScrollState to advance, was ${scrollState.value}", scrollState.value > 0)
+
+        // 滚回顶部后再测水平滑动方向
+        compose.runOnIdle { runBlocking { scrollState.scrollTo(0) } }
+        compose.waitForIdle()
+
+        // 2. 向左滑动不触发移除
+        compose.onNodeWithText("凸性").performTouchInput {
+            down(center)
+            repeat(8) { moveBy(Offset(-30f, 0f)) }
+            up()
+        }
+        compose.waitForIdle()
+        assertFalse(dismissed)
+
+        // 3. 明显向右滑动超过 35% 卡片宽度后触发移除
+        compose.onNodeWithText("凸性").performTouchInput {
+            down(center)
+            repeat(8) { moveBy(Offset(30f, 0f)) }
+            up()
+        }
+        compose.mainClock.advanceTimeBy(600)
+        compose.waitForIdle()
+        assertTrue(dismissed)
+    }
+
+    @Test
+    fun undoToastBannerDisplaysMessageAndTriggersUndoCallback() {
+        var undoCalled = false
+        var dismissCalled = false
+        compose.setContent {
+            AcademicTheme {
+                Column(Modifier.width(360.dp)) {
+                    UndoToastBanner(
+                        banner = UndoBanner("u1", 1, "wrong", "已将「凸性」移出待复习错题"),
+                        onUndo = { undoCalled = true },
+                        onDismiss = { dismissCalled = true },
+                    )
+                }
+            }
+        }
+        compose.onNodeWithText("已将「凸性」移出待复习错题").assertIsDisplayed()
+        compose.onNodeWithText("撤销").assertIsDisplayed().performClick()
+        assertTrue(undoCalled)
+        compose.onNodeWithContentDescription("关闭提示").assertIsDisplayed().performClick()
+        assertTrue(dismissCalled)
     }
 }

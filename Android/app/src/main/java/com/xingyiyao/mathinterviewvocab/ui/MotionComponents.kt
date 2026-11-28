@@ -16,8 +16,10 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -74,6 +76,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
@@ -342,14 +345,14 @@ fun <T> SnapPhysicsSlider(
                     .pointerInput(enabled, count, usableWidthPx) {
                         if (!enabled || count <= 1) return@pointerInput
                         val tracker = VelocityTracker()
-                        detectDragGestures(
+                        detectHorizontalDragGestures(
                             onDragStart = { offset ->
                                 dragging = true
                                 tracker.resetTracking()
                                 val rawIndex = ((offset.x - padPx) / stepPx).coerceIn(0f, (count - 1).toFloat())
                                 scope.launch { position.snapTo(rawIndex) }
                             },
-                            onDrag = { change, _ ->
+                            onHorizontalDrag = { change, _ ->
                                 change.consume()
                                 tracker.addPosition(change.uptimeMillis, change.position)
                                 val rawIndex = ((change.position.x - padPx) / stepPx)
@@ -636,16 +639,16 @@ fun SwipeToFlyCornerCard(
         val curveY = -140f * t * (1f - t) - 70f * t * t
         val scale = (1f - 0.78f * t).coerceAtLeast(0.15f)
         val alpha = (1f - t * 0.95f).coerceIn(0f, 1f)
-        val rotation = (startX / 28f).coerceIn(-10f, 10f) * (1f - t) + 22f * t
+        val rotation = (dragX.value / 28f).coerceIn(0f, 10f) * (1f - t) + 22f * t
 
         Box(modifier.fillMaxWidth()) {
-            if (abs(dragX.value) > 12f || flying) {
+            if (dragX.value > 12f || flying) {
                 Row(
                     Modifier.matchParentSize()
                         .clip(Academic.Shape)
                         .background(Academic.Error.copy(alpha = 0.12f))
                         .padding(horizontal = 20.dp),
-                    horizontalArrangement = Arrangement.End,
+                    horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(Icons.Outlined.DeleteOutline, contentDescription = dismissLabel, tint = Academic.Error)
@@ -664,9 +667,51 @@ fun SwipeToFlyCornerCard(
                         this.alpha = alpha
                     }
                     .pointerInput(itemKey) {
-                        detectDragGestures(
-                            onDragEnd = {
-                                if (abs(dragX.value) > size.width * 0.28f) {
+                        awaitEachGesture {
+                            val down = awaitFirstDown(requireUnconsumed = false)
+                            val pointerId = down.id
+                            var totalDx = 0f
+                            var totalDy = 0f
+                            var horizontalLocked = false
+                            var cancelled = false
+                            val touchSlop = viewConfiguration.touchSlop
+
+                            while (true) {
+                                val event = awaitPointerEvent()
+                                val change = event.changes.firstOrNull { it.id == pointerId } ?: break
+                                if (!change.pressed) {
+                                    if (horizontalLocked) change.consume()
+                                    break
+                                }
+                                if (change.isConsumed || flying) {
+                                    cancelled = true
+                                    break
+                                }
+                                val delta = change.positionChange()
+                                if (!horizontalLocked) {
+                                    totalDx += delta.x
+                                    totalDy += delta.y
+                                    if (totalDx < -touchSlop || (abs(totalDy) > touchSlop && totalDx <= abs(totalDy) * 1.5f)) {
+                                        cancelled = true
+                                        break
+                                    }
+                                    if (totalDx > touchSlop && totalDx > abs(totalDy) * 1.5f) {
+                                        horizontalLocked = true
+                                        change.consume()
+                                        scope.launch {
+                                            dragX.snapTo(totalDx.coerceIn(0f, size.width * 0.65f))
+                                        }
+                                    }
+                                } else if (delta != Offset.Zero) {
+                                    change.consume()
+                                    scope.launch {
+                                        dragX.snapTo((dragX.value + delta.x).coerceIn(0f, size.width * 0.65f))
+                                    }
+                                }
+                            }
+
+                            if (horizontalLocked && !flying) {
+                                if (!cancelled && dragX.value > size.width * 0.35f) {
                                     startFlyOut(dragX.value)
                                 } else {
                                     scope.launch {
@@ -676,21 +721,8 @@ fun SwipeToFlyCornerCard(
                                         )
                                     }
                                 }
-                            },
-                            onDragCancel = {
-                                scope.launch {
-                                    dragX.animateTo(0f, spring(dampingRatio = 0.65f, stiffness = 400f))
-                                }
-                            },
-                            onDrag = { change, dragAmount ->
-                                if (!flying) {
-                                    change.consume()
-                                    scope.launch {
-                                        dragX.snapTo((dragX.value + dragAmount.x).coerceIn(-size.width * 0.65f, size.width * 0.65f))
-                                    }
-                                }
-                            },
-                        )
+                            }
+                        }
                     },
             ) {
                 content { startFlyOut(0f) }

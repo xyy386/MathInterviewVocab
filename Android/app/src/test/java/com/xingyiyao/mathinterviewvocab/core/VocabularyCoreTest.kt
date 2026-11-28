@@ -220,4 +220,103 @@ class VocabularyCoreTest {
         )
         assertEquals("", VocabularyCore.displayIpa("   ", withSlashes = true))
     }
+
+    @Test fun attemptedOnlyAndMasteredOnlyFiltersMatchSummaryAndIntersectCleanly() {
+        val values = listOf(
+            term(1, subject = "analysis"),
+            term(2, subject = "analysis"),
+            term(3, subject = "algebra"),
+            term(4, subject = "algebra"),
+        )
+        val emptyProgress = ProgressData()
+        assertTrue(VocabularyCore.filterTerms(values, TermFilters(attemptedOnly = true), emptyProgress).isEmpty())
+        assertTrue(VocabularyCore.filterTerms(values, TermFilters(masteredOnly = true), emptyProgress).isEmpty())
+
+        val progress = ProgressData(
+            attempts = listOf(attempt(1, termID = 1), attempt(2, termID = 1), attempt(3, termID = 3, correct = false)),
+            masteredIDs = setOf(1, 2),
+        )
+        val summary = VocabularyCore.summarizeProgress(values, progress)
+        val attemptedFiltered = VocabularyCore.filterTerms(values, TermFilters(attemptedOnly = true), progress)
+        val masteredFiltered = VocabularyCore.filterTerms(values, TermFilters(masteredOnly = true), progress)
+
+        assertEquals(listOf(1, 3), attemptedFiltered.map { it.id })
+        assertEquals(summary.attemptedCount, attemptedFiltered.size)
+        assertEquals(listOf(1, 2), masteredFiltered.map { it.id })
+        assertEquals(summary.masteredCount, masteredFiltered.size)
+
+        // 与科目、关键词及多条件交集生效
+        assertEquals(
+            listOf(3),
+            VocabularyCore.filterTerms(values, TermFilters(subjectID = "algebra", attemptedOnly = true), progress).map { it.id },
+        )
+        assertEquals(
+            listOf(1),
+            VocabularyCore.filterTerms(values, TermFilters(attemptedOnly = true, masteredOnly = true), progress).map { it.id },
+        )
+        assertEquals(
+            listOf(2),
+            VocabularyCore.filterTerms(values, TermFilters(query = "2", masteredOnly = true), progress).map { it.id },
+        )
+    }
+
+    @Test fun learningStatusCoversFourDisjointStatesAndIntersectsWithAttributeFilters() {
+        // term 1: 已掌握 (masteredIDs)
+        // term 2: 待复习错题 (wrongIDs + attempts)
+        // term 3: 学习巩固中 (attempts 但未掌握、非错题)
+        // term 4: 学习巩固中 (仅连对记录 correctStreak=1)
+        // term 5: 尚未检测
+        val values = listOf(
+            term(1, subject = "analysis"),
+            term(2, subject = "analysis"),
+            term(3, subject = "algebra"),
+            term(4, subject = "algebra"),
+            term(5, subject = "probability"),
+        )
+        val progress = ProgressData(
+            attempts = listOf(
+                attempt(1, termID = 1),
+                attempt(2, termID = 2, correct = false),
+                attempt(3, termID = 3),
+            ),
+            favoriteIDs = setOf(2, 4),
+            correctStreak = mapOf("1" to 3, "3" to 1, "4" to 1),
+            wrongIDs = setOf(2),
+            masteredIDs = setOf(1),
+        )
+        val mastered = VocabularyCore.filterTerms(values, TermFilters(learningStatus = "mastered"), progress).map { it.id }
+        val mistakes = VocabularyCore.filterTerms(values, TermFilters(learningStatus = "mistakes"), progress).map { it.id }
+        val learning = VocabularyCore.filterTerms(values, TermFilters(learningStatus = "learning"), progress).map { it.id }
+        val unseen = VocabularyCore.filterTerms(values, TermFilters(learningStatus = "unseen"), progress).map { it.id }
+        val attempted = VocabularyCore.filterTerms(values, TermFilters(learningStatus = "attempted"), progress).map { it.id }
+
+        assertEquals(listOf(1), mastered)
+        assertEquals(listOf(2), mistakes)
+        assertEquals(listOf(3, 4), learning)
+        assertEquals(listOf(5), unseen)
+        assertEquals(listOf(1, 2, 3), attempted)
+
+        // 四态互斥且覆盖全部词库
+        val union = mastered + mistakes + learning + unseen
+        assertEquals(values.map { it.id }.toSet(), union.toSet())
+        assertEquals(values.size, union.size)
+
+        // 与属性筛选及科目筛选自由组合
+        assertEquals(
+            listOf(4),
+            VocabularyCore.filterTerms(
+                values,
+                TermFilters(learningStatus = "learning", favoritesOnly = true, importantOnly = true),
+                progress,
+            ).map { it.id },
+        )
+        assertEquals(
+            listOf(3, 4),
+            VocabularyCore.filterTerms(
+                values,
+                TermFilters(learningStatus = "learning", subjectID = "algebra"),
+                progress,
+            ).map { it.id },
+        )
+    }
 }

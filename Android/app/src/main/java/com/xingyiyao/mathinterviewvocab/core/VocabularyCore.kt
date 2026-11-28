@@ -7,6 +7,18 @@ import kotlin.random.Random
 
 object VocabularyCore {
     val subjectOrder = listOf("subjects", "analysis", "algebra", "probability", "statistics")
+    val learningStatuses = setOf("attempted", "mastered", "learning", "mistakes", "unseen")
+
+    fun learningStatusFor(
+        term: Term,
+        progress: ProgressData,
+        attemptedIDs: Set<Int> = progress.attempts.map { it.termID }.toSet(),
+    ): String = when {
+        term.id in progress.masteredIDs -> "mastered"
+        term.id in progress.wrongIDs -> "mistakes"
+        term.id in attemptedIDs || (progress.correctStreak[term.id.toString()] ?: 0) > 0 -> "learning"
+        else -> "unseen"
+    }
 
     fun subjects(terms: List<Term>): List<SubjectSummary> = subjectOrder.mapNotNull { id ->
         val matching = terms.filter { it.subjectID == id }
@@ -18,11 +30,22 @@ object VocabularyCore {
     fun filterTerms(terms: List<Term>, filters: TermFilters, progress: ProgressData): List<Term> {
         val query = trimWhitespace(filters.query).lowercase(Locale.ROOT)
         val mathQuery = MathTextDocument.searchText(query)
+        val status = filters.learningStatus?.takeIf { it in learningStatuses }
+        val needAttempts = filters.attemptedOnly || status in setOf("attempted", "learning", "unseen")
+        val attemptedIDs = if (needAttempts) progress.attempts.map { it.termID }.toSet() else emptySet()
         return terms.filter { term ->
+            val matchesStatus = when (status) {
+                null -> true
+                "attempted" -> term.id in attemptedIDs
+                else -> learningStatusFor(term, progress, attemptedIDs) == status
+            }
             (filters.subjectID.isNullOrEmpty() || term.subjectID == filters.subjectID) &&
                 (!filters.importantOnly || term.important) &&
                 (!filters.favoritesOnly || term.id in progress.favoriteIDs) &&
                 (!filters.mistakesOnly || term.id in progress.wrongIDs) &&
+                (!filters.attemptedOnly || term.id in attemptedIDs) &&
+                (!filters.masteredOnly || term.id in progress.masteredIDs) &&
+                matchesStatus &&
                 (query.isEmpty() || listOf(term.chinese, term.english, term.definition).any { field ->
                     field.lowercase(Locale.ROOT).contains(query) ||
                         (mathQuery.isNotEmpty() && MathTextDocument.searchText(field).contains(mathQuery))

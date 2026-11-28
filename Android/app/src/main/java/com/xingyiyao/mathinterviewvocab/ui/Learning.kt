@@ -138,10 +138,18 @@ fun LearningScreen(state: AppUiState, viewModel: AppViewModel) {
                         style = MaterialTheme.typography.titleMedium,
                         color = Academic.Ink,
                     )
-                    DistributionLegendRow("已掌握（连对 ≥ 3）", summary.masteredCount, Academic.Success)
-                    DistributionLegendRow("学习巩固中", learningCount, Academic.Blue)
-                    DistributionLegendRow("待复习错题", summary.wrongCount, Academic.Error)
-                    DistributionLegendRow("尚未检测", unseenCount, Academic.Muted)
+                    DistributionLegendRow("已掌握（连对 ≥ 3）", summary.masteredCount, Academic.Success) {
+                        viewModel.openFilteredGlossary(learningStatus = "mastered")
+                    }
+                    DistributionLegendRow("学习巩固中", learningCount, Academic.Blue) {
+                        viewModel.openFilteredGlossary(learningStatus = "learning")
+                    }
+                    DistributionLegendRow("待复习错题", summary.wrongCount, Academic.Error) {
+                        viewModel.openFilteredGlossary(learningStatus = "mistakes")
+                    }
+                    DistributionLegendRow("尚未检测", unseenCount, Academic.Muted) {
+                        viewModel.openFilteredGlossary(learningStatus = "unseen")
+                    }
                 }
             }
             HorizontalDivider(color = Academic.Grid)
@@ -150,21 +158,21 @@ fun LearningScreen(state: AppUiState, viewModel: AppViewModel) {
                     summary.attemptedCount.toString(),
                     "已检测词汇 ›",
                     Modifier.clip(RoundedCornerShape(10.dp))
-                        .clickable { viewModel.openFilteredGlossary() }
+                        .clickable { viewModel.openFilteredGlossary(learningStatus = "attempted") }
                         .padding(6.dp),
                 )
                 Metric(
                     summary.masteredCount.toString(),
                     "已掌握 ›",
                     Modifier.clip(RoundedCornerShape(10.dp))
-                        .clickable { viewModel.openFilteredGlossary() }
+                        .clickable { viewModel.openFilteredGlossary(learningStatus = "mastered") }
                         .padding(6.dp),
                 )
                 Metric(
                     summary.wrongCount.toString(),
                     "待复习 ›",
                     Modifier.clip(RoundedCornerShape(10.dp))
-                        .clickable { viewModel.openFilteredGlossary(mistakesOnly = true) }
+                        .clickable { viewModel.openFilteredGlossary(learningStatus = "mistakes") }
                         .padding(6.dp),
                 )
                 Metric(summary.accuracyPercentage.toString() + "%", "累计正确率", Modifier.padding(6.dp))
@@ -329,7 +337,7 @@ fun LearningScreen(state: AppUiState, viewModel: AppViewModel) {
                     SwipeToFlyCornerCard(
                         itemKey = "wrong-${term.id}",
                         dismissLabel = "移出错题",
-                        onDismissed = { viewModel.toggleWrong(term.id) },
+                        onDismissed = { viewModel.dismissWrongWithUndo(term) },
                     ) {
                         Card(
                             onClick = { viewModel.selectTerm(term.id) },
@@ -369,7 +377,7 @@ fun LearningScreen(state: AppUiState, viewModel: AppViewModel) {
                     SwipeToFlyCornerCard(
                         itemKey = "fav-${term.id}",
                         dismissLabel = "取消收藏",
-                        onDismissed = { viewModel.toggleFavorite(term.id) },
+                        onDismissed = { viewModel.dismissFavoriteWithUndo(term) },
                     ) {
                         Card(
                             onClick = { viewModel.selectTerm(term.id) },
@@ -451,9 +459,19 @@ fun LearningScreen(state: AppUiState, viewModel: AppViewModel) {
 }
 
 @Composable
-private fun DistributionLegendRow(label: String, count: Int, color: Color) {
+private fun DistributionLegendRow(
+    label: String,
+    count: Int,
+    color: Color,
+    onClick: (() -> Unit)? = null,
+) {
+    val rowModifier = Modifier
+        .fillMaxWidth()
+        .clip(RoundedCornerShape(8.dp))
+        .let { if (onClick != null) it.clickable(onClick = onClick) else it }
+        .padding(horizontal = 4.dp, vertical = 3.dp)
     Row(
-        Modifier.fillMaxWidth(),
+        rowModifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
@@ -465,10 +483,10 @@ private fun DistributionLegendRow(label: String, count: Int, color: Color) {
             Text(label, style = MaterialTheme.typography.bodySmall, color = Academic.Muted)
         }
         Text(
-            "$count 词",
+            if (onClick != null) "$count 词 ›" else "$count 词",
             style = MaterialTheme.typography.labelMedium,
             fontWeight = FontWeight.Bold,
-            color = Academic.Ink,
+            color = if (onClick != null) Academic.Blue else Academic.Ink,
         )
     }
 }

@@ -11,6 +11,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -53,6 +54,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -217,11 +219,21 @@ private fun QuizSetup(state: AppUiState, viewModel: AppViewModel) {
                 onSelect = { id -> if (id != null) save(preferences.copy(selectedSubjectID = id)) },
                 allowAll = false,
             )
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 48.dp)
+                    .clip(RoundedCornerShape(10.dp))
+                    .clickable(enabled = !state.busy) {
+                        save(preferences.copy(includeMastered = !preferences.includeMastered))
+                    },
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 Checkbox(
                     checked = preferences.includeMastered,
-                    onCheckedChange = { save(preferences.copy(includeMastered = it)) },
+                    onCheckedChange = null,
                     enabled = !state.busy,
+                    modifier = Modifier.padding(horizontal = 4.dp),
                 )
                 Text("包含已掌握词汇", Modifier.weight(1f), color = Academic.Ink)
             }
@@ -274,35 +286,47 @@ private fun ActiveQuiz(state: AppUiState, viewModel: AppViewModel) {
         SectionHeading("检测进行中", subtitleText)
         MasteryLine((quiz.index + if (answered) 1.0 else 0.0) / quiz.questions.size)
 
-        if (isFlashcard && !answered) {
+        if (isFlashcard) {
             FlashcardQuestionCard(
                 question = question,
                 busy = state.busy,
+                isFavorite = question.term.id in state.progress.favoriteIDs,
+                onToggleFavorite = { viewModel.toggleFavorite(question.term.id) },
                 onSpeak = { accent -> viewModel.speak(question.term.speechText, accent) },
                 onSelfGrade = { knewIt -> viewModel.answerFlashcard(knewIt) },
             )
+            if (answered && !quiz.answerSaved) {
+                AcademicCard {
+                    Text(
+                        if (state.busy) "正在保存答题记录…" else "此题尚未保存。请重试，保存成功后再继续。",
+                        color = if (state.busy) Academic.Muted else Academic.Error,
+                    )
+                    if (!state.busy) OutlinedButton(
+                        onClick = viewModel::retryAnswerSave,
+                        modifier = Modifier.heightIn(min = 48.dp),
+                    ) { Text("重试保存") }
+                }
+            }
         } else {
-            QuizQuestionPromptCard(question = question, isFlashcard = isFlashcard)
-            if (!isFlashcard) {
-                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    question.options.forEachIndexed { index, term ->
-                        val chosen = term.id == quiz.selectedOptionID
-                        val right = term.id == question.correctOptionID
-                        QuizOptionCard(
-                            index = index,
-                            label = if (question.direction == "zhToEn") term.english else term.chinese,
-                            chosen = chosen,
-                            right = right,
-                            answered = answered,
-                            enabled = !answered && !state.busy,
-                            onSelect = { viewModel.answer(term.id) },
-                        )
-                    }
+            QuizQuestionPromptCard(question = question, isFlashcard = false)
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                question.options.forEachIndexed { index, term ->
+                    val chosen = term.id == quiz.selectedOptionID
+                    val right = term.id == question.correctOptionID
+                    QuizOptionCard(
+                        index = index,
+                        label = if (question.direction == "zhToEn") term.english else term.chinese,
+                        chosen = chosen,
+                        right = right,
+                        answered = answered,
+                        enabled = !answered && !state.busy,
+                        onSelect = { viewModel.answer(term.id) },
+                    )
                 }
             }
         }
         AnimatedVisibility(
-            visible = answered,
+            visible = !isFlashcard && answered,
             enter = expandVertically(spring(dampingRatio = 0.76f, stiffness = 340f)) + fadeIn(tween(180)),
             exit = shrinkVertically() + fadeOut(),
         ) {
@@ -389,6 +413,8 @@ internal fun FlashcardQuestionCard(
     busy: Boolean,
     onSpeak: (String) -> Unit,
     onSelfGrade: (Boolean) -> Unit,
+    isFavorite: Boolean = false,
+    onToggleFavorite: () -> Unit = {},
 ) {
     var flipped by rememberSaveable(question.id) { mutableStateOf(false) }
     val rotation by animateFloatAsState(
@@ -451,7 +477,28 @@ internal fun FlashcardQuestionCard(
                 }
             } else {
                 Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
-                    TermBadge(question.term.subjectName, Academic.Blue)
+                    Row(
+                        Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        TermBadge(question.term.subjectName, Academic.Blue)
+                        TextButton(
+                            onClick = onToggleFavorite,
+                            enabled = !busy,
+                            modifier = Modifier.heightIn(min = 40.dp),
+                        ) {
+                            Icon(
+                                if (isFavorite) Icons.Outlined.Star else Icons.Outlined.StarBorder,
+                                contentDescription = null,
+                                tint = if (isFavorite) Academic.Blue else Academic.Muted,
+                            )
+                            Text(
+                                if (isFavorite) " 已收藏" else " 收藏",
+                                color = if (isFavorite) Academic.Blue else Academic.Muted,
+                            )
+                        }
+                    }
                     RichMathText(
                         question.term.chinese,
                         style = MaterialTheme.typography.titleLarge,

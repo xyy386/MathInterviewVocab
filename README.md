@@ -10,13 +10,13 @@
 | --- | --- | --- | --- |
 | Windows | 1.5.1 / file build 1.5.1.8 | Windows 10/11，64 位 Intel/AMD（x64） | [安装版 Setup（推荐）](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/MathInterviewVocab-Windows-x64-Setup-v1.5.1.exe) · [便携 ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/MathInterviewVocab-Windows-x64-v1.5.1.zip) |
 | macOS | 1.5.1 build 8 | macOS 14+，Apple Silicon / Intel Universal | [macOS ZIP](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/MathInterviewVocab-macOS-universal-v1.5.1.zip) |
-| Android | 1.3.6 / code 8 | Android 10+，手机／平板，Universal APK | [Android APK](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.6/MathInterviewVocab-Android-universal-v1.3.6.apk) |
+| Android | 1.3.7 / code 9 | Android 10+，手机／平板，Universal APK | [Android APK](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.7/MathInterviewVocab-Android-universal-v1.3.7.apk) |
 
-[桌面 1.5.1 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.5.1) · [桌面版 SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/SHA256SUMS.txt) · [桌面更新说明](docs/RELEASE-NOTES-v1.5.1.md) · [Android 1.3.6 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.6) · [Android 独立校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.6/SHA256SUMS-Android.txt) · [Android 更新说明](docs/RELEASE-NOTES-v1.3.6.md)
+[桌面 1.5.1 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.5.1) · [桌面版 SHA-256 校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.5.1/SHA256SUMS.txt) · [桌面更新说明](docs/RELEASE-NOTES-v1.5.1.md) · [Android 1.3.7 发布页](https://github.com/xyy386/MathInterviewVocab/releases/tag/v1.3.7) · [Android 独立校验和](https://github.com/xyy386/MathInterviewVocab/releases/download/v1.3.7/SHA256SUMS-Android.txt) · [Android 更新说明](docs/RELEASE-NOTES-v1.3.7.md)
 
-Android 当前版本为 **1.3.6／code 8**（同步桌面 1.5.1 离线 LaTeX 矢量公式渲染，支持分场景排版、长按复制还原 LaTeX、公式选区朗读提示与 `H_0`／`H₀`／`H0` 搜索兼容，延续多线路对冲加速、Range 断点续传与后台进度条），采用同一套词库、Kokoro 离线音源与预渲染公式矢量资源，按窗口宽度适配手机、平板和分屏。[Android 工程／安装说明](Android/README.md) · [详细需求与设计](Android/docs/REQUIREMENTS-AND-DESIGN.md) · [审查与已知问题](Android/docs/REVIEW-v1.2.0.md)。历史标签与附件保留不变；Android 源码使用独立标签 [android-v1.3.6](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.6)。
+Android 当前版本为 **1.3.7／code 9**（优化学习记录精准筛选与四态分布图点选跳转、界面偏好冷启动持久化、闪卡自评流畅度与背面收藏、跨页词条详情返回闭环，并修复卡片上下滑动误触右滑及增加顶部 5 秒撤销横幅；延续 1.3.6 离线 LaTeX 矢量公式渲染与多线路对冲加速断点续传），采用同一套词库、Kokoro 离线音源与预渲染公式矢量资源，按窗口宽度适配手机、平板和分屏。[Android 工程／安装说明](Android/README.md) · [详细需求与设计](Android/docs/REQUIREMENTS-AND-DESIGN.md) · [审查与已知问题](Android/docs/REVIEW-v1.2.0.md)。历史标签与附件保留不变；Android 源码使用独立标签 [android-v1.3.7](https://github.com/xyy386/MathInterviewVocab/tree/android-v1.3.7)。
 
-请下载对应平台 Setup／ZIP／APK，**不要把 GitHub 自动生成的 Source code 当作可运行软件**。桌面版为 **1.5.1**，Android 为 **1.3.6**。1.3.0 及更早的桌面版必须手动安装升级这一次，之后可在软件中确认安装并重启。
+请下载对应平台 Setup／ZIP／APK，**不要把 GitHub 自动生成的 Source code 当作可运行软件**。桌面版为 **1.5.1**，Android 为 **1.3.7**。1.3.0 及更早的桌面版必须手动安装升级这一次，之后可在软件中确认安装并重启。
 
 ### 安装与首次打开
 
@@ -70,7 +70,7 @@ macOS／Windows 1.3.0 支持 `←`／`↑` 上一个词条、`→`／`↓` 下�
 
 打开 **设置 → 软件更新 → 检查更新**，只接受本仓库对应平台的正式版本，不接收预发布版，不建议降级。Mac 使用 Sparkle 原生窗口，验证签名更新源和归档，确认后安装并重启；设置与主窗口的“查看”可唤起已有更新窗口。Windows 下载 Setup，验证固定 Ed25519 公钥签名清单、文件大小及 SHA-256，再提供“安装并重启”。下载可取消，失败可重试。
 
-桌面与 Android 分平台发布：桌面 1.5.1 是正式版，仓库 Latest 保留给 Android 1.3.6。两平台使用独立签名更新源，不会把仅有 Android APK 的版本误当作桌面更新；1.4.0 的 Windows 仍通过正式发布列表查找本平台安装器。
+桌面与 Android 分平台发布：桌面 1.5.1 是正式版，仓库 Latest 保留给 Android 1.3.7。两平台使用独立签名更新源，不会把仅有 Android APK 的版本误当作桌面更新；1.4.0 的 Windows 仍通过正式发布列表查找本平台安装器。
 
 **1.5.0 增加多线路加速、持久断点和主窗口进度条。** 默认智能多线加速，也可选择镜像优先或纯 GitHub 直连；大安装包单线路传输，断流或持续低速时换线续传。暂停、断网或退出保留断点，重开后只读取本地缓存，下次手动继续；关闭设置或切页不停止下载，没有退出后常驻服务。设置可单独确认清除更新缓存，不影响学习记录。
 
@@ -78,7 +78,7 @@ macOS／Windows 1.3.0 支持 `←`／`↑` 上一个词条、`→`／`↓` 下�
 
 确认安装后，软件检查学习记录是否安全保存，正常退出，由安装器替换程序并重新打开，不需要自己解压覆盖。Windows 安装器先持有旧进程句柄再等待退出，不强制终止其他程序。保存或交接失败则停止操作，不清空记录；安装后的磁盘故障等场景不承诺自动回滚。旧便携目录不会自动删除。
 
-Android 使用 `SHA256SUMS-Android.txt`，另核对 APK 包名、实际签名证书、较高 versionCode 与 Release 版本；支持 GitHub 直连与三大加速镜像/CDN 多线择优、HTTP Range 断点续传和低速自动切线；用户点击安装后通过系统来源授权与 PackageInstaller 确认。已安装旧版的 Android 设备可在应用内检查并升级至 1.3.6（versionCode 8），或从 1.3.6 发布页下载 APK 直接覆盖安装。历史审查记录见 [Android 审查记录](Android/docs/REVIEW-v1.2.0.md)。
+Android 使用 `SHA256SUMS-Android.txt`，另核对 APK 包名、实际签名证书、较高 versionCode 与 Release 版本；支持 GitHub 直连与三大加速镜像/CDN 多线择优、HTTP Range 断点续传和低速自动切线；用户点击安装后通过系统来源授权与 PackageInstaller 确认。已安装旧版的 Android 设备可在应用内检查并升级至 1.3.7（versionCode 9），或从 1.3.7 发布页下载 APK 直接覆盖安装。历史审查记录见 [Android 审查记录](Android/docs/REVIEW-v1.2.0.md)。
 
 **不未经确认安装，也不在启动时后台检查。** 没有账号、令牌或学习数据上传，仅主动检查／下载时连接更新资源。智能或镜像模式会请求第三方加速节点（CDN 只读小索引），可切换 GitHub 直连以禁用这些节点；不发送学习记录和朗读文本，断网不影响学习。Windows 保留 Internet Zone 标记，Mac 由 Sparkle 的已验证安装流程处理；Android 由系统安装器确认。更新签名和 SHA-256 不等于商业代码签名或 Apple 公证，不能代替系统对开发者身份的判断，不关闭系统安全防护。
 
@@ -172,6 +172,8 @@ python3 Scripts/generate_terms.py
 公式资源由 `Scripts/generate_math_assets.mjs` 从显式 `\(...\)`／`\[...\]` 生成，失败会报告词条编号与字段。通常直接使用已提交资源；核验运行 `node Scripts/generate_math_assets.mjs --verify`。只有修改公式时，才需先在 `Windows` 安装锁定开发依赖，并设置独立 `MATH_VOCAB_VALIDATION_DIRECTORY` 后运行生成脚本；不修改原词库或音频。
 
 ## 验证与反馈
+
+Android 1.3.7：`logic-tests` 102 项、Debug／Release 各 141 项自动化测试通过，Debug／Release Lint 为 0 错误；验证学习记录四态筛选跳转、独立 `UiPreferencesStore` 偏好持久化、闪卡自评直切与快捷收藏、跨页详情返回闭环、角度锁定防误触滑动与顶部 5 秒撤销横幅，以及正式 APK 证书／版本／资源／权限／ABI 核对通过。所有 UI 验收基于 Robolectric 与静态核验，未进行 Android 实体设备实机测试；详见 [Android 1.3.7 发布检查](docs/RELEASE-CHECKS.md#android-137-交互与防误触验收)。
 
 Android 1.3.6：`logic-tests` 100 项、Debug／Release 各 136 项自动化测试通过，Debug／Release Lint 为 0 错误；全量 63 个离线公式 SVG 与 6 个复杂夹具解析、全部 44 个公式词条在深浅主题和 200% 字号渲染、原生选区复制还原 LaTeX、公式选区朗读提示、`H_0`／`H₀`／`H0` 搜索及正式 APK 证书／资源／权限／ABI 核对通过。所有 UI 验收基于 Robolectric 与静态核验，未进行 Android 实体设备实机测试；详见 [Android 1.3.6 发布检查](docs/RELEASE-CHECKS.md#android-136-离线公式验收)。
 

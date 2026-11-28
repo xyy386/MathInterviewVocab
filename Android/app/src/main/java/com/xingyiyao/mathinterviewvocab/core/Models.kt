@@ -71,6 +71,9 @@ data class TermFilters(
     val importantOnly: Boolean = false,
     val favoritesOnly: Boolean = false,
     val mistakesOnly: Boolean = false,
+    val attemptedOnly: Boolean = false,
+    val masteredOnly: Boolean = false,
+    val learningStatus: String? = null,
 )
 
 data class SubjectSummary(

@@ -15,11 +15,13 @@ import com.xingyiyao.mathinterviewvocab.core.TermFilters
 import com.xingyiyao.mathinterviewvocab.core.VocabularyCore
 import com.xingyiyao.mathinterviewvocab.data.ProgressRepository
 import com.xingyiyao.mathinterviewvocab.data.TermLibrary
+import com.xingyiyao.mathinterviewvocab.data.UiPreferencesStore
 import java.time.Instant
 import java.util.UUID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -67,12 +69,24 @@ data class SavedScreen(
     val lastViewedTermID: Int? = null,
     val quiz: SavedQuiz? = null,
     val pendingQuizPreferences: QuizPreferences? = null,
+    val attemptedOnly: Boolean = false,
+    val masteredOnly: Boolean = false,
+    val learningStatus: String? = null,
+    val detailReturnTab: String? = null,
+)
+
+data class UndoBanner(
+    val id: String,
+    val termID: Int,
+    val kind: String,
+    val message: String,
 )
 
 data class AppUiState(
     val loading: Boolean = true,
     val loadError: String? = null,
     val operationError: String? = null,
+    val undoBanner: UndoBanner? = null,
     val busy: Boolean = false,
     val terms: List<Term> = emptyList(),
     val progress: ProgressData = ProgressData(),
@@ -92,6 +106,8 @@ data class AppUiState(
         get() = TermFilters(
             screen.query, screen.subjectID, screen.importantOnly,
             screen.favoritesOnly, screen.mistakesOnly,
+            screen.attemptedOnly, screen.masteredOnly,
+            screen.learningStatus,
         )
     val filteredTerms: List<Term>
         get() {
@@ -125,6 +141,7 @@ class AppViewModel(
 ) : AndroidViewModel(application) {
     private val json = Json { ignoreUnknownKeys = true; encodeDefaults = true }
     private val services = (application as MathVocabApplication).services
+    private val uiPreferences = UiPreferencesStore(application)
     val speechState = services.speech.state
     val updateState = services.updater.state
     val updater get() = services.updater
@@ -133,6 +150,7 @@ class AppViewModel(
     private var progressCollector: Job? = null
     private var settingsCollector: Job? = null
     private var errorCollector: Job? = null
+    private var undoDismissJob: Job? = null
     private var loading = false
     private val mutableState = MutableStateFlow(
         AppUiState(screen = restoreScreen(savedStateHandle.get<String>("screen"))),
@@ -231,7 +249,7 @@ class AppViewModel(
     fun selectTab(tab: String) {
         if (tab !in listOf("glossary", "quiz", "progress")) return
         stopSpeech()
-        updateScreen { it.copy(tab = tab, showSettings = false) }
+        updateScreen { it.copy(tab = tab, showSettings = false, detailReturnTab = null) }
     }
 
     fun showSettings(show: Boolean) {
@@ -240,6 +258,7 @@ class AppViewModel(
     }
 
     fun toggleTheme(dark: Boolean = !state.value.screen.darkTheme) {
+        uiPreferences.saveDarkTheme(dark)
         updateScreen { it.copy(darkTheme = dark) }
     }
 
@@ -250,6 +269,7 @@ class AppViewModel(
 
     fun setQuizPracticeMode(mode: String) {
         if (mode !in setOf("choice", "flashcard")) return
+        uiPreferences.saveQuizPracticeMode(mode)
         updateScreen { it.copy(quizPracticeMode = mode) }
     }
 
@@ -258,6 +278,7 @@ class AppViewModel(
         if (fromIndex !in current.indices || toIndex !in current.indices || fromIndex == toIndex) return
         val moved = current.removeAt(fromIndex)
         current.add(toIndex, moved)
+        uiPreferences.saveSubjectOrder(current)
         updateScreen { it.copy(subjectOrder = current) }
     }
 
@@ -265,19 +286,61 @@ class AppViewModel(
     fun setSubject(subjectID: String?) = changeFilters { it.copy(subjectID = subjectID) }
     fun setImportantOnly(value: Boolean) = changeFilters { it.copy(importantOnly = value) }
     fun setFavoritesOnly(value: Boolean) = changeFilters { it.copy(favoritesOnly = value) }
-    fun setMistakesOnly(value: Boolean) = changeFilters { it.copy(mistakesOnly = value) }
+    fun setMistakesOnly(value: Boolean) = setLearningStatus(if (value) "mistakes" else null)
+    fun setAttemptedOnly(value: Boolean) = setLearningStatus(if (value) "attempted" else null)
+    fun setMasteredOnly(value: Boolean) = setLearningStatus(if (value) "mastered" else null)
+    fun setLearningStatus(status: String?) = changeFilters {
+        it.copy(
+            learningStatus = status?.takeIf { s -> s in VocabularyCore.learningStatuses },
+            mistakesOnly = false,
+            attemptedOnly = false,
+            masteredOnly = false,
+        )
+    }
+
     fun clearFilters() = changeFilters {
-        it.copy(subjectID = null, importantOnly = false, favoritesOnly = false, mistakesOnly = false)
+        it.copy(
+            subjectID = null,
+            importantOnly = false,
+            favoritesOnly = false,
+            mistakesOnly = false,
+            attemptedOnly = false,
+            masteredOnly = false,
+            learningStatus = null,
+        )
     }
 
     fun selectTerm(id: Int?) {
-        if (id != null && state.value.terms.none { it.id == id }) return
+        if (id == null) {
+            closeTermDetail()
+            return
+        }
+        if (state.value.terms.none { it.id == id }) return
         stopSpeech()
-        updateScreen {
-            it.copy(
+        updateScreen { current ->
+            val returnTab = when {
+                current.tab != "glossary" -> current.tab
+                current.selectedTermID != null -> current.detailReturnTab
+                else -> null
+            }
+            current.copy(
                 tab = "glossary",
                 selectedTermID = id,
-                lastViewedTermID = id ?: it.selectedTermID ?: it.lastViewedTermID,
+                lastViewedTermID = id,
+                detailReturnTab = returnTab,
+                showSettings = false,
+            )
+        }
+    }
+
+    fun closeTermDetail() {
+        stopSpeech()
+        updateScreen { current ->
+            val targetTab = current.detailReturnTab ?: current.tab
+            current.copy(
+                tab = targetTab,
+                selectedTermID = null,
+                detailReturnTab = null,
                 showSettings = false,
             )
         }
@@ -297,8 +360,18 @@ class AppViewModel(
         importantOnly: Boolean = false,
         favoritesOnly: Boolean = false,
         mistakesOnly: Boolean = false,
+        attemptedOnly: Boolean = false,
+        masteredOnly: Boolean = false,
+        learningStatus: String? = null,
     ) {
         if (subjectID != null && subjectID !in VocabularyCore.subjectOrder) return
+        val resolvedStatus = learningStatus?.takeIf { it in VocabularyCore.learningStatuses }
+            ?: when {
+                mistakesOnly -> "mistakes"
+                attemptedOnly -> "attempted"
+                masteredOnly -> "mastered"
+                else -> null
+            }
         stopSpeech()
         updateScreen {
             it.copy(
@@ -308,9 +381,13 @@ class AppViewModel(
                 subjectID = subjectID,
                 importantOnly = importantOnly,
                 favoritesOnly = favoritesOnly,
-                mistakesOnly = mistakesOnly,
+                mistakesOnly = false,
+                attemptedOnly = false,
+                masteredOnly = false,
+                learningStatus = resolvedStatus,
                 selectedTermID = null,
                 lastViewedTermID = null,
+                detailReturnTab = null,
             )
         }
     }
@@ -321,6 +398,68 @@ class AppViewModel(
 
     fun toggleWrong(id: Int) = mutate { it.toggleWrong(id) }
 
+    fun dismissWrongWithUndo(term: Term) {
+        if (term.id !in state.value.progress.wrongIDs) return
+        mutate { store ->
+            store.toggleWrong(term.id)
+            showUndoBanner(
+                UndoBanner(
+                    id = UUID.randomUUID().toString(),
+                    termID = term.id,
+                    kind = "wrong",
+                    message = "已将「${VocabularyCore.displayMathNotation(term.chinese)}」移出待复习错题",
+                ),
+            )
+        }
+    }
+
+    fun dismissFavoriteWithUndo(term: Term) {
+        if (term.id !in state.value.progress.favoriteIDs) return
+        mutate { store ->
+            store.toggleFavorite(term.id)
+            showUndoBanner(
+                UndoBanner(
+                    id = UUID.randomUUID().toString(),
+                    termID = term.id,
+                    kind = "favorite",
+                    message = "已将「${VocabularyCore.displayMathNotation(term.chinese)}」取消收藏",
+                ),
+            )
+        }
+    }
+
+    fun undoLastDismiss() {
+        val banner = state.value.undoBanner ?: return
+        if (state.value.busy) return
+        dismissUndoBanner()
+        mutate { store ->
+            val progress = store.progress.value
+            when (banner.kind) {
+                "wrong" -> if (banner.termID !in progress.wrongIDs) store.toggleWrong(banner.termID)
+                "favorite" -> if (banner.termID !in progress.favoriteIDs) store.toggleFavorite(banner.termID)
+            }
+        }
+    }
+
+    fun dismissUndoBanner() {
+        undoDismissJob?.cancel()
+        undoDismissJob = null
+        if (mutableState.value.undoBanner != null) {
+            mutableState.value = mutableState.value.copy(undoBanner = null)
+        }
+    }
+
+    private fun showUndoBanner(banner: UndoBanner) {
+        undoDismissJob?.cancel()
+        mutableState.value = mutableState.value.copy(undoBanner = banner)
+        undoDismissJob = viewModelScope.launch {
+            delay(5000L)
+            if (mutableState.value.undoBanner?.id == banner.id) {
+                mutableState.value = mutableState.value.copy(undoBanner = null)
+            }
+        }
+    }
+
     fun saveSettings(settings: SpeechSettings) = mutate { it.saveSettings(settings) }
 
     fun setPreferences(preferences: QuizPreferences) = mutate { it.updatePreferences(preferences) }
@@ -328,7 +467,19 @@ class AppViewModel(
     fun resetProgress() = mutate { store ->
         store.resetKeepingPreferences()
         stopSpeech()
-        updateScreen { it.copy(quiz = null, pendingQuizPreferences = null) }
+        dismissUndoBanner()
+        updateScreen {
+            it.copy(
+                quiz = null,
+                pendingQuizPreferences = null,
+                favoritesOnly = false,
+                mistakesOnly = false,
+                attemptedOnly = false,
+                masteredOnly = false,
+                learningStatus = null,
+                detailReturnTab = null,
+            )
+        }
     }
 
     fun startQuiz(
@@ -405,13 +556,38 @@ class AppViewModel(
         if (state.value.busy || quiz.answerSaved) return
         mutate { store ->
             if (store.progress.value.attempts.none { it.id == attempt.id }) store.recordAnswer(attempt)
+            var autoAdvanced = false
             updateScreen { screen ->
                 val active = screen.quiz ?: return@updateScreen screen
-                screen.copy(quiz = active.copy(
-                    answerSaved = true,
-                    attemptIDs = (active.attemptIDs + attempt.id).distinct(),
-                ))
+                val updatedAttemptIDs = (active.attemptIDs + attempt.id).distinct()
+                if (active.mode == "flashcard") {
+                    autoAdvanced = true
+                    val nextQuiz = if (active.index + 1 >= active.questions.size) {
+                        active.copy(
+                            stage = "summary",
+                            selectedOptionID = null,
+                            pendingAttempt = null,
+                            answerSaved = false,
+                            attemptIDs = updatedAttemptIDs,
+                        )
+                    } else {
+                        active.copy(
+                            index = active.index + 1,
+                            selectedOptionID = null,
+                            pendingAttempt = null,
+                            answerSaved = false,
+                            attemptIDs = updatedAttemptIDs,
+                        )
+                    }
+                    screen.copy(quiz = nextQuiz)
+                } else {
+                    screen.copy(quiz = active.copy(
+                        answerSaved = true,
+                        attemptIDs = updatedAttemptIDs,
+                    ))
+                }
             }
+            if (autoAdvanced) stopSpeech()
         }
     }
 
@@ -465,6 +641,7 @@ class AppViewModel(
         val screen = transform(state.value.screen)
         val filters = TermFilters(
             screen.query, screen.subjectID, screen.importantOnly, screen.favoritesOnly, screen.mistakesOnly,
+            screen.attemptedOnly, screen.masteredOnly, screen.learningStatus,
         )
         val selected = screen.selectedTermID
         val lastViewed = screen.lastViewedTermID
@@ -489,12 +666,32 @@ class AppViewModel(
     }
 
     private fun restoreScreen(encoded: String?): SavedScreen {
-        if (encoded == null || encoded.length > 250_000) return SavedScreen()
+        if (encoded == null) {
+            val prefs = uiPreferences.load()
+            return SavedScreen(
+                darkTheme = prefs.darkTheme,
+                subjectOrder = prefs.subjectOrder,
+                quizPracticeMode = prefs.quizPracticeMode,
+            )
+        }
+        if (encoded.length > 250_000) return SavedScreen()
         val screen = runCatching { json.decodeFromString<SavedScreen>(encoded) }.getOrDefault(SavedScreen())
+        val migratedStatus = screen.learningStatus?.takeIf { it in VocabularyCore.learningStatuses }
+            ?: when {
+                screen.mistakesOnly -> "mistakes"
+                screen.attemptedOnly -> "attempted"
+                screen.masteredOnly -> "mastered"
+                else -> null
+            }
         return screen.copy(
             tab = screen.tab.takeIf { it in setOf("glossary", "quiz", "progress") } ?: "glossary",
             maskMode = screen.maskMode.takeIf { it in setOf("none", "hideEn", "hideZh") } ?: "none",
             quizPracticeMode = screen.quizPracticeMode.takeIf { it in setOf("choice", "flashcard") } ?: "choice",
+            learningStatus = migratedStatus,
+            mistakesOnly = false,
+            attemptedOnly = false,
+            masteredOnly = false,
+            detailReturnTab = screen.detailReturnTab?.takeIf { it in setOf("quiz", "progress") },
         )
     }
 

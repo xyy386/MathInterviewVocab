@@ -2,10 +2,14 @@ package com.xingyiyao.mathinterviewvocab.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,6 +38,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.outlined.BarChart
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.Quiz
@@ -75,9 +80,11 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.xingyiyao.mathinterviewvocab.AppViewModel
+import com.xingyiyao.mathinterviewvocab.UndoBanner
 import com.xingyiyao.mathinterviewvocab.updates.UpdateUiState
 
 private data class Destination(val id: String, val title: String, val icon: ImageVector)
@@ -231,6 +238,19 @@ fun VocabularyApp(viewModel: AppViewModel) {
                             },
                         )
                     }
+                    AnimatedVisibility(
+                        visible = state.undoBanner != null,
+                        enter = expandVertically(tween(180)) + fadeIn(tween(180)),
+                        exit = shrinkVertically(tween(150)) + fadeOut(tween(150)),
+                    ) {
+                        state.undoBanner?.let { banner ->
+                            UndoToastBanner(
+                                banner = banner,
+                                onUndo = viewModel::undoLastDismiss,
+                                onDismiss = viewModel::dismissUndoBanner,
+                            )
+                        }
+                    }
                     AnimatedContent(
                         targetState = pageKey,
                         transitionSpec = { fadeIn(tween(180)) togetherWith fadeOut(tween(140)) },
@@ -335,6 +355,47 @@ private fun BackgroundUpdateBar(update: UpdateUiState, onAction: () -> Unit) {
                 } else {
                     LinearProgressIndicator(modifier = Modifier.fillMaxWidth().height(2.5.dp))
                 }
+            }
+        }
+    }
+}
+
+@Composable
+internal fun UndoToastBanner(
+    banner: UndoBanner,
+    onUndo: () -> Unit,
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        modifier = modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 6.dp),
+        shape = RoundedCornerShape(12.dp),
+        color = Academic.Surface,
+        shadowElevation = 4.dp,
+        border = BorderStroke(1.dp, Academic.Blue.copy(alpha = 0.35f)),
+    ) {
+        Row(
+            Modifier.fillMaxWidth().padding(start = 14.dp, end = 4.dp, top = 4.dp, bottom = 4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                banner.message,
+                Modifier.weight(1f),
+                color = Academic.Ink,
+                style = MaterialTheme.typography.bodySmall,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+            )
+            TextButton(onClick = onUndo) {
+                Text("撤销", color = Academic.Blue, fontWeight = FontWeight.Bold)
+            }
+            IconButton(onClick = onDismiss, modifier = Modifier.size(36.dp)) {
+                Icon(
+                    Icons.Outlined.Close,
+                    contentDescription = "关闭提示",
+                    tint = Academic.Muted,
+                    modifier = Modifier.size(16.dp),
+                )
             }
         }
     }
